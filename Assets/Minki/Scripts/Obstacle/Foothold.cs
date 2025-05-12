@@ -23,6 +23,9 @@ public class Foothold : MonoBehaviour
 
     Rigidbody2D m_rb;
     BoxCollider2D m_col;
+    Vector3 m_defaultPos;
+    Quaternion m_defaultRot;
+    Vector3 m_defaultScale;
 
     bool m_isActiveObstacle;
     bool m_moveStart;
@@ -34,6 +37,9 @@ public class Foothold : MonoBehaviour
         m_col = GetComponent<BoxCollider2D>();
 
         m_rb.bodyType = RigidbodyType2D.Static;
+        m_defaultPos = transform.position;
+        m_defaultRot = transform.rotation;
+        m_defaultScale = transform.localScale;
     }
 
     private void Update()
@@ -79,5 +85,17 @@ public class Foothold : MonoBehaviour
         m_rb.bodyType = RigidbodyType2D.Dynamic;
         m_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         m_moveStart = true;
+    }
+
+    public void ResetFoothold()
+    {
+        transform.position = m_defaultPos;
+        transform.rotation = m_defaultRot;
+        transform.localScale = m_defaultScale;
+        m_moveStart = false;
+        m_isActiveObstacle = false;
+        m_rb.bodyType = RigidbodyType2D.Static;
+        m_rb.interpolation = RigidbodyInterpolation2D.None;
+        m_rb.freezeRotation = false;
     }
 }

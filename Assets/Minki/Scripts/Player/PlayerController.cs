@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
     bool m_jumpInput;
     float m_footposY = 0.5f;
     PlayerState m_currentState = PlayerState.Idle;
+    Rigidbody2D m_groundRB;
 
     //readonly static int m_hash_idleAnim = Animator.StringToHash("anim_knight_idle");
     //readonly static int m_hash_runAnim = Animator.StringToHash("anim_knight_run");
@@ -191,6 +192,11 @@ public class PlayerController : MonoBehaviour
                 if (wallHitInfo.collider == null
                     || wallHitInfo.normal.y <= 0.7f)
                 {
+                    if (m_groundRB != null)
+                    {
+                        m_currentVel += m_groundRB.velocity;
+                    }
+
                     return;
                 }
             }
@@ -199,15 +205,21 @@ public class PlayerController : MonoBehaviour
             m_isGrounded = true;
             m_groundNormal = hitInfo.normal;
             m_jumpCount = 0;
-
-            if (hitInfo.rigidbody && hitInfo.rigidbody.bodyType == RigidbodyType2D.Dynamic)
-            { 
-                m_rb.position += hitInfo.rigidbody.velocity * Time.deltaTime;
-                m_rb.velocity = hitInfo.rigidbody.velocity;
+            m_groundRB = hitInfo.rigidbody;
+            if (m_groundRB && hitInfo.rigidbody.bodyType == RigidbodyType2D.Dynamic)
+            {
+                m_rb.position += m_groundRB.velocity * Time.deltaTime;
+                m_currentVel += m_groundRB.velocity * Time.deltaTime;
                 //m_rb.MovePosition(m_rb.position + hitInfo.rigidbody.velocity * Time.deltaTime);
             }
-                
         }
+
+        if (m_groundRB != null 
+            && lastGrounded
+            && !m_isGrounded)
+        {
+            m_currentVel += m_groundRB.velocity;
+        }    
     }
 
 
@@ -227,6 +239,12 @@ public class PlayerController : MonoBehaviour
         {
             m_lastJumpTime = Time.time;
             m_currentVel.y = 0.0f;
+            if (m_jumpCount < 1
+                && m_groundRB != null
+                && m_groundRB.velocity.y > 0)
+            {
+                m_currentVel += m_groundRB.velocity;
+            }
             m_currentVel += Vector2.up * jumpForce;
             m_isGrounded = false;
             m_currentState = PlayerState.Jump;
