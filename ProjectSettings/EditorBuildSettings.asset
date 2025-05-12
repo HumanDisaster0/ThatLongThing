@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Minki/Scenes/TestScene/MoveTestScene.unity
+    guid: 5018d1f7d4dadb14197e50f8997abca2
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Minki/Scenes/Level1.unity
+    guid: 326c877ea26aa7d48a46be0e023c8397
   m_configObjects: {}

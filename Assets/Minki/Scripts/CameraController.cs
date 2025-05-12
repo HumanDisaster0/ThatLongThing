@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.U2D;
+using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Rendering.Universal; // URP의 PixelPerfectCamera를 위한 네임스페이스
 using UnityEngine.UIElements;
 
 public class CameraController : MonoBehaviour
@@ -23,15 +24,15 @@ public class CameraController : MonoBehaviour
 
     public float deadzoneX = 2f;
     public float deadzoneY = 1.5f;
+    public float deadzoneThresold = 2f;
 
     Camera m_camera;
-    PixelPerfectCamera m_pixelPerfectCamera;
+    PixelPerfectCamera m_pixelPerfectCamera; // URP의 PixelPerfectCamera
     int m_lastWidth;
     int m_lastHeight;
     float m_clampWidth;
     float m_clampHeight;
-    const float DEADZONE_THRESHOLD = 2f;
-
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +40,6 @@ public class CameraController : MonoBehaviour
         m_pixelPerfectCamera = GetComponent<PixelPerfectCamera>();
 
         targetPos = Player.position;
-
 
         OnViewportSizeChanged();
 
@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
 
     void OnViewportSizeChanged()
     {
-        // PixelPerfectCamera 컴포넌트에서 실제 렌더링 영역 가져오기
+        // URP PixelPerfectCamera 컴포넌트에서 실제 렌더링 영역 가져오기
         if (m_pixelPerfectCamera != null)
         {
             // 픽셀 퍼펙트 카메라의 렌더링 영역 계산
@@ -75,7 +75,7 @@ public class CameraController : MonoBehaviour
             m_clampHeight = (screenHeight * unitsPerPixel) / 2f;
             m_clampWidth = (screenWidth * unitsPerPixel) / 2f;
 
-            // 필요한 경우 배율 적용
+            // URP PixelPerfectCamera에서는 속성 이름이 다를 수 있음
             if (m_pixelPerfectCamera.upscaleRT && m_pixelPerfectCamera.pixelSnapping)
             {
                 // 업스케일 설정이 있는 경우, 카메라 컴포넌트의 orthographicSize를 사용하여 보정
@@ -141,8 +141,8 @@ public class CameraController : MonoBehaviour
             worldRect.yMax - m_clampHeight - yOffset
         );
 
-        var setXLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.x - currentPos.x) - deadzoneX) / DEADZONE_THRESHOLD));
-        var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - currentPos.y) - deadzoneY) / DEADZONE_THRESHOLD));
+        var setXLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.x - currentPos.x) - deadzoneX) / deadzoneThresold));
+        var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - currentPos.y) - deadzoneY) / deadzoneThresold));
 
         currentPos.x = Mathf.Lerp(currentPos.x, targetPos.x, 1 - Mathf.Exp(-setXLerpSpeed * Time.deltaTime));
         currentPos.y = Mathf.Lerp(currentPos.y, targetPos.y, 1 - Mathf.Exp(-setYLerpSpeed * Time.deltaTime));
@@ -172,7 +172,7 @@ public class CameraController : MonoBehaviour
 
         //Deadzone Max
         Gizmos.color = new Color(1, 0f, 1f);
-        Gizmos.DrawWireCube(transform.position + new Vector3 { y = -yOffset }, new Vector3(deadzoneX * 2f + DEADZONE_THRESHOLD * 2f, deadzoneY * 2f + DEADZONE_THRESHOLD * 2, 1));
+        Gizmos.DrawWireCube(transform.position + new Vector3 { y = -yOffset }, new Vector3(deadzoneX * 2f + deadzoneThresold * 2f, deadzoneY * 2f + deadzoneThresold * 2, 1));
 
         //World Rect
         Gizmos.color = Color.red;

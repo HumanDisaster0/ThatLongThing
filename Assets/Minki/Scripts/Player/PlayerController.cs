@@ -15,6 +15,7 @@ public enum PlayerState
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class PlayerController : MonoBehaviour
 {
     #region Public Member
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
     #region Private Member
 
     Rigidbody2D m_rb;
+    BoxCollider2D m_col;
 
     bool m_isGrounded = true;
     Vector2 m_groundNormal;
@@ -113,6 +115,7 @@ public class PlayerController : MonoBehaviour
             EnterState(m_currentState);
         }
 
+        // 상태 실행
         UpdateState();
     }
 
@@ -196,6 +199,14 @@ public class PlayerController : MonoBehaviour
             m_isGrounded = true;
             m_groundNormal = hitInfo.normal;
             m_jumpCount = 0;
+
+            if (hitInfo.rigidbody && hitInfo.rigidbody.bodyType == RigidbodyType2D.Dynamic)
+            { 
+                m_rb.position += hitInfo.rigidbody.velocity * Time.deltaTime;
+                m_rb.velocity = hitInfo.rigidbody.velocity;
+                //m_rb.MovePosition(m_rb.position + hitInfo.rigidbody.velocity * Time.deltaTime);
+            }
+                
         }
     }
 
@@ -431,6 +442,12 @@ public class PlayerController : MonoBehaviour
     {
         m_rb.velocity += force;
         m_currentVel += force;
+    }
+
+    public void SetVelocity(Vector2 vel)
+    {
+        m_rb.velocity = vel;
+        m_currentVel = vel;
     }
 
     void ProjectVelocity(Collision2D collision)
