@@ -5,8 +5,8 @@ using UnityEngine;
 
 public static class FootholdCMD
 {
-    public static ConsoleCommand cmd_reset_foothold_all = new ConsoleCommand(
-        "cmd_reset_foothold_all",
+    public static ConsoleCommand cmd_foothold_reset_all = new ConsoleCommand(
+        "cmd_foothold_reset_all",
         () =>
         {
             foreach (var foothold in GameObject.FindObjectsByType<Foothold>(FindObjectsSortMode.None))
