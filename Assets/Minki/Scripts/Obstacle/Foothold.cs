@@ -44,12 +44,17 @@ public class Foothold : MonoBehaviour
 
     private void Update()
     {
-        if(m_moveStart && footholdType == FootholdType.MoveUp)
+        if(m_moveStart)
         {
-            if (acceleration)
-                m_rb.velocity += Vector2.up * moveSpeed;
-            else
-                m_rb.velocity = Vector2.up * moveSpeed;
+            switch(footholdType)
+            {
+                case FootholdType.MoveUp:
+                    if (acceleration)
+                        m_rb.velocity += Vector2.up * moveSpeed;
+                    else
+                        m_rb.velocity = Vector2.up * moveSpeed;
+                    break;
+            }
         }
     }
 
@@ -68,10 +73,7 @@ public class Foothold : MonoBehaviour
     {
         if (activeTime == 0.0f)
         {
-            m_rb.bodyType = RigidbodyType2D.Dynamic;
-            m_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-            m_rb.freezeRotation = true;
-            m_moveStart = true;
+            ChangeBodyType();
             yield break;
         }
 
@@ -81,10 +83,7 @@ public class Foothold : MonoBehaviour
             waitTime += Time.deltaTime;
             yield return null;
         }
-        m_rb.freezeRotation = true;
-        m_rb.bodyType = RigidbodyType2D.Dynamic;
-        m_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        m_moveStart = true;
+        ChangeBodyType();
     }
 
     public void ResetFoothold()
@@ -97,5 +96,21 @@ public class Foothold : MonoBehaviour
         m_rb.bodyType = RigidbodyType2D.Static;
         m_rb.interpolation = RigidbodyInterpolation2D.None;
         m_rb.freezeRotation = false;
+    }
+
+    public void ChangeBodyType()
+    {
+        switch(footholdType)
+        {
+            case FootholdType.MoveUp:
+                m_rb.bodyType = RigidbodyType2D.Kinematic;
+                break;
+            case FootholdType.MoveDown:
+                m_rb.bodyType = RigidbodyType2D.Dynamic;
+                break;
+        }
+        m_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        m_rb.freezeRotation = true;
+        m_moveStart = true;
     }
 }
