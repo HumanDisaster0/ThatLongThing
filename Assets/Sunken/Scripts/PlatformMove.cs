@@ -11,8 +11,7 @@ public class PlatformMove : MonoBehaviour
     [SerializeField] bool loop = true;
     [SerializeField] bool move = false;
 
-    [SerializeField] private int currIdx = 0;
-    private bool isMoving = false;
+    private int currIdx = 0;
     private bool isReversal = false;
 
     // Start is called before the first frame update
