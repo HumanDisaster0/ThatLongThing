@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public enum PlayerState
 {
     Idle = 0,
-    Run,
+    Walk,
     Jump,
     Fall,
     Crouch,
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     #region Public Member
 
     public SpriteRenderer playerSprite;
-    //public Animator playerAnimator;
+    public Animator playerAnimator;
     public Transform spriteRoot;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
@@ -62,9 +62,9 @@ public class PlayerController : MonoBehaviour
     PlayerState m_currentState = PlayerState.Idle;
     Rigidbody2D m_groundRB;
 
-    //readonly static int m_hash_idleAnim = Animator.StringToHash("anim_knight_idle");
-    //readonly static int m_hash_runAnim = Animator.StringToHash("anim_knight_run");
-    //readonly static int m_hash_jumpAnim = Animator.StringToHash("anim_knight_jump");
+    readonly static int m_hash_idleAnim = Animator.StringToHash("anim_player_idle");
+    readonly static int m_hash_walkAnim = Animator.StringToHash("anim_player_walk");
+    readonly static int m_hash_jumpAnim = Animator.StringToHash("anim_player_jump");
     //readonly static int m_hash_fallAnim = Animator.StringToHash("anim_knight_fall");
     //readonly static int m_hash_crouchAnim = Animator.StringToHash("anim_knight_crouch");
 
@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //->ÀÌµ¿
                     if (Mathf.Abs(m_hInput) > 0)
-                        m_currentState = PlayerState.Run;
+                        m_currentState = PlayerState.Walk;
                     //->¾É±â
                     if (m_vInput < 0)
                         m_currentState = PlayerState.Crouch;
@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
                 return;
-            case PlayerState.Run:
+            case PlayerState.Walk:
                 if (m_isGrounded)
                 {
                     //->ÀÌµ¿
@@ -302,7 +302,7 @@ public class PlayerController : MonoBehaviour
                     if (m_hInput == 0)
                         m_currentState = PlayerState.Idle;
                     else
-                        m_currentState = PlayerState.Run;
+                        m_currentState = PlayerState.Walk;
                     //->¾É±â
                     if (m_vInput < 0)
                         m_currentState = PlayerState.Crouch;
@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
                     if (m_hInput == 0)
                         m_currentState = PlayerState.Idle;
                     else
-                        m_currentState = PlayerState.Run;
+                        m_currentState = PlayerState.Walk;
                     //->¾É±â
                     if (m_vInput < 0)
                         m_currentState = PlayerState.Crouch;
@@ -336,7 +336,7 @@ public class PlayerController : MonoBehaviour
                     if (m_vInput >= 0)
                     {
                         if (Mathf.Abs(m_hInput) > 0)
-                            m_currentState = PlayerState.Run;
+                            m_currentState = PlayerState.Walk;
                         else
                             m_currentState = PlayerState.Idle;
                     }
@@ -384,13 +384,13 @@ public class PlayerController : MonoBehaviour
         switch (state)
         {
             case PlayerState.Idle:
-                //playerAnimator.Play(m_hash_idleAnim);
+                playerAnimator.Play(m_hash_idleAnim);
                 return;
-            case PlayerState.Run:
-                //playerAnimator.Play(m_hash_runAnim);
+            case PlayerState.Walk:
+                playerAnimator.Play(m_hash_walkAnim);
                 return;
             case PlayerState.Jump:
-                //playerAnimator.Play(m_hash_jumpAnim);
+                playerAnimator.Play(m_hash_jumpAnim);
                 return;
             case PlayerState.Fall:
                 //playerAnimator.Play(m_hash_fallAnim);
@@ -413,7 +413,7 @@ public class PlayerController : MonoBehaviour
         switch (m_currentState)
         {
             case PlayerState.Idle:
-            case PlayerState.Run:
+            case PlayerState.Walk:
             case PlayerState.Jump:
             case PlayerState.Fall:
                 DefaultMovement();
