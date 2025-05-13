@@ -278,10 +278,12 @@ public class PlayerController : MonoBehaviour
             m_currentVel.y = 0.0f;
             if (m_jumpCount < 1
                 && m_groundRB != null
-                && m_groundRB.velocity.y > 0)
+                && m_groundRB.velocity.y >= 0.0f)
             {
                 m_currentVel += m_groundRB.velocity;
             }
+
+            m_groundRB = null;
             m_currentVel += Vector2.up * jumpForce;
             m_isGrounded = false;
             m_currentState = PlayerState.Jump;
