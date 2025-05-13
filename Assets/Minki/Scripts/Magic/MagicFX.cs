@@ -16,6 +16,7 @@ public class MagicFX : MonoBehaviour
     [Header("흐려지기 시작하는 키프레임")]
     public int fadeKeyframeIdx = 0;
 
+    [Header("애니메이션")]
     public AnimationCurve FXCurve;
     public AnimationCurve FadeCurve;
 
@@ -25,6 +26,7 @@ public class MagicFX : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //파동 간격만큼 시간 벌여놓기
         m_fx2Timer -= fxTimerDiff;
     }
 

@@ -41,7 +41,7 @@ public class FootholdMover : MonoBehaviour
         m_defaultScale = transform.localScale;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //움직임 트리거 발동 이후 행동
         if(m_moveStart)
@@ -50,7 +50,7 @@ public class FootholdMover : MonoBehaviour
             {
                 case FootholdType.MoveUp:
                     if (acceleration)
-                        m_rb.velocity += Vector2.up * moveSpeed;
+                        m_rb.velocity += Vector2.up * moveSpeed * Time.deltaTime;
                     else
                         m_rb.velocity = Vector2.up * moveSpeed;
                     break;
