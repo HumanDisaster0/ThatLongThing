@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2996519208551891699}
   - component: {fileID: 2076094363079064411}
   m_Layer: 0
-  m_Name: Yellow_Ground
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

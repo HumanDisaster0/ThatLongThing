@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,5 +75,16 @@ public class PlatformMove : MonoBehaviour
         }
         else
             return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        float radius = 0.1f;
+        Gizmos.color = Color.red;
+        foreach(Transform t in wayPoints)
+            Gizmos.DrawWireSphere(t.position, radius);
+
+        for (int i = 0; i < wayPoints.Count-1; i++)
+            Gizmos.DrawLine(wayPoints[i].position, wayPoints[i+1].position); 
     }
 }
