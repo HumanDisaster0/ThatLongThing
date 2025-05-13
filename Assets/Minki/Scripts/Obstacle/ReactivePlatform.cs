@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public enum ReactivePlatformType
 {
@@ -12,7 +11,10 @@ public enum ReactivePlatformType
 [RequireComponent(typeof(BoxCollider2D))]
 public class ReactivePlatform : MonoBehaviour
 {
+    [Header("타입")]
     public ReactivePlatformType type = ReactivePlatformType.Hide;
+
+    [Header("참조 컴포넌트")]
     public SpriteRenderer sprite;
 
     BoxCollider2D m_col;

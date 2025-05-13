@@ -18,48 +18,65 @@ public class PlayerController : MonoBehaviour
 {
     #region Public Member
 
+    [Header("참조 컴포넌트")]
     public SpriteRenderer playerSprite;
     public Animator playerAnimator;
     public Transform spriteRoot;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
+
+
     public LayerMask groundMask;
 
+    [Header("좌우 이동 관련")]
     public float moveSpeed = 2.5f;
     public float moveSharpness = 12.0f;
     public float airAcceleration = 1.8f;
     public float airDrag = 0.1f;
+
+    [Header("수직 이동 관련")]
     public float jumpForce = 6.0f;
     public float gravityForce = 15.0f;
 
     public int maxJumpCount = 2;
-    public float coyoteJumpTime = 0.08f;
-    public float jumpBufferTime = 0.15f;
+    public float coyoteJumpTime = 0.08f; //공중돌입 후 점프유예 시간
+    public float jumpBufferTime = 0.15f; //착지 전 점프입력 유효 시간
 
     #endregion
 
     #region Private Member
 
+    //내부 컴포넌트
     Rigidbody2D m_rb;
     BoxCollider2D m_col;
 
+    //접지 관련
     bool m_isGrounded = true;
     Vector2 m_groundNormal;
+    Rigidbody2D m_groundRB;
 
+    float m_footposY = 0.5f;
+
+    //현재 속도
     Vector2 m_currentVel;
 
+    //점프 관련
     float m_lastJumpTime;
     float m_coyoteJumpTimer;
     float m_jumpBufferTimer;
     int m_jumpCount;
 
+    //입력 관련
     float m_hInput;
     float m_vInput;
     bool m_jumpInput;
-    float m_footposY = 0.5f;
+    
+    
+    //플레이어 상태
     PlayerState m_currentState = PlayerState.Idle;
-    Rigidbody2D m_groundRB;
 
+
+    //애니메이션 해쉬 값 - 이렇게 하면 빨라요
     readonly static int m_hash_idleAnim = Animator.StringToHash("anim_player_idle");
     readonly static int m_hash_walkAnim = Animator.StringToHash("anim_player_walk");
     readonly static int m_hash_jumpAnim = Animator.StringToHash("anim_player_jump");
@@ -84,13 +101,16 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        //충돌 시 속도 꺾기 (천장, 벽 부딪히는 경우 속도 제한)
         ProjectVelocity(collision);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        //충돌 시 속도 꺾기 (천장, 벽 부딪히는 경우 속도 제한)
         ProjectVelocity(collision);
     }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -120,34 +140,46 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //---- 입력처리 ----//
+
+        //-- 방향키 입력
         var lastHInput = m_hInput;
 
         m_hInput = (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) + (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
         m_vInput = (Input.GetKey(KeyCode.DownArrow) ? -1 : 0) + (Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
 
+        //이전 입력 비교 후 방향이 다른 경우
         if (m_hInput != lastHInput && Mathf.Abs(m_hInput) > 0)
         {
+            //스프라이트 좌우 반전
             playerSprite.flipX = m_hInput > 0 ? false : true;
         }
 
+
+        //-- 점프 입력
         if (Input.GetKeyDown(KeyCode.Space))
         {
             m_jumpInput = true;
-            m_jumpBufferTimer = jumpBufferTime;
+            m_jumpBufferTimer = jumpBufferTime; //점프 입력 버퍼 시간 갱신
         }
         else
         {
-            m_jumpBufferTimer -= Time.deltaTime;
+            m_jumpBufferTimer -= Time.deltaTime; //점프 입력이 없는 경우 계속 감소
         }
 
+        //-- 코요테 시간(점프 유예 시간) 갱신
         if (m_isGrounded)
         {
+            //땅인 경우 갱신
             m_coyoteJumpTimer = coyoteJumpTime;
         }
         else
         {
+            //아닌 경우 감소
             var lastCoyoteJumpTimer = m_coyoteJumpTimer;
             m_coyoteJumpTimer -= Time.deltaTime;
+            
+            //공중 3단 점프 방지를 위한 공중돌입 판정
             if (lastCoyoteJumpTimer > 0.0f && m_coyoteJumpTimer <= 0.0f)
                 m_jumpCount++;
         }
@@ -162,12 +194,16 @@ public class PlayerController : MonoBehaviour
         var checkDist = lastGrounded ? 0.5f : 0.025f;
         m_isGrounded = false;
 
+        //바닥 체크 (박스 캐스트 - 너비 사이즈 큼)
         var hitInfo = Physics2D.BoxCast(transform.position + Vector3.down * 0.25f, new Vector2(0.55f, 0.5f), 0.0f, Vector2.down, checkDist, groundMask);
 
+        //바닥 체크 실패 시 작은 너비로 재도전
         if (hitInfo.collider == null
             || hitInfo.normal.y <= 0.7f)
             hitInfo = Physics2D.BoxCast(transform.position + Vector3.down * 0.25f, new Vector2(0.5f, 0.5f), 0.0f, Vector2.down, checkDist, groundMask);
 
+
+        //점프 중이 아니고 바닥체크에 성공한 경우
         if (Time.time >= m_lastJumpTime + 0.2f
             && hitInfo.collider != null
             && hitInfo.normal.y > 0.7f)
@@ -190,6 +226,7 @@ public class PlayerController : MonoBehaviour
                 if (wallHitInfo.collider == null
                     || wallHitInfo.normal.y <= 0.7f)
                 {
+                    //절벽인 경우 달라 붙지 않고 isGrouded = false, 바닥이 Rigidbody였던 경우 Rigidbody의 속도 물려받기
                     if (m_groundRB != null)
                     {
                         m_currentVel += m_groundRB.velocity;
@@ -204,11 +241,12 @@ public class PlayerController : MonoBehaviour
             m_groundNormal = hitInfo.normal;
             m_jumpCount = 0;
             m_groundRB = hitInfo.rigidbody;
+
+            //바닥이 움직이는 경우
             if (m_groundRB && hitInfo.rigidbody.bodyType == RigidbodyType2D.Dynamic)
             {
                 m_rb.position += m_groundRB.velocity * Time.deltaTime;
                 m_currentVel += m_groundRB.velocity * Time.deltaTime;
-                //m_rb.MovePosition(m_rb.position + hitInfo.rigidbody.velocity * Time.deltaTime);
             }
         }
 
@@ -224,8 +262,8 @@ public class PlayerController : MonoBehaviour
     public void CheckTransition()
     {
         //AnyState Transition->
-        // 점프 처리
 
+        // 점프 처리
         if ((m_jumpCount < 1
             && m_jumpBufferTimer > 0f
             && m_coyoteJumpTimer > 0f
@@ -319,6 +357,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 외부에서 상태를 변경시키기 위한 함수
+    /// </summary>
+    /// <param name="state"></param>
     public void AnyState(PlayerState state)
     {
         var lastState = m_currentState;

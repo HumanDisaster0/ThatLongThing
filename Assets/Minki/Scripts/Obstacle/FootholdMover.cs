@@ -14,7 +14,10 @@ public enum FootholdType
 [RequireComponent(typeof(BoxCollider2D))]
 public class FootholdMover : MonoBehaviour
 {
+    [Header("타입")]
     public FootholdType footholdType = FootholdType.MoveDown;
+
+    [Header("발판 속성")]
     public float moveSpeed = 2.0f;
     public bool acceleration = false;
 
@@ -40,6 +43,7 @@ public class FootholdMover : MonoBehaviour
 
     void Update()
     {
+        //움직임 트리거 발동 이후 행동
         if(m_moveStart)
         {
             switch(footholdType)
@@ -54,6 +58,9 @@ public class FootholdMover : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 움직임 트리거를 발동합니다.
+    /// </summary>
     public void StartMove()
     {
         switch (footholdType)
@@ -72,6 +79,7 @@ public class FootholdMover : MonoBehaviour
 
     public void ResetFoothold()
     {
+        //초기상태로 되돌림
         transform.position = m_defaultPos;
         transform.rotation = m_defaultRot;
         transform.localScale = m_defaultScale;

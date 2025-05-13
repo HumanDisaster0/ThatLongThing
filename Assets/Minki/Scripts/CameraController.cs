@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour
             m_clampWidth = (screenWidth * unitsPerPixel) / 2f;
 
             // URP PixelPerfectCamera에서는 속성 이름이 다를 수 있음
-            if (m_pixelPerfectCamera.upscaleRT && m_pixelPerfectCamera.pixelSnapping)
+            if (m_pixelPerfectCamera.gridSnapping == PixelPerfectCamera.GridSnapping.UpscaleRenderTexture)
             {
                 // 업스케일 설정이 있는 경우, 카메라 컴포넌트의 orthographicSize를 사용하여 보정
                 float actualSize = m_camera.orthographicSize;
@@ -116,8 +116,10 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        //스크린사이즈가 변경되었을 때
         if (Screen.width != m_lastWidth || Screen.height != m_lastHeight)
         {
+            //카메라 경계 다시 계산
             m_lastWidth = Screen.width;
             m_lastHeight = Screen.height;
             OnViewportSizeChanged();
