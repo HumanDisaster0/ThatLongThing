@@ -63,6 +63,7 @@ public class TrapTrigger : MonoBehaviour
     {
         m_isActiveObstacle = false;
         OnResetTrigger?.Invoke();
+        StopAllCoroutines();
         return;
     }
 

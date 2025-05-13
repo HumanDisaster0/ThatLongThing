@@ -360,6 +360,8 @@ GameObject:
   - component: {fileID: 314896781}
   - component: {fileID: 314896780}
   - component: {fileID: 314896779}
+  - component: {fileID: 314896784}
+  - component: {fileID: 314896783}
   m_Layer: 6
   m_Name: Static Sprite (6)
   m_TagString: Untagged
@@ -446,7 +448,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314896778}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -506,6 +508,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &314896783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314896778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 050639d2d85c2df4a9f50a3c2a3530da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  sprite: {fileID: 314896781}
+--- !u!114 &314896784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314896778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0694dd12f39643e4ba8c51da04b96ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  OnStartTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 314896783}
+        m_TargetAssemblyTypeName: ReactivePlatform, Assembly-CSharp
+        m_MethodName: ActivePlatform
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnResetTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 314896783}
+        m_TargetAssemblyTypeName: ReactivePlatform, Assembly-CSharp
+        m_MethodName: ResetPlatform
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  isEnterTrigger: 1
+  isStayTrigger: 1
+  isExitTrigger: 0
+  activeTime: 0
 --- !u!1 &440851989
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,9 +987,6 @@ MonoBehaviour:
   isEnterTrigger: 1
   isStayTrigger: 1
   isExitTrigger: 0
-  isStepOnContact: 1
-  isSideContact: 1
-  isHeadContact: 1
   activeTime: 0.5
 --- !u!1 &547544828
 GameObject:
@@ -1307,9 +1369,6 @@ MonoBehaviour:
   isEnterTrigger: 1
   isStayTrigger: 1
   isExitTrigger: 0
-  isStepOnContact: 1
-  isSideContact: 1
-  isHeadContact: 1
   activeTime: 0.3
 --- !u!1 &1065471501
 GameObject:
@@ -1937,8 +1996,8 @@ Transform:
   m_GameObject: {fileID: 1518550839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.5, y: -2.5, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalPosition: {x: 26.5, y: -2.5, z: 0}
+  m_LocalScale: {x: 5.0001, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
