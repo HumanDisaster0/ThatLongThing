@@ -32,7 +32,8 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isEnterTrigger
+        if (!m_col.isTrigger
+            && isEnterTrigger
             && !m_isActiveObstacle
             && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
         {
@@ -44,7 +45,8 @@ public class TrapTrigger : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
 
-        if (isStayTrigger
+        if (!m_col.isTrigger
+            && isStayTrigger
             && !m_isActiveObstacle
             && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
         {
@@ -55,7 +57,45 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (isExitTrigger
+        if (!m_col.isTrigger
+            && isExitTrigger
+            && !m_isActiveObstacle
+            && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
+        {
+            m_isActiveObstacle = true;
+            StartCoroutine(ActiveTrap(collision.gameObject));
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (m_col.isTrigger
+            && isEnterTrigger
+            && !m_isActiveObstacle
+            && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
+        {
+            m_isActiveObstacle = true;
+            StartCoroutine(ActiveTrap(collision.gameObject));
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+
+        if (m_col.isTrigger
+            && isStayTrigger
+            && !m_isActiveObstacle
+            && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
+        {
+            m_isActiveObstacle = true;
+            StartCoroutine(ActiveTrap(collision.gameObject));
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (m_col.isTrigger
+            && isExitTrigger
             && !m_isActiveObstacle
             && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
         {

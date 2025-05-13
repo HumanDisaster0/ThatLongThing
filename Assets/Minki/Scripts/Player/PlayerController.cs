@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     bool m_isGrounded = true;
     Vector2 m_groundNormal;
     Rigidbody2D m_groundRB;
+    RaycastHit2D[] m_hits = new RaycastHit2D[8];
 
     float m_footposY = 0.5f;
 
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_rb = GetComponent<Rigidbody2D>();
+        m_col = GetComponent<BoxCollider2D>();
         m_isGrounded = false;
         m_groundNormal = Vector2.zero;
 
@@ -195,12 +198,11 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = false;
 
         //바닥 체크 (박스 캐스트 - 너비 사이즈 큼)
-        var hitInfo = Physics2D.BoxCast(transform.position + Vector3.down * 0.25f, new Vector2(0.55f, 0.5f), 0.0f, Vector2.down, checkDist, groundMask);
+        var isHit = CharacterSweepTest(transform.position + Vector3.down * 0.25f, new Vector2(0.55f, 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
 
         //바닥 체크 실패 시 작은 너비로 재도전
-        if (hitInfo.collider == null
-            || hitInfo.normal.y <= 0.7f)
-            hitInfo = Physics2D.BoxCast(transform.position + Vector3.down * 0.25f, new Vector2(0.5f, 0.5f), 0.0f, Vector2.down, checkDist, groundMask);
+        if (!isHit || hitInfo.normal.y <= 0.7f)
+            isHit = CharacterSweepTest(transform.position + Vector3.down * 0.25f, new Vector2(0.5f, 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
 
 
         //점프 중이 아니고 바닥체크에 성공한 경우
@@ -243,10 +245,9 @@ public class PlayerController : MonoBehaviour
             m_groundRB = hitInfo.rigidbody;
 
             //바닥이 움직이는 경우
-            if (m_groundRB && hitInfo.rigidbody.bodyType == RigidbodyType2D.Dynamic)
+            if (m_groundRB && hitInfo.rigidbody.bodyType != RigidbodyType2D.Static)
             {
                 m_rb.position += m_groundRB.velocity * Time.deltaTime;
-                m_currentVel += m_groundRB.velocity * Time.deltaTime;
             }
         }
 
@@ -255,7 +256,7 @@ public class PlayerController : MonoBehaviour
             && !m_isGrounded)
         {
             m_currentVel += m_groundRB.velocity;
-        }    
+        }
     }
 
 
@@ -489,5 +490,46 @@ public class PlayerController : MonoBehaviour
                 m_currentVel = projection; // 충돌 후 속도를 투영된 속도로 설정
             }
         }
+    }
+
+    
+    //커스텀 박스캐스트입니다. 정확한 레이어마스크 감지를 위해 만든 함수입니다.
+    bool CharacterSweepTest(Vector2 origin, Vector2 size, Vector2 direction, float distance, LayerMask layerMask,out RaycastHit2D hitInfo)
+    {
+        //non alloc으로 해당 경로의 모든 충돌가능한 콜라이더 참조 가져오기
+        var hitCount = Physics2D.BoxCastNonAlloc(origin, size, 0.0f, direction, m_hits, distance, layerMask);
+
+        //hitcount가 하나라도 있는지 확인
+        if (hitCount > 0)
+        {
+            //가장 가까운 콜라이더 찾기
+            var nearestHit = new RaycastHit2D();
+            var nearestDist = Mathf.Infinity;
+            for(int i = 0; i < hitCount; i++)
+            {
+                var currentHit = m_hits[i];
+
+                if (!currentHit)
+                    continue;
+
+                if (currentHit.collider == m_col
+                    || currentHit.collider.isTrigger)
+                    continue;
+
+                if(currentHit.distance < nearestDist)
+                {
+                    nearestDist = currentHit.distance;
+                    nearestHit = currentHit;
+                }
+            }
+
+            //가장 가까운 콜라이더 정보 저장
+            hitInfo = nearestHit;
+
+            return true;
+        }
+
+        hitInfo = new RaycastHit2D();
+        return false;
     }
 }

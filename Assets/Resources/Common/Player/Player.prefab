@@ -97,14 +97,14 @@ MonoBehaviour:
   spriteRoot: {fileID: 8560393258800881193}
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 65
   moveSpeed: 2.5
   moveSharpness: 12
   airAcceleration: 1.8
-  ariDrag: 0.1
+  airDrag: 0.1
   jumpForce: 8
   gravityForce: 15
-  maxJumpCount: 2
+  maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15
 --- !u!50 &9169502309803756339

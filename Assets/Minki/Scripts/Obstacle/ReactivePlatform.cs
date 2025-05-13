@@ -8,7 +8,6 @@ public enum ReactivePlatformType
     Show
 }
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class ReactivePlatform : MonoBehaviour
 {
     [Header("е╦ют")]
@@ -18,17 +17,13 @@ public class ReactivePlatform : MonoBehaviour
     public SpriteRenderer sprite;
 
     BoxCollider2D m_col;
-
     bool m_isActive = false;
-
-    bool m_defaultTriggerOption;
-    bool m_defaultSpriteEnable;
 
     void Start()
     {
         m_col = GetComponent<BoxCollider2D>();
-        m_defaultTriggerOption = m_col.isTrigger;
-        m_defaultSpriteEnable = sprite.enabled;
+        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
+        sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
     }
 
     public void ActivePlatform()
@@ -41,7 +36,6 @@ public class ReactivePlatform : MonoBehaviour
         {
             case ReactivePlatformType.Hide:
                 sprite.enabled = false;
-                m_col.isTrigger = true;
                 break;
             case ReactivePlatformType.Show:
                 sprite.enabled = true;
@@ -52,7 +46,7 @@ public class ReactivePlatform : MonoBehaviour
     public void ResetPlatform()
     {
         m_isActive = false;
-        m_col.isTrigger = m_defaultTriggerOption;
-        sprite.enabled = m_defaultSpriteEnable;
+        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
+        sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
     }
 }
