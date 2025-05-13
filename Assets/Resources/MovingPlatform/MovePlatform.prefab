@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 8075281678194475032}
   m_Layer: 6
   m_Name: MovePlatform
-  m_TagString: Untagged
+  m_TagString: MovingPlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,7 +88,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -98,7 +98,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -109,12 +109,12 @@ Tilemap:
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: cfea295f3d4d8774483658695c824f15, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: ac3217ab9f97c8046b885f8a176400b6, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: c32e2bed2f65b314089c5446caa5efc1, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 3c9f9983893371d478d2d96cdcb13d68, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 3
+    m_Data: {fileID: 21300000, guid: af2ec1490a8a2854d892a61d6e7312ca, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 3
     m_Data:
@@ -298,7 +298,6 @@ MonoBehaviour:
   moveSpeed: 3
   loop: 1
   move: 1
-  currIdx: 0
 --- !u!50 &3776363734243269686
 Rigidbody2D:
   serializedVersion: 4
