@@ -6,20 +6,17 @@ using UnityEngine;
 
 public enum FootholdType
 {
-    None,
     MoveDown,
     MoveUp
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class Foothold : MonoBehaviour
+public class FootholdMover : MonoBehaviour
 {
-    public LayerMask interactionLayer;
-    public FootholdType footholdType = FootholdType.None;
+    public FootholdType footholdType = FootholdType.MoveDown;
     public float moveSpeed = 2.0f;
     public bool acceleration = false;
-    public float activeTime = 0.5f;
 
     Rigidbody2D m_rb;
     BoxCollider2D m_col;
@@ -27,7 +24,6 @@ public class Foothold : MonoBehaviour
     Quaternion m_defaultRot;
     Vector3 m_defaultScale;
 
-    bool m_isActiveObstacle;
     bool m_moveStart;
 
     // Start is called before the first frame update
@@ -42,7 +38,7 @@ public class Foothold : MonoBehaviour
         m_defaultScale = transform.localScale;
     }
 
-    private void Update()
+    void Update()
     {
         if(m_moveStart)
         {
@@ -58,49 +54,9 @@ public class Foothold : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void StartMove()
     {
-        if (footholdType != FootholdType.None
-            && !m_isActiveObstacle
-            && ((1 << collision.gameObject.layer) & interactionLayer.value) != 0)
-        {
-            m_isActiveObstacle = true;
-            StartCoroutine(StartMove());
-        }
-    }
-
-    IEnumerator StartMove()
-    {
-        if (activeTime == 0.0f)
-        {
-            ChangeBodyType();
-            yield break;
-        }
-
-        var waitTime = 0.0f;
-        while(waitTime < activeTime)
-        {
-            waitTime += Time.deltaTime;
-            yield return null;
-        }
-        ChangeBodyType();
-    }
-
-    public void ResetFoothold()
-    {
-        transform.position = m_defaultPos;
-        transform.rotation = m_defaultRot;
-        transform.localScale = m_defaultScale;
-        m_moveStart = false;
-        m_isActiveObstacle = false;
-        m_rb.bodyType = RigidbodyType2D.Static;
-        m_rb.interpolation = RigidbodyInterpolation2D.None;
-        m_rb.freezeRotation = false;
-    }
-
-    public void ChangeBodyType()
-    {
-        switch(footholdType)
+        switch (footholdType)
         {
             case FootholdType.MoveUp:
                 m_rb.bodyType = RigidbodyType2D.Kinematic;
@@ -112,5 +68,16 @@ public class Foothold : MonoBehaviour
         m_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         m_rb.freezeRotation = true;
         m_moveStart = true;
+    }
+
+    public void ResetFoothold()
+    {
+        transform.position = m_defaultPos;
+        transform.rotation = m_defaultRot;
+        transform.localScale = m_defaultScale;
+        m_moveStart = false;
+        m_rb.bodyType = RigidbodyType2D.Static;
+        m_rb.interpolation = RigidbodyInterpolation2D.None;
+        m_rb.freezeRotation = false;
     }
 }

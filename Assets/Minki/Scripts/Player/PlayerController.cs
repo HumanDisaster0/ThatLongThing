@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 2.5f;
     public float moveSharpness = 12.0f;
     public float airAcceleration = 1.8f;
-    public float ariDrag = 0.1f;
+    public float airDrag = 0.1f;
     public float jumpForce = 6.0f;
     public float gravityForce = 15.0f;
 
@@ -400,7 +400,7 @@ public class PlayerController : MonoBehaviour
                 m_currentVel.x += velDiff.x * airAcceleration * Time.deltaTime;
             }
 
-            m_currentVel.x *= (1f / (1f + (ariDrag * Time.deltaTime)));
+            m_currentVel.x *= (1f / (1f + (airDrag * Time.deltaTime)));
 
             m_currentVel.y -= gravityForce * Time.deltaTime;
         }
