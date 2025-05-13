@@ -5,13 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class FallingRock : MonoBehaviour
 {
+    [Header("참조 컴포넌트")]
     public SpriteRenderer sprite;
 
+    //내부 컴포넌트
     Rigidbody2D m_rb;
 
+    //기본값
     Vector3 m_defaultPos;
     Quaternion m_defaultRot;
 
+    //활성 트리거
     bool m_isActive = false;
 
     void Start()
