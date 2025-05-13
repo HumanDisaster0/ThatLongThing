@@ -537,6 +537,10 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 1
+  isEnterTrigger: 1
+  isStayTrigger: 1
+  isExitTrigger: 0
+  activeTime: 0
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -567,10 +571,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isEnterTrigger: 1
-  isStayTrigger: 1
-  isExitTrigger: 0
-  activeTime: 0
 --- !u!1 &440851989
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 440851989}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.99, y: -0.01, z: -10}
+  m_LocalPosition: {x: 10, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -954,6 +954,10 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 1
+  isEnterTrigger: 1
+  isStayTrigger: 1
+  isExitTrigger: 0
+  activeTime: 0.5
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -984,10 +988,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isEnterTrigger: 1
-  isStayTrigger: 1
-  isExitTrigger: 0
-  activeTime: 0.5
 --- !u!1 &547544828
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,6 +1494,10 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 1
+  isEnterTrigger: 1
+  isStayTrigger: 1
+  isExitTrigger: 0
+  activeTime: 0.3
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -1524,10 +1528,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isEnterTrigger: 1
-  isStayTrigger: 1
-  isExitTrigger: 0
-  activeTime: 0.3
 --- !u!1 &1065471501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2645,6 +2645,10 @@ PrefabInstance:
     - target: {fileID: 1682874294790460494, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698259169579013767, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
+      propertyPath: maxJumpCount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5165078544398503445, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
       propertyPath: m_LocalPosition.x

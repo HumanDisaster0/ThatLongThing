@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
 
-
+    [Header("땅 레이어 마스크")]
     public LayerMask groundMask;
 
     [Header("좌우 이동 관련")]
