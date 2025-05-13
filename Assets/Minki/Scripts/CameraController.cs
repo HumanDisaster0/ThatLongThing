@@ -116,6 +116,9 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (!Player)
+            return;
+
         //스크린사이즈가 변경되었을 때
         if (Screen.width != m_lastWidth || Screen.height != m_lastHeight)
         {
