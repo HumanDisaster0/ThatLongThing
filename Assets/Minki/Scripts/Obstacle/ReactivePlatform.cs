@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public enum ReactivePlatformType
 {
@@ -15,6 +16,7 @@ public class ReactivePlatform : MonoBehaviour
 
     [Header("참조 컴포넌트")]
     public SpriteRenderer sprite;
+    public TilemapRenderer tilemap;
 
     BoxCollider2D m_col;
     bool m_isActive = false;
@@ -23,7 +25,10 @@ public class ReactivePlatform : MonoBehaviour
     {
         m_col = GetComponent<BoxCollider2D>();
         m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
-        sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
+        if(sprite)
+            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
+        if(tilemap)
+            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
     }
 
     public void ActivePlatform()
@@ -35,10 +40,16 @@ public class ReactivePlatform : MonoBehaviour
         switch(type)
         {
             case ReactivePlatformType.Hide:
-                sprite.enabled = false;
+                if (sprite)
+                    sprite.enabled = false;
+                if (tilemap)
+                    tilemap.enabled = false;
                 break;
             case ReactivePlatformType.Show:
-                sprite.enabled = true;
+                if (sprite)
+                    sprite.enabled = true;
+                if (tilemap)
+                    tilemap.enabled = true;
                 break;
         }
     }
@@ -47,6 +58,9 @@ public class ReactivePlatform : MonoBehaviour
     {
         m_isActive = false;
         m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
-        sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
+        if (sprite)
+            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
+        if (tilemap)
+            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
     }
 }

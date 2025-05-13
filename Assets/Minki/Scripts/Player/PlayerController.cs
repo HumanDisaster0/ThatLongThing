@@ -198,11 +198,11 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = false;
 
         //바닥 체크 (박스 캐스트 - 너비 사이즈 큼)
-        var isHit = CharacterSweepTest(transform.position + Vector3.down * 0.25f, new Vector2(0.55f, 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
+        var isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.55f, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
 
         //바닥 체크 실패 시 작은 너비로 재도전
         if (!isHit || hitInfo.normal.y <= 0.7f)
-            isHit = CharacterSweepTest(transform.position + Vector3.down * 0.25f, new Vector2(0.5f, 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
+            isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
 
 
         //점프 중이 아니고 바닥체크에 성공한 경우
@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour
                 && hitInfo.distance > 0.05f
                 && !Mathf.Approximately(0.0f, m_currentVel.x))
             {
-                var wallHitInfo = Physics2D.Raycast(transform.position + Vector3.down * 0.505f, -m_currentVel.normalized, 2.0f, groundMask);
+                var wallHitInfo = Physics2D.Raycast(transform.position + Vector3.down * (m_col.size.y * 0.5f + 0.005f - m_col.offset.y), -m_currentVel.normalized, 2.0f, groundMask);
                 if (wallHitInfo.collider == null
                     || wallHitInfo.normal.y <= 0.7f)
                 {
@@ -257,6 +257,10 @@ public class PlayerController : MonoBehaviour
         {
             m_currentVel += m_groundRB.velocity;
         }
+
+        //완전 공중인 경우 땅 Rigidbody 없음 취급
+        if (!lastGrounded && m_coyoteJumpTimer < 0.0f)
+            m_groundRB = null;
     }
 
 
@@ -274,25 +278,7 @@ public class PlayerController : MonoBehaviour
             && m_jumpCount < maxJumpCount
             && m_jumpInput))
         {
-            m_lastJumpTime = Time.time;
-            m_currentVel.y = 0.0f;
-            if (m_jumpCount < 1
-                && m_groundRB != null
-                && m_groundRB.velocity.y >= 0.0f)
-            {
-                m_currentVel += m_groundRB.velocity;
-            }
-
-            m_groundRB = null;
-            m_currentVel += Vector2.up * jumpForce;
-            m_isGrounded = false;
-            m_currentState = PlayerState.Jump;
-            //audioSource.Play();
-            m_coyoteJumpTimer = 0.0f;
-            m_jumpBufferTimer = 0.0f;
-            m_jumpInput = false;
-            m_jumpCount++;
-            return;
+            ExcuteJump();
         }
 
         //Normal Transition->
@@ -492,6 +478,29 @@ public class PlayerController : MonoBehaviour
                 m_currentVel = projection; // 충돌 후 속도를 투영된 속도로 설정
             }
         }
+    }
+
+    void ExcuteJump()
+    {
+        m_lastJumpTime = Time.time;
+        m_currentVel.y = 0.0f;
+        if (m_jumpCount < 1
+            && m_groundRB != null
+            && m_groundRB.velocity.y >= 0.0f)
+        {
+            m_currentVel += m_groundRB.velocity;
+        }
+
+        m_groundRB = null;
+        m_currentVel += Vector2.up * jumpForce;
+        m_isGrounded = false;
+        m_currentState = PlayerState.Jump;
+        //audioSource.Play();
+        m_coyoteJumpTimer = 0.0f;
+        m_jumpBufferTimer = 0.0f;
+        m_jumpInput = false;
+        m_jumpCount++;
+        return;
     }
 
     
