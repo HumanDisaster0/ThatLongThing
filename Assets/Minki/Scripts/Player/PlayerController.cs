@@ -9,9 +9,7 @@ public enum PlayerState
     Walk,
     Jump,
     Fall,
-    Crouch,
-    Hit,
-    Carried
+    Hit
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -265,9 +263,6 @@ public class PlayerController : MonoBehaviour
                     //->ÀÌµ¿
                     if (Mathf.Abs(m_hInput) > 0)
                         m_currentState = PlayerState.Walk;
-                    //->¾É±â
-                    if (m_vInput < 0)
-                        m_currentState = PlayerState.Crouch;
                     return;
                 }
                 //->³«ÇÏ
@@ -283,9 +278,6 @@ public class PlayerController : MonoBehaviour
                     //->ÀÌµ¿
                     if (m_hInput == 0)
                         m_currentState = PlayerState.Idle;
-                    //->¾É±â
-                    if (m_vInput < 0)
-                        m_currentState = PlayerState.Crouch;
                     return;
                 }
                 //->³«ÇÏ
@@ -303,9 +295,6 @@ public class PlayerController : MonoBehaviour
                         m_currentState = PlayerState.Idle;
                     else
                         m_currentState = PlayerState.Walk;
-                    //->¾É±â
-                    if (m_vInput < 0)
-                        m_currentState = PlayerState.Crouch;
                     return;
                 }
                 else
@@ -324,28 +313,6 @@ public class PlayerController : MonoBehaviour
                     else
                         m_currentState = PlayerState.Walk;
                     //->¾É±â
-                    if (m_vInput < 0)
-                        m_currentState = PlayerState.Crouch;
-                    return;
-                }
-                return;
-            case PlayerState.Crouch:
-                if (m_isGrounded)
-                {
-                    //->¾É±â
-                    if (m_vInput >= 0)
-                    {
-                        if (Mathf.Abs(m_hInput) > 0)
-                            m_currentState = PlayerState.Walk;
-                        else
-                            m_currentState = PlayerState.Idle;
-                    }
-                    return;
-                }
-                //->³«ÇÏ
-                if (!m_isGrounded)
-                {
-                    m_currentState = PlayerState.Fall;
                     return;
                 }
                 return;
@@ -372,7 +339,7 @@ public class PlayerController : MonoBehaviour
     {
         switch (state)
         {
-            case PlayerState.Crouch:
+            case PlayerState.Idle:
                 //hitBoxCol.offset = Vector2.zero;
                 //hitBoxCol.size = new Vector2 { x = 0.5f, y = 1.0f };
                 return;
@@ -393,17 +360,7 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.Play(m_hash_jumpAnim);
                 return;
             case PlayerState.Fall:
-                //playerAnimator.Play(m_hash_fallAnim);
-                return;
-            case PlayerState.Crouch:
-                //playerAnimator.Play(m_hash_crouchAnim);
-                //hitBoxCol.offset = new Vector2 { x = 0.0f, y = -0.375f };
-                //hitBoxCol.size = new Vector2 { x = 0.5f, y = 0.25f };
-                return;
-            case PlayerState.Carried:
-                //playerAnimator.Play(m_hash_crouchAnim);
-                m_rb.velocity = Vector2.zero;
-                m_currentVel.x = 0.0f;
+                playerAnimator.Play(m_hash_jumpAnim);
                 return;
         }
     }
@@ -417,12 +374,6 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Jump:
             case PlayerState.Fall:
                 DefaultMovement();
-                break;
-            case PlayerState.Crouch:
-                m_hInput = 0.0f;
-                DefaultMovement();
-                break;
-            case PlayerState.Carried:
                 break;
         }
 
