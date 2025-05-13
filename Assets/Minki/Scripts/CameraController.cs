@@ -14,9 +14,6 @@ public class CameraController : MonoBehaviour
     public float minLerpSpeed = 2f;
     public float maxLerpSpeed = 15f;
 
-    public Vector3 currentPos = Vector3.zero;
-    public Vector3 targetPos = Vector3.zero;
-
     public Rect worldRect = Rect.zero;
 
     public float depthX = 2f;
@@ -32,30 +29,32 @@ public class CameraController : MonoBehaviour
     int m_lastHeight;
     float m_clampWidth;
     float m_clampHeight;
-   
+    Vector3 m_currentPos = Vector3.zero;
+    Vector3 m_targetPos = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
         m_camera = GetComponent<Camera>();
         m_pixelPerfectCamera = GetComponent<PixelPerfectCamera>();
 
-        targetPos = Player.position;
+        m_targetPos = Player.position;
 
         OnViewportSizeChanged();
 
-        targetPos.x = Mathf.Clamp(
-            targetPos.x,
+        m_targetPos.x = Mathf.Clamp(
+            m_targetPos.x,
             worldRect.xMin + m_clampWidth,
             worldRect.xMax - m_clampWidth
         );
 
-        targetPos.y = Mathf.Clamp(
-            targetPos.y,
+        m_targetPos.y = Mathf.Clamp(
+            m_targetPos.y,
             worldRect.yMin + m_clampHeight - yOffset,
             worldRect.yMax - m_clampHeight - yOffset
         );
 
-        currentPos = targetPos;
+        m_currentPos = m_targetPos;
 
         m_lastWidth = Screen.width;
         m_lastHeight = Screen.height;
@@ -128,31 +127,31 @@ public class CameraController : MonoBehaviour
             OnViewportSizeChanged();
         }
 
-        if (Mathf.Abs(targetPos.x - Player.position.x) > depthX)
-            targetPos.x = Player.position.x > targetPos.x ? Player.position.x - depthX : Player.position.x + depthX;
+        if (Mathf.Abs(m_targetPos.x - Player.position.x) > depthX)
+            m_targetPos.x = Player.position.x > m_targetPos.x ? Player.position.x - depthX : Player.position.x + depthX;
 
-        if (Mathf.Abs(targetPos.y - Player.position.y) > depthY)
-            targetPos.y = Player.position.y > targetPos.y ? Player.position.y - depthY : Player.position.y + depthY;
+        if (Mathf.Abs(m_targetPos.y - Player.position.y) > depthY)
+            m_targetPos.y = Player.position.y > m_targetPos.y ? Player.position.y - depthY : Player.position.y + depthY;
 
-        targetPos.x = Mathf.Clamp(
-            targetPos.x,
+        m_targetPos.x = Mathf.Clamp(
+            m_targetPos.x,
             worldRect.xMin + m_clampWidth,
             worldRect.xMax - m_clampWidth
         );
 
-        targetPos.y = Mathf.Clamp(
-            targetPos.y,
+        m_targetPos.y = Mathf.Clamp(
+            m_targetPos.y,
             worldRect.yMin + m_clampHeight - yOffset,
             worldRect.yMax - m_clampHeight - yOffset
         );
 
-        var setXLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.x - currentPos.x) - deadzoneX) / deadzoneThresold));
-        var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - currentPos.y) - deadzoneY) / deadzoneThresold));
+        var setXLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.x - m_currentPos.x) - deadzoneX) / deadzoneThresold));
+        var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - m_currentPos.y) - deadzoneY) / deadzoneThresold));
 
-        currentPos.x = Mathf.Lerp(currentPos.x, targetPos.x, 1 - Mathf.Exp(-setXLerpSpeed * Time.deltaTime));
-        currentPos.y = Mathf.Lerp(currentPos.y, targetPos.y, 1 - Mathf.Exp(-setYLerpSpeed * Time.deltaTime));
+        m_currentPos.x = Mathf.Lerp(m_currentPos.x, m_targetPos.x, 1 - Mathf.Exp(-setXLerpSpeed * Time.deltaTime));
+        m_currentPos.y = Mathf.Lerp(m_currentPos.y, m_targetPos.y, 1 - Mathf.Exp(-setYLerpSpeed * Time.deltaTime));
 
-        transform.position = currentPos + Vector3.up * yOffset + Vector3.forward * -10f;
+        transform.position = m_currentPos + Vector3.up * yOffset + Vector3.forward * -10f;
     }
 
     private void OnDrawGizmos()
@@ -166,7 +165,7 @@ public class CameraController : MonoBehaviour
 
         //Target View
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(targetPos, new Vector3(depthX * 2f, depthY * 2f, 1));
+        Gizmos.DrawWireCube(m_targetPos, new Vector3(depthX * 2f, depthY * 2f, 1));
 
         //Deadzone Min
         Gizmos.color = new Color(1, 0.5f, 0.75f, 1);

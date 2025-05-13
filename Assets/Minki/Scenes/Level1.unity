@@ -628,8 +628,6 @@ MonoBehaviour:
   lerpMotionSpeed: 3
   minLerpSpeed: 2
   maxLerpSpeed: 4
-  currentPos: {x: 0, y: 0, z: 0}
-  targetPos: {x: 0, y: 0, z: 0}
   worldRect:
     serializedVersion: 2
     x: 0
@@ -2782,6 +2780,10 @@ PrefabInstance:
     - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3290135173495145147, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Radius
+      value: 0.85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
