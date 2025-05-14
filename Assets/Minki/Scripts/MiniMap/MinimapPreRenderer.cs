@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 
-public class TilemapPreRenderer : MonoBehaviour
+public class MinimapPreRenderer : MonoBehaviour
 {
     public RectTransform parentRect;
     public Tilemap tilemap;
