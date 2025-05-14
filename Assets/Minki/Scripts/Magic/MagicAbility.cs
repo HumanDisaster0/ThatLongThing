@@ -63,7 +63,10 @@ public class MagicAbility : MonoBehaviour
                     m_currentFX.Add(fx.GetHashCode());
 
                     if (!m_foundFX.ContainsKey(fx.GetHashCode()))
+                    {
                         m_foundFX[fx.GetHashCode()] = fx;
+                    }
+                        
 
                 }
 
