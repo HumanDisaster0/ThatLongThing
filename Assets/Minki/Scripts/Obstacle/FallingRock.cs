@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class FallingRock : MonoBehaviour
 {
     [Header("참조 컴포넌트")]
     public SpriteRenderer sprite;
+    public LayerMask groundMask;
 
     //내부 컴포넌트
     Rigidbody2D m_rb;
+    CircleCollider2D m_col;
 
     //기본값
     Vector3 m_defaultPos;
@@ -21,10 +24,20 @@ public class FallingRock : MonoBehaviour
     void Start()
     {
         m_rb = GetComponent<Rigidbody2D>();
+        m_col = GetComponent<CircleCollider2D>();
         m_defaultPos = transform.position;
         m_defaultRot = transform.rotation;
         m_rb.bodyType = RigidbodyType2D.Static;
+        m_col.isTrigger = true;
         sprite.enabled = false;
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (((1 <<collision.gameObject.layer) & groundMask.value) != 0)
+        {
+            m_col.isTrigger = true;
+        }
     }
 
     public void StartMove()
@@ -32,6 +45,7 @@ public class FallingRock : MonoBehaviour
         if (m_isActive)
             return;
 
+        m_col.isTrigger = false;
         m_rb.bodyType = RigidbodyType2D.Dynamic;
         sprite.enabled = true;
         m_isActive = true;
