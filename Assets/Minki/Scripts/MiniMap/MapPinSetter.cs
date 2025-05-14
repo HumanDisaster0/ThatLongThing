@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MapPinSetter : MonoBehaviour, IPointerClickHandler
+public class MapPinSetter : MonoBehaviour, IPointerDownHandler
 {
     public RectTransform mapContent; // 실제 지도
     public MapZoom zoom;
@@ -16,7 +16,7 @@ public class MapPinSetter : MonoBehaviour, IPointerClickHandler
     Dictionary<int, Transform> m_pins = new Dictionary<int, Transform>();
     List<int> m_deletePendingPins = new List<int>();
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         if(eventData.pointerCurrentRaycast.gameObject == gameObject
            && eventData.button == PointerEventData.InputButton.Left)
@@ -44,7 +44,6 @@ public class MapPinSetter : MonoBehaviour, IPointerClickHandler
     {
         if(m_deletePendingPins.Count > 0)
         {
-            print(m_deletePendingPins.Count);
             foreach(var hash in m_deletePendingPins)
             {
                 if (m_pins.ContainsKey(hash))
