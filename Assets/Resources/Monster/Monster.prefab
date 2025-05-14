@@ -189,11 +189,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0560b6200f84b494090e01cbb3f1cc52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mtype: 0
+  MType: 0
   moveSpeed: 2
   maxidleDuration: 4
   minMoveLength: 1
   maxMoveLength: 3
+  respawn: 1
+  respawnPointIndex: 0
 --- !u!212 &1232787246412838644
 SpriteRenderer:
   m_ObjectHideFlags: 0
