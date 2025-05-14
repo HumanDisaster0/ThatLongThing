@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class RedZone : MonoBehaviour
 {
+    [Header("게임매니저한테 보낼 메시지")]
+    [SerializeField] List<string> messages;
+
+    GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null)
         {
-            Destroy(collision.gameObject);
+            foreach (var message in messages)
+                gameManager.SendMessage(message);
         }
     }
 }
