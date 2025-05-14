@@ -16,14 +16,14 @@ public class TrexTrigger : MonoBehaviour
             case TriggerAction.Activate:
                 if (!targetMonster.gameObject.activeSelf)
                 {
-                    targetMonster.ActivateChase();
+                    //targetMonster.ActivateChase();
                 }
                 break;
 
             case TriggerAction.Deactivate:
                 if (targetMonster != null && targetMonster.gameObject.activeSelf)
                 {
-                    targetMonster.DeactivateChase();
+                    //targetMonster.DeactivateChase();
                 }
                 break;
         }
