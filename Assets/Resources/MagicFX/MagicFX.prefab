@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8139029426293385355}
   - component: {fileID: 3046659602160658378}
-  m_Layer: 0
+  - component: {fileID: 4762810071408459547}
+  m_Layer: 5
   m_Name: MagicFX
-  m_TagString: Untagged
+  m_TagString: MagicFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,6 +110,41 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!58 &4762810071408459547
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441009921034198154}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &2705181459640400680
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7548075708605035283}
   - component: {fileID: 7292197090090548971}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FX2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +184,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2705181459640400680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -203,7 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 127975045213331621}
   - component: {fileID: 1617249321910895883}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FX1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +268,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183348639767094054}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
