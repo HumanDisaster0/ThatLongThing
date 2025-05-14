@@ -19,7 +19,7 @@ public class RedZone : MonoBehaviour
         if (collision != null)
         {
             foreach (var message in messages)
-                gameManager.SendMessage(message);
+                gameManager.SendMessage(message, collision.gameObject.name);
         }
     }
 }

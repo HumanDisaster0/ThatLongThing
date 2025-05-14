@@ -22,9 +22,12 @@ public class GameManager : MonoBehaviour
         playerInitPos = player.transform.position;
     }
 
-    void Respawn()
+    void Respawn(string _name)
     {
-        player.GetComponent<PlayerController>().SetVelocity(Vector2.zero);
-        player.transform.position = playerInitPos;
+        if(_name == "Player")
+        {
+            player.GetComponent<PlayerController>().SetVelocity(Vector2.zero);
+            player.transform.position = playerInitPos;
+        }
     }
 }

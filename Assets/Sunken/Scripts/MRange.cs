@@ -7,6 +7,13 @@ public class MRange : MonoBehaviour
     [Header("움직임 범위설정")]
     public float minRangeX, maxRangeX;
 
+    public float GetRandomPosX()
+    {
+        float pickpos = transform.position.x + Random.Range(minRangeX, maxRangeX);
+
+        return pickpos;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

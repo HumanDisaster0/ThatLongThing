@@ -26,27 +26,28 @@ public class MMove : MonoBehaviour
     [SerializeField] float maxidleDuration = 4f;
 
     private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
-    private AnimatorController animCon;
+    private SpriteRenderer sr;
+    private Animator animCon;
     private MRange range;
-    private MStatus currStatus = MStatus.idle;
-    private MStatus prevStatus = MStatus.end;
+    [SerializeField] private MStatus currStatus = MStatus.idle;
+    [SerializeField] private MStatus prevStatus = MStatus.end;
 
-    private float idleTime = 0f;
-    private float destX = 0f;
+    [SerializeField] private float idleTime = 0f;
+    [SerializeField] private float destX = 0f;
+    [SerializeField] private float timer = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        sr = GetComponent<SpriteRenderer>();
         range = GetComponentInParent<MRange>();
-        animCon = GetComponent<AnimatorController>();
+        animCon = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
         CheckStatus();
-
+        MoveEnemy();
         //timer += Time.fixedDeltaTime;
 
         //if (timer >= patrolDuration)
@@ -60,6 +61,33 @@ public class MMove : MonoBehaviour
         //rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
     }
 
+    private void MoveEnemy()
+    {
+        switch(currStatus)
+        {
+            case MStatus.idle:
+                timer += Time.fixedDeltaTime;
+                if (timer > idleTime)
+                {
+                    timer = 0f;
+                    currStatus = MStatus.move;
+                }
+                break;
+            case MStatus.move:
+                float dir = transform.position.x < destX ? 1f : -1f;
+                rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
+
+                if (Mathf.Abs(transform.position.x - destX) < 0.1f)
+                    currStatus = MStatus.idle;
+                break;
+            case MStatus.die:
+                break;
+            default:
+                currStatus = MStatus.idle;
+                break;
+        }
+    }
+
     private void CheckStatus()
     {
         if(currStatus != prevStatus)
@@ -69,25 +97,36 @@ public class MMove : MonoBehaviour
                 case MStatus.idle:
                     idleTime = UnityEngine.Random.Range(maxidleDuration / 2, maxidleDuration);
                     rb.velocity = Vector2.zero;
-
+                    animCon.SetBool("isWalking" , false);
                     break;
                 case MStatus.move:
-                    MoveFunc();
+                    destX = range.GetRandomPosX();
+                    float dir = transform.position.x < destX ? 1f : -1f;
+                    FlipSprite(dir > 0f ? true : false);
+                    animCon.SetBool("isWalking", true);
                     break;
                 case MStatus.die:
-                    DieFunc();
+                    rb.velocity = Vector2.zero;
+                    animCon.SetBool("isDead", true);
+                    break;
+                default:
+                    currStatus = MStatus.idle;
                     break;
             }
+            prevStatus = currStatus;
         }
     }
 
-    private void MoveFunc()
+    void FlipSprite(bool flag)
     {
-        throw new NotImplementedException();
+        sr.flipX = flag;
+        Transform ct = transform.GetChild(1);
+        ct.localScale = new Vector3(ct.localScale.x * -1f, ct.localScale.y, ct.localScale.z);
     }
-
-    private void DieFunc()
+    public void SetStatus(MStatus _stat)
     {
-        throw new NotImplementedException();
+        currStatus = _stat;
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        Destroy(this, 3.0f);
     }
 }
