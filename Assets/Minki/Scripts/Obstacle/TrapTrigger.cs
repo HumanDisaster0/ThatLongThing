@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class TrapTrigger : MonoBehaviour
@@ -22,12 +23,14 @@ public class TrapTrigger : MonoBehaviour
     public UnityEvent<GameObject> OnStartTrigger;
     public UnityEvent OnResetTrigger;
 
-    BoxCollider2D m_col;
+    Collider2D m_col;
     bool m_isActiveObstacle;
 
     void Start()
     {
-        m_col = GetComponent<BoxCollider2D>();   
+        m_col = GetComponent<BoxCollider2D>();
+        if (m_col == null)
+            m_col = GetComponent<TilemapCollider2D>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
