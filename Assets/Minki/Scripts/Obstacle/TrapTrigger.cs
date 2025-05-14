@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(BoxCollider2D))]
 public class TrapTrigger : MonoBehaviour
 {
     [Header("상호작용할 레이어")]
