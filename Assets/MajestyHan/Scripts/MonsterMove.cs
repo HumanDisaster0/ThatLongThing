@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonsterMove : MonoBehaviour
+public class Move : MonoBehaviour
 {
     [Header("이동속도")]
     public float moveSpeed = 2f;

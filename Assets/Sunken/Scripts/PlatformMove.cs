@@ -8,6 +8,7 @@ public class PlatformMove : MonoBehaviour
 {
     [SerializeField] List<Transform> wayPoints;
     [SerializeField] float moveSpeed = 1.0f;
+    [SerializeField] float waitTime = 1.0f;
     [SerializeField] bool loop = true;
     [SerializeField] bool move = false;
 
@@ -74,6 +75,11 @@ public class PlatformMove : MonoBehaviour
         }
         else
             return false;
+    }
+
+    IEnumerator Waiting(float time)
+    {
+        yield return new WaitForSeconds(time);
     }
 
     private void OnDrawGizmosSelected()
