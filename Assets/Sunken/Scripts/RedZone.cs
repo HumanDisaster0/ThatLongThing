@@ -23,7 +23,9 @@ public class RedZone : MonoBehaviour
         }
         else if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.gameObject.GetComponent<MMove>().SetStatus(MStatus.die);
+            var mm = collision.gameObject.GetComponent<MMove>();
+
+            mm.SetStatus(MStatus.die);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using UnityEditor.Animations;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum MStatus
@@ -26,6 +26,7 @@ public class MMove : MonoBehaviour
     [Header("몬스터옵션")]
     [SerializeField] MonsterType MType = 0;
     [SerializeField] float moveSpeed = 2f;
+    [SerializeField] float jumpForce = 15f;
     [SerializeField] float maxidleDuration = 4f;
     [SerializeField] float minMoveLength = 1f;
     [SerializeField] float maxMoveLength = 3f;
@@ -45,6 +46,7 @@ public class MMove : MonoBehaviour
     private float idleTime = 0f;
     private float destX = 0f;
     private float timer = 0f;
+    [SerializeField] private bool isGrounded = true;
     #endregion
 
     private void OnValidate()
@@ -82,6 +84,16 @@ public class MMove : MonoBehaviour
     {
         CheckStatus();
         MoveEnemy();
+        //GetGrounded();
+    }
+
+    private void GetGrounded()
+    {
+        CapsuleCollider2D m_col = GetComponent<CapsuleCollider2D>();
+
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f, m_col.size.y * 0.5f), 0f, Vector2.down);
+        if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            isGrounded = true;
     }
 
     private void MoveEnemy()
@@ -100,15 +112,40 @@ public class MMove : MonoBehaviour
                 float dir = transform.position.x < destX ? 1f : -1f;
                 rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
 
+                Vector2 rdir = sr.flipX ? Vector2.right : Vector2.left;
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, rdir, 0.6f, LayerMask.GetMask("Ground"));
+
+                if (hit.collider != null)
+                {
+                    //Jump();
+                    range.SetRange(hit.point, this.gameObject);
+                    currStatus = MStatus.idle;
+                }
+
                 if (Mathf.Abs(transform.position.x - destX) < 0.1f)
                     currStatus = MStatus.idle;
                 break;
             case MStatus.die:
+                timer += Time.fixedDeltaTime;
+                if (timer > 3.0f)
+                {
+                    timer = 0f;
+                    SetActivision();
+                }
                 break;
             default:
                 currStatus = MStatus.idle;
                 break;
         }
+    }
+
+    private void Jump()
+    {
+        if(isGrounded)
+        {
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            isGrounded = false;
+        }  
     }
 
     private void CheckStatus()
@@ -123,12 +160,16 @@ public class MMove : MonoBehaviour
                     animCon.SetBool("isWalking" , false);
                     break;
                 case MStatus.move:
+
+                    // TODO :: 이거 문제많음
                     do
                     {
                         destX = range.GetRandomPosX();
                         //Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
                     }
                     while (MathF.Abs(transform.position.x - destX) <= minMoveLength || MathF.Abs(transform.position.x - destX) >= maxMoveLength);
+                    //
+
                     float dir = transform.position.x < destX ? 1f : -1f;
                     FlipSprite(dir > 0f ? true : false);
                     animCon.SetBool("isWalking", true);
@@ -138,7 +179,7 @@ public class MMove : MonoBehaviour
                     rb.simulated = false;
                     GetComponent<CapsuleCollider2D>().enabled = false;
                     animCon.SetBool("isDead", true);
-                    StartCoroutine(SetActivision(3.0f));
+                    //StartCoroutine(SetActivision(3.0f));
                     break;
                 default:
                     currStatus = MStatus.idle;
@@ -148,14 +189,21 @@ public class MMove : MonoBehaviour
         }
     }
 
-    IEnumerator SetActivision(float _time)
+    void SetActivision()
     {
-        yield return new WaitForSeconds(_time);
-        
         manager.MonsterRespawn(this.gameObject, respawnPointIndex);
-        if(respawn)
+        if (respawn)
             Respawn();
     }
+
+    //IEnumerator SetActivision(float _time)
+    //{
+    //    yield return new WaitForSeconds(_time);
+
+    //    manager.MonsterRespawn(this.gameObject, respawnPointIndex);
+    //    if(respawn)
+    //        Respawn();
+    //}
 
     void FlipSprite(bool flag)
     {
@@ -182,6 +230,7 @@ public class MMove : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
             transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>().enabled = true;
 
+        range.InitRange();
         SetStatus(MStatus.move);
     }
 }

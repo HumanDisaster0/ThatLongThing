@@ -7,6 +7,20 @@ public class MRange : MonoBehaviour
     [Header("움직임 범위설정")]
     public float minRangeX, maxRangeX;
 
+    private float initMinX, initMaxX;
+
+    private void Start()
+    {
+        initMinX = minRangeX;
+        initMaxX = maxRangeX;
+    }
+
+    public void InitRange()
+    {
+        minRangeX = initMinX;
+        maxRangeX = initMaxX;
+    }
+
     public float GetRandomPosX()
     {
         float pickpos = transform.position.x + Random.Range(minRangeX, maxRangeX);
@@ -14,11 +28,14 @@ public class MRange : MonoBehaviour
         return pickpos;
     }
 
-    public void SetRange(Vector2 _pos)
+    public void SetRange(Vector2 _pos, GameObject _obj)
     {
-        if (_pos.x > transform.position.x - minRangeX && _pos.x < transform.position.x + maxRangeX)
+        if (_pos.x > transform.position.x + minRangeX && _pos.x < transform.position.x + maxRangeX)
         {
-
+            if(_obj.transform.position.x < _pos.x)
+                maxRangeX = _obj.transform.position.x - transform.position.x;
+            else if (_obj.transform.position.x > _pos.x)
+                minRangeX = _obj.transform.position.x - transform.position.x;
         }
     }
 

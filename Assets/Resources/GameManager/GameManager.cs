@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,8 +26,9 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
-        player.GetComponent<PlayerController>().SetVelocity(Vector2.zero);
-        player.transform.position = playerInitPos;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //player.GetComponent<PlayerController>().SetVelocity(Vector2.zero);
+        //player.transform.position = playerInitPos;
     }
 
     public void MonsterRespawn(GameObject _obj, int _spawnerIdx)

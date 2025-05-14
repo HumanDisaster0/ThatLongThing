@@ -191,11 +191,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MType: 0
   moveSpeed: 2
+  jumpForce: 2
   maxidleDuration: 4
   minMoveLength: 1
   maxMoveLength: 3
   respawn: 1
   respawnPointIndex: 0
+  isGrounded: 1
 --- !u!212 &1232787246412838644
 SpriteRenderer:
   m_ObjectHideFlags: 0
