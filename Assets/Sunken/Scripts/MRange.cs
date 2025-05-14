@@ -14,6 +14,14 @@ public class MRange : MonoBehaviour
         return pickpos;
     }
 
+    public void SetRange(Vector2 _pos)
+    {
+        if (_pos.x > transform.position.x - minRangeX && _pos.x < transform.position.x + maxRangeX)
+        {
+
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

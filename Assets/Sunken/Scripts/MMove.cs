@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -23,11 +24,13 @@ public class MMove : MonoBehaviour
 {
     #region Serialized Private Member
     [Header("몬스터옵션")]
-    [SerializeField] MonsterType Mtype = 0;
+    [SerializeField] MonsterType MType = 0;
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float maxidleDuration = 4f;
     [SerializeField] float minMoveLength = 1f;
     [SerializeField] float maxMoveLength = 3f;
+    [SerializeField] bool respawn = true;
+    [SerializeField] int respawnPointIndex = 0;
     #endregion
 
     #region Private Member
@@ -37,6 +40,7 @@ public class MMove : MonoBehaviour
     private MRange range;
     private MStatus currStatus = MStatus.idle;
     private MStatus prevStatus = MStatus.end;
+    private GameManager manager;
 
     private float idleTime = 0f;
     private float destX = 0f;
@@ -45,7 +49,7 @@ public class MMove : MonoBehaviour
 
     private void OnValidate()
     {
-        switch (Mtype)
+        switch (MType)
         {
             default:
             case MonsterType.Mole:
@@ -71,6 +75,7 @@ public class MMove : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         range = GetComponentInParent<MRange>();
         animCon = GetComponent<Animator>();
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void FixedUpdate()
@@ -133,7 +138,7 @@ public class MMove : MonoBehaviour
                     rb.simulated = false;
                     GetComponent<CapsuleCollider2D>().enabled = false;
                     animCon.SetBool("isDead", true);
-                    Destroy(transform.parent?.gameObject, 3.0f);
+                    StartCoroutine(SetActivision(3.0f));
                     break;
                 default:
                     currStatus = MStatus.idle;
@@ -141,6 +146,15 @@ public class MMove : MonoBehaviour
             }
             prevStatus = currStatus;
         }
+    }
+
+    IEnumerator SetActivision(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        
+        manager.MonsterRespawn(this.gameObject, respawnPointIndex);
+        if(respawn)
+            Respawn();
     }
 
     void FlipSprite(bool flag)
@@ -156,5 +170,18 @@ public class MMove : MonoBehaviour
     public void SetStatus(MStatus _stat)
     {
         currStatus = _stat;
+    }
+
+    public void Respawn()
+    {
+        gameObject.SetActive(true);
+        rb.simulated = true;
+        GetComponent<CapsuleCollider2D>().enabled = true;
+        animCon.SetBool("isDead", false);
+
+        for (int i = 0; i < transform.childCount; i++)
+            transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>().enabled = true;
+
+        SetStatus(MStatus.move);
     }
 }

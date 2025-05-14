@@ -21,5 +21,9 @@ public class RedZone : MonoBehaviour
             foreach (var message in messages)
                 gameManager.SendMessage(message);
         }
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            collision.gameObject.GetComponent<MMove>().SetStatus(MStatus.die);
+        }
     }
 }
