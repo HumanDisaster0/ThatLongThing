@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class MMove : MonoBehaviour
 {
     #region Serialized Private Member
     [Header("몬스터옵션")]
-    [SerializeField] MonsterType type = 0;
+    [SerializeField] MonsterType Mtype = 0;
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float maxidleDuration = 4f;
     [SerializeField] float minMoveLength = 1f;
@@ -41,6 +42,28 @@ public class MMove : MonoBehaviour
     private float destX = 0f;
     private float timer = 0f;
     #endregion
+
+    private void OnValidate()
+    {
+        switch (Mtype)
+        {
+            default:
+            case MonsterType.Mole:
+                GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
+                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy");
+                for(int i = 0; i < transform.childCount; i++)
+                    transform.GetChild(i).gameObject.SetActive(true);
+                break;
+            case MonsterType.Rabbit:
+                GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
+                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player");
+                for (int i = 0; i < transform.childCount; i++)
+                    transform.GetChild(i).gameObject.SetActive(false);
+                break;
+        }
+    }
 
     void Start()
     {
@@ -90,15 +113,15 @@ public class MMove : MonoBehaviour
             switch (currStatus)
             {
                 case MStatus.idle:
-                    idleTime = UnityEngine.Random.Range(maxidleDuration / 2, maxidleDuration);
-                    rb.velocity = Vector2.zero;
+                    idleTime = UnityEngine.Random.Range(maxidleDuration / 2f, maxidleDuration);
+                    rb.velocity = new Vector2(0f, rb.velocity.y);
                     animCon.SetBool("isWalking" , false);
                     break;
                 case MStatus.move:
                     do
                     {
                         destX = range.GetRandomPosX();
-                        Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
+                        //Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
                     }
                     while (MathF.Abs(transform.position.x - destX) <= minMoveLength || MathF.Abs(transform.position.x - destX) >= maxMoveLength);
                     float dir = transform.position.x < destX ? 1f : -1f;

@@ -16,10 +16,10 @@ public class RedZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null)
+        if (collision.name == "Player")
         {
             foreach (var message in messages)
-                gameManager.SendMessage(message, collision.gameObject.name);
+                gameManager.SendMessage(message);
         }
     }
 }

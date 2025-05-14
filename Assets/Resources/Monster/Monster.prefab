@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3a8d4ab8b917146a7f6e4db5a8f316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRangeX: -1
-  maxRangeX: 8
+  minRangeX: -5
+  maxRangeX: 5
 --- !u!1 &8302666197114981128
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d6a0dcf648c6147997aad7f1da0f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundForce: 8
+  boundForce: 5
   move: {fileID: 2856126737364506940}
 --- !u!1 &8427567147454855343
 GameObject:
@@ -148,10 +148,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4761059282640928572}
+  - component: {fileID: 2856126737364506940}
   - component: {fileID: 1232787246412838644}
   - component: {fileID: 5018683036223728822}
   - component: {fileID: 5933618402292779222}
-  - component: {fileID: 2856126737364506940}
   - component: {fileID: 1099171925066077516}
   m_Layer: 7
   m_Name: MonsterBody
@@ -177,6 +177,23 @@ Transform:
   - {fileID: 1227036396781399836}
   m_Father: {fileID: 4538951114722322923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2856126737364506940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8427567147454855343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0560b6200f84b494090e01cbb3f1cc52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mtype: 0
+  moveSpeed: 2
+  maxidleDuration: 4
+  minMoveLength: 1
+  maxMoveLength: 3
 --- !u!212 &1232787246412838644
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -291,23 +308,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.05}
   m_Size: {x: 0.7, y: 0.9}
   m_Direction: 0
---- !u!114 &2856126737364506940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8427567147454855343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0560b6200f84b494090e01cbb3f1cc52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  moveSpeed: 2
-  maxidleDuration: 4
-  minMoveLength: 1
-  maxMoveLength: 3
 --- !u!95 &1099171925066077516
 Animator:
   serializedVersion: 5
@@ -339,6 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1227036396781399836}
   - component: {fileID: 5987544798065117954}
+  - component: {fileID: 942276630329529974}
   m_Layer: 7
   m_Name: DamageCollider
   m_TagString: Untagged
@@ -406,3 +407,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &942276630329529974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693328599826124787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc92ad0015c4e44c86b4d0662d17d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messages:
+  - Respawn
