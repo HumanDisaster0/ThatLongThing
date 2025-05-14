@@ -39,7 +39,9 @@ public class MinimapPlayerPos : MonoBehaviour
         if (Player == null)
         {
             Player = GameObject.FindWithTag("Player").transform;
-        }            
+        }
+
+        m_rect.anchoredPosition = new Vector2(m_pivotX + Player.position.x * tileSize - (m_rect.sizeDelta.x * 0.5f), m_pivotY * -1f - (m_maxY * tileSize) + (Player.position.y * tileSize) + (m_rect.sizeDelta.y * 0.5f));
     }
 
     // Update is called once per frame
