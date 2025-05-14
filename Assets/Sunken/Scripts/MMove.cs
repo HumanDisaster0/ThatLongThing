@@ -20,21 +20,27 @@ public enum MonsterType
 
 public class MMove : MonoBehaviour
 {
+    #region Serialized Private Member
     [Header("몬스터옵션")]
     [SerializeField] MonsterType type = 0;
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float maxidleDuration = 4f;
+    [SerializeField] float minMoveLength = 1f;
+    [SerializeField] float maxMoveLength = 3f;
+    #endregion
 
+    #region Private Member
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator animCon;
     private MRange range;
-    [SerializeField] private MStatus currStatus = MStatus.idle;
-    [SerializeField] private MStatus prevStatus = MStatus.end;
+    private MStatus currStatus = MStatus.idle;
+    private MStatus prevStatus = MStatus.end;
 
-    [SerializeField] private float idleTime = 0f;
-    [SerializeField] private float destX = 0f;
-    [SerializeField] private float timer = 0f;
+    private float idleTime = 0f;
+    private float destX = 0f;
+    private float timer = 0f;
+    #endregion
 
     void Start()
     {
@@ -48,17 +54,6 @@ public class MMove : MonoBehaviour
     {
         CheckStatus();
         MoveEnemy();
-        //timer += Time.fixedDeltaTime;
-
-        //if (timer >= patrolDuration)
-        //{
-        //    direction *= -1;
-        //    timer = 0f;
-
-        //    spriteRenderer.flipX = (direction < 0);
-        //}
-
-        //rb.velocity = new Vector2(moveSpeed * direction, rb.velocity.y);
     }
 
     private void MoveEnemy()
@@ -100,14 +95,22 @@ public class MMove : MonoBehaviour
                     animCon.SetBool("isWalking" , false);
                     break;
                 case MStatus.move:
-                    destX = range.GetRandomPosX();
+                    do
+                    {
+                        destX = range.GetRandomPosX();
+                        Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
+                    }
+                    while (MathF.Abs(transform.position.x - destX) <= minMoveLength || MathF.Abs(transform.position.x - destX) >= maxMoveLength);
                     float dir = transform.position.x < destX ? 1f : -1f;
                     FlipSprite(dir > 0f ? true : false);
                     animCon.SetBool("isWalking", true);
                     break;
                 case MStatus.die:
                     rb.velocity = Vector2.zero;
+                    rb.simulated = false;
+                    GetComponent<CapsuleCollider2D>().enabled = false;
                     animCon.SetBool("isDead", true);
+                    Destroy(transform.parent?.gameObject, 3.0f);
                     break;
                 default:
                     currStatus = MStatus.idle;
@@ -119,14 +122,16 @@ public class MMove : MonoBehaviour
 
     void FlipSprite(bool flag)
     {
+        if(flag != sr.flipX)
+        {
+            Transform ct = transform.GetChild(1);
+            ct.localScale = new Vector3(ct.localScale.x * -1f, ct.localScale.y, ct.localScale.z);
+        }
+
         sr.flipX = flag;
-        Transform ct = transform.GetChild(1);
-        ct.localScale = new Vector3(ct.localScale.x * -1f, ct.localScale.y, ct.localScale.z);
     }
     public void SetStatus(MStatus _stat)
     {
         currStatus = _stat;
-        GetComponent<CapsuleCollider2D>().enabled = false;
-        Destroy(this, 3.0f);
     }
 }
