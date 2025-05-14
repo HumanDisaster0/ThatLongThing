@@ -11,7 +11,6 @@ public enum FootholdType
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class FootholdMover : MonoBehaviour
 {
     [Header("е╦ют")]
