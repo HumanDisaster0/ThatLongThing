@@ -15,7 +15,7 @@ public class ParallaxBG : MonoBehaviour
     public Vector2 offset = Vector2.zero;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         cam = Camera.main;
         startPos = new Vector2(cam.transform.position.x, cam.transform.position.y) + offset;

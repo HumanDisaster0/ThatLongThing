@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footholdType: 1
-  moveSpeed: 1
+  moveSpeed: 3
   acceleration: 1
 --- !u!61 &399745737
 BoxCollider2D:
@@ -996,7 +996,7 @@ Transform:
   m_GameObject: {fileID: 440851989}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: -10}
+  m_LocalPosition: {x: 9, y: 1.75, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1019,8 +1019,6 @@ MonoBehaviour:
   lerpMotionSpeed: 3
   minLerpSpeed: 2
   maxLerpSpeed: 4
-  currentPos: {x: 0, y: 0, z: 0}
-  targetPos: {x: 0, y: 0, z: 0}
   worldRect:
     serializedVersion: 2
     x: -1
@@ -5044,7 +5042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1104949664942103046, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 1104949664942103046, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
       propertyPath: m_LocalPosition.z
