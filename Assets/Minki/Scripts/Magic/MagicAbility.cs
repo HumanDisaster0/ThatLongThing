@@ -6,7 +6,8 @@ using UnityEngine;
 public class MagicAbility : MonoBehaviour
 {
     [Header("Component")]
-    public SpriteRenderer sprite;
+    public SpriteRenderer magicSprite;
+    public SpriteRenderer BGSprite;
 
     [Header("Ability Property")]
     public float radius = 6.0f;
@@ -18,6 +19,8 @@ public class MagicAbility : MonoBehaviour
     public LayerMask FXLayer = (1 << 5);
     public float MagicSpriteSize = 8.0f;
 
+    public Color BGSpriteColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
+
     Dictionary<int, MagicFX> m_foundFX = new Dictionary<int, MagicFX>();
     HashSet<int> m_currentFX = new HashSet<int>();
     List<int> m_keysToRemove = new List<int>();
@@ -25,6 +28,9 @@ public class MagicAbility : MonoBehaviour
     float m_useTimer = 0.0f;
     bool m_useAbility = false;
     bool m_firstFound;
+    Color m_t1Color = new Color(0, 0, 0, 0);
+    Color m_t2Color = new Color(0, 0, 0, 0);
+    float m_bgTimer;
 
     // Update is called once per frame
     void Update()
@@ -34,16 +40,22 @@ public class MagicAbility : MonoBehaviour
         {
             m_useAbility = true;
             m_firstFound = true;
+            m_t1Color = new Color(0,0,0,0);
+            m_t2Color = BGSpriteColor;
+            m_bgTimer = 0.0f;
         }
 
+        m_bgTimer += Time.deltaTime;
+        BGSprite.color = Color.Lerp(m_t1Color, m_t2Color, m_bgTimer / 0.25f);
+
         //능력 사용중일 때
-        if(m_useAbility)
+        if (m_useAbility)
         {
-            sprite.enabled = true;
+            magicSprite.enabled = true;
             m_useTimer += Time.deltaTime;
 
-            sprite.transform.localScale = Vector3.one * radius * MagicSpriteSize;
-            sprite.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
+            magicSprite.transform.localScale = Vector3.one * radius * MagicSpriteSize;
+            magicSprite.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
 
             var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, m_colliders,FXLayer);
 
@@ -65,6 +77,7 @@ public class MagicAbility : MonoBehaviour
                     if (!m_foundFX.ContainsKey(fx.GetHashCode()))
                     {
                         m_foundFX[fx.GetHashCode()] = fx;
+                        fx.RestartAnimation();
                     }
                         
 
@@ -103,7 +116,10 @@ public class MagicAbility : MonoBehaviour
             {
                 m_useAbility = false;
                 m_useTimer = 0.0f;
-                sprite.enabled = false;
+                magicSprite.enabled = false;
+                m_t1Color = BGSpriteColor;
+                m_t2Color = new Color(0, 0, 0, 0);
+                m_bgTimer = 0.0f;
             }    
         }
         else
