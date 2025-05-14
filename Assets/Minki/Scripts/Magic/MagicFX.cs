@@ -27,7 +27,7 @@ public class MagicFX : MonoBehaviour
     void Start()
     {
         //파동 간격만큼 시간 벌여놓기
-        m_fx2Timer -= fxTimerDiff;
+        m_fx2Timer = -fxTimerDiff;
     }
 
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class MagicFX : MonoBehaviour
     public void RestartAnimation()
     {
         m_fx1Timer = 0.0f;
-        m_fx2Timer -= fxTimerDiff;
+        m_fx2Timer = -fxTimerDiff;
         CalcAnimation();
     }
 
