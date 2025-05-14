@@ -36,7 +36,18 @@ public class MagicFX : MonoBehaviour
         var deltaTime = Time.deltaTime;
         m_fx1Timer += deltaTime;
         m_fx2Timer += deltaTime;
+        CalcAnimation();
+    }
 
+    public void RestartAnimation()
+    {
+        m_fx1Timer = 0.0f;
+        m_fx2Timer -= fxTimerDiff;
+        CalcAnimation();
+    }
+
+    void CalcAnimation()
+    {
         var maximumTime = FXCurve[FXCurve.length - 1].time;
 
         if (m_fx1Timer > maximumTime)
