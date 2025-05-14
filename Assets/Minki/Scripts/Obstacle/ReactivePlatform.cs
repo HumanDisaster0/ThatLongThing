@@ -18,12 +18,16 @@ public class ReactivePlatform : MonoBehaviour
     public SpriteRenderer sprite;
     public TilemapRenderer tilemap;
 
-    BoxCollider2D m_col;
+    Collider2D m_col;
     bool m_isActive = false;
 
     void Start()
     {
         m_col = GetComponent<BoxCollider2D>();
+
+        if (m_col == null)
+            m_col = GetComponent<TilemapCollider2D>();
+
         m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
         if(sprite)
             sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
