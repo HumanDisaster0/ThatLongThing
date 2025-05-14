@@ -13,7 +13,13 @@ public class RightClickScrollRect : ScrollRect
             base.OnInitializePotentialDrag(eventData);
             eventData.button = PointerEventData.InputButton.Middle;
         }
-            
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            eventData.button = PointerEventData.InputButton.Left;
+            base.OnInitializePotentialDrag(eventData);
+            eventData.button = PointerEventData.InputButton.Right;
+        }
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
@@ -23,6 +29,13 @@ public class RightClickScrollRect : ScrollRect
             eventData.button = PointerEventData.InputButton.Left;
             base.OnBeginDrag(eventData);
             eventData.button = PointerEventData.InputButton.Middle;
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            eventData.button = PointerEventData.InputButton.Left;
+            base.OnBeginDrag(eventData);
+            eventData.button = PointerEventData.InputButton.Right;
         }
     }
 
@@ -34,6 +47,13 @@ public class RightClickScrollRect : ScrollRect
             base.OnDrag(eventData);
             eventData.button = PointerEventData.InputButton.Middle;
         }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            eventData.button = PointerEventData.InputButton.Left;
+            base.OnDrag(eventData);
+            eventData.button = PointerEventData.InputButton.Right;
+        }
     }
 
     public override void OnEndDrag(PointerEventData eventData)
@@ -43,6 +63,13 @@ public class RightClickScrollRect : ScrollRect
             eventData.button = PointerEventData.InputButton.Left;
             base.OnEndDrag(eventData);
             eventData.button = PointerEventData.InputButton.Middle;
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            eventData.button = PointerEventData.InputButton.Left;
+            base.OnEndDrag(eventData);
+            eventData.button = PointerEventData.InputButton.Right;
         }
     }
 }
