@@ -16,7 +16,7 @@ public class ReactivePlatform : MonoBehaviour
 
     [Header("참조 컴포넌트")]
     public SpriteRenderer sprite;
-    public TilemapRenderer tilemap;
+    public TilemapPreRenderer tilemap;
 
     Collider2D m_col;
     bool m_isActive = false;
