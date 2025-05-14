@@ -1493,6 +1493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc92ad0015c4e44c86b4d0662d17d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messages: []
 --- !u!1 &980313918
 GameObject:
   m_ObjectHideFlags: 0
@@ -5348,11 +5349,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2648827936350509471, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.7
+      value: 24.11
       objectReference: {fileID: 0}
     - target: {fileID: 2648827936350509471, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.29
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 2648827936350509471, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5386,6 +5387,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4540320809155838504, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 8f4c602dfb25cf64785f43288b987b09, type: 2}
     - target: {fileID: 8940283926650466649, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_Name
       value: SuperTrex
@@ -5970,6 +5975,7 @@ MonoBehaviour:
   - {fileID: 1006239094044281504}
   - {fileID: 7237259710390460607}
   moveSpeed: 3
+  waitTime: 1
   loop: 1
   move: 1
 --- !u!1660057539 &9223372036854775807
