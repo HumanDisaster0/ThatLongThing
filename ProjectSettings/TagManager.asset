@@ -7,6 +7,7 @@ TagManager:
   - MovingPlatform
   - MagicFX
   - JumpNode
+  - TrapInfo
   layers:
   - Default
   - TransparentFX

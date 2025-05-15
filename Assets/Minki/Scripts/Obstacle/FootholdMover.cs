@@ -51,7 +51,7 @@ public class FootholdMover : MonoBehaviour
                     if (acceleration)
                         m_rb.velocity += Vector2.up * moveSpeed * Time.deltaTime;
                     else
-                        m_rb.velocity = Vector2.up * moveSpeed;
+                        m_rb.velocity = Vector2.right * moveSpeed;
                     break;
             }
         }
