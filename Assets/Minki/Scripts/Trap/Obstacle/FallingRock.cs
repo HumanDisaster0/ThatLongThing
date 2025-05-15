@@ -60,8 +60,19 @@ public class FallingRock : MonoBehaviour
         m_rb.bodyType = RigidbodyType2D.Static;
     }
 
+    public void TrapOn()
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        m_trapOff = false;
+    }
+
     public void TrapOff()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         m_trapOff = true;
     }
 }

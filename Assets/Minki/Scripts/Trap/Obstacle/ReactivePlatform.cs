@@ -23,6 +23,8 @@ public class ReactivePlatform : MonoBehaviour
     bool m_isActive = false;
     bool m_trapOff = false;
 
+    public bool TrapIsOff => m_trapOff;
+
     void Awake()
     {
         m_col = GetComponent<BoxCollider2D>();
@@ -30,11 +32,7 @@ public class ReactivePlatform : MonoBehaviour
         if (m_col == null)
             m_col = GetComponent<TilemapCollider2D>();
 
-        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
-        if(sprite)
-            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
-        if(tilemap)
-            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
+        SetPlatformOption();
     }
 
     public void ActivePlatform()
@@ -66,33 +64,40 @@ public class ReactivePlatform : MonoBehaviour
             return;
 
         m_isActive = false;
-        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
-        if (sprite)
-            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
-        if (tilemap)
-            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
+        SetPlatformOption();
     }
 
     public void TrapOn()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+        m_trapOff = false;
+
         var rand = Random.Range(0, 2);
 
         type = rand == 0 ? ReactivePlatformType.Show : ReactivePlatformType.Hide;
-
-        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
-        if (sprite)
-            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
-        if (tilemap)
-            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
+        SetPlatformOption();
     }
 
     public void TrapOff()
     {
-        if(sprite)
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        if (sprite)
             sprite.enabled = false;
         if (tilemap)
             tilemap.enabled = false;
         m_trapOff = true;
         m_col.isTrigger = true;
+    }
+
+    public void SetPlatformOption()
+    {
+        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
+        if (sprite)
+            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
+        if (tilemap)
+            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
     }
 }

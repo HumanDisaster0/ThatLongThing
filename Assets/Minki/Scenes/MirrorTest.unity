@@ -199,7 +199,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1566620427}
+  m_Father: {fileID: 673170050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &570153
 MonoBehaviour:
@@ -242,10 +242,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1126817043}
+        m_TargetAssemblyTypeName: ReactivePlatform, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   turnOffSet:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 314896783}
+        m_TargetAssemblyTypeName: ReactivePlatform, Assembly-CSharp
+        m_MethodName: TrapOff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1126817043}
         m_TargetAssemblyTypeName: ReactivePlatform, Assembly-CSharp
         m_MethodName: TrapOff
         m_Mode: 1
@@ -817,7 +841,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1566620427}
+  m_Father: {fileID: 673170050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &211890810
 MonoBehaviour:
@@ -834,10 +858,46 @@ MonoBehaviour:
   trapInfo: {fileID: 211890807}
   turnOnSet:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1918869444}
+        m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 490835166}
+        m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   turnOffSet:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1918869444}
+        m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
+        m_MethodName: TrapOff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 490835166}
         m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
         m_MethodName: TrapOff
@@ -1246,7 +1306,7 @@ GameObject:
   - component: {fileID: 316486523}
   - component: {fileID: 316486526}
   m_Layer: 0
-  m_Name: StoneTrapInfo
+  m_Name: RockTrapInfo
   m_TagString: TrapInfo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1323,7 +1383,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1566620427}
+  m_Father: {fileID: 673170050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &316486526
 MonoBehaviour:
@@ -1340,10 +1400,46 @@ MonoBehaviour:
   trapInfo: {fileID: 316486523}
   turnOnSet:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 566826023}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1617811090}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   turnOffSet:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 566826023}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: TrapOff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1617811090}
         m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
         m_MethodName: TrapOff
@@ -2408,6 +2504,41 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1600500060}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &673170049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 673170050}
+  m_Layer: 0
+  m_Name: TrapInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &673170050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673170049}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 570152}
+  - {fileID: 1432139662}
+  - {fileID: 211890809}
+  - {fileID: 316486525}
+  m_Father: {fileID: 1486689521}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &675788897
 GameObject:
@@ -3758,7 +3889,7 @@ GameObject:
   - component: {fileID: 1126817044}
   - component: {fileID: 1126817043}
   m_Layer: 6
-  m_Name: Trap (5)
+  m_Name: ApearTrap_M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4405,7 +4536,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1566620427}
+  m_Father: {fileID: 673170050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1432139663
 MonoBehaviour:
@@ -4435,10 +4566,46 @@ MonoBehaviour:
   trapInfo: {fileID: 1432139663}
   turnOnSet:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1969727026}
+        m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 738314463}
+        m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
+        m_MethodName: TrapOn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   turnOffSet:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1969727026}
+        m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
+        m_MethodName: TrapOff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 738314463}
         m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
         m_MethodName: TrapOff
@@ -4661,6 +4828,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1151589524}
+  - {fileID: 673170050}
   - {fileID: 1566620427}
   - {fileID: 559596599}
   - {fileID: 242371094}
@@ -4815,7 +4983,7 @@ GameObject:
   - component: {fileID: 1562326143}
   - component: {fileID: 1562326146}
   m_Layer: 6
-  m_Name: StoneTrap
+  m_Name: RockTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5035,12 +5203,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 316486525}
-  - {fileID: 570152}
-  - {fileID: 211890809}
-  - {fileID: 1432139662}
-  - {fileID: 738314462}
   - {fileID: 314896782}
+  - {fileID: 738314462}
   - {fileID: 490835165}
   - {fileID: 1562326145}
   - {fileID: 1617811087}
@@ -5232,7 +5396,7 @@ GameObject:
   - component: {fileID: 1634764366}
   - component: {fileID: 1634764365}
   m_Layer: 6
-  m_Name: Trap (8)
+  m_Name: RockTrap_M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5831,7 +5995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3025722651013134d987ecd162c4a0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anomalyIdx: 4
+  anomalyIdx: 11
 --- !u!4 &1769546703
 Transform:
   m_ObjectHideFlags: 0
@@ -5992,7 +6156,7 @@ GameObject:
   - component: {fileID: 1918869444}
   - component: {fileID: 1918869443}
   m_Layer: 6
-  m_Name: Trap (7)
+  m_Name: UpTrap_M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6442,7 +6606,7 @@ GameObject:
   - component: {fileID: 1969727026}
   - component: {fileID: 1969727025}
   m_Layer: 6
-  m_Name: Trap (6)
+  m_Name: DownTrap_M
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6907,7 +7071,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_Name
-      value: FallingRock
+      value: FallingRock_M
       objectReference: {fileID: 0}
     - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_TagString

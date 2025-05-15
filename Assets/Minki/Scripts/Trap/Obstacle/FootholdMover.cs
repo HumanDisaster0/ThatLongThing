@@ -92,8 +92,19 @@ public class FootholdMover : MonoBehaviour
         m_rb.freezeRotation = false;
     }
 
+    public void TrapOn()
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        m_trapOff = false;
+    }
+
     public void TrapOff()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         m_trapOff = true;
     }
 }

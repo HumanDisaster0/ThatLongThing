@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,7 +27,7 @@ public class StageManager : MonoBehaviour
     void LoadStage(Scene scene, LoadSceneMode mode)
     {
         //이름으로 피하기
-        //if (scene.name.Contains("Stage"))
+        //if (!scene.name.Contains("Stage"))
         //    return;
 
         var result = FindObjectsByType<TrapSetter>(FindObjectsSortMode.None);
@@ -53,7 +54,7 @@ public class StageManager : MonoBehaviour
                 anomaly.Find("JujakTrapInfo").gameObject.SetActive(true);
 
                 var trap = GameObject.Find("Level").transform.Find("Normal").Find("Trap");
-                trap.Find("StoneTrapInfo").GetComponent<TrapSetter>().SpecifiedSet(false);
+                trap.Find("RockTrapInfo").GetComponent<TrapSetter>().SpecifiedSet(false);
                 break;
 
             //no.11 - 거울 속에 비친 나
@@ -61,8 +62,27 @@ public class StageManager : MonoBehaviour
                 var camCon = Camera.main.GetComponent<CameraController>();
                 camCon.isMirrored = true;
 
+                //거울 해제
                 GameObject.Find("Level").transform.Find("Mirrored").gameObject.SetActive(true);
                 GameObject.Find("StartWall").SetActive(false);
+
+                //함정 상태 동기화
+                var trapInfo = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
+
+                for (int i = 0; i < trapInfo.childCount; i++)
+                {
+                    trapInfo.GetChild(i).GetComponent<TrapSetter>().RandomSet();
+                }
+
+                var mirroredApearTrap = GameObject.Find("Level").transform.Find("Mirrored").Find("Trap").Find("ApearTrap_M").GetComponent<ReactivePlatform>();
+                var normalApearTrap = GameObject.Find("Level").transform.Find("Mirrored").Find("Trap").Find("ApearTrap").GetComponent<ReactivePlatform>();
+
+                if (!normalApearTrap.TrapIsOff)
+                {
+                    mirroredApearTrap.type = normalApearTrap.type;
+                    mirroredApearTrap.SetPlatformOption();
+                }
+
                 break;
 
             default:
