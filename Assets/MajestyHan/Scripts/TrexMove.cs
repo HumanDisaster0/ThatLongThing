@@ -4,37 +4,38 @@ public class TrexMove : MonoBehaviour
 {
     public enum MonsterState { Idle, Patrol, Chase, ReadyToJump, Jumping, Pause }
     public MonsterState state = MonsterState.Idle;
-
     private MonsterState prevState;
 
     [Header("속도 / 점프높이")]
-    public float moveSpeed = 2f;            // 이동속도
-    public float apexHeight = 3f;           // 정점 높이
+    public float moveSpeed = 2f;            // X축 이동 속도
+    public float apexHeight = 3f;           // 점프 정점 높이
+
     [Header("지속시간")]
-    public float pauseDuration = 1.0f;      // 멈칫 시간
-    public float jumpDuration = 2f;         // 점프시간
-    public float readyDuration = 0.5f;
-    
+    public float pauseDuration = 1.0f;      // 멈칫 상태 유지 시간
+    public float jumpDuration = 2f;         // 점프 이동 총 시간
+    public float readyDuration = 0.5f;      // 점프 준비 시간 (ReadyToJump 상태)
+
     public float minThinkTime = 5f;
     public float maxThinkTime = 10f;
 
-    private float thinkDuration;
+    private float thinkDuration;            // 정찰 상태의 방향 재결정 주기
 
-    private Vector3 jumpStart;
-    private Vector3? targetPosition = null; //티라노가 목표지점
+    private Vector3 jumpStart;              // 점프 시작 위치
+    private Vector3? targetPosition = null; // 추적/점프 목표 위치
 
-    bool isJumping = false;                 // 현재 점프 중 여부
+    private bool isJumping = false;         // 현재 점프 중인지 여부
 
-
+    // 컴포넌트 참조
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private Animator anim;
     private BoxCollider2D col;
-    private float pauseTimer = 0f;          // 누적할 변수들
-    private float thinkTimer = 0f;
-    public float jumpTimer = 0f;
-    private float readyTimer = 0f;
 
+    // 내부 타이머
+    private float pauseTimer = 0f;
+    private float thinkTimer = 0f;
+    private float jumpTimer = 0f;
+    private float readyTimer = 0f;
 
     void Awake()
     {
@@ -46,7 +47,7 @@ public class TrexMove : MonoBehaviour
 
     void Update()
     {
-        UpdateAnimator();
+        UpdateAnimator(); // 현재 속도 및 상태 기반 애니메이션 업데이트
 
         switch (state)
         {
@@ -55,14 +56,14 @@ public class TrexMove : MonoBehaviour
                 break;
 
             case MonsterState.Patrol:
-                DoPatrol(); // 일정 시간 후, 방향을 변경함
+                DoPatrol(); // 일정 시간마다 방향 변경 + 낙사 감지
                 break;
 
             case MonsterState.Chase:
                 if (targetPosition.HasValue)
-                    MoveTowardsTarget();
+                    MoveTowardsTarget(); // 플레이어를 향해 X축으로 이동
                 else
-                    ChangeState(MonsterState.Patrol);
+                    ChangeState(MonsterState.Patrol); // 추적 대상 없으면 순찰 복귀
                 break;
 
             case MonsterState.Pause:
@@ -73,6 +74,7 @@ public class TrexMove : MonoBehaviour
                     ChangeState(MonsterState.Patrol);
                 }
                 break;
+
             case MonsterState.ReadyToJump:
                 readyTimer += Time.deltaTime;
                 if (readyTimer > readyDuration)
@@ -83,19 +85,43 @@ public class TrexMove : MonoBehaviour
                 break;
 
             case MonsterState.Jumping:
-                DoJump();
+                DoJump(); // 선형 보간 + 포물선으로 위치 이동
                 break;
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("JumpNode"))
+        {
+            JumpNode node = other.GetComponent<JumpNode>();
+            if (node != null && node.isHorizontalJump)
+            {
+                float vx = rb.velocity.x;
+                float dir = node.GetConnectedPosition().x - transform.position.x;
 
+                bool validLeft = vx < 0 && dir < 0;
+                bool validRight = vx > 0 && dir > 0;
+
+                if (validLeft || validRight)
+                {
+                    SetTargetPosition(node.GetConnectedPosition());
+                    ChangeState(MonsterState.ReadyToJump);
+                    Debug.Log($"[TrexMove] 수평 노드 접근 감지 → {node.name} → {node.connectedNode.name}");
+                }
+            }
+        }
+    }
+
+    // 플레이어 위치를 향해 X축 방향으로만 이동
     void MoveTowardsTarget()
     {
         if (!targetPosition.HasValue) return;
 
-        Vector2 dir = (targetPosition.Value - transform.position).normalized;
-        rb.velocity = new Vector2(dir.x * moveSpeed, rb.velocity.y); //X방향으로만 추가이동
+        float dirX = Mathf.Sign(targetPosition.Value.x - transform.position.x);
+        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
     }
 
+    // 순찰 중: 일정 주기마다 방향 전환 + 낙사 방지
     void DoPatrol()
     {
         thinkTimer += Time.deltaTime;
@@ -103,33 +129,32 @@ public class TrexMove : MonoBehaviour
         if (thinkTimer >= thinkDuration)
         {
             thinkTimer = 0f;
-            thinkDuration = Random.Range(minThinkTime, maxThinkTime); // 다음 턴용 시간 설정
+            thinkDuration = Random.Range(minThinkTime, maxThinkTime);
 
-            int dir = DoThink(); // -1, 0, 1 중 하나
-
+            int dir = DoThink(); // -1, 0, 1 중 하나 결정
             if (dir != 0)
-            {
                 rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
-            }
         }
 
-        if (!IsCliffAhead())        
-            rb.velocity = new Vector2(-1 * rb.velocity.x, rb.velocity.y);        
+        // 앞에 낭떠러지가 있으면 방향 반전
+        if (IsCliffAhead())
+            rb.velocity = new Vector2(-1 * rb.velocity.x, rb.velocity.y);
     }
 
+    // 정찰 방향 결정: -1, 0, 1 중 랜덤
     int DoThink()
     {
-        int num = Random.Range(0, 3) - 1; // -1 0 1
+        int num = Random.Range(0, 3) - 1;
         if (num == 0)
         {
-            ChangeState(MonsterState.Pause);
+            ChangeState(MonsterState.Pause); // 멈칫 상태 전환
             return 0;
         }
         else
             return num;
     }
 
-
+    // 점프 중: 포물선 이동 처리
     void DoJump()
     {
         if (!isJumping) return;
@@ -137,28 +162,35 @@ public class TrexMove : MonoBehaviour
         jumpTimer += Time.deltaTime;
         float t = Mathf.Clamp01(jumpTimer / jumpDuration);
 
-        Vector3 flat = Vector3.Lerp(jumpStart, targetPosition.Value, t);
+        // 도착 지점 역시 발 기준 보정
+        Vector3 targetFootPos = targetPosition.Value;
+        Vector3 flat = Vector3.Lerp(jumpStart, targetFootPos, t);
         float height = Mathf.Sin(t * Mathf.PI) * apexHeight;
 
-        transform.position = flat + Vector3.up * height;
+        // 발 기준 위치 + 높이 => 중심 좌표
+        transform.position = flat + Vector3.up * col.bounds.extents.y + Vector3.up * height;
 
         if (t >= 1f)
         {
             isJumping = false;
-            col.enabled = true;
-            ChangeState(prevState); // or Chase 등
+            col.isTrigger = false;
+            ChangeState(prevState);
         }
     }
 
+
+    // 점프 시작 시 초기 설정
     void StartJump()
     {
         jumpTimer = 0;
-        jumpStart = transform.position;
+        float footOffset = col.bounds.extents.y;
+        jumpStart = transform.position - Vector3.up * footOffset;
         isJumping = true;
-        col.enabled = false;
+        col.isTrigger = true; // 충돌 꺼줌 (벽 등에 걸리지 않도록)
         ChangeState(MonsterState.Jumping);
     }
 
+    // 외부에서 목표 위치 설정
     public void SetTargetPosition(Vector3 pos)
     {
         targetPosition = pos;
@@ -169,10 +201,10 @@ public class TrexMove : MonoBehaviour
         targetPosition = null;
     }
 
+    // 상태 전이 처리
     public void ChangeState(MonsterState newState)
     {
         if (state == newState) return;
-
 
         if (newState == MonsterState.Pause)
         {
@@ -181,38 +213,38 @@ public class TrexMove : MonoBehaviour
         }
         else if (newState == MonsterState.Patrol)
         {
-            DoThink();
+            DoThink(); // 순찰 상태 들어갈 때 초기 방향 결정
         }
         else if (newState == MonsterState.ReadyToJump)
         {
-            prevState = state;
+            prevState = state; // 이전 상태 저장
             readyTimer = 0f;
         }
 
         state = newState;
     }
 
-    bool IsCliffAhead() // !@#$ 이부분 좀더 손봐야할듯 - 낙사방지하는거
+    // 낭떠러지 감지 (콜라이더 기준, 정면 아래 방향)
+    bool IsCliffAhead()
     {
         Bounds bounds = col.bounds;
 
-        // 콜라이더 아래쪽 중심
         Vector2 origin = new Vector2(bounds.center.x, bounds.min.y);
-
-        // X축 방향은 현재 바라보는 방향 기준으로 약간 옆으로
         float offsetX = spriteRenderer.flipX ? bounds.extents.x : -bounds.extents.x;
         Vector2 frontPos = origin + new Vector2(offsetX, 0f);
 
-        RaycastHit2D hit = Physics2D.Raycast(frontPos, Vector2.down, 1.5f, LayerMask.GetMask("Ground"));
-        Debug.DrawRay(frontPos, Vector2.down * 1.5f, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(frontPos, Vector2.down, 0.8f, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(frontPos, Vector2.down * 0.8f, Color.red);
 
-        return hit.collider == null;
+        return (hit.collider == null);
     }
 
+    // 애니메이션 bool 파라미터 갱신
     void UpdateAnimator()
     {
         bool walking = Mathf.Abs(rb.velocity.x) > 0.01f;
         bool jumping = (state == MonsterState.Jumping);
+
         if (walking)
             spriteRenderer.flipX = (rb.velocity.x > 0);
 
