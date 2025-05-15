@@ -89,9 +89,9 @@ public class MapPinMatchChecker : MonoBehaviour
                 }
             }
 
-            var trapInfos = FindObjectsByType<TrapInfo>(FindObjectsSortMode.None);
+            //var trapInfos = FindObjectsByType<TrapInfo>(FindObjectsSortMode.None);
 
-            data.wrong += trapInfos.Length - (data.wrong + data.correct);
+            data.wrong += setter.maxPinCount - (data.wrong + data.correct);
         }
 
         return data;

@@ -77,6 +77,9 @@ public class StageManager : MonoBehaviour
                 var mirroredApearTrap = GameObject.Find("Level").transform.Find("Mirrored").Find("Trap").Find("ApearTrap_M").GetComponent<ReactivePlatform>();
                 var normalApearTrap = GameObject.Find("Level").transform.Find("Normal").Find("Trap").Find("ApearTrap").GetComponent<ReactivePlatform>();
 
+                //var mappinSetter = FindObjectOfType<MapPinSetter>();
+                //mappinSetter.maxPinCount = 4;
+
                 if (!normalApearTrap.TrapIsOff)
                 {
                     mirroredApearTrap.type = normalApearTrap.type;
