@@ -21,10 +21,9 @@ public class PlatformMove : MonoBehaviour
     [SerializeField] float waitTime = 1.0f;
     [SerializeField] bool loop = true;
     [SerializeField] PlatformStatus currStat = PlatformStatus.move;
-    //[SerializeField] bool move = false;
 
-    [SerializeField] private int currIdx = 0;
-    [SerializeField] private bool isReversal = false;
+    private int currIdx = 0;
+    private bool isReversal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,11 +37,10 @@ public class PlatformMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        CycleWayPoints();
-        //if (currStat == PlatformStatus.move)
-        //{
-        //    CycleWayPoints();
-        //}
+        if (currStat == PlatformStatus.move)
+        {
+            CycleWayPoints();
+        }
     }
 
     private void CycleWayPoints()
@@ -63,27 +61,38 @@ public class PlatformMove : MonoBehaviour
 
         switch (currStat)
         {
-            case PlatformStatus.stop:
+        case PlatformStatus.move:
+                float distance = Vector2.Distance(transform.position, target.position);
+                float adjustedSpeed = Mathf.Lerp(0, moveSpeed, distance / 1.0f); // 거리 기반 속도 조절
+                rb.velocity = Vector2.Lerp(rb.velocity, moveDir * adjustedSpeed, moveSharpness * Time.deltaTime);
                 break;
-            case PlatformStatus.move:
-                rb.velocity = Vector2.Lerp(rb.velocity, moveDir * moveSpeed, moveSharpness * Time.deltaTime);
+        case PlatformStatus.stop:
+                rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, moveSharpness * Time.deltaTime);               
                 break;
-            default:
+        default:
                 currStat = PlatformStatus.stop;
                 break;
         }
     }
 
+    public void SetCurrStat(int statIndex)
+    {
+        currStat = (PlatformStatus)statIndex;
+    }
+
     private bool CloseEnough(Transform target)
     {
-        if (Vector2.Distance(transform.position, target.position) < 0.1f)
+        if (Vector2.Distance(transform.position, target.position) < 0.01f)
         {
             transform.position = target.position;
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            currStat = PlatformStatus.stop;
             return true;
         }
         else
             return false;
     }
+
 
     IEnumerator Waiting(float time)
     {

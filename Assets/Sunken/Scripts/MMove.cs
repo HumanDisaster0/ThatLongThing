@@ -33,7 +33,7 @@ public class MMove : MonoBehaviour
     [SerializeField] float maxMoveLength = 3f;
     [SerializeField] float moveSharpness = 8f;
     [SerializeField] bool respawn = true;
-    [SerializeField] int respawnPointIndex = 0;
+    [SerializeField] Transform respawnPoint;
     [SerializeField] Vector2 spriteOffset = new Vector2(-0.5f, 0.5f);
     #endregion
 
@@ -44,7 +44,6 @@ public class MMove : MonoBehaviour
     private MRange range;
     private MStatus currStatus = MStatus.idle;
     private MStatus prevStatus = MStatus.end;
-    private GameManager manager;
 
     private float idleTime = 0f;
     private float destX = 0f;
@@ -87,7 +86,6 @@ public class MMove : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
         range = GetComponentInParent<MRange>();
         animCon = GetComponentInChildren<Animator>();
-        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void FixedUpdate()
@@ -229,7 +227,8 @@ public class MMove : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
 
-        manager.MonsterRespawn(this.gameObject, respawnPointIndex);
+        if(respawnPoint != null)
+            transform.position = respawnPoint.position;
         if (respawn)
             Respawn();
     }

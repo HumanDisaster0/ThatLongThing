@@ -19,7 +19,7 @@ public class MAttack : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             dmgCol.enabled=true;
             mmove.SetStatus(MStatus.attack);
