@@ -15,21 +15,21 @@ public class ParallaxBG : MonoBehaviour
     public Vector2 offset = Vector2.zero;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         cam = Camera.main;
         startPos = new Vector2(cam.transform.position.x, cam.transform.position.y) + offset;
-        length = GetComponent<SpriteRenderer>().size.x;
+        length = GetComponent<SpriteRenderer>().size.x * transform.lossyScale.x;
 
         transform.position = new Vector3(startPos.x, startPos.y, transform.position.z);
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         float distanceX = cam.transform.position.x * parallaxSpeedX;
         float distanceY = cam.transform.position.y * parallaxSpeedY;
-        float movement = cam.transform.position.x * (1-parallaxSpeedX);
+        float movement = cam.transform.position.x * (1f-parallaxSpeedX);
 
         transform.position = new Vector3(startPos.x + distanceX, startPos.y + distanceY, transform.position.z);
 

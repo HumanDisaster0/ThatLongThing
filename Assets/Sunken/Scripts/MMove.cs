@@ -34,6 +34,7 @@ public class MMove : MonoBehaviour
     [SerializeField] float maxMoveLength = 3f;
     [SerializeField] bool respawn = true;
     [SerializeField] int respawnPointIndex = 0;
+    [SerializeField] Vector2 spriteOffset = new Vector2(-0.5f, 0.5f);
     #endregion
 
     #region Private Member
@@ -61,14 +62,15 @@ public class MMove : MonoBehaviour
                 GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
                 GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
                 GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy");
+                transform.GetChild(3).localPosition = spriteOffset;
                 for(int i = 0; i < transform.childCount; i++)
                     transform.GetChild(i).gameObject.SetActive(true);
-                    
                 break;
             case MonsterType.Rabbit:
                 GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
                 GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
                 GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player");
+                transform.GetChild(3).localPosition = Vector2.zero;
                 for (int i = 0; i < transform.childCount; i++)
                 {
                     if(transform.GetChild(i).gameObject.name != "Sprite")

@@ -409,6 +409,7 @@ MonoBehaviour:
   maxMoveLength: 3
   respawn: 1
   respawnPointIndex: 0
+  spriteOffset: {x: -0.5, y: 0.5}
 --- !u!50 &5018683036223728822
 Rigidbody2D:
   serializedVersion: 4
