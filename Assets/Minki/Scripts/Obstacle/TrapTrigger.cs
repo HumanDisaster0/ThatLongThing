@@ -17,13 +17,14 @@ public class TrapTrigger : MonoBehaviour
     [Header("트리거 발동 지연시간 (초)")]
     public float activeTime = 0.5f;
 
-
     [Header("트리거 이벤트")]
     public UnityEvent<GameObject> OnStartTrigger;
     public UnityEvent OnResetTrigger;
 
     Collider2D m_col;
     bool m_isActiveObstacle;
+
+    bool m_preventTrigger;
 
     void Start()
     {
@@ -34,6 +35,9 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (m_preventTrigger)
+            return;
+
         if (!m_col.isTrigger
             && isEnterTrigger
             && !m_isActiveObstacle
@@ -46,6 +50,8 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        if (m_preventTrigger)
+            return;
 
         if (!m_col.isTrigger
             && isStayTrigger
@@ -59,6 +65,9 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        if (m_preventTrigger)
+            return;
+
         if (!m_col.isTrigger
             && isExitTrigger
             && !m_isActiveObstacle
@@ -71,6 +80,9 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (m_preventTrigger)
+            return;
+
         if (m_col.isTrigger
             && isEnterTrigger
             && !m_isActiveObstacle
@@ -83,6 +95,8 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (m_preventTrigger)
+            return;
 
         if (m_col.isTrigger
             && isStayTrigger
@@ -96,6 +110,9 @@ public class TrapTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (m_preventTrigger)
+            return;
+
         if (m_col.isTrigger
             && isExitTrigger
             && !m_isActiveObstacle
@@ -117,6 +134,9 @@ public class TrapTrigger : MonoBehaviour
 
         //코루틴이 있는 경우 정지
         StopAllCoroutines();
+
+        StartCoroutine(PreventTrigger());
+
         return;
     }
 
@@ -135,5 +155,14 @@ public class TrapTrigger : MonoBehaviour
             yield return null;
         }
         OnStartTrigger?.Invoke(other);
+    }
+
+    IEnumerator PreventTrigger()
+    {
+        m_preventTrigger = true;
+        yield return null;
+        yield return null;
+        yield return null;
+        m_preventTrigger = false;
     }
 }
