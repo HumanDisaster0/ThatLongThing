@@ -3787,10 +3787,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FallingRock (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
-      propertyPath: m_TagString
-      value: RedZone
-      objectReference: {fileID: 0}
     - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.46
@@ -5766,7 +5762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3184883687092376159, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -309.7552
       objectReference: {fileID: 0}
     - target: {fileID: 3184883687092376159, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5774,11 +5770,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4548567588937752175, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4548567588937752175, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 5231274922096936681, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_Pivot.x
@@ -5874,23 +5870,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8856275114882764814, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8856275114882764814, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8856275114882764814, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8856275114882764814, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8856275114882764814, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
