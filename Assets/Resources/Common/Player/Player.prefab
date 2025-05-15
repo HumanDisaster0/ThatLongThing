@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5165078544398503445}
   - component: {fileID: 4786468656053203589}
   - component: {fileID: 3698259169579013767}
+  - component: {fileID: 8968510565193850932}
   - component: {fileID: 9169502309803756339}
   m_Layer: 0
   m_Name: Player
@@ -108,6 +109,18 @@ MonoBehaviour:
   maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15
+--- !u!114 &8968510565193850932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682874294790460494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c0a67650cd37ed4b9e94639d45c8d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &9169502309803756339
 Rigidbody2D:
   serializedVersion: 4
