@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum FootholdType
@@ -30,7 +27,7 @@ public class FootholdMover : MonoBehaviour
     bool m_trapOff;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_col = GetComponent<BoxCollider2D>();
@@ -63,7 +60,7 @@ public class FootholdMover : MonoBehaviour
     /// </summary>
     public void StartMove()
     {
-        if (m_trapOff)
+        if (!gameObject.activeInHierarchy || m_trapOff)
             return;
 
         switch (footholdType)
@@ -82,6 +79,9 @@ public class FootholdMover : MonoBehaviour
 
     public void ResetFoothold()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         //초기상태로 되돌림
         transform.position = m_defaultPos;
         transform.rotation = m_defaultRot;

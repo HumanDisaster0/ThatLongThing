@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_col = GetComponent<BoxCollider2D>();

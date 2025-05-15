@@ -16,7 +16,7 @@ public class JujakMove : MonoBehaviour
     Vector3 m_defaultPos;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_col = GetComponent<BoxCollider2D>();
@@ -36,7 +36,7 @@ public class JujakMove : MonoBehaviour
 
     public void StartMove()
     {
-        if (m_active)
+        if (!gameObject.activeInHierarchy || m_active)
             return;
 
         m_active = true;
@@ -45,6 +45,9 @@ public class JujakMove : MonoBehaviour
 
     public void ResetJujak()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         m_active = false;
         m_sprite.enabled = false;
         transform.position = m_defaultPos;

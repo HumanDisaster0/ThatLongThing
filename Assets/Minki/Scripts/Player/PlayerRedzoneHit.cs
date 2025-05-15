@@ -8,7 +8,7 @@ public class PlayerRedzoneHit : MonoBehaviour
 
     PlayerController m_playerController;
 
-    private void Start()
+    private void Awake()
     {
         m_playerController = GetComponent<PlayerController>();
     }

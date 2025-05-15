@@ -23,7 +23,7 @@ public class ReactivePlatform : MonoBehaviour
     bool m_isActive = false;
     bool m_trapOff = false;
 
-    void Start()
+    void Awake()
     {
         m_col = GetComponent<BoxCollider2D>();
 
@@ -39,7 +39,7 @@ public class ReactivePlatform : MonoBehaviour
 
     public void ActivePlatform()
     {
-        if (m_trapOff || m_isActive)
+        if (!gameObject.activeInHierarchy || m_trapOff || m_isActive)
             return;
 
         m_isActive = true;
@@ -62,6 +62,9 @@ public class ReactivePlatform : MonoBehaviour
 
     public void ResetPlatform()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         m_isActive = false;
         m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
         if (sprite)
@@ -85,8 +88,11 @@ public class ReactivePlatform : MonoBehaviour
 
     public void TrapOff()
     {
-        sprite.enabled = false;
-        tilemap.enabled = false;
+        if(sprite)
+            sprite.enabled = false;
+        if (tilemap)
+            tilemap.enabled = false;
         m_trapOff = true;
+        m_col.isTrigger = true;
     }
 }

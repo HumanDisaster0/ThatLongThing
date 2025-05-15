@@ -19,7 +19,7 @@ public class FallingRock : MonoBehaviour
     bool m_isActive = false;
     bool m_trapOff = false;
 
-    void Start()
+    void Awake()
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_col = GetComponent<CircleCollider2D>();
@@ -40,7 +40,7 @@ public class FallingRock : MonoBehaviour
 
     public void StartMove()
     {
-        if (m_trapOff || m_isActive)
+        if (!gameObject.activeInHierarchy || m_trapOff || m_isActive)
             return;
 
         m_col.isTrigger = false;
@@ -51,6 +51,9 @@ public class FallingRock : MonoBehaviour
 
     public void ResetRock()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         m_isActive = false;
         transform.SetPositionAndRotation(m_defaultPos, m_defaultRot);
         sprite.enabled = false;

@@ -26,7 +26,7 @@ public class TrapTrigger : MonoBehaviour
 
     bool m_preventTrigger;
 
-    void Start()
+    void Awake()
     {
         m_col = GetComponent<BoxCollider2D>();
         if (m_col == null)
@@ -126,6 +126,9 @@ public class TrapTrigger : MonoBehaviour
     // 함정 켜지기 이전 상태로 만들기위한 함수
     public void ResetTrigger()
     {
+        if (!gameObject.activeInHierarchy)
+            return;
+
         //리셋 시 적용시킬 것들
         m_isActiveObstacle = false;
 
