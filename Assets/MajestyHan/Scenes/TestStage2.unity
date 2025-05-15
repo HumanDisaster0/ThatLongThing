@@ -287,17 +287,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &254393729 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-  m_PrefabInstance: {fileID: 2369586242611200391}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801794264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93af0729a2dd3594497bfcaa7ddbdd68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &317182999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,11 +1114,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 704133614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1b5c7b06c77f944ab9091b409c9b8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0694dd12f39643e4ba8c51da04b96ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 0
-  targetMonster: {fileID: 254393729}
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  isEnterTrigger: 1
+  isStayTrigger: 0
+  isExitTrigger: 0
+  activeTime: 0
+  OnStartTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 801794276}
+        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
+        m_MethodName: ActiveTrex
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnResetTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 801794276}
+        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
+        m_MethodName: DeactiveTrex
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &742458903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,6 +1720,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messages: []
+  OnTriggerEnterEvents:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &980313918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,6 +2022,8 @@ MonoBehaviour:
   deadzoneX: 2
   deadzoneY: 1.5
   deadzoneThresold: 2
+  isMirrored: 0
+  mirrorAxisX: 0
 --- !u!1 &1040685954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2168,11 +2197,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 1059649448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1b5c7b06c77f944ab9091b409c9b8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0694dd12f39643e4ba8c51da04b96ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 1
-  targetMonster: {fileID: 254393729}
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  isEnterTrigger: 1
+  isStayTrigger: 1
+  isExitTrigger: 0
+  activeTime: 0.5
+  OnStartTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 801794276}
+        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
+        m_MethodName: DechasedTrex
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnResetTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1142434895
 GameObject:
   m_ObjectHideFlags: 0
@@ -5249,7 +5301,7 @@ Transform:
   m_GameObject: {fileID: 1625364822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.62, y: 1.42, z: -0.025118204}
+  m_LocalPosition: {x: 14.71, y: -0.52, z: -0.025118204}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6132,7 +6184,7 @@ GameObject:
   - component: {fileID: 4786468656640651106}
   - component: {fileID: 3698259170099350368}
   - component: {fileID: 9169502310323640020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6737,7 +6789,7 @@ GameObject:
   - component: {fileID: 8560393258314056654}
   - component: {fileID: 3383517809084796116}
   - component: {fileID: 3600912065021562387}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6912,9 +6964,12 @@ MonoBehaviour:
   - {fileID: 1006239094044281504}
   - {fileID: 7237259710390460607}
   moveSpeed: 3
+  moveSharpness: 8
   waitTime: 1
   loop: 1
-  move: 1
+  currStat: 1
+  currIdx: 0
+  isReversal: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

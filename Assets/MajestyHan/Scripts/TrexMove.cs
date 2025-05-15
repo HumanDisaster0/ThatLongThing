@@ -6,8 +6,10 @@ public class TrexMove : MonoBehaviour
     public MonsterState state = MonsterState.Idle;
     private MonsterState prevState;
 
+
     [Header("속도 / 점프높이")]
     public float moveSpeed = 2f;            // X축 이동 속도
+    public float chaseSpeed = 3f;           // 추적 속도
     public float apexHeight = 3f;           // 점프 정점 높이
 
     [Header("지속시간")]
@@ -15,8 +17,11 @@ public class TrexMove : MonoBehaviour
     public float jumpDuration = 2f;         // 점프 이동 총 시간
     public float readyDuration = 0.5f;      // 점프 준비 시간 (ReadyToJump 상태)
 
+
+    [Header("순찰 전환 최소/최대 시간")]
     public float minThinkTime = 5f;
     public float maxThinkTime = 10f;
+    public float readyToChaseDuration = 2f;
 
     private float thinkDuration;            // 정찰 상태의 방향 재결정 주기
 
@@ -36,6 +41,9 @@ public class TrexMove : MonoBehaviour
     private float thinkTimer = 0f;
     private float jumpTimer = 0f;
     private float readyTimer = 0f;
+    private float chaseTimer = 0f;
+
+
 
     void Awake()
     {
@@ -60,10 +68,14 @@ public class TrexMove : MonoBehaviour
                 break;
 
             case MonsterState.Chase:
-                if (targetPosition.HasValue)
-                    MoveTowardsTarget(); // 플레이어를 향해 X축으로 이동
-                else
-                    ChangeState(MonsterState.Patrol); // 추적 대상 없으면 순찰 복귀
+                chaseTimer += Time.deltaTime;
+                if (chaseTimer >= readyToChaseDuration)
+                {
+                    if (targetPosition.HasValue)
+                        MoveTowardsTarget(); // 플레이어를 향해 X축으로 이동
+                    else
+                        ChangeState(MonsterState.Patrol); // 추적 대상 없으면 순찰 복귀
+                }
                 break;
 
             case MonsterState.Pause:
@@ -112,13 +124,28 @@ public class TrexMove : MonoBehaviour
         }
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("플레이어와 충돌!");
+            // 여기에 죽이거나 리액션 넣기 !@#$!@#$!@#$
+        }
+    }
+
     // 플레이어 위치를 향해 X축 방향으로만 이동
     void MoveTowardsTarget()
     {
         if (!targetPosition.HasValue) return;
 
         float dirX = Mathf.Sign(targetPosition.Value.x - transform.position.x);
-        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(dirX * chaseSpeed, rb.velocity.y);
+    }
+
+    public void ResetChaseTimer()
+    {
+        chaseTimer = 0f;
     }
 
     // 순찰 중: 일정 주기마다 방향 전환 + 낙사 방지
@@ -160,6 +187,8 @@ public class TrexMove : MonoBehaviour
         if (!isJumping) return;
 
         jumpTimer += Time.deltaTime;
+
+        spriteRenderer.flipX = (targetPosition.Value.x - jumpStart.x > 0);
         float t = Mathf.Clamp01(jumpTimer / jumpDuration);
 
         // 도착 지점 역시 발 기준 보정
@@ -217,9 +246,12 @@ public class TrexMove : MonoBehaviour
         }
         else if (newState == MonsterState.ReadyToJump)
         {
+            rb.velocity = Vector2.zero;
+            float dirX = targetPosition.Value.x - transform.position.x;
             prevState = state; // 이전 상태 저장
             readyTimer = 0f;
         }
+
 
         state = newState;
     }
@@ -251,4 +283,30 @@ public class TrexMove : MonoBehaviour
         anim.SetBool("isWalking", walking);
         anim.SetBool("isJumping", jumping);
     }
+
+    public void ClearTimer()
+    {
+        pauseTimer = 0f;
+        thinkTimer = 0f;
+        jumpTimer = 0f;
+        readyTimer = 0f;
+        chaseTimer = 0f;
+    }
+
+    public void JumpNow(Vector3 target)
+    {
+        prevState = MonsterState.Patrol;  // 이후 돌아올 상태
+        targetPosition = target;
+
+        // 점프 직전 세팅
+        jumpTimer = 0;
+        float footOffset = col.bounds.extents.y;
+        jumpStart = transform.position - Vector3.up * footOffset;
+        isJumping = true;
+        col.isTrigger = true;
+
+        ChangeState(MonsterState.Jumping);  // 즉시 점프 상태 전환
+    }
+
+
 }
