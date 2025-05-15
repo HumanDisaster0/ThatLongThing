@@ -28,6 +28,16 @@ public class MRange : MonoBehaviour
         return pickpos;
     }
 
+    public float GetMinX()
+    {
+        return transform.position.x + minRangeX;
+    }
+
+    public float GetMaxX()
+    {
+        return transform.position.x + maxRangeX;
+    }
+
     public void SetRange(Vector2 _pos, GameObject _obj)
     {
         if (_pos.x > transform.position.x + minRangeX && _pos.x < transform.position.x + maxRangeX)

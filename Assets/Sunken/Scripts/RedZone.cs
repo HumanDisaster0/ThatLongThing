@@ -21,7 +21,7 @@ public class RedZone : MonoBehaviour
             foreach (var message in messages)
                 gameManager.SendMessage(message);
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        else if(collision.name == "MonsterBody")
         {
             var mm = collision.gameObject.GetComponent<MMove>();
 

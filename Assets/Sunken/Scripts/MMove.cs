@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public enum MStatus
 {
     idle = 0,
     move,
+    attack,
     die,
     end
 }
@@ -46,7 +48,8 @@ public class MMove : MonoBehaviour
     private float idleTime = 0f;
     private float destX = 0f;
     private float timer = 0f;
-    [SerializeField] private bool isGrounded = true;
+    private bool isGrounded = true;
+    private bool flipX = false;
     #endregion
 
     private void OnValidate()
@@ -55,18 +58,23 @@ public class MMove : MonoBehaviour
         {
             default:
             case MonsterType.Mole:
-                GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
-                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
+                GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
+                GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
                 GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy");
                 for(int i = 0; i < transform.childCount; i++)
                     transform.GetChild(i).gameObject.SetActive(true);
+                    
                 break;
             case MonsterType.Rabbit:
-                GetComponent<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
-                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
+                GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
+                GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
                 GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player");
                 for (int i = 0; i < transform.childCount; i++)
-                    transform.GetChild(i).gameObject.SetActive(false);
+                {
+                    if(transform.GetChild(i).gameObject.name != "Sprite")
+                        transform.GetChild(i).gameObject.SetActive(false);
+                }
+                    
                 break;
         }
     }
@@ -74,9 +82,9 @@ public class MMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         range = GetComponentInParent<MRange>();
-        animCon = GetComponent<Animator>();
+        animCon = GetComponentInChildren<Animator>();
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -112,7 +120,7 @@ public class MMove : MonoBehaviour
                 float dir = transform.position.x < destX ? 1f : -1f;
                 rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
 
-                Vector2 rdir = sr.flipX ? Vector2.right : Vector2.left;
+                Vector2 rdir = flipX ? Vector2.right : Vector2.left;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, rdir, 0.6f, LayerMask.GetMask("Ground"));
 
                 if (hit.collider != null)
@@ -123,15 +131,23 @@ public class MMove : MonoBehaviour
                 }
 
                 if (Mathf.Abs(transform.position.x - destX) < 0.1f)
+                {
+                    Vector3 currpos = transform.position;
+                    currpos.x = destX;
+                    transform.position = currpos;
                     currStatus = MStatus.idle;
+                }
+                    
                 break;
             case MStatus.die:
                 timer += Time.fixedDeltaTime;
-                if (timer > 3.0f)
-                {
-                    timer = 0f;
-                    SetActivision();
-                }
+                //if (timer > 3.0f)
+                //{
+                //    timer = 0f;
+                //    SetActivision();
+                //}
+                break;
+            case MStatus.attack:
                 break;
             default:
                 currStatus = MStatus.idle;
@@ -150,36 +166,47 @@ public class MMove : MonoBehaviour
 
     private void CheckStatus()
     {
-        if(currStatus != prevStatus)
+        if (currStatus != prevStatus)
         {
             switch (currStatus)
             {
                 case MStatus.idle:
+                    animCon.SetBool("isWalking", false);
+                    animCon.SetBool("isAttack", false);
                     idleTime = UnityEngine.Random.Range(maxidleDuration / 2f, maxidleDuration);
                     rb.velocity = new Vector2(0f, rb.velocity.y);
-                    animCon.SetBool("isWalking" , false);
                     break;
                 case MStatus.move:
-
-                    // TODO :: 이거 문제많음
-                    do
+                    animCon.SetBool("isWalking", true);
+                    if (transform.position.x >= range.GetMinX() && transform.position.x <= range.GetMaxX())
                     {
-                        destX = range.GetRandomPosX();
-                        //Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
+                        do
+                        {
+                            destX = range.GetRandomPosX();
+                            //Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
+                        }
+                        while (MathF.Abs(transform.position.x - destX) <= minMoveLength || MathF.Abs(transform.position.x - destX) >= maxMoveLength);
                     }
-                    while (MathF.Abs(transform.position.x - destX) <= minMoveLength || MathF.Abs(transform.position.x - destX) >= maxMoveLength);
-                    //
-
+                    else
+                    {
+                        if (Mathf.Abs(transform.position.x - range.GetMinX()) > Mathf.Abs(transform.position.x - range.GetMaxX()))
+                            destX = range.GetMaxX();
+                        else
+                            destX = range.GetMinX();
+                    }
                     float dir = transform.position.x < destX ? 1f : -1f;
                     FlipSprite(dir > 0f ? true : false);
-                    animCon.SetBool("isWalking", true);
                     break;
                 case MStatus.die:
+                    animCon.SetBool("isDead", true);
                     rb.velocity = Vector2.zero;
                     rb.simulated = false;
                     GetComponent<CapsuleCollider2D>().enabled = false;
-                    animCon.SetBool("isDead", true);
-                    //StartCoroutine(SetActivision(3.0f));
+                    StartCoroutine(SetActivision(3.0f));
+                    break;
+                case MStatus.attack:
+                    animCon.SetBool("isAttack", true);
+                    StartCoroutine(SetAttack(1.0f));
                     break;
                 default:
                     currStatus = MStatus.idle;
@@ -189,31 +216,47 @@ public class MMove : MonoBehaviour
         }
     }
 
-    void SetActivision()
+    //void SetActivision()
+    //{
+    //    manager.MonsterRespawn(this.gameObject, respawnPointIndex);
+    //    if (respawn)
+    //        Respawn();
+    //}
+
+    IEnumerator SetActivision(float _time)
     {
+        yield return new WaitForSeconds(_time);
+
         manager.MonsterRespawn(this.gameObject, respawnPointIndex);
         if (respawn)
             Respawn();
     }
 
-    //IEnumerator SetActivision(float _time)
-    //{
-    //    yield return new WaitForSeconds(_time);
 
-    //    manager.MonsterRespawn(this.gameObject, respawnPointIndex);
-    //    if(respawn)
-    //        Respawn();
-    //}
+    IEnumerator SetAttack(float _time)
+    {   
+        yield return new WaitForSeconds(_time);
+        currStatus = MStatus.idle;
+    }
 
     void FlipSprite(bool flag)
     {
-        if(flag != sr.flipX)
+        if(flag != flipX)
         {
-            Transform ct = transform.GetChild(1);
-            ct.localScale = new Vector3(ct.localScale.x * -1f, ct.localScale.y, ct.localScale.z);
+            Vector3 currScale = transform.localScale;
+            currScale.x *= -1f;
+            transform.localScale = currScale;
         }
 
-        sr.flipX = flag;
+        flipX = flag;
+
+        //if(flag != sr.flipX)
+        //{
+        //    Transform ct = transform.GetChild(1);
+        //    ct.localScale = new Vector3(ct.localScale.x * -1f, ct.localScale.y, ct.localScale.z);
+        //}
+
+        //sr.flipX = flag;
     }
     public void SetStatus(MStatus _stat)
     {
@@ -228,8 +271,11 @@ public class MMove : MonoBehaviour
         animCon.SetBool("isDead", false);
 
         for (int i = 0; i < transform.childCount; i++)
-            transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>().enabled = true;
-
+        {
+            BoxCollider2D bc = transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>();
+            if (bc != null)
+                bc.enabled = true;
+        }
         range.InitRange();
         SetStatus(MStatus.move);
     }
