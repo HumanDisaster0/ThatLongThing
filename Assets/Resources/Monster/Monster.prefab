@@ -407,6 +407,7 @@ MonoBehaviour:
   maxidleDuration: 4
   minMoveLength: 1
   maxMoveLength: 3
+  moveSharpness: 8
   respawn: 1
   respawnPointIndex: 0
   spriteOffset: {x: -0.5, y: 0.5}
@@ -426,7 +427,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1ac01ca4fa0eff441a0b2e9a31b1acc6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

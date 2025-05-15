@@ -31,6 +31,7 @@ public class MMove : MonoBehaviour
     [SerializeField] float maxidleDuration = 4f;
     [SerializeField] float minMoveLength = 1f;
     [SerializeField] float maxMoveLength = 3f;
+    [SerializeField] float moveSharpness = 8f;
     [SerializeField] bool respawn = true;
     [SerializeField] int respawnPointIndex = 0;
     [SerializeField] Vector2 spriteOffset = new Vector2(-0.5f, 0.5f);
@@ -111,6 +112,7 @@ public class MMove : MonoBehaviour
         {
             case MStatus.idle:
                 timer += Time.fixedDeltaTime;
+                rb.velocity =  new Vector2(Mathf.Lerp(rb.velocity.x,0f, moveSharpness * Time.deltaTime), rb.velocity.y);
                 if (timer > idleTime)
                 {
                     timer = 0f;
@@ -119,7 +121,7 @@ public class MMove : MonoBehaviour
                 break;
             case MStatus.move:
                 float dir = transform.position.x < destX ? 1f : -1f;
-                rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
+                rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x,dir * moveSpeed,moveSharpness * Time.deltaTime), rb.velocity.y);
 
                 Vector2 rdir = flipX ? Vector2.right : Vector2.left;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, rdir, 0.6f, LayerMask.GetMask("Ground"));
@@ -175,7 +177,6 @@ public class MMove : MonoBehaviour
                     animCon.SetBool("isWalking", false);
                     animCon.SetBool("isAttack", false);
                     idleTime = UnityEngine.Random.Range(maxidleDuration / 2f, maxidleDuration);
-                    rb.velocity = new Vector2(0f, rb.velocity.y);
                     break;
                 case MStatus.move:
                     animCon.SetBool("isWalking", true);

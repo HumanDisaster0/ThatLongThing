@@ -2,18 +2,29 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
+
 
 public class PlatformMove : MonoBehaviour
 {
+    enum PlatformStatus
+    {
+        stop = 0,
+        move
+    }
+
     [SerializeField] List<Transform> wayPoints;
     [SerializeField] float moveSpeed = 1.0f;
+    [SerializeField] float moveSharpness = 8.0f;
     [SerializeField] float waitTime = 1.0f;
     [SerializeField] bool loop = true;
-    [SerializeField] bool move = false;
+    [SerializeField] PlatformStatus currStat = PlatformStatus.move;
+    //[SerializeField] bool move = false;
 
-    private int currIdx = 0;
-    private bool isReversal = false;
+    [SerializeField] private int currIdx = 0;
+    [SerializeField] private bool isReversal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,33 +38,19 @@ public class PlatformMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (move)
-        {
-            CycleWayPoints();
-        }
+        CycleWayPoints();
+        //if (currStat == PlatformStatus.move)
+        //{
+        //    CycleWayPoints();
+        //}
     }
 
     private void CycleWayPoints()
     {
         if (CloseEnough(wayPoints[currIdx]))
         {
-            if (loop)
-            {
-                if (currIdx == wayPoints.Count - 1)
-                    isReversal = true;
-                if (currIdx == 0)
-                    isReversal = false;
-
-                int shift = isReversal ? -1 : 1;
-                currIdx += shift;
-            }
-            else
-            {
-                if (currIdx == wayPoints.Count - 1)
-                    move = false;
-                else
-                    currIdx++;
-            }
+            currStat = PlatformStatus.stop;
+            StartCoroutine(Waiting(waitTime));
         }
 
         MovePlatform(wayPoints[currIdx]);
@@ -63,7 +60,18 @@ public class PlatformMove : MonoBehaviour
     {
         Vector2 moveDir = (target.position - transform.position).normalized;
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = moveDir * moveSpeed;
+
+        switch (currStat)
+        {
+            case PlatformStatus.stop:
+                break;
+            case PlatformStatus.move:
+                rb.velocity = Vector2.Lerp(rb.velocity, moveDir * moveSpeed, moveSharpness * Time.deltaTime);
+                break;
+            default:
+                currStat = PlatformStatus.stop;
+                break;
+        }
     }
 
     private bool CloseEnough(Transform target)
@@ -80,6 +88,26 @@ public class PlatformMove : MonoBehaviour
     IEnumerator Waiting(float time)
     {
         yield return new WaitForSeconds(time);
+
+        if (loop)
+        {
+            if (currIdx == wayPoints.Count - 1)
+                isReversal = true;
+            else if (currIdx == 0)
+                isReversal = false;
+
+            int shift = isReversal ? -1 : 1;
+            currIdx += shift;
+        }
+        else
+        {
+            if (currIdx == wayPoints.Count - 1)
+                currStat = PlatformStatus.stop;
+            else
+                currIdx++;
+        }
+
+        currStat = PlatformStatus.move;
     }
 
     private void OnDrawGizmosSelected()
