@@ -14,6 +14,8 @@ public class MinimapPlayerPos : MonoBehaviour
 
     public Transform Player;
 
+    public float playerHeightOffset = 0.0f;
+
     RectTransform m_rect;
 
     int m_pivotX;
@@ -43,12 +45,13 @@ public class MinimapPlayerPos : MonoBehaviour
             Player = GameObject.FindWithTag("Player").transform;
         }
 
-        m_rect.anchoredPosition = new Vector2(m_pivotX + (Player.position.x + xOffset) * tileSize - (m_rect.sizeDelta.x * 0.5f), m_pivotY * -1f - (m_maxY * tileSize) + (Player.position.y + yOffset) * tileSize + (m_rect.sizeDelta.y * 0.5f));
+        m_rect.anchoredPosition = new Vector2(m_pivotX + (Mathf.Abs(Player.position.x + xOffset)) * tileSize - (m_rect.sizeDelta.x * 0.5f), m_pivotY * -1f - (m_maxY * tileSize) + (Player.position.y + yOffset) * tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_rect.anchoredPosition = new Vector2(m_pivotX + (Player.position.x + xOffset) * tileSize - (m_rect.sizeDelta.x * 0.5f), m_pivotY * -1f - (m_maxY * tileSize) + (Player.position.y + yOffset) * tileSize + (m_rect.sizeDelta.y * 0.5f));
+        m_rect.anchoredPosition = new Vector2(m_pivotX + (Mathf.Abs(Player.position.x + xOffset)) * tileSize - (m_rect.sizeDelta.x * 0.5f), m_pivotY * -1f - (m_maxY * tileSize) + (Player.position.y + yOffset) * tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
     }
+
 }

@@ -23,6 +23,9 @@ public class CameraController : MonoBehaviour
     public float deadzoneY = 1.5f;
     public float deadzoneThresold = 2f;
 
+    public bool isMirrored;
+    public float mirrorAxisX = 0.0f;
+
     Camera m_camera;
     PixelPerfectCamera m_pixelPerfectCamera; // URP의 PixelPerfectCamera
     int m_lastWidth;
@@ -31,6 +34,8 @@ public class CameraController : MonoBehaviour
     float m_clampHeight;
     Vector3 m_currentPos = Vector3.zero;
     Vector3 m_targetPos = Vector3.zero;
+
+    //bool m_flipWorldRect = false;
 
     // Start is called before the first frame update
     void Start()
@@ -118,6 +123,12 @@ public class CameraController : MonoBehaviour
         if (!Player)
             return;
 
+        //var lastFlippedState = m_flipWorldRect;
+        if (isMirrored)
+        {
+            worldRect.x = Player.position.x > mirrorAxisX ? mirrorAxisX : mirrorAxisX - worldRect.width;
+        }
+
         //스크린사이즈가 변경되었을 때
         if (Screen.width != m_lastWidth || Screen.height != m_lastHeight)
         {
@@ -147,6 +158,10 @@ public class CameraController : MonoBehaviour
 
         var setXLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.x - m_currentPos.x) - deadzoneX) / deadzoneThresold));
         var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - m_currentPos.y) - deadzoneY) / deadzoneThresold));
+
+        //거울반전 효과 시 속도유지
+        if (m_currentPos.x + deadzoneX + deadzoneThresold > worldRect.max.x || m_currentPos.x - deadzoneX - deadzoneThresold < worldRect.min.x)
+            setXLerpSpeed = maxLerpSpeed;
 
         m_currentPos.x = Mathf.Lerp(m_currentPos.x, m_targetPos.x, 1 - Mathf.Exp(-setXLerpSpeed * Time.deltaTime));
         m_currentPos.y = Mathf.Lerp(m_currentPos.y, m_targetPos.y, 1 - Mathf.Exp(-setYLerpSpeed * Time.deltaTime));

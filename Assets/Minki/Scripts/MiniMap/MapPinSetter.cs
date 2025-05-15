@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     public MapZoom zoom;
     public GameObject pinPrefab;
 
+    public IEnumerable<Transform> pins => m_pins.Values;
     public int maxPinCount = 5;
 
     RectTransform m_rect;
@@ -28,7 +30,9 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
 
             var pinGO = Instantiate(pinPrefab);
             pinGO.transform.SetParent(mapContent, false);
-            pinGO.GetComponent<RectTransform>().anchoredPosition = localPoint + new Vector2(-mapContent.sizeDelta.x * 0.5f, mapContent.sizeDelta.y * 0.5f);
+            var pinRect = pinGO.GetComponent<RectTransform>();
+            pinRect.anchoredPosition = localPoint + new Vector2(-pinRect.sizeDelta.x * 0.5f * (1/zoom.GetScale), pinRect.sizeDelta.y * 0.5f * (1 / zoom.GetScale));
+           
             pinGO.GetComponent<MapPin>().pinSetter = this;
             m_pins[pinGO.GetHashCode()] = pinGO.transform;
         }
@@ -42,7 +46,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        if(m_deletePendingPins.Count > 0)
+        if (m_deletePendingPins.Count > 0)
         {
             foreach(var hash in m_deletePendingPins)
             {
