@@ -10,6 +10,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     public RectTransform mapContent; // 실제 지도
     public MapZoom zoom;
     public GameObject pinPrefab;
+    public Text pinCountText;
 
     public IEnumerable<Transform> pins => m_pins.Values;
     public int maxPinCount = 5;
@@ -65,6 +66,8 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
         {
             pair.Value.localScale = new Vector3(trueScale, trueScale, 1);
         }
+
+        pinCountText.text = $"X {maxPinCount - m_pins.Count}";
     }
 
     public void DeletePin(int hash)

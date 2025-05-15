@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void Respawn()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        TrapTriggerCMD.ResetAllTrigger();
         //player.GetComponent<PlayerController>().SetVelocity(Vector2.zero);
         //player.transform.position = playerInitPos;
     }

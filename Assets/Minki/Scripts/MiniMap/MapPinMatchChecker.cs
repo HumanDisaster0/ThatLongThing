@@ -1,12 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
-using System.Net.NetworkInformation;
-using TMPro;
-using static UnityEditor.PlayerSettings;
-using System.ComponentModel;
 
 public struct MapMatchData
 {

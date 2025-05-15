@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RedZone : MonoBehaviour
 {
     [Header("게임매니저한테 보낼 메시지")]
     [SerializeField] List<string> messages;
+    public UnityEvent<Collider2D> OnTriggerEnterEvents;
 
     GameManager gameManager;
 
@@ -16,16 +18,6 @@ public class RedZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name == "Player")
-        {
-            foreach (var message in messages)
-                gameManager.SendMessage(message);
-        }
-        else if(collision.name == "MonsterBody")
-        {
-            var mm = collision.gameObject.GetComponent<MMove>();
-
-            mm.SetStatus(MStatus.die);
-        }
+        OnTriggerEnterEvents?.Invoke(collision);
     }
 }
