@@ -27,6 +27,7 @@ public class FootholdMover : MonoBehaviour
     Vector3 m_defaultScale;
 
     bool m_moveStart;
+    bool m_trapOff;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +63,9 @@ public class FootholdMover : MonoBehaviour
     /// </summary>
     public void StartMove()
     {
+        if (m_trapOff)
+            return;
+
         switch (footholdType)
         {
             case FootholdType.MoveUp:
@@ -86,5 +90,10 @@ public class FootholdMover : MonoBehaviour
         m_rb.bodyType = RigidbodyType2D.Static;
         m_rb.interpolation = RigidbodyInterpolation2D.None;
         m_rb.freezeRotation = false;
+    }
+
+    public void TrapOff()
+    {
+        m_trapOff = true;
     }
 }

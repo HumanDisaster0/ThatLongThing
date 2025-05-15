@@ -43,18 +43,6 @@ public class MapPinMatchChecker : MonoBehaviour
         m_maxY = tilemap.cellBounds.max.y;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            var data = CreateMatchData();
-
-            print($"{data.correct} : {data.wrong}");
-        }
-           
-    }
-
-
     public MapMatchData CreateMatchData()
     {
         var data = new MapMatchData();

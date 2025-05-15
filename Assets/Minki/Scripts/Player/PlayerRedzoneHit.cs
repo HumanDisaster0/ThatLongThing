@@ -17,8 +17,15 @@ public class PlayerRedzoneHit : MonoBehaviour
     {
         if(collision.CompareTag(RedZoneName))
         {
-            PlayerSpawnManager.instance.Respawn();
-            m_playerController.SetVelocity(Vector2.zero);
+            m_playerController.AnyState(PlayerState.Die);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag(RedZoneName))
+        {
+            m_playerController.AnyState(PlayerState.Die);
         }
     }
 }

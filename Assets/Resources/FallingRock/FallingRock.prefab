@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3290135173495145147}
   m_Layer: 0
   m_Name: FallingRock
-  m_TagString: Untagged
+  m_TagString: RedZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

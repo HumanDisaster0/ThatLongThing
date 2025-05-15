@@ -2827,7 +2827,7 @@ GameObject:
   - component: {fileID: 896117102}
   m_Layer: 7
   m_Name: Jujak
-  m_TagString: Untagged
+  m_TagString: RedZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3786,6 +3786,10 @@ PrefabInstance:
     - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_Name
       value: FallingRock (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_TagString
+      value: RedZone
       objectReference: {fileID: 0}
     - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6374,6 +6378,10 @@ PrefabInstance:
     - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_Name
       value: FallingRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_TagString
+      value: RedZone
       objectReference: {fileID: 0}
     - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
       propertyPath: m_LocalPosition.x

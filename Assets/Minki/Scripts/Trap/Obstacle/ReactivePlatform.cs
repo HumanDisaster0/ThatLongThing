@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,6 +21,7 @@ public class ReactivePlatform : MonoBehaviour
 
     Collider2D m_col;
     bool m_isActive = false;
+    bool m_trapOff = false;
 
     void Start()
     {
@@ -37,7 +39,7 @@ public class ReactivePlatform : MonoBehaviour
 
     public void ActivePlatform()
     {
-        if (m_isActive)
+        if (m_trapOff || m_isActive)
             return;
 
         m_isActive = true;
@@ -66,5 +68,25 @@ public class ReactivePlatform : MonoBehaviour
             sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
         if (tilemap)
             tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
+    }
+
+    public void TrapOn()
+    {
+        var rand = Random.Range(0, 2);
+
+        type = rand == 0 ? ReactivePlatformType.Show : ReactivePlatformType.Hide;
+
+        m_col.isTrigger = type == ReactivePlatformType.Hide ? true : false;
+        if (sprite)
+            sprite.enabled = type == ReactivePlatformType.Hide ? true : false;
+        if (tilemap)
+            tilemap.enabled = type == ReactivePlatformType.Hide ? true : false;
+    }
+
+    public void TrapOff()
+    {
+        sprite.enabled = false;
+        tilemap.enabled = false;
+        m_trapOff = true;
     }
 }

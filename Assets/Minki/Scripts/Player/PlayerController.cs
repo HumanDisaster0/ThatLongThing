@@ -10,7 +10,7 @@ public enum PlayerState
     Walk,
     Jump,
     Fall,
-    Hit
+    Die
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     readonly static int m_hash_walkAnim = Animator.StringToHash("anim_player_walk");
     readonly static int m_hash_jumpAnim = Animator.StringToHash("anim_player_jump");
     //readonly static int m_hash_fallAnim = Animator.StringToHash("anim_knight_fall");
-    //readonly static int m_hash_crouchAnim = Animator.StringToHash("anim_knight_crouch");
+    readonly static int m_hash_dieAnim = Animator.StringToHash("anim_player_die");
 
     #endregion
 
@@ -267,6 +267,8 @@ public class PlayerController : MonoBehaviour
     public void CheckTransition()
     {
         //AnyState Transition->
+        if (m_currentState == PlayerState.Die)
+            return;
 
         // 점프 처리
         if ((m_jumpCount < 1
@@ -393,6 +395,9 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Fall:
                 playerAnimator.Play(m_hash_jumpAnim);
                 return;
+            case PlayerState.Die:
+                playerAnimator.Play(m_hash_dieAnim);
+                return;
         }
     }
 
@@ -405,6 +410,19 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Jump:
             case PlayerState.Fall:
                 DefaultMovement();
+                break;
+            case PlayerState.Die:
+                m_hInput = 0;
+                m_jumpInput = false;
+                m_coyoteJumpTimer = 0f;
+                m_jumpBufferTimer = 0f;
+                m_jumpInput = false;
+                DefaultMovement();
+                if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                {
+                    PlayerSpawnManager.instance.Respawn();
+                    AnyState(PlayerState.Fall);
+                }
                 break;
         }
 

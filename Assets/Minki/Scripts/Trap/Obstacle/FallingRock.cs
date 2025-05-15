@@ -17,6 +17,7 @@ public class FallingRock : MonoBehaviour
 
     //활성 트리거
     bool m_isActive = false;
+    bool m_trapOff = false;
 
     void Start()
     {
@@ -39,7 +40,7 @@ public class FallingRock : MonoBehaviour
 
     public void StartMove()
     {
-        if (m_isActive)
+        if (m_trapOff || m_isActive)
             return;
 
         m_col.isTrigger = false;
@@ -54,5 +55,10 @@ public class FallingRock : MonoBehaviour
         transform.SetPositionAndRotation(m_defaultPos, m_defaultRot);
         sprite.enabled = false;
         m_rb.bodyType = RigidbodyType2D.Static;
+    }
+
+    public void TrapOff()
+    {
+        m_trapOff = true;
     }
 }
