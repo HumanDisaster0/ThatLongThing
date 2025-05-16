@@ -96,6 +96,7 @@ public class StageManager : MonoBehaviour
                 break;
 
             //no.11 - 거울 속에 비친 나
+            //todo - 나가는 포탈 거꾸로 배치
             case 11:
                 var camCon = Camera.main.GetComponent<CameraController>();
                 camCon.isMirrored = true;
