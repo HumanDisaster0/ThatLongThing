@@ -79,7 +79,7 @@ public class MMove : MonoBehaviour
     {
         CapsuleCollider2D m_col = GetComponent<CapsuleCollider2D>();
 
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f, m_col.size.y * 0.5f), 0f, Vector2.down);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position + Vector3.down * (m_col.size.y * 0.5f - m_col.offset.y), new Vector2(0.5f, m_col.size.y * 0.5f), 0f, Vector2.down);
         if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = true;
     }
