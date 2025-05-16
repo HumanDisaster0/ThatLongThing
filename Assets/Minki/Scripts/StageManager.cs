@@ -62,7 +62,7 @@ public class StageManager : MonoBehaviour
             case 4:
                 var anomaly = GameObject.Find("Level").transform.Find("Normal").Find("Anomaly");
                 anomaly.Find("Jujak").gameObject.SetActive(true);
-                anomaly.Find("JujakTrapGrid").Find("JujakTrap").gameObject.SetActive(true);
+                anomaly.Find("JujakTrapGrid").gameObject.SetActive(true);
                 anomaly.Find("JujakTrapInfo").gameObject.SetActive(true);
 
                 var trap = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
@@ -96,7 +96,6 @@ public class StageManager : MonoBehaviour
                 break;
 
             //no.11 - 거울 속에 비친 나
-            //todo - 나가는 포탈 거꾸로 배치
             case 11:
                 var camCon = Camera.main.GetComponent<CameraController>();
                 camCon.isMirrored = true;
@@ -104,6 +103,9 @@ public class StageManager : MonoBehaviour
                 //거울 해제
                 GameObject.Find("Level").transform.Find("Mirrored").gameObject.SetActive(true);
                 GameObject.Find("StartWall").SetActive(false);
+
+                //정방향 클리어존 끄기
+                GameObject.Find("NormalClearZone").SetActive(false);
 
                 //함정 상태 동기화
                 var trapInfo = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
