@@ -17,6 +17,9 @@ public class TrexMove : MonoBehaviour
     public float jumpDuration = 2f;         // 점프 이동 총 시간
     public float readyDuration = 0.5f;      // 점프 준비 시간 (ReadyToJump 상태)
 
+    [Header("정찰 중 점프 주기")]
+    public float patrolJumpInterval = 10f;
+    private float patrolJumpTimer = 0f;
 
     [Header("순찰 전환 최소/최대 시간")]
     public float minThinkTime = 5f;
@@ -65,6 +68,13 @@ public class TrexMove : MonoBehaviour
 
             case MonsterState.Patrol:
                 DoPatrol(); // 일정 시간마다 방향 변경 + 낙사 감지
+
+                patrolJumpTimer += Time.deltaTime;
+                if (patrolJumpTimer >= patrolJumpInterval)
+                {
+                    patrolJumpTimer = 0f;
+                    TryPatrolJump(); // 랜덤 점프 시도
+                }
                 break;
 
             case MonsterState.Chase:
@@ -109,20 +119,37 @@ public class TrexMove : MonoBehaviour
             if (node != null && node.isHorizontalJump)
             {
                 float vx = rb.velocity.x;
-                float dir = node.GetConnectedPosition().x - transform.position.x;
+                if (Mathf.Abs(vx) < 0.05f) return; // 멈춘 상태에서는 무시
 
-                bool validLeft = vx < 0 && dir < 0;
-                bool validRight = vx > 0 && dir > 0;
+                bool fromLeft = vx > 0;
+                bool fromRight = vx < 0;
 
-                if (validLeft || validRight)
+                bool reject = false;
+
+                switch (node.allowedApproach)
+                {
+                    case JumpNode.JumpDirection.LeftOnly:
+                        reject = fromRight;
+                        break;
+                    case JumpNode.JumpDirection.RightOnly:
+                        reject = fromLeft;
+                        break;
+                    case JumpNode.JumpDirection.Any:
+                        reject = false;
+                        break;
+                }
+
+                if (!reject)
                 {
                     SetTargetPosition(node.GetConnectedPosition());
                     ChangeState(MonsterState.ReadyToJump);
                     Debug.Log($"[TrexMove] 수평 노드 접근 감지 → {node.name} → {node.connectedNode.name}");
                 }
             }
+
         }
     }
+
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -283,6 +310,27 @@ public class TrexMove : MonoBehaviour
         anim.SetBool("isWalking", walking);
         anim.SetBool("isJumping", jumping);
     }
+    void TryPatrolJump()
+    {
+        // 사용할 점프 노드는 TrexThink 쪽 allJumpNodes를 통해 받아야 하므로
+        TrexThink thinker = GetComponent<TrexThink>();
+        if (thinker == null || thinker.allJumpNodes == null || thinker.allJumpNodes.Count == 0) return;
+
+        // 수직 점프 노드 중 연결된 노드가 있는 것만 필터링
+        var candidates = thinker.allJumpNodes.FindAll(n => n.connectedNode != null);
+        if (candidates.Count == 0) return;
+
+        // 무작위 노드 선택
+        int rand = Random.Range(0, candidates.Count);
+        JumpNode selected = candidates[rand];
+
+        // 점프 시작
+        SetTargetPosition(selected.connectedNode.transform.position);
+        ChangeState(MonsterState.ReadyToJump);
+
+        Debug.Log($"[TrexMove] 정찰 점프 시도 → {selected.name} → {selected.connectedNode.name}");
+    }
+
 
     public void ClearTimer()
     {

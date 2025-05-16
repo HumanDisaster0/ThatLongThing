@@ -43,8 +43,23 @@ public class TrexThink : MonoBehaviour
 
     private void Start()
     {
-        DeactiveTrex();
+        allJumpNodes = new List<JumpNode>();
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+
+        foreach (var obj in allObjects)
+        {
+            if (obj.layer == LayerMask.NameToLayer("JumpNode"))
+            {
+                JumpNode node = obj.GetComponent<JumpNode>();
+                if (node != null && !node.isHorizontalJump) // 수직 점프만 등록
+                    allJumpNodes.Add(node);
+            }
+        }
+
+        DeactiveTrex(); // 원래 로직 유지
     }
+
+
     void Update()
     {
         IsSturck();

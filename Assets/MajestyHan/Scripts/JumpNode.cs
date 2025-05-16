@@ -2,30 +2,57 @@ using UnityEngine;
 
 public class JumpNode : MonoBehaviour
 {
-    public JumpNode connectedNode;                 // 연결된 노드
-    public bool isHorizontalJump = false;          // 수평 점프인지 여부
-    public bool expectsRightApproach = true;       // 오른쪽에서 접근해야만 작동
+    public JumpNode connectedNode;         // 연결된 점프 노드
+    public bool isHorizontalJump = false;  // 수평 점프인지 여부
+
+    public enum JumpDirection
+    {
+        Any,
+        LeftOnly,
+        RightOnly
+    }
+
+    [Header("접근 방향 제한")]
+    public JumpDirection allowedApproach = JumpDirection.Any;
 
     public Vector3 GetConnectedPosition() => connectedNode.transform.position;
+
+    private void OnValidate()
+    {
+        if (connectedNode == null) return;
+
+        if (isHorizontalJump) // 수직 점프일 경우
+        {
+            float diff = connectedNode.transform.position.x - transform.position.x;
+            allowedApproach = diff > 0 ? JumpDirection.LeftOnly :
+                              diff < 0 ? JumpDirection.RightOnly : JumpDirection.Any;
+        }
+        else
+        {
+            allowedApproach = JumpDirection.Any;
+        }
+    }
+
+
 
     private void OnDrawGizmos()
     {
         if (connectedNode != null)
         {
-            // 1. 선 색상: 수평이면 노랑, 아니면 파랑
+            // 선 색상: 수평 노드는 노랑, 포물선은 파랑
             Gizmos.color = isHorizontalJump ? Color.yellow : Color.cyan;
             Gizmos.DrawLine(transform.position, connectedNode.transform.position);
 
-            // 2. 출발 노드 색
+            // 출발 노드 색
             Gizmos.color = isHorizontalJump ? Color.red : Color.blue;
             Gizmos.DrawSphere(transform.position, 0.15f);
 
-            // 3. 도착 노드 색
+            // 도착 노드 색
             Gizmos.color = isHorizontalJump ? Color.green : Color.gray;
             Gizmos.DrawSphere(connectedNode.transform.position, 0.15f);
 
-            // 4. 방향 화살표 (디버그용)
 #if UNITY_EDITOR
+            // 화살표 표시
             if (isHorizontalJump)
             {
                 Vector3 dir = (connectedNode.transform.position - transform.position).normalized;
