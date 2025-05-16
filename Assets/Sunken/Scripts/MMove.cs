@@ -18,7 +18,8 @@ public enum MStatus
 public enum MonsterType
 {
     Mole = 0,
-    Rabbit
+    Rabbit,
+    None
 }
 
 public class MMove : MonoBehaviour
@@ -54,34 +55,13 @@ public class MMove : MonoBehaviour
 
     private void OnValidate()
     {
-        switch (MType)
-        {
-            default:
-            case MonsterType.Mole:
-                GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
-                GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
-                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy");
-                transform.GetChild(3).localPosition = spriteOffset;
-                for(int i = 0; i < transform.childCount; i++)
-                    transform.GetChild(i).gameObject.SetActive(true);
-                break;
-            case MonsterType.Rabbit:
-                GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
-                GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
-                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player");
-                transform.GetChild(3).localPosition = Vector2.zero;
-                for (int i = 0; i < transform.childCount; i++)
-                {
-                    if(transform.GetChild(i).gameObject.name != "Sprite")
-                        transform.GetChild(i).gameObject.SetActive(false);
-                }
-                    
-                break;
-        }
+        ExeType();
     }
 
     void Start()
     {
+        ExeType();
+
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
         range = GetComponentInParent<MRange>();
@@ -231,6 +211,8 @@ public class MMove : MonoBehaviour
             transform.position = respawnPoint.position;
         if (respawn)
             Respawn();
+        else
+            gameObject.SetActive(false);
     }
 
 
@@ -264,6 +246,42 @@ public class MMove : MonoBehaviour
         currStatus = _stat;
     }
 
+    public void SetType(MonsterType _type)
+    {
+        MType = _type;
+    }
+
+    private void ExeType()
+    {
+        gameObject.SetActive(true);
+
+        switch (MType)
+        {
+            default:
+            case MonsterType.Mole:
+                GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
+                GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
+                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy");
+                transform.GetChild(3).localPosition = spriteOffset;
+                for (int i = 0; i < transform.childCount; i++)
+                    transform.GetChild(i).gameObject.SetActive(true);
+                break;
+            case MonsterType.Rabbit:
+                GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
+                GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
+                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player");
+                transform.GetChild(3).localPosition = Vector2.zero;
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).gameObject.name != "Sprite")
+                        transform.GetChild(i).gameObject.SetActive(false);
+                }
+                break;
+            case MonsterType.None:
+                gameObject.SetActive(false);
+                break;
+        }
+    }
     public void Respawn()
     {
         gameObject.SetActive(true);
