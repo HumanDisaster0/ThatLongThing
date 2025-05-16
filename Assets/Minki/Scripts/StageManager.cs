@@ -80,9 +80,8 @@ public class StageManager : MonoBehaviour
 
             //no.9 - 거인국 네티
             case 9:
-                //일단 3배로 키우기
                 var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-                pc.playerScale = 3.0f;
+                pc.playerScale = 4.0f;
                 pc.ApplyScale();
                 var destroyer = pc.AddComponent<Destroyer>();
                 destroyer.detectionRadius = 4.0f;
@@ -130,6 +129,10 @@ public class StageManager : MonoBehaviour
                 {
                     mirroredApearTrap.type = normalApearTrap.type;
                     mirroredApearTrap.SetPlatformOption();
+                }
+                else
+                {
+                    mirroredApearTrap.TrapOff();
                 }
 
                 break;
