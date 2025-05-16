@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class StageManager : MonoBehaviour
 {
@@ -82,6 +84,15 @@ public class StageManager : MonoBehaviour
                 var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                 pc.playerScale = 3.0f;
                 pc.ApplyScale();
+                var destroyer = pc.AddComponent<Destroyer>();
+                destroyer.detectionRadius = 4.0f;
+                destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[1];
+                destroyer.destructibleTilemaps[0] = GameObject.Find("Ground").GetComponent<Tilemap>();
+
+                var flyingTile = Resources.Load<GameObject>("FlyingThings");
+                destroyer.flyingTilePrefab = flyingTile;
+
+                destroyer.sideJitter = 10;
                 break;
 
             //no.11 - 거울 속에 비친 나
