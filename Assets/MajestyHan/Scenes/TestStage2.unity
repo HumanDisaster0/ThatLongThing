@@ -5552,6 +5552,7 @@ GameObject:
   - component: {fileID: 1784550845}
   - component: {fileID: 1784550847}
   - component: {fileID: 1784550846}
+  - component: {fileID: 1784550848}
   m_Layer: 0
   m_Name: SpawnZone (1)
   m_TagString: Untagged
@@ -5568,7 +5569,7 @@ Transform:
   m_GameObject: {fileID: 1784550844}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: 7.06, y: 7.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5671,6 +5672,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1784550848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784550844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0694dd12f39643e4ba8c51da04b96ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  isEnterTrigger: 1
+  isStayTrigger: 0
+  isExitTrigger: 0
+  activeTime: 0
+  OnStartTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3229004893156928179}
+        m_TargetAssemblyTypeName: RollingStoneMove, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnResetTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1785651787
 GameObject:
   m_ObjectHideFlags: 0
@@ -6557,11 +6595,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.4
+      value: -9.9
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.1
+      value: 5.77
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6602,6 +6640,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3229004893156928173}
+    - targetCorrespondingSourceObject: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3229004893156928179}
   m_SourcePrefab: {fileID: 100100000, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
 --- !u!1 &3229004893156928172 stripped
 GameObject:
@@ -6629,6 +6670,20 @@ MonoBehaviour:
   destructibleTilemaps:
   - {fileID: 1150740462}
   flyingTilePrefab: {fileID: 2030325319269345901, guid: 704f17368529348458d1fac425e01457, type: 3}
+--- !u!114 &3229004893156928179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229004893156928172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c56a0eaec46d047acc1a2be15a112f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: {x: 1, y: 0}
+  moveSpeed: 2
 --- !u!212 &3383517809084796116
 SpriteRenderer:
   m_ObjectHideFlags: 0
