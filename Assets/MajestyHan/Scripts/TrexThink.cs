@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static TrexMove;
+using Unity.VisualScripting;
 
 public class TrexThink : MonoBehaviour
 {
@@ -13,9 +15,19 @@ public class TrexThink : MonoBehaviour
     public float verticalScanHeight = 6f;
     public int horizontalScanSteps = 6;
     public float scanStepSize = 0.5f;
-    
+
     [Header("지형타일 레이어 등록")]
     public LayerMask groundMask;
+
+    [Header("끼임 감지")]
+    public float stuckCheckDuration = 2f;
+    public float stuckMovementThreshold = 0.05f;
+
+    [Header("Y임계지점")]
+    public float deathYThreshold = -10f; // 여기보다 아래로 떨어지면 리스폰
+
+    private Vector2 prevPosition;
+    private float stuckTimer = 0f;
 
     private TrexMove move;
     private Rigidbody2D rb;
@@ -27,6 +39,7 @@ public class TrexThink : MonoBehaviour
     private bool isWallAhead = false;
     private bool isGrounded = false;
     private bool isCliffAhead = false;
+    public bool isChaseSuppressed = false;
 
     private void Awake()
     {
@@ -45,7 +58,7 @@ public class TrexThink : MonoBehaviour
 
         float dist = Vector2.Distance(transform.position, player.position);
 
-        if (move.state == TrexMove.MonsterState.Patrol && dist < chaseRange)
+        if (!isChaseSuppressed && move.state == TrexMove.MonsterState.Patrol && dist < chaseRange)
         {
             move.ChangeState(TrexMove.MonsterState.Pause);
             Invoke(nameof(EnterChase), 1.0f); // 1초 뒤에 체이스 진입
@@ -73,6 +86,48 @@ public class TrexThink : MonoBehaviour
         {
             ScanAndJump();
         }
+    }
+
+    private void LateUpdate()
+    {
+        Vector2 currentPosition = transform.position;
+        float velocityX = rb.velocity.x;
+        float movedX = Mathf.Abs(currentPosition.x - prevPosition.x);
+
+        if ((move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase)
+            && Mathf.Abs(velocityX) > 0.1f && movedX < stuckMovementThreshold)
+        {
+            stuckTimer += Time.deltaTime;
+            if (stuckTimer >= stuckCheckDuration)
+            {
+                Debug.Log("[TrexThink] 끼인 것 같음 → 가장 가까운 점프노드로 탈출 시도");
+                ForceRespawn();
+                stuckTimer = 0f;
+            }
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+
+        prevPosition = currentPosition;
+    }
+
+    private void FixedUpdate()
+    {
+        if (transform.position.y < deathYThreshold)
+        {
+            Debug.LogWarning("[TrexThink] 낙사 감지 → 스폰 지점으로 강제 점프");
+            ForceRespawn();
+        }
+    }
+
+    void ForceRespawn()
+    {
+        if (move.state == TrexMove.MonsterState.Jumping)
+            return;
+
+        move.JumpNow(spawnPoint); //스폰포인트로 폴짝
     }
 
 
@@ -157,7 +212,7 @@ public class TrexThink : MonoBehaviour
         // 5. 진행방향으로 일정 거리만큼 수평 스텝을 이동하며 검사
         for (int i = 0; i < horizontalScanSteps; i++)
         {
-            
+
             Vector2 basePoint = horizontalStart + Vector2.right * dir * scanStepSize * i;
 
             // 이 수평 위치에서 위에서 아래 방향으로 검사할 범위 (탑 → 바닥)
@@ -256,6 +311,7 @@ public class TrexThink : MonoBehaviour
     {
         if (col == null) return;
 
+        // 추적 거리 시각화 (노란색 원)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
 
@@ -264,21 +320,27 @@ public class TrexThink : MonoBehaviour
         int steps = horizontalScanSteps;
         float height = verticalScanHeight;
 
-        Vector2 start = new Vector2(
+        // ScanAndJump의 실제 스캔 시작 위치와 일치시킴
+        Vector2 horizontalStart = new Vector2(
             transform.position.x + dir * (col.bounds.extents.x + stepSize * 0.5f),
-            transform.position.y + height
+            transform.position.y
         );
 
         Vector2 size = new Vector2(stepSize * steps, height * 2f);
-        Vector2 center = start - new Vector2(-size.x * 0.5f, size.y * 0.5f);
+        Vector2 center = horizontalStart + new Vector2((stepSize * (steps - 1) * 0.5f) * dir, 0f);
+
+        // 중심 조정 (위로 올림)
+        center.y += 0f;
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(center, size);
     }
 
+
     public void ActiveTrex()
     {
         gameObject.SetActive(true);
+        col.isTrigger = false;
         move.SetTargetPosition(player.position);
         move.ChangeState(TrexMove.MonsterState.Chase);
         move.ClearTimer();
@@ -292,10 +354,29 @@ public class TrexThink : MonoBehaviour
 
     public void DechasedTrex()
     {
-        //move.ClearTargetPosition(); << 안해도 됨
+        if (move.state == TrexMove.MonsterState.Jumping)
+        {
+            move.prevState = TrexMove.MonsterState.Pause;
+            // Invoke 지연 호출 생략 (점프가 끝난 뒤 prevState == Pause → 자연스럽게 처리됨)
+            return;
+        }
+
+        if (move.state == TrexMove.MonsterState.Pause || move.state == TrexMove.MonsterState.Patrol)
+            return;
+
+        move.prevState = TrexMove.MonsterState.Patrol;
         move.ChangeState(TrexMove.MonsterState.Pause);
         Invoke(nameof(ReturnToPatrol), 1.0f);
-        move.ClearTimer();
+    }
+
+    public void ChaseSuppressed()
+    {
+        isChaseSuppressed = true;
+    }
+
+    public void ChaseUnsuppressed()
+    {
+        isChaseSuppressed = false;
     }
 
     void ReturnToPatrol()

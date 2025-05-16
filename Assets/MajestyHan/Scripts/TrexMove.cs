@@ -4,7 +4,7 @@ public class TrexMove : MonoBehaviour
 {
     public enum MonsterState { Idle, Patrol, Chase, ReadyToJump, Jumping, Pause }
     public MonsterState state = MonsterState.Idle;
-    private MonsterState prevState;
+    public MonsterState prevState;
 
     [Header("속도 / 점프높이")]
     public float moveSpeed = 2f;
@@ -97,11 +97,37 @@ public class TrexMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("플레이어와 충돌!");
+            PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.AnyState(PlayerState.Die);
+            
+            if (state == MonsterState.Jumping)
+                prevState = MonsterState.Pause;
+            else
+                ChangeState(MonsterState.Pause);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            
+            PlayerController pc = other.gameObject.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.AnyState(PlayerState.Die);
+           
+            if (state==MonsterState.Jumping)
+                prevState = MonsterState.Pause;
+            else
+                ChangeState(MonsterState.Pause);
+            
+        }
+    }
+
+
 
     void MoveTowardsTarget()
     {
@@ -242,7 +268,10 @@ public class TrexMove : MonoBehaviour
 
     public void JumpNow(Vector3 target)
     {
-        prevState = state;
+        if (state == MonsterState.ReadyToJump || state == MonsterState.Jumping)
+            return;
+
+        prevState = state;        
         targetPosition = target;
         StartJump();
     }
