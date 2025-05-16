@@ -74,8 +74,13 @@ public class StageManager : MonoBehaviour
                     trapInfo.GetChild(i).GetComponent<TrapSetter>().RandomSet();
                 }
 
-                var mirroredApearTrap = GameObject.Find("Level").transform.Find("Mirrored").Find("Trap").Find("ApearTrap_M").GetComponent<ReactivePlatform>();
-                var normalApearTrap = GameObject.Find("Level").transform.Find("Normal").Find("Trap").Find("ApearTrap").GetComponent<ReactivePlatform>();
+                var mirroredApearTrap = GameObject.Find("Level").transform.Find("Mirrored").Find("Trap").Find("ApearTrapGrid M").Find("ApearTrap M").GetComponent<ReactivePlatform>();
+                var normalApearTrap = GameObject.Find("Level").transform.Find("Normal").Find("Trap").Find("ApearTrapGrid").Find("ApearTrap").GetComponent<ReactivePlatform>();
+
+                var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+
+                foreach (var com in mappinSetter)
+                    com.maxPinCount = 4;
 
                 //var mappinSetter = FindObjectOfType<MapPinSetter>();
                 //mappinSetter.maxPinCount = 4;

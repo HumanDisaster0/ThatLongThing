@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public enum FootholdType
 {
@@ -18,7 +19,7 @@ public class FootholdMover : MonoBehaviour
     public bool acceleration = false;
 
     Rigidbody2D m_rb;
-    BoxCollider2D m_col;
+    Collider2D m_col;
     Vector3 m_defaultPos;
     Quaternion m_defaultRot;
     Vector3 m_defaultScale;
@@ -31,6 +32,12 @@ public class FootholdMover : MonoBehaviour
     {
         m_rb = GetComponent<Rigidbody2D>();
         m_col = GetComponent<BoxCollider2D>();
+
+        if (m_col == null)
+            m_col = GetComponent<CompositeCollider2D>();
+        if (m_col == null)
+            m_col = GetComponent<TilemapCollider2D>();
+
 
         m_rb.bodyType = RigidbodyType2D.Static;
         m_defaultPos = transform.position;

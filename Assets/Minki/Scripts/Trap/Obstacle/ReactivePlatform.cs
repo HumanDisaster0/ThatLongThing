@@ -30,7 +30,12 @@ public class ReactivePlatform : MonoBehaviour
         m_col = GetComponent<BoxCollider2D>();
 
         if (m_col == null)
+            m_col = GetComponent<CompositeCollider2D>();
+        if (m_col == null)
             m_col = GetComponent<TilemapCollider2D>();
+
+
+
 
         SetPlatformOption();
     }
@@ -60,7 +65,7 @@ public class ReactivePlatform : MonoBehaviour
 
     public void ResetPlatform()
     {
-        if (!gameObject.activeInHierarchy)
+        if (!gameObject.activeInHierarchy || m_trapOff)
             return;
 
         m_isActive = false;

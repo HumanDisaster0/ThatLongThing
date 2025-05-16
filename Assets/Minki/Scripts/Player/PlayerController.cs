@@ -421,6 +421,7 @@ public class PlayerController : MonoBehaviour
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 {
                     PlayerSpawnManager.instance.Respawn();
+                    SetVelocity(Vector2.zero);
                     AnyState(PlayerState.Fall);
                 }
                 break;

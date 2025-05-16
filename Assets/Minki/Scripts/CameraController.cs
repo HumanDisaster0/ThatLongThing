@@ -160,8 +160,14 @@ public class CameraController : MonoBehaviour
         var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - m_currentPos.y) - deadzoneY) / deadzoneThresold));
 
         //거울반전 효과 시 속도유지
-        if (m_currentPos.x + deadzoneX + deadzoneThresold > worldRect.max.x || m_currentPos.x - deadzoneX - deadzoneThresold < worldRect.min.x)
+        if ((m_targetPos.x + deadzoneX + deadzoneThresold < m_currentPos.x + depthX && m_currentPos.x + depthX < worldRect.max.x )
+            || (m_targetPos.x - deadzoneX - deadzoneThresold > m_currentPos.x - depthX && m_currentPos.x - depthX > worldRect.min.x)
+            || (m_currentPos.x + depthX > worldRect.max.x) 
+            || (m_currentPos.x - depthX < worldRect.min.x))
+        {
             setXLerpSpeed = maxLerpSpeed;
+        }
+           
 
         m_currentPos.x = Mathf.Lerp(m_currentPos.x, m_targetPos.x, 1 - Mathf.Exp(-setXLerpSpeed * Time.deltaTime));
         m_currentPos.y = Mathf.Lerp(m_currentPos.y, m_targetPos.y, 1 - Mathf.Exp(-setYLerpSpeed * Time.deltaTime));
