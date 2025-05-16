@@ -9,6 +9,7 @@ TagManager:
   - JumpNode
   - TrapInfo
   - RedZone
+  - Minimap
   layers:
   - Default
   - TransparentFX

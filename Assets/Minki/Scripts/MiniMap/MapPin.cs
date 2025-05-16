@@ -40,7 +40,7 @@ public class MapPin : MonoBehaviour, IPointerClickHandler
         {
             m_mapPinState = (MapPinState)((int)m_mapPinState + 1);
 
-            if((int)m_mapPinState > Enum.GetValues(typeof(MapPinState)).Length - 1)
+            if((int)m_mapPinState > Enum.GetValues(typeof(MapPinState)).Length - 2)
             {
                 pinSetter.DeletePin(gameObject.GetHashCode());
                

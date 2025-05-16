@@ -9,6 +9,10 @@ public class TrapSetter : MonoBehaviour
     public UnityEvent turnOnSet;
     public UnityEvent turnOffSet;
 
+    public bool GetResult => m_result;
+
+    bool m_result;
+
     private void Awake()
     {
         if (!trapInfo)
@@ -23,11 +27,13 @@ public class TrapSetter : MonoBehaviour
         {
             trapInfo.type = TrapType.Fine;
             turnOffSet?.Invoke();
+            m_result = false;
         }
         else
         {
             trapInfo.type = TrapType.Danger;
             turnOnSet?.Invoke();
+            m_result = true;
         }
     }
 
@@ -37,11 +43,13 @@ public class TrapSetter : MonoBehaviour
         {
             trapInfo.type = TrapType.Danger;
             turnOnSet?.Invoke();
+            m_result = true;
         }
         else
         {
             trapInfo.type = TrapType.Fine;
             turnOffSet?.Invoke();
+            m_result = false;
         }
     }
 }

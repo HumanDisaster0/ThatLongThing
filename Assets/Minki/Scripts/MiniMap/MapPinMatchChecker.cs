@@ -26,6 +26,16 @@ public class MapPinMatchChecker : MonoBehaviour
     Collider2D[] m_cols = new Collider2D[8];
     HashSet<int> m_duplicatePrevent = new HashSet<int>();
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            var data = CreateMatchData();
+
+            print($"{data.correct} : {data.wrong}");
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -91,8 +101,9 @@ public class MapPinMatchChecker : MonoBehaviour
 
             //var trapInfos = FindObjectsByType<TrapInfo>(FindObjectsSortMode.None);
 
-            data.wrong += setter.maxPinCount - (data.wrong + data.correct);
+           
         }
+        data.wrong += setter.maxPinCount - (data.wrong + data.correct);
 
         return data;
     }

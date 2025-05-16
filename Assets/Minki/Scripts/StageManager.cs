@@ -39,9 +39,18 @@ public class StageManager : MonoBehaviour
         }
 
         //함정
+        int offTraps = 0;
         foreach (var setter in result)
         {
             setter.RandomSet();
+            if(!setter.GetResult)
+                offTraps++;
+        }
+
+        //함정이 모두 꺼진 경우 랜덤 하나 켜기
+        if(result.Length - 1 == offTraps)
+        {
+            result[Random.Range(0, result.Length)].SpecifiedSet(true);
         }
 
         //이상현상
@@ -60,14 +69,40 @@ public class StageManager : MonoBehaviour
 
             //no.4 - 날아오르라 주작이여
             case 4:
-                var anomaly = GameObject.Find("Level").transform.Find("Normal").Find("Anomaly");
-                anomaly.Find("Jujak").gameObject.SetActive(true);
-                anomaly.Find("JujakTrapGrid").gameObject.SetActive(true);
-                anomaly.Find("JujakTrapInfo").gameObject.SetActive(true);
+                {
+                    var anomaly = GameObject.Find("Level").transform.Find("Normal").Find("Anomaly");
+                    anomaly.Find("Jujak").gameObject.SetActive(true);
+                    anomaly.Find("JujakTrapGrid").gameObject.SetActive(true);
+                    //anomaly.Find("JujakTrapInfo").gameObject.SetActive(true);
 
-                var trap = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
-                trap.Find("RockTrapInfo").GetComponent<TrapSetter>().SpecifiedSet(false);
-                break;
+                    var trap = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
+
+                    //돌 함정이 켜져있는 경우 돌 함정을 제외한 나머지 함정 중 랜덤하게 하나 켜기
+                    if (trap.Find("RockTrapInfo").GetComponent<TrapSetter>().trapInfo.type == TrapType.Danger)
+                    {
+                        trap.Find("RockTrapInfo").GetComponent<TrapSetter>().SpecifiedSet(false);
+
+                        int num = Random.Range(0, 3);
+
+                        for(int i = 0; i < trap.childCount; i++)
+                        {
+                            if (trap.GetChild(i).name == "RockTrapInfo")
+                                continue;
+
+                            if (num == 0)
+                            {
+                                trap.GetChild(i).GetComponent<TrapSetter>().SpecifiedSet(true);
+                                break;
+                            }
+                            num--;
+                        }
+                    }
+
+                   
+
+                    break;
+                }
+                
 
             //no.7 - 나 홀로 던전
             case 7:

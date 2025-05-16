@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour
     [Header("이상현상 관련")]
     public float playerScale = 1.0f;
 
+    [Header("map")]
+    public RectTransform minimap;
+
     #endregion
 
     #region Private Member
@@ -123,6 +126,8 @@ public class PlayerController : MonoBehaviour
         m_rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         m_rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         ApplyScale();
+
+        minimap = GameObject.FindWithTag("Minimap").transform.Find("Panel").Find("Minimap").GetComponent<RectTransform>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -167,6 +172,14 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         //---- 입력처리 ----//
+
+        if(minimap && minimap.gameObject.activeInHierarchy)
+        {
+            m_hInput = 0;
+            m_vInput = 0;
+            m_jumpInput = false;
+            return;
+        }
 
         //-- 방향키 입력
         var lastHInput = m_hInput;
