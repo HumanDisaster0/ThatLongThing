@@ -6,6 +6,7 @@ using System;
 public class MinimapPreRenderer : MonoBehaviour
 {
     public RectTransform parentRect;
+    public ScrollRect scrollRect;
     public Tilemap tilemap;
     public RawImage rawImage;
 
@@ -71,5 +72,7 @@ public class MinimapPreRenderer : MonoBehaviour
 
         // 필요 시 크기 조정
         rawImage.rectTransform.sizeDelta = new Vector2(pivotX + texWidth, texHeight + pivotY);
+
+        scrollRect.horizontalScrollbar.value = 0;
     }
 }

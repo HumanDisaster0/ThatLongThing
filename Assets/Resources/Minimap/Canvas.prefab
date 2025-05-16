@@ -861,7 +861,7 @@ RectTransform:
   m_Father: {fileID: 3133209322212543711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -994,9 +994,9 @@ RectTransform:
   m_Father: {fileID: 993934995501703037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: -17, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6888584508030087065
 CanvasRenderer:
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   mapContent: {fileID: 4930083535333384260}
   zoom: {fileID: 5543655909823768227}
   pinPrefab: {fileID: 8382961276296335010, guid: 6628d48fca2e8c34a988bf69bfa85249, type: 3}
-  pinCountText: {fileID: 0}
+  pinCountText: {fileID: 3919425973877231279}
   maxPinCount: 5
 --- !u!1 &4900262644275117899
 GameObject:
@@ -1623,6 +1623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentRect: {fileID: 993934995501703037}
+  scrollRect: {fileID: 4807797347130116473}
   tilemap: {fileID: 5093346113265722054}
   rawImage: {fileID: 7999793214588791407}
   tileSize: 50
@@ -1662,7 +1663,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 1720, y: 880}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6069270319615520873
 GameObject:
@@ -2075,9 +2076,9 @@ RectTransform:
   m_Father: {fileID: 993934995501703037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: -17}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &546572938735795428
 CanvasRenderer:
@@ -2241,8 +2242,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1107188753286474906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.053888917, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
