@@ -1,275 +1,305 @@
-using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using static TrexMove;
+using System.Collections.Generic;
 
 public class TrexThink : MonoBehaviour
 {
-    public Transform player;           // 플레이어 참조
-    public float chaseRange = 4f;      // 추적 시작 범위
-    public float arriveNodeRange = 3f;      //노드 도착 판정
-    public List<JumpNode> allJumpNodes; // 티라노가 인식하는 모든 노드 리스트
+    public Transform player;
 
-    private float yThreshold = 0.8f;     // 플레이어와 Y차이 임계값
-    private TrexMove move;             // 실행기 참조
-    private bool goToJump = false;
-    private JumpNode bestNode = null;
-    private BoxCollider2D trexCol;
-    private BoxCollider2D playerCol;
-    private PlayerController playerCont;
-    private Rigidbody2D trexRb;
+    [Header("추적 범위")]
+    public float chaseRange = 4f;
+    public float chaseJumpDistance = 1.5f; // 가까우면 바로 점프
 
-    // 첫 위치 기억
-    Vector2 spawnPoint;
+    [Header("점프스캔 범위")]
+    public float verticalScanHeight = 6f;
+    public int horizontalScanSteps = 6;
+    public float scanStepSize = 0.5f;
+    
+    [Header("지형타일 레이어 등록")]
+    public LayerMask groundMask;
 
-    //끼임 관련 변수들
-    private Vector3 lastPosition;
-    private float stuckCheckInterval = 0.5f;
-    private float stuckTimer = 0f;
-    private float moveThreshold = 0.001f;      // 움직였다고 간주할 최소 거리
-    private float velocityThreshold = 0.1f;    // velocity가 있는지 판단할 최소 속도
-    private bool isStuck = false;              // 끼인 상태 플래그
+    private TrexMove move;
+    private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
+    private BoxCollider2D col;
 
-    void Awake()
+    private Vector2 spawnPoint;
+
+    private bool isWallAhead = false;
+    private bool isGrounded = false;
+    private bool isCliffAhead = false;
+
+    private void Awake()
     {
         move = GetComponent<TrexMove>();
-        trexCol = move.GetComponent<BoxCollider2D>();
-        trexRb = move.GetComponent<Rigidbody2D>();
-        playerCol = player.GetComponent<BoxCollider2D>();
-        playerCont = player.GetComponent<PlayerController>();
-
+        rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         spawnPoint = transform.position;
+        DeactiveTrex();
     }
 
-    private void Start()
+    private void Update()
     {
-        allJumpNodes = new List<JumpNode>();
-        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+        RayAll(); // 벽/바닥/절벽 갱신
 
-        foreach (var obj in allObjects)
+
+        float dist = Vector2.Distance(transform.position, player.position);
+
+        if (move.state == TrexMove.MonsterState.Patrol && dist < chaseRange)
         {
-            if (obj.layer == LayerMask.NameToLayer("JumpNode"))
-            {
-                JumpNode node = obj.GetComponent<JumpNode>();
-                if (node != null && !node.isHorizontalJump) // 수직 점프만 등록
-                    allJumpNodes.Add(node);
-            }
+            move.ChangeState(TrexMove.MonsterState.Pause);
+            Invoke(nameof(EnterChase), 1.0f); // 1초 뒤에 체이스 진입
+            return;
         }
 
-        DeactiveTrex(); // 원래 로직 유지
-    }
-
-
-    void Update()
-    {
-        IsSturck();
-
-        if (move.state == TrexMove.MonsterState.Patrol)
+        if (move.state == TrexMove.MonsterState.Chase)
         {
-            float dist = Vector2.Distance(transform.position, player.position);
-            if (dist <= chaseRange)
-            {
-                if (move.state != MonsterState.Chase)
-                {
-                    move.ResetChaseTimer();
-                    move.SetTargetPosition(player.position);
-                    move.ChangeState(TrexMove.MonsterState.Chase);
-                }
-            }
-        }
-        else if (move.state == TrexMove.MonsterState.Chase)
-        {
-            if (goToJump) //점프 지점으로 이동중인가?
-            {
-                float diff = Vector2.Distance(transform.position, bestNode.transform.position);
+            move.SetTargetPosition(player.position);
 
-                if (diff < arriveNodeRange) //도착함
-                {
-                    move.ChangeState(TrexMove.MonsterState.ReadyToJump);
-                    move.SetTargetPosition(bestNode.GetConnectedPosition());
-                    goToJump = false;
-                }
+            float xDist = Mathf.Abs(player.position.x - transform.position.x);
+            bool closeEnoughToJump = xDist < chaseJumpDistance;
+
+            if (isGrounded && closeEnoughToJump)
+            {
+                Debug.Log("[TrexThink] 플레이어가 충분히 가까움 → 바로 점프 시도");
+                move.JumpNow(player.position);
                 return;
             }
-            else
-                ThinkToChase(); //추적 판단
+        }
+
+        bool isThinking = move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase;
+
+        if (isThinking && isGrounded && (isCliffAhead || isWallAhead))
+        {
+            ScanAndJump();
         }
     }
 
-    void ThinkToChase()
+
+    void EnterChase()
     {
-        if (move.state != TrexMove.MonsterState.Chase)
-            return;
+        move.SetTargetPosition(player.position);
+        move.ChangeState(TrexMove.MonsterState.Chase);
+    }
 
-        // 1. 플레이어가 점프 중이라면 추적 판단 중지
-        bool playerIsJumping = (playerCont.GetCurrentState() == PlayerState.Jump
-            || playerCont.GetCurrentState() == PlayerState.Fall);
-        if (playerIsJumping)
+    private void RayAll()
+    {
+        Bounds bounds = col.bounds;
+        float rayLength = 0.2f;
+        float dir = spriteRenderer.flipX ? 1 : -1;
+
+        // ==============================
+        // ▶ 벽 검사 (앞쪽 세 점)
+        // ==============================
+        Vector2 top = new Vector2(bounds.center.x + dir * bounds.extents.x, bounds.max.y - 0.05f);
+        Vector2 middle = new Vector2(bounds.center.x + dir * bounds.extents.x, bounds.center.y);
+        Vector2 bottom = new Vector2(bounds.center.x + dir * bounds.extents.x, bounds.min.y + 0.05f);
+
+        RaycastHit2D hitTop = Physics2D.Raycast(top, Vector2.right * dir, rayLength, groundMask);
+        RaycastHit2D hitMiddle = Physics2D.Raycast(middle, Vector2.right * dir, rayLength, groundMask);
+        RaycastHit2D hitBottom = Physics2D.Raycast(bottom, Vector2.right * dir, rayLength, groundMask);
+
+        Debug.DrawRay(top, Vector2.right * dir * rayLength, Color.blue);
+        Debug.DrawRay(middle, Vector2.right * dir * rayLength, Color.blue);
+        Debug.DrawRay(bottom, Vector2.right * dir * rayLength, Color.blue);
+
+        isWallAhead = hitTop.collider != null || hitMiddle.collider != null || hitBottom.collider != null;
+
+        // ==============================
+        // ▶ 바닥 검사 (3개 → 중심 + 양끝)
+        // ==============================
+        float centerX = bounds.center.x;
+        float leftX = bounds.min.x + 0.05f;
+        float rightX = bounds.max.x - 0.05f;
+        float y = bounds.min.y + 0.01f;
+
+        Vector2 left = new Vector2(leftX, y);
+        Vector2 center = new Vector2(centerX, y);
+        Vector2 right = new Vector2(rightX, y);
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(left, Vector2.down, rayLength, groundMask);
+        RaycastHit2D hitCenter = Physics2D.Raycast(center, Vector2.down, rayLength, groundMask);
+        RaycastHit2D hitRight = Physics2D.Raycast(right, Vector2.down, rayLength, groundMask);
+
+        Debug.DrawRay(left, Vector2.down * rayLength, Color.green);
+        Debug.DrawRay(center, Vector2.down * rayLength, Color.green);
+        Debug.DrawRay(right, Vector2.down * rayLength, Color.green);
+
+        int groundHitCount = 0;
+        if (hitLeft.collider != null) groundHitCount++;
+        if (hitCenter.collider != null) groundHitCount++;
+        if (hitRight.collider != null) groundHitCount++;
+
+        isGrounded = groundHitCount >= 1;          // 하나라도 맞으면 지상
+        isCliffAhead = groundHitCount < 3;         // 하나라도 안 맞으면 절벽
+    }
+
+
+    private void ScanAndJump()
+    {
+        rb.velocity = Vector2.zero; // 일단 정지
+        // 1. 바라보는 방향 계산 (flipX = true면 왼쪽을 보는 중이므로 dir = 1)
+        float dir = spriteRenderer.flipX ? 1 : -1;
+
+        // 2. 수평 스캔의 시작 지점 (캐릭터의 콜라이더 바깥에서 약간 떨어진 지점)
+        Vector2 horizontalStart = new Vector2(
+            transform.position.x + dir * (col.bounds.extents.x + scanStepSize * 0.5f),
+            transform.position.y
+        );
+
+        // 3. 수직 스캔의 간격 설정 (한 층씩 아래로 얼마나 이동하며 검사할지)
+        float stepY = 0.5f;
+
+        // 4. 유효한 착지 지점을 저장할 리스트
+        List<Vector2> candidates = new();
+
+
+        // 5. 진행방향으로 일정 거리만큼 수평 스텝을 이동하며 검사
+        for (int i = 0; i < horizontalScanSteps; i++)
         {
-            //Debug.Log("[TrexThink] 플레이어 점프 중 - 추적 보류");
-            return;
-        }
+            
+            Vector2 basePoint = horizontalStart + Vector2.right * dir * scanStepSize * i;
 
-        float trexFootY = trexCol.bounds.min.y;
-        float playerFootY = playerCol.bounds.min.y;
-        float yDiff = Mathf.Abs(playerFootY - trexFootY);
+            // 이 수평 위치에서 위에서 아래 방향으로 검사할 범위 (탑 → 바닥)
+            float topY = transform.position.y + verticalScanHeight;
+            float bottomY = transform.position.y - verticalScanHeight;
 
-        // 2. Y축 차이가 크지 않다면 그냥 직접 추적
-        if (yDiff < yThreshold)
-        {
-            //Debug.Log("[TrexThink] Y축 차이 무시 가능 - 직접 추적");
-            move.SetTargetPosition(player.position);
-            return;
-        }
+            bool foundGround = false; // 첫 번째 땅 감지 여부
+            bool skipping = false;    // 감지 이후 빈 공간 나올 때까지 스킵 중인지 여부
 
-        //Debug.Log("[TrexThink] Y축 차이 감지 - 점프 판단 시작");
-
-        // Step 1: 플레이어와 같은 층에 있는 도착 노드들 수집
-        List<JumpNode> candidateDestinations = new List<JumpNode>();
-        foreach (var node in allJumpNodes)
-        {
-            Vector3 destPos = node.GetConnectedPosition();
-            if (Mathf.Abs(destPos.y - playerFootY) < yThreshold)
+            // 6. 위에서 아래로 일정 간격으로 이동하며 지형을 감지
+            for (float y = topY; y >= bottomY; y -= stepY)
             {
-                candidateDestinations.Add(node);
-                //Debug.Log($"[TrexThink] 후보 도착노드 발견: {node.name}");
-            }
-        }
+                Vector2 checkPoint = new Vector2(basePoint.x, y);
 
-        if (candidateDestinations.Count == 0)
-        {
-            // Debug.Log("[TrexThink] 도착 가능한 노드 없음 - Patrol 전환");
-            move.ChangeState(TrexMove.MonsterState.Patrol);
-            return;
-        }
+                // 반지름 0.05f의 원으로 검사
+                Collider2D hit = Physics2D.OverlapCircle(checkPoint, 0.05f, groundMask);
 
-        // Step 2: BFS로 경유 노드를 통해 갈 수 있는 출발노드 탐색
-        Queue<JumpNode> queue = new Queue<JumpNode>();
-        Dictionary<JumpNode, JumpNode> cameFrom = new Dictionary<JumpNode, JumpNode>();
+                // 디버그용 점 찍기 (노란색: 땅 있음 / 회색: 없음)
+                Debug.DrawRay(checkPoint, Vector2.right * 0.1f, hit ? Color.yellow : Color.gray, 0.5f);
 
-        foreach (var dest in candidateDestinations)
-        {
-            queue.Enqueue(dest);
-            cameFrom[dest] = null;
-        }
-
-        JumpNode bestStart = null;
-        float bestDist = Mathf.Infinity;
-
-        while (queue.Count > 0)
-        {
-            JumpNode current = queue.Dequeue();
-            Vector3 startPos = current.transform.position;
-
-            // 2-1. 티라노가 같은 층에 있는 노드 발견
-            if (Mathf.Abs(startPos.y - trexFootY) < yThreshold)
-            {
-                float dist = Vector2.Distance(startPos, transform.position);
-                if (dist < bestDist)
+                if (!foundGround && hit != null)
                 {
-                    bestStart = current;
-                    bestDist = dist;
+                    candidates.Add(new Vector2(checkPoint.x, checkPoint.y + stepY));
+
+                    foundGround = true;
+                    skipping = true;
+                    y -= stepY;
+                    continue;
                 }
-                continue;
+
+                if (skipping && hit == null)
+                {
+                    skipping = false;
+                }
             }
 
-            // 2-2. 다른 노드에서 이 current로 이어질 수 있는지 확인 (Y값 기준 연결 허용)
-            foreach (var node in allJumpNodes)
-            {
-                float yDelta = Mathf.Abs(node.GetConnectedPosition().y - current.transform.position.y);
-                if (yDelta < yThreshold && !cameFrom.ContainsKey(node))
-                {
-                    queue.Enqueue(node);
-                    cameFrom[node] = current;
-                    //Debug.Log($"[TrexThink] 계단식 연결 탐지: {node.name} → {current.name}");
-                }
-            }
         }
 
-        // Step 3: 결과 반영
-        if (bestStart != null)
+        // 7. 착지 후보 중 가장 플레이어와 높이(y)가 비슷한 지점을 선택
+        if (candidates.Count > 0)
         {
-            move.SetTargetPosition(bestStart.transform.position);
-            bestNode = bestStart;
-            goToJump = true;
-            //Debug.Log($"[TrexThink] 최종 점프 시작 위치: {bestStart.name} 선택");
+
+            Vector2 best;
+
+            if (move.state == TrexMove.MonsterState.Chase)
+            {
+                // 플레이어와 가장 가까운 후보 선택 (X+Y 거리 기준)
+                float bestScore = float.MaxValue;
+                best = candidates[0];
+
+                foreach (var point in candidates)
+                {
+                    float xDiff = Mathf.Abs(point.x - player.position.x);
+                    float yDiff = Mathf.Abs(point.y - player.position.y);
+                    float score = xDiff + yDiff;
+
+                    if (score < bestScore)
+                    {
+                        best = point;
+                        bestScore = score;
+                    }
+                }
+            }
+            else // Patrol 상태 등
+            {
+                // 랜덤하게 하나 선택
+                best = candidates[Random.Range(0, candidates.Count)];
+            }
+
+
+
+            // 최적의 착지 지점으로 점프 실행
+            move.PrepareJump(best); // ← 준비 상태부터 점프
+            Debug.Log($"[TrexThink] 수직 스텝 스캔 점프 실행 → 착지점: {best}");
         }
         else
         {
-            //Debug.Log("[TrexThink] 경로 없음 - Patrol 전환");
-            move.ChangeState(TrexMove.MonsterState.Patrol);
+            // 8. 유효한 착지 지점이 하나도 없을 경우
+
+            if (move.state == TrexMove.MonsterState.Chase)
+            {
+                // 추적 중이었으면 포기하고 Patrol 상태로 전환
+                move.ChangeState(TrexMove.MonsterState.Patrol);
+                move.ClearTargetPosition();
+                Debug.Log("[TrexThink] 점프 실패 → 추적 포기하고 Patrol로 복귀");
+            }
+
+            // 진행 방향 반대로 전환
+            spriteRenderer.flipX = !spriteRenderer.flipX;
+            Debug.Log("[TrexThink] 점프 실패 → 방향 반전");
         }
     }
 
-    void IsSturck()
+
+    private void OnDrawGizmos()
     {
-        stuckTimer += Time.deltaTime;
+        if (col == null) return;
 
-        if (stuckTimer >= stuckCheckInterval)
-        {
-            float distanceMoved = (transform.position - lastPosition).sqrMagnitude;
-            float currentSpeed = trexRb.velocity.sqrMagnitude;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
 
-            // velocity는 있는데 실제로 거의 안 움직였다면 → 끼임
-            if (currentSpeed > velocityThreshold * velocityThreshold &&
-                distanceMoved < moveThreshold * moveThreshold)
-            {
-                Debug.Log("[TrexMove] 움직이지 못하고 있음 → 끼인 상태 감지됨");
-                isStuck = true;
-                TryEscapeByJump(); //긴급탈출!
-            }
-            else
-            {
-                isStuck = false;
-            }
+        float dir = GetComponent<SpriteRenderer>().flipX ? 1 : -1;
+        float stepSize = scanStepSize;
+        int steps = horizontalScanSteps;
+        float height = verticalScanHeight;
 
-            lastPosition = transform.position;
-            stuckTimer = 0f;
-        }
+        Vector2 start = new Vector2(
+            transform.position.x + dir * (col.bounds.extents.x + stepSize * 0.5f),
+            transform.position.y + height
+        );
+
+        Vector2 size = new Vector2(stepSize * steps, height * 2f);
+        Vector2 center = start - new Vector2(-size.x * 0.5f, size.y * 0.5f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(center, size);
     }
 
-    public void TryEscapeByJump()
-    {
-        float minDist = Mathf.Infinity;
-        JumpNode bestStart = null;
-
-        foreach (var node in allJumpNodes)
-        {
-            if (node.connectedNode == null) continue;
-
-            float dist = Vector2.Distance(transform.position, node.transform.position);
-            if (dist < minDist)
-            {
-                minDist = dist;
-                bestStart = node;
-            }
-        }
-
-        if (bestStart != null)
-        {
-            move.JumpNow(bestStart.connectedNode.transform.position);
-            Debug.Log($"[TrexThink] 추적 중 정지 상태 감지 → 강제 점프 유도: {bestStart.name} → {bestStart.connectedNode.name}");
-        }
-    }
     public void ActiveTrex()
     {
         gameObject.SetActive(true);
         move.SetTargetPosition(player.position);
-        move.ChangeState(MonsterState.Chase);
+        move.ChangeState(TrexMove.MonsterState.Chase);
         move.ClearTimer();
     }
 
     public void DeactiveTrex()
     {
         move.transform.position = spawnPoint;
-        move.ChangeState(MonsterState.Idle);
         gameObject.SetActive(false);
     }
 
     public void DechasedTrex()
     {
-        move.ClearTargetPosition();
-        move.ChangeState(MonsterState.Pause);
+        //move.ClearTargetPosition(); << 안해도 됨
+        move.ChangeState(TrexMove.MonsterState.Pause);
+        Invoke(nameof(ReturnToPatrol), 1.0f);
         move.ClearTimer();
+    }
+
+    void ReturnToPatrol()
+    {
+        move.ChangeState(TrexMove.MonsterState.Patrol);
     }
 }

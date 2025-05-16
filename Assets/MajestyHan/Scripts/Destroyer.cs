@@ -115,31 +115,14 @@ public class Destroyer : MonoBehaviour
     }
 
     // 적 또는 플레이어와 부딪혔을 때 처리
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Enemy"))
-        {
-            // Enemy 비활성화 처리 해야함!@#$!@#$
-            // collision.collider.GetComponent<Enemy>()?.Disable();
-
-            SpawnFlyingEnemy(collision.collider.transform.position);
-            Destroy(collision.collider.gameObject);
-        }
-
-        if (collision.collider.CompareTag("Player"))
-        {
-            // 플레이어 피격 처리 해야함 !@#$!@#$
-            // collision.collider.GetComponent<Player>()?.Die();
-        }
-    }
 
     // 적을 튕겨내는 연출 (타일처럼)
-    void SpawnFlyingEnemy(Vector3 position)
+    public void SpawnFlyingEnemy(Vector3 position, Sprite originalSprite)
     {
         GameObject flyingObj = Instantiate(flyingTilePrefab, position, Quaternion.identity);
 
         var sr = flyingObj.GetComponent<SpriteRenderer>();
-        sr.sprite = null; // Enemy 스프라이트 복사할 경우 설정 가능
+        sr.sprite = originalSprite; // Enemy 스프라이트 복사할 경우 설정 가능
 
         var rb = flyingObj.GetComponent<Rigidbody2D>();
         rb.velocity = Vector2.zero;
@@ -150,7 +133,7 @@ public class Destroyer : MonoBehaviour
             upwardForce
         );
         rb.AddForce(force, ForceMode2D.Impulse);
-        rb.AddTorque(Random.Range(torqueMin, torqueMax), ForceMode2D.Impulse);
+        rb.AddTorque(Random.Range(-60, 60), ForceMode2D.Impulse); //얘는 따로처리함
 
         Destroy(flyingObj, 3f);
     }
