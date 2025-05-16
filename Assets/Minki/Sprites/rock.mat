@@ -66,9 +66,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlackY: 4.42
     - _EnableExternalAlpha: 0
-    - _Softness: 0.2
-    - _YCutoff: 5.15
+    - _Softness: 0.53
+    - _YCutoff: 5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
