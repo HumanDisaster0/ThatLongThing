@@ -2564,10 +2564,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.6010417
-    y: 0.05277778
-    width: 0.16666667
-    height: 0.16666666
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -4656,7 +4656,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1240507848}
+      - m_Target: {fileID: 770133052}
         m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
         m_MethodName: StartMove
         m_Mode: 1
@@ -4683,7 +4683,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1240507848}
+      - m_Target: {fileID: 770133052}
         m_TargetAssemblyTypeName: FootholdMover, Assembly-CSharp
         m_MethodName: ResetFoothold
         m_Mode: 1
@@ -6367,7 +6367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7251350567348622968, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7771223938238696047, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8963994110702192244, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
       propertyPath: Player
@@ -6378,7 +6382,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6184064734874226381, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
@@ -8644,6 +8649,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3184883687092376159, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4548567588937752175, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -8738,6 +8747,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8482565072919889385, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8482565072919889385, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8856275114882764814, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
@@ -9968,7 +9981,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 738869089}
-  - {fileID: 1944625016}
   - {fileID: 1918744735041881807}
   - {fileID: 2791204014737433885}
   - {fileID: 117540785}
@@ -9979,3 +9991,4 @@ SceneRoots:
   - {fileID: 1563713573}
   - {fileID: 312169686}
   - {fileID: 1917908698}
+  - {fileID: 1944625016}
