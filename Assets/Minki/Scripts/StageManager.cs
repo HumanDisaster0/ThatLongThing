@@ -45,6 +45,16 @@ public class StageManager : MonoBehaviour
         //이상현상
         switch (anomalyIdx)
         {
+            //no.2 - 쥬라식 던전
+            //todo - 미완성, 티라노 추가해야함
+            case 2:
+                GameObject.Find("PlatformManager").GetComponent<PlatformManager>().SetPlatformType(PlatformType.Alter);
+                break;
+
+            //no.3 - 복슬복슬한 행복
+            case 3:
+                GameObject.Find("MonsterManager").GetComponent<MonsterManager>().SetType(MonsterType.Rabbit);
+                break;
 
             //no.4 - 날아오르라 주작이여
             case 4:
@@ -55,6 +65,23 @@ public class StageManager : MonoBehaviour
 
                 var trap = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
                 trap.Find("RockTrapInfo").GetComponent<TrapSetter>().SpecifiedSet(false);
+                break;
+
+            //no.7 - 나 홀로 던전
+            case 7:
+                GameObject.Find("MonsterManager").GetComponent<MonsterManager>().SetType(MonsterType.None);
+                foreach (var setter in result)
+                {
+                    setter.SpecifiedSet(false);
+                }
+                break;
+
+            //no.9 - 거인국 네티
+            case 9:
+                //일단 3배로 키우기
+                var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+                pc.playerScale = 3.0f;
+                pc.ApplyScale();
                 break;
 
             //no.11 - 거울 속에 비친 나
@@ -91,6 +118,12 @@ public class StageManager : MonoBehaviour
                     mirroredApearTrap.SetPlatformOption();
                 }
 
+                break;
+
+            //no.12 - 마른 하늘에 날벼락 (돌 굴러가요!!)
+            //todo - 돌넣어야 함
+            case 12:
+                GameObject.Find("PlatformManager").GetComponent<PlatformManager>().SetPlatformType(PlatformType.Alter);
                 break;
 
             default:

@@ -9,6 +9,12 @@ public class TrapSetter : MonoBehaviour
     public UnityEvent turnOnSet;
     public UnityEvent turnOffSet;
 
+    private void Awake()
+    {
+        if (!trapInfo)
+            trapInfo = GetComponent<TrapInfo>();
+    }
+
     public void RandomSet()
     {
         var rand = Random.Range(0, 2);

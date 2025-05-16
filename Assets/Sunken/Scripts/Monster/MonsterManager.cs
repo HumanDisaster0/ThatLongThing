@@ -17,4 +17,9 @@ public class MonsterManager : MonoBehaviour
             monster.transform.GetComponentInChildren<MMove>().SetType(monsterType);
         }
     }
+
+    public void SetType(MonsterType type)
+    {
+        monsterType = type;
+    }
 }
