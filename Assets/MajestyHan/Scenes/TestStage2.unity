@@ -6541,19 +6541,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalScale.z
-      value: -2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 56.97
+      value: 54.4
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.4
+      value: 4.1
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6586,8 +6586,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3229004893156928173}
   m_SourcePrefab: {fileID: 100100000, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
+--- !u!1 &3229004893156928172 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
+  m_PrefabInstance: {fileID: 3229004893156928171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3229004893156928173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229004893156928172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c0a4195f5cf48aadb1d77f588c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 8
+  upwardForce: 12
+  sideJitter: 10
+  torqueMin: -180
+  torqueMax: 180
+  destructibleTilemaps:
+  - {fileID: 1150740462}
+  flyingTilePrefab: {fileID: 2030325319269345901, guid: 704f17368529348458d1fac425e01457, type: 3}
 --- !u!212 &3383517809084796116
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6688,6 +6716,7 @@ MonoBehaviour:
   maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15
+  playerScale: 1
 --- !u!4 &3702649487230831282
 Transform:
   m_ObjectHideFlags: 0
