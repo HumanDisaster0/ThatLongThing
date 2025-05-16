@@ -97,9 +97,6 @@ public class StageManager : MonoBehaviour
                             num--;
                         }
                     }
-
-                   
-
                     break;
                 }
                 
@@ -114,6 +111,7 @@ public class StageManager : MonoBehaviour
                 break;
 
             //no.9 - 거인국 네티
+            //todo - 부수는거 연결
             case 9:
                 var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                 pc.playerScale = 4.0f;
