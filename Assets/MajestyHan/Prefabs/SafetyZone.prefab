@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7577179165470830549}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.92, y: 10.02, z: 0}
+  m_LocalPosition: {x: 14.82, y: 0.08, z: 0}
   m_LocalScale: {x: 3, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -145,14 +145,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionLayer:
     serializedVersion: 2
-    m_Bits: 0
-  isEnterTrigger: 1
+    m_Bits: 256
+  isEnterTrigger: 0
   isStayTrigger: 1
   isExitTrigger: 0
-  activeTime: 0.5
+  activeTime: 0
   OnStartTrigger:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
+        m_MethodName: DechasedTrex
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnResetTrigger:
     m_PersistentCalls:
       m_Calls: []

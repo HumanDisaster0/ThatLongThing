@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5083993562732338173}
   - component: {fileID: 220293486412547723}
-  - component: {fileID: 1305714662780068444}
   - component: {fileID: 3161749645596722916}
-  - component: {fileID: 7664108388022155884}
+  - component: {fileID: 5749818155996941743}
+  - component: {fileID: 5946089874213641564}
+  - component: {fileID: 3997840078707321451}
   m_Layer: 0
   m_Name: RollingBigStone
   m_TagString: Untagged
@@ -29,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 2843442045270749208}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 52.41, y: 6.9, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalPosition: {x: -9.9, y: 5.77, z: 1}
+  m_LocalScale: {x: 14, y: 14, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -87,22 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1305714662780068444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2843442045270749208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d265620c0cd5bc46ae89da59b12603f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: -1.5
-  detectionRadius: 3
-  tilemap: {fileID: 0}
-  flyingTilePrefab: {fileID: 2030325319269345901, guid: 704f17368529348458d1fac425e01457, type: 3}
 --- !u!50 &3161749645596722916
 Rigidbody2D:
   serializedVersion: 4
@@ -130,8 +115,44 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &7664108388022155884
-BoxCollider2D:
+--- !u!114 &5749818155996941743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843442045270749208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c0a4195f5cf48aadb1d77f588c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 8
+  upwardForce: 12
+  sideJitter: 10
+  torqueMin: -180
+  torqueMax: 180
+  tilemapYMin: -2
+  destructibleTilemaps:
+  - {fileID: 0}
+  flyingTilePrefab: {fileID: 2030325319269345901, guid: 704f17368529348458d1fac425e01457, type: 3}
+--- !u!114 &5946089874213641564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843442045270749208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c56a0eaec46d047acc1a2be15a112f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: {x: 1, y: 0}
+  moveSpeed: 2
+  rotationMultiplier: 360
+--- !u!58 &3997840078707321451
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,15 +184,5 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.49999997
