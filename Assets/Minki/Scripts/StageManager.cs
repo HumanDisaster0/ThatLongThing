@@ -50,10 +50,10 @@ public class StageManager : MonoBehaviour
             case 4:
                 var anomaly = GameObject.Find("Level").transform.Find("Normal").Find("Anomaly");
                 anomaly.Find("Jujak").gameObject.SetActive(true);
-                anomaly.Find("JujakTrap").gameObject.SetActive(true);
+                anomaly.Find("JujakTrapGrid").Find("JujakTrap").gameObject.SetActive(true);
                 anomaly.Find("JujakTrapInfo").gameObject.SetActive(true);
 
-                var trap = GameObject.Find("Level").transform.Find("Normal").Find("Trap");
+                var trap = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
                 trap.Find("RockTrapInfo").GetComponent<TrapSetter>().SpecifiedSet(false);
                 break;
 

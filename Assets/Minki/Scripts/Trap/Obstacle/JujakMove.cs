@@ -50,6 +50,7 @@ public class JujakMove : MonoBehaviour
 
         m_active = false;
         m_sprite.enabled = false;
+        m_rb.velocity = Vector2.zero;
         transform.position = m_defaultPos;
     }
 }
