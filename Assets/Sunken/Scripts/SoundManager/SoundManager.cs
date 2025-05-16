@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -12,7 +13,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Dictionary<string, AudioClip> soundClips = new Dictionary<string, AudioClip>();
 
     [SerializeField] int sourceSize = 10;
+    [SerializeField] float volumeGradation = 10f;
     [SerializeField] List<AudioSource> sources;
+    [SerializeField] List<AudioSource> allSources;
+
+    Camera cam;
 
     private void OnValidate()
     {
@@ -33,6 +38,9 @@ public class SoundManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        cam = Camera.main;
+
+        allSources = GetComponentsInChildren<AudioSource>().ToList();
         LoadAllSound();
     }
 
@@ -43,6 +51,8 @@ public class SoundManager : MonoBehaviour
         {
             sources = GetComponentsInChildren<AudioSource>().ToList();
         }
+
+        CheckVolume();
     }
 
     /// <summary>
@@ -58,15 +68,15 @@ public class SoundManager : MonoBehaviour
         {
             if (sources.Count != 0)
             {
-                sources[0].clip = _clip;
-                sources[0].gameObject.transform.position =
-                    new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
-                sources[0].loop = false;
-                sources[0].Play();
-                sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
-                    StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
-                audioSource = sources[0];
-                sources[0].gameObject.transform.SetParent(caller.transform);
+                sources[sources.Count-1].clip = _clip;
+                sources[sources.Count - 1].gameObject.transform.position =
+                    new Vector3(caller.transform.position.x, caller.transform.position.y, sources[sources.Count - 1].transform.position.z);
+                sources[sources.Count - 1].loop = false;
+                sources[sources.Count - 1].Play();
+                sources[sources.Count - 1].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                    StartCoroutine(StopTime(_clip.length, sources[sources.Count - 1].gameObject));
+                audioSource = sources[sources.Count-1];
+                sources[sources.Count - 1].gameObject.transform.SetParent(caller.transform);
             }
             else
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -105,15 +115,15 @@ public class SoundManager : MonoBehaviour
             {
                 if (sources.Count != 0)
                 {
-                    sources[0].clip = _clip;
-                    sources[0].gameObject.transform.position =
-                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
-                    sources[0].loop = false;
-                    sources[0].Play();
-                    sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
-                        StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
-                    audioSource = sources[0];
-                    sources[0].gameObject.transform.SetParent(caller.transform);
+                    sources[sources.Count - 1].clip = _clip;
+                    sources[sources.Count - 1].gameObject.transform.position =
+                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[sources.Count-1].transform.position.z);
+                    sources[sources.Count - 1].loop = false;
+                    sources[sources.Count - 1].Play();
+                    sources[sources.Count - 1].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                        StartCoroutine(StopTime(_clip.length, sources[sources.Count-1].gameObject));
+                    audioSource = sources[sources.Count - 1];
+                    sources[sources.Count - 1].gameObject.transform.SetParent(caller.transform);
                 }
                 else
                     Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -174,5 +184,34 @@ public class SoundManager : MonoBehaviour
         }
 
         Debug.Log("총 " + soundClips.Count + "개의 사운드 로드 완료!");
+    }
+
+    private void CheckVolume()
+    {
+        Vector2 leftDown = cam.ScreenToWorldPoint(new Vector2(0, 0));
+        Vector2 rightUp = cam.ScreenToWorldPoint(new Vector2(cam.scaledPixelWidth, cam.scaledPixelHeight));
+
+        foreach (var source in allSources)
+        {
+            Vector2 pos = source.transform.position;
+
+            // 오브젝트가 화면 경계 내에 있는지 확인
+            bool isInside = (pos.x >= leftDown.x && pos.x <= rightUp.x) &&
+                            (pos.y >= leftDown.y && pos.y <= rightUp.y);
+
+            if (isInside)
+            {
+                source.volume = 1f; // 화면 안에 있을 때 볼륨 최대로 유지
+            }
+            else
+            {
+                // 화면 경계에서 얼마나 멀어졌는지 계산
+                float distance = Mathf.Min(Vector2.Distance(pos, leftDown), Vector2.Distance(pos, rightUp));
+
+                // 거리가 멀어질수록 볼륨 감소 (최소값 0 ~ 최대값 1)
+                source.volume = Mathf.Clamp01(1f - (distance / volumeGradation)); // `10f`는 조절 가능한 감쇠 거리
+            }
+        }
+
     }
 }
