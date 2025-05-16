@@ -109,6 +109,7 @@ MonoBehaviour:
   maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15
+  playerScale: 1
 --- !u!114 &8968510565193850932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0a67650cd37ed4b9e94639d45c8d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RedZoneName: RedZone
 --- !u!50 &9169502309803756339
 Rigidbody2D:
   serializedVersion: 4

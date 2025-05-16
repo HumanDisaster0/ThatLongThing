@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     public float coyoteJumpTime = 0.08f; //공중돌입 후 점프유예 시간
     public float jumpBufferTime = 0.15f; //착지 전 점프입력 유효 시간
 
+    [Header("이상현상 관련")]
+    public float playerScale = 1.0f;
+
     #endregion
 
     #region Private Member
@@ -73,7 +76,6 @@ public class PlayerController : MonoBehaviour
     float m_vInput;
     bool m_jumpInput;
     
-    
     //플레이어 상태
     PlayerState m_currentState = PlayerState.Idle;
 
@@ -85,7 +87,27 @@ public class PlayerController : MonoBehaviour
     //readonly static int m_hash_fallAnim = Animator.StringToHash("anim_knight_fall");
     readonly static int m_hash_dieAnim = Animator.StringToHash("anim_player_die");
 
+    readonly Vector2 PLAYER_DEFUALT_COL_OFFSET = new Vector2(0, -0.02f);
+    readonly Vector2 PLAYER_DEFUALT_COL_SIZE = new Vector2(0.5f, 0.92f);
+    readonly Vector3 PLAYER_DEFUALT_SPR_POS = new Vector3(0, 0.5f, 0);
+
     #endregion
+
+    private void OnValidate()
+    {
+        ApplyScale();
+    }
+
+    public void ApplyScale()
+    {
+        if (!m_col)
+            m_col = GetComponent<BoxCollider2D>();
+        m_col.offset = PLAYER_DEFUALT_COL_OFFSET * playerScale;
+        m_col.size = PLAYER_DEFUALT_COL_SIZE * playerScale;
+
+        spriteRoot.transform.localScale = Vector3.one * playerScale;
+        spriteRoot.transform.localPosition = PLAYER_DEFUALT_SPR_POS * playerScale;
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -100,6 +122,7 @@ public class PlayerController : MonoBehaviour
         m_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         m_rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         m_rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        ApplyScale();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -152,7 +175,7 @@ public class PlayerController : MonoBehaviour
         m_vInput = (Input.GetKey(KeyCode.DownArrow) ? -1 : 0) + (Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
 
         //이전 입력 비교 후 방향이 다른 경우
-        if (m_hInput != lastHInput && Mathf.Abs(m_hInput) > 0)
+        if (m_currentState != PlayerState.Die && m_hInput != lastHInput && Mathf.Abs(m_hInput) > 0)
         {
             //스프라이트 좌우 반전
             playerSprite.flipX = m_hInput > 0 ? false : true;
@@ -198,11 +221,11 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = false;
 
         //바닥 체크 (박스 캐스트 - 너비 사이즈 큼)
-        var isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.55f, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
+        var isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.55f * playerScale, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
 
         //바닥 체크 실패 시 작은 너비로 재도전
         if (!isHit || hitInfo.normal.y <= 0.7f)
-            isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
+            isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f * playerScale, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
 
 
         //점프 중이 아니고 바닥체크에 성공한 경우
