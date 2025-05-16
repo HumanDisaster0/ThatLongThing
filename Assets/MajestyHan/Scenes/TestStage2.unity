@@ -1139,6 +1139,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3229004893156928173}
+        m_TargetAssemblyTypeName: Destroyer, Assembly-CSharp
+        m_MethodName: RestoreDestroyedTiles
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnResetTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -2266,7 +2278,7 @@ Transform:
   m_GameObject: {fileID: 1142434895}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.15, y: -0.95, z: -0.09470035}
+  m_LocalPosition: {x: 20.9, y: -2.96, z: -0.09470035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6613,6 +6625,7 @@ MonoBehaviour:
   sideJitter: 10
   torqueMin: -180
   torqueMax: 180
+  tilemapYMin: -2
   destructibleTilemaps:
   - {fileID: 1150740462}
   flyingTilePrefab: {fileID: 2030325319269345901, guid: 704f17368529348458d1fac425e01457, type: 3}
