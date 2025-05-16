@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2937203972339177284}
   - component: {fileID: 3840378351449072193}
   - component: {fileID: 4724530571978917447}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SuperTrex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 8940283926650466649}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.45, y: 8.98, z: -1}
+  m_LocalPosition: {x: 16.34, y: 2.94, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -102,17 +102,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93af0729a2dd3594497bfcaa7ddbdd68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 1
+  state: 2
+  prevState: 0
   moveSpeed: 1
   chaseSpeed: 3
-  apexHeight: 4
+  apexHeight: 5
   pauseDuration: 1
   jumpDuration: 1.5
-  readyDuration: 1
-  patrolJumpInterval: 7
-  minThinkTime: 2
-  maxThinkTime: 5
-  readyToChaseDuration: 2
+  readyDuration: 0.5
+  minThinkTime: 3
+  maxThinkTime: 7
 --- !u!50 &2500200264991540422
 Rigidbody2D:
   serializedVersion: 4
@@ -234,6 +233,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  chaseRange: 4
-  arriveNodeRange: 3
-  allJumpNodes: []
+  chaseRange: 5
+  chaseJumpDistance: 1.5
+  verticalScanHeight: 20
+  horizontalScanSteps: 10
+  scanStepSize: 0.5
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  stuckCheckDuration: 2
+  stuckMovementThreshold: 1
+  deathYThreshold: -1
+  isChaseSuppressed: 0

@@ -130,30 +130,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: state
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: apexHeight
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: jumpDuration
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: maxThinkTime
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: minThinkTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: readyDuration
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 2648827936350509471, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.34
@@ -198,45 +174,9 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 424067083}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: chaseRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: deathYThreshold
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: chaseJumpDistance
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: groundMask.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: verticalScanHeight
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: horizontalScanSteps
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: stuckMovementThreshold
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8940283926650466649, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_Name
       value: SuperTrex
-      objectReference: {fileID: 0}
-    - target: {fileID: 8940283926650466649, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8940283926650466649, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1007,72 +947,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1828455315510239540, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
   m_PrefabInstance: {fileID: 750969577}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &299713400 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7577179165470830549, guid: de7776104a449b94c97349bd2191251d, type: 3}
-  m_PrefabInstance: {fileID: 1211488177}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &299713405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 299713400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0664a1fc8ebb6304f80ab28393c4fdea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  repeatInterval: 0.5
-  OnTriggerEnterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 80088604}
-        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
-        m_MethodName: ChaseSuppressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnTriggerRepeatEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 80088604}
-        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
-        m_MethodName: DechasedTrex
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnTriggerExitEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 80088604}
-        m_TargetAssemblyTypeName: TrexThink, Assembly-CSharp
-        m_MethodName: ChaseUnsuppressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &411079789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,10 +1002,6 @@ PrefabInstance:
     - target: {fileID: 6955628771930086804, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: m_Name
       value: SpawnRollingBigStone
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955628771930086804, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2710,11 +2580,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4538951114722322923, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
   m_PrefabInstance: {fileID: 750969577}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &832938924 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-  m_PrefabInstance: {fileID: 1091081646}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &885771662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3962,33 +3827,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 220293486412547723, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a5b1f15571623b14c9e1672f46f61f69, type: 3}
     - target: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_Name
       value: RollingBigStone
-      objectReference: {fileID: 0}
-    - target: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997840078707321451, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: m_Radius
-      value: 0.9900014
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997840078707321451, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.00809942
-      objectReference: {fileID: 0}
-    - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5083993562732338173, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4031,14 +3872,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5749818155996941743, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: detectionRadius
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749818155996941743, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: destructibleTilemaps.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749818155996941743, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
       propertyPath: destructibleTilemaps.Array.data[0]
       value: 
       objectReference: {fileID: 1150740462}
@@ -4074,21 +3907,10 @@ PrefabInstance:
       propertyPath: destructibleTilemaps.Array.data[8]
       value: 
       objectReference: {fileID: 1588169073}
-    - target: {fileID: 5749818155996941743, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: destructibleTilemaps.Array.data[9]
-      value: 
-      objectReference: {fileID: 1588169073}
-    - target: {fileID: 5946089874213641564, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      propertyPath: rotationMultiplier
-      value: 180
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2843442045270749208, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1215294940}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
 --- !u!1 &1150740456
 GameObject:
@@ -6515,84 +6337,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 80088604}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DechasedTrex
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      objectReference: {fileID: 80088604}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerRepeatEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: TrexThink, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6216210297691390139, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 80088604}
     - target: {fileID: 7577179165470830549, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: m_Name
       value: SafetyZone
       objectReference: {fileID: 0}
-    - target: {fileID: 7577179165470830549, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7577179165470830549, guid: de7776104a449b94c97349bd2191251d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 299713405}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de7776104a449b94c97349bd2191251d, type: 3}
 --- !u!114 &1215294934 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5946089874213641564, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
   m_PrefabInstance: {fileID: 1091081646}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832938924}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83c56a0eaec46d047acc1a2be15a112f, type: 3}
@@ -6603,47 +6374,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5749818155996941743, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
   m_PrefabInstance: {fileID: 1091081646}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832938924}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80d7c0a4195f5cf48aadb1d77f588c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &1215294940
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832938924}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.85
 --- !u!1001 &1273342180
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15744,10 +15480,6 @@ PrefabInstance:
     - target: {fileID: 5522601065968413151, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: m_Name
       value: SpawnTrex
-      objectReference: {fileID: 0}
-    - target: {fileID: 5522601065968413151, guid: cc377213978482a4e93d415c1703d321, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
