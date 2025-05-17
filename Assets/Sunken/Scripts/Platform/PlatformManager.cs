@@ -44,5 +44,7 @@ public class PlatformManager : MonoBehaviour
     public void SetPlatformType(PlatformType _type)
     {
         currType = _type;
+
+        Start();
     }
 }

@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] int sourceSize = 10;
     [SerializeField] float volumeGradation = 10f;
+    [SerializeField] float updateTime = 0.1f; // 업데이트 주기
     [SerializeField] List<AudioSource> sources;
     [SerializeField] List<AudioSource> allSources;
 
@@ -44,6 +45,12 @@ public class SoundManager : MonoBehaviour
         LoadAllSound();
     }
 
+    private void Start()
+    {
+        // 코루틴 시작
+        StartCoroutine(CheckVolumeRoutine());
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -51,8 +58,6 @@ public class SoundManager : MonoBehaviour
         {
             sources = GetComponentsInChildren<AudioSource>().ToList();
         }
-
-        CheckVolume();
     }
 
     /// <summary>
@@ -226,6 +231,15 @@ public class SoundManager : MonoBehaviour
         }
 
         Debug.Log("총 " + soundClips.Count + "개의 사운드 로드 완료!");
+    }
+
+    private IEnumerator CheckVolumeRoutine()
+    {
+        while (true)
+        {
+            CheckVolume();
+            yield return new WaitForSeconds(updateTime); // 0.5초마다 체크
+        }
     }
 
     private void CheckVolume()

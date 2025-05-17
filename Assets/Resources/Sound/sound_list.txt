@@ -1,0 +1,75 @@
++---BGM
+|   |   Guild.meta
+|   |   Rabbit_BGM.mp3
+|   |   Stage1_BGM.mp3
+|   |   Stage2_BGM.mp3
+|   |   Stage3_BGM.mp3
+|   |
+|   +---Guild
+|   |       Guild_Album.mp3
+|   |       Guild_BGM.mp3
+|   |       Guild_Clear.mp3
+|   |
+|   \---Trex, Rock, Meteor
+|           Danger_BGM.mp3
+|
+\---SE_Sound
+    +---Door
+    |       Door_Open.mp3
+    |
+    +---Gold
+    |       Gold_Collect.mp3
+    |
+    +---Magic
+    |       Magic_Execute.mp3
+    |
+    +---Meteor, Rock
+    |       Meteor_Explosion.mp3
+    |       Meteor_Run.mp3
+    |
+    +---Mole
+    |       Mole_Attack.mp3
+    |       Mole_Die.mp3
+    |       Mole_Die2.mp3
+    |       Mole_FootStep.mp3
+    |
+    +---Phoenix
+    |       Appear.mp3
+    |
+    +---Player
+    |   |   Dead.meta
+    |   |   Jump.mp3
+    |   |
+    |   +---Dead
+    |   |       Die1.mp3
+    |   |       Die2.mp3
+    |   |
+    |   +---FootStep
+    |   |       Grass_Step.mp3
+    |   |       Stone_Step.mp3
+    |   |
+    |   \---Landing
+    |           Grass_Land.mp3
+    |           Stone_Land.mp3
+    |
+    +---Portal
+    |       Portal_Exe.mp3
+    |
+    +---Rabbit
+    |       Rabbit_Footstep.mp3
+    |
+    +---Shield
+    |       Shield.mp3
+    |
+    +---Trap
+    |       Trap_Discover.mp3
+    |
+    \---TRex
+        |   Trex_Footstep.mp3
+        |   Trex_Idle.mp3
+        |   Trex_Land.mp3
+        |
+        \---Attack
+                Trex_Attack1.mp3
+                Trex_Attack2.mp3
+                Trex_Attack3.mp3

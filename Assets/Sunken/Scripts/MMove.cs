@@ -152,12 +152,14 @@ public class MMove : MonoBehaviour
             switch (currStatus)
             {
                 case MStatus.idle:
+                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                     animCon.SetBool("isWalking", false);
                     animCon.SetBool("isAttack", false);
                     idleTime = UnityEngine.Random.Range(maxidleDuration / 2f, maxidleDuration);
                     break;
                 case MStatus.move:
                     animCon.SetBool("isWalking", true);
+                    SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
                     if (transform.position.x >= range.GetMinX() && transform.position.x <= range.GetMaxX())
                     {
                         do
@@ -179,6 +181,7 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.die:
                     animCon.SetBool("isDead", true);
+                    SoundManager.instance?.PlaySound("Mole_Die", this.gameObject);
                     rb.velocity = Vector2.zero;
                     rb.simulated = false;
                     GetComponent<CapsuleCollider2D>().enabled = false;
@@ -186,6 +189,7 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.attack:
                     animCon.SetBool("isAttack", true);
+                    SoundManager.instance?.PlaySound("Mole_Attack", this.gameObject);
                     StartCoroutine(SetAttack(1.0f));
                     break;
                 default:

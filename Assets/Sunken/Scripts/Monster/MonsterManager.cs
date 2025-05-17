@@ -21,5 +21,7 @@ public class MonsterManager : MonoBehaviour
     public void SetType(MonsterType type)
     {
         monsterType = type;
+
+        Start();
     }
 }
