@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4786468656053203589}
   - component: {fileID: 3698259169579013767}
   - component: {fileID: 8968510565193850932}
+  - component: {fileID: 9041721918396192628}
   - component: {fileID: 9169502309803756339}
   m_Layer: 0
   m_Name: Player
@@ -124,6 +125,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RedZoneName: RedZone
+--- !u!114 &9041721918396192628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682874294790460494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce208fd23680744ca70f39d4c609f0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalEnterAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.17915991
+      outSlope: 0.17915991
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.47010696
+      value: 0.08422432
+      inSlope: 0.009481632
+      outSlope: 0.009481632
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.11139626
+    - serializedVersion: 3
+      time: 1.3127017
+      value: 0.2606367
+      inSlope: 0.55821025
+      outSlope: 0.55821025
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14290357
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.023998277
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!50 &9169502309803756339
 Rigidbody2D:
   serializedVersion: 4

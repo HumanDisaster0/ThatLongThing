@@ -163,6 +163,39 @@ public class StageManager : MonoBehaviour
 
                 }
 
+            //no.10 - 투명 플랫폼
+            case 10:
+                {
+                    GameObject.Find("MovePlatforms").SetActive(false);
+                    GameObject.Find("TrapInfos").SetActive(false);
+
+                    GameObject.Find("Anomaly").transform.Find("InvisiblePlatform").gameObject.SetActive(true);
+
+                    //함정
+                    result = FindObjectsByType<TrapSetter>(FindObjectsInactive.Exclude,FindObjectsSortMode.None);
+                    if (result == null)
+                    {
+                        return;
+                    }
+
+                    offTraps = 0;
+                    foreach (var setter in result)
+                    {
+                        setter.RandomSet();
+                        if (!setter.GetResult)
+                            offTraps++;
+                    }
+
+                    //함정이 모두 꺼진 경우 랜덤 하나 켜기
+                    if (result.Length == offTraps)
+                    {
+                        result[Random.Range(0, result.Length)].SpecifiedSet(true);
+                    }
+
+                    break;
+                }
+
+
             //no.11 - 거울 속에 비친 나
             case 11:
                 {
@@ -184,11 +217,6 @@ public class StageManager : MonoBehaviour
                     {
                         trapInfo.GetChild(i).GetComponent<TrapSetter>().RandomSet();
                     }
-
-                    //var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-
-                    //foreach (var com in mappinSetter)
-                    //    com.maxPinCount = 4;
 
                     break;
                 }

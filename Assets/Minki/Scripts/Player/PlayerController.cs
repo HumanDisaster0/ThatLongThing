@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
 
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
     public bool Invincibility { get { return m_invincibility; } set { m_invincibility = value; } }
+    public bool Freeze { get { return m_freeze; } set { m_freeze = value; } }
+    public bool IsGrounded => m_isGrounded;
 
     #endregion
 
@@ -83,9 +85,9 @@ public class PlayerController : MonoBehaviour
     float m_hInput;
     float m_vInput;
     bool m_jumpInput;
-
     bool m_skipInput;
 
+    bool m_freeze;
     bool m_invincibility;
 
     //플레이어 상태
@@ -154,6 +156,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(m_freeze) return;
+
         // 땅 체크
         var lastGrounded = m_isGrounded;
         GroundCheck();
@@ -293,6 +297,17 @@ public class PlayerController : MonoBehaviour
             if (m_groundRB && hitInfo.rigidbody.bodyType != RigidbodyType2D.Static)
             {
                 m_rb.position += m_groundRB.velocity * Time.deltaTime;
+
+                float angVel = m_groundRB.angularVelocity;         // deg/sec
+                if (!Mathf.Approximately(angVel, 0f))
+                {
+                    float angVelRad = angVel * Mathf.Deg2Rad;
+                    Vector2 pivot = m_groundRB.worldCenterOfMass;
+                    Vector2 relPos = m_rb.position - pivot;
+                    Vector2 rotVel = new Vector2(-angVelRad * relPos.y,
+                                                   angVelRad * relPos.x);
+                    m_rb.position += rotVel * Time.deltaTime;
+                }
             }
         }
 
@@ -301,6 +316,18 @@ public class PlayerController : MonoBehaviour
             && !m_isGrounded)
         {
             m_currentVel += m_groundRB.velocity;
+
+            // 회전에 의한 속도
+            float angVel = m_groundRB.angularVelocity;
+            if (!Mathf.Approximately(angVel, 0f))
+            {
+                float angVelRad = angVel * Mathf.Deg2Rad;
+                Vector2 pivot = m_groundRB.worldCenterOfMass;
+                Vector2 relPos = m_rb.position - pivot;
+                Vector2 rotVel = new Vector2(-angVelRad * relPos.y,
+                                               angVelRad * relPos.x);
+                m_currentVel += rotVel;
+            }
         }
 
         //완전 공중인 경우 땅 Rigidbody 없음 취급
@@ -559,6 +586,18 @@ public class PlayerController : MonoBehaviour
             && m_groundRB.velocity.y >= 0.0f)
         {
             m_currentVel += m_groundRB.velocity;
+
+            // 회전에 의한 속도
+            float angVel = m_groundRB.angularVelocity;
+            if (!Mathf.Approximately(angVel, 0f))
+            {
+                float angVelRad = angVel * Mathf.Deg2Rad;
+                Vector2 pivot = m_groundRB.worldCenterOfMass;
+                Vector2 relPos = m_rb.position - pivot;
+                Vector2 rotVel = new Vector2(-angVelRad * relPos.y,
+                                               angVelRad * relPos.x);
+                m_currentVel += rotVel;
+            }
         }
 
         m_groundRB = null;

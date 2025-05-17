@@ -32,6 +32,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
             var pinGO = Instantiate(pinPrefab);
             pinGO.transform.SetParent(mapContent, false);
             var pinRect = pinGO.GetComponent<RectTransform>();
+            pinRect.sizeDelta = new Vector2(MinimapTileInfo.tileSize,MinimapTileInfo.tileSize);
             pinRect.anchoredPosition = localPoint + new Vector2(-pinRect.sizeDelta.x * 0.5f * (1/zoom.GetScale), pinRect.sizeDelta.y * 0.5f * (1 / zoom.GetScale));
            
             pinGO.GetComponent<MapPin>().pinSetter = this;

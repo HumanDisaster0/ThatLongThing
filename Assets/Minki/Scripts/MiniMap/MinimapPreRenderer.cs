@@ -7,7 +7,8 @@ using UnityEngine.UIElements;
 
 public static class MinimapTileInfo
 {
-    public static int tileSize = 50;
+    public static int tileSize = DEFAULT_SIZE;
+    public const int DEFAULT_SIZE = 50;
 }
 
 public class MinimapPreRenderer : MonoBehaviour
@@ -22,7 +23,7 @@ public class MinimapPreRenderer : MonoBehaviour
         if (m_resizedTexture == null)
             m_resizedTexture = new Dictionary<int, Texture2D>();
 
-        MinimapTileInfo.tileSize = 50;
+        MinimapTileInfo.tileSize = MinimapTileInfo.DEFAULT_SIZE;
 
         BoundsInt bounds = tilemap.cellBounds;
         int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
