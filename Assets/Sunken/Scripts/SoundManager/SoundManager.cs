@@ -14,9 +14,8 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] int sourceSize = 10;
     [SerializeField] float volumeGradation = 10f;
-    [SerializeField] float updateTime = 0.1f; // 업데이트 주기
     [SerializeField] List<AudioSource> sources;
-    [SerializeField] List<AudioSource> allSources;
+    [SerializeField] List<AudioSource> activeSources;
 
     Camera cam;
 
@@ -40,24 +39,18 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
 
         cam = Camera.main;
-
-        allSources = GetComponentsInChildren<AudioSource>().ToList();
         LoadAllSound();
     }
 
-    private void Start()
-    {
-        // 코루틴 시작
-        StartCoroutine(CheckVolumeRoutine());
-    }
-
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(sources.Count != transform.childCount)
         {
             sources = GetComponentsInChildren<AudioSource>().ToList();
         }
+
+        CheckVolume();
     }
 
     /// <summary>
@@ -128,6 +121,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                     audioSource = sources[0];
+                    activeSources.Add(sources[0]);
                     sources[0].gameObject.transform.SetParent(caller.transform);
                 }
                 else
@@ -169,6 +163,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].loop = true;
                     sources[0].Play();
                     audioSource = sources[0];
+                    activeSources.Add(sources[0]);
                     sources[0].gameObject.transform.SetParent(caller.transform);
                 }
                 else
@@ -194,18 +189,17 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     source.Stop(); // 사운드 정지
+                    activeSources.Remove(source); // 활성화된 사운드 목록에서 제거
+
                     obj = source.gameObject;
+                    Coroutine cor = obj.GetComponent<DefaultSourceData>().myCoroutine;
+                    obj.transform.SetParent(transform);
+                    if (cor != null)
+                        StopCoroutine(cor);
+                    cor = null;
+
                     break;
                 }
-            }
-
-            if (obj)
-            {
-                Coroutine cor = obj.GetComponent<DefaultSourceData>().myCoroutine;
-                obj.transform.SetParent(transform);
-                if (cor != null)
-                    StopCoroutine(cor);
-                cor = null;
             }
         }
         else
@@ -233,17 +227,9 @@ public class SoundManager : MonoBehaviour
         Debug.Log("총 " + soundClips.Count + "개의 사운드 로드 완료!");
     }
 
-    private IEnumerator CheckVolumeRoutine()
-    {
-        while (true)
-        {
-            CheckVolume();
-            yield return new WaitForSeconds(updateTime); // 0.5초마다 체크
-        }
-    }
-
     private void CheckVolume()
     {
+        //// 화면 중앙 계산
         //Vector2 leftDown = cam.ScreenToWorldPoint(new Vector2(0, 0));
         //Vector2 rightUp = cam.ScreenToWorldPoint(new Vector2(cam.scaledPixelWidth, cam.scaledPixelHeight));
 
@@ -269,9 +255,10 @@ public class SoundManager : MonoBehaviour
         //    }
         //}
 
-        foreach (var source in allSources)
+        // 카메라 기준 계산
+        foreach (var source in activeSources)
         {
-            if(source.transform.parent != transform)
+            if (source.transform.parent != transform && source.gameObject.GetComponent<DefaultSourceData>().isVolConByManager)
             {
                 Vector2 pos = source.transform.position;
 
@@ -279,8 +266,31 @@ public class SoundManager : MonoBehaviour
                 float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
                 float maxDistance = 10f;
 
-                source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                source.GetComponent<DefaultSourceData>().volume = 1f - (distanceFromCenter / maxDistance);
             }
         }
+
+        //// 화면 중앙 계산
+        //Vector2 leftDown = cam.ScreenToWorldPoint(new Vector2(0, 0));
+        //Vector2 rightUp = cam.ScreenToWorldPoint(new Vector2(cam.scaledPixelWidth, cam.scaledPixelHeight));
+
+        //foreach (var source in activeSources)
+        //{
+        //    Vector2 pos = source.transform.position;
+
+        //    // 오브젝트가 화면 경계 내에 있는지 확인
+        //    bool isInside = (pos.x >= leftDown.x && pos.x <= rightUp.x) &&
+        //                    (pos.y >= leftDown.y && pos.y <= rightUp.y);
+
+        //    if (isInside)
+        //    {
+        //        source.GetComponent<DefaultSourceData>().volume = 1f; // 화면 안에 있을 때 볼륨 최대로 유지
+        //    }
+        //    else
+        //    {
+        //        source.GetComponent<DefaultSourceData>().volume = 0f;
+        //    }
+        //}
     }
 }
