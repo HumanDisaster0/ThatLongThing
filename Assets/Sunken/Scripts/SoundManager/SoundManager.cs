@@ -13,7 +13,6 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Dictionary<string, AudioClip> soundClips = new Dictionary<string, AudioClip>();
 
     [SerializeField] int sourceSize = 10;
-    [SerializeField] float volumeGradation = 10f;
     [SerializeField] List<AudioSource> sources;
     [SerializeField] List<AudioSource> activeSources;
 

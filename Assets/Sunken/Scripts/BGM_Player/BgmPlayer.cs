@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class BgmPlayer : MonoBehaviour
 {
-    [SerializeField] int volume = 50;
-    AudioSource audio;
+    [SerializeField]int volume = 50;
+    AudioSource audioSrc;
 
     // Start is called before the first frame update
     void Start()
@@ -16,14 +16,14 @@ public class BgmPlayer : MonoBehaviour
 
         if (sceneName.StartsWith("Stage1"))
         {
-            audio = SoundManager.instance?.PlayLoopSound("Stage1_BGM", Camera.main.gameObject);
+            audioSrc = SoundManager.instance?.PlayLoopSound("Stage1_BGM", Camera.main.gameObject);
         }
         else if (sceneName.StartsWith("Stage2"))
         {
-            audio = SoundManager.instance?.PlayLoopSound("Stage2_BGM", Camera.main.gameObject);
+            audioSrc = SoundManager.instance?.PlayLoopSound("Stage2_BGM", Camera.main.gameObject);
         }
 
-        audio.GetComponent<DefaultSourceData>().isVolConByManager = false;
-        audio.volume = (float)volume / 100;
+        audioSrc.GetComponent<DefaultSourceData>().isVolConByManager = false;
+        audioSrc.volume = (float)volume / 100;
     }
 }
