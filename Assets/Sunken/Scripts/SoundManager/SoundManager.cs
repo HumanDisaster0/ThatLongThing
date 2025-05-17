@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Rendering;
-using UnityEngine;
+#endif
 
 public class SoundManager : MonoBehaviour
 {
@@ -73,6 +76,7 @@ public class SoundManager : MonoBehaviour
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                 audioSource = sources[0];
+                activeSources.Add(sources[0]);
                 sources[0].gameObject.transform.SetParent(caller.transform);
             }
             else
@@ -208,6 +212,7 @@ public class SoundManager : MonoBehaviour
     IEnumerator StopTime(float time, GameObject obj)
     {
         yield return new WaitForSeconds(time);
+        activeSources.Remove(obj.GetComponent<AudioSource>()); // 활성화된 사운드 목록에서 제거
         obj.transform.SetParent(transform);
     }
 
@@ -257,7 +262,7 @@ public class SoundManager : MonoBehaviour
         // 카메라 기준 계산
         foreach (var source in activeSources)
         {
-            if (source.transform.parent != transform && source.gameObject.GetComponent<DefaultSourceData>().isVolConByManager)
+            if (source.gameObject.GetComponent<DefaultSourceData>().isVolConByManager)
             {
                 Vector2 pos = source.transform.position;
 
@@ -266,7 +271,7 @@ public class SoundManager : MonoBehaviour
                 float maxDistance = 10f;
 
                 //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
-                source.GetComponent<DefaultSourceData>().volume = 1f - (distanceFromCenter / maxDistance);
+                source.volume = 1f - (distanceFromCenter / maxDistance);
             }
         }
 

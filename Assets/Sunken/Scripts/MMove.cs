@@ -129,6 +129,7 @@ public class MMove : MonoBehaviour
                 //}
                 break;
             case MStatus.attack:
+                rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, moveSharpness * Time.deltaTime);
                 break;
             default:
                 currStatus = MStatus.idle;
@@ -181,6 +182,7 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.die:
                     animCon.SetBool("isDead", true);
+                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                     SoundManager.instance?.PlaySound("Mole_Die", this.gameObject);
                     rb.velocity = Vector2.zero;
                     rb.simulated = false;
@@ -189,6 +191,7 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.attack:
                     animCon.SetBool("isAttack", true);
+                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                     SoundManager.instance?.PlaySound("Mole_Attack", this.gameObject);
                     StartCoroutine(SetAttack(1.0f));
                     break;
@@ -253,6 +256,7 @@ public class MMove : MonoBehaviour
     public void SetType(MonsterType _type)
     {
         MType = _type;
+        ExeType();
     }
 
     private void ExeType()

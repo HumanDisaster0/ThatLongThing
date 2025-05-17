@@ -7,14 +7,17 @@ public class DefaultSourceData : MonoBehaviour
     public Coroutine myCoroutine;
     public float volume = 0f;
     public bool isVolConByManager = true;
-    float prevVolume = 0f;
+    bool flag = true;
 
     private void Update()
     {
-        if (prevVolume != volume)
+        if(flag != isVolConByManager)
         {
-            GetComponent<AudioSource>().volume = volume;
-            prevVolume = volume;
+            if (!isVolConByManager)
+            {
+                GetComponent<AudioSource>().volume = volume;
+            }
+            flag = isVolConByManager;
         }
     }
 }
