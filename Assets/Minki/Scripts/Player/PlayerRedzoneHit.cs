@@ -17,7 +17,7 @@ public class PlayerRedzoneHit : MonoBehaviour
     {
         if(collision.CompareTag(RedZoneName))
         {
-            m_playerController.AnyState(PlayerState.Die);
+            m_playerController.AnyState(PlayerState.Die, true);
         }
     }
 
@@ -25,7 +25,7 @@ public class PlayerRedzoneHit : MonoBehaviour
     {
         if (collision.collider.CompareTag(RedZoneName))
         {
-            m_playerController.AnyState(PlayerState.Die);
+            m_playerController.AnyState(PlayerState.Die, true);
         }
     }
 }

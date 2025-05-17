@@ -124,10 +124,10 @@ public class StageManager : MonoBehaviour
             case 9:
                 {
                     var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+                    pc.Invincibility = true;
                     pc.playerScale = 4.0f;
                     pc.ApplyScale();
-                    var destroyer = pc.AddComponent<Destroyer>();
-                    destroyer.detectionRadius = 2.5f;
+                    var destroyer = pc.AddComponent<DestroyerForPlayer>();
                     destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[1];
                     destroyer.destructibleTilemaps[0] = GameObject.Find("Ground").GetComponent<Tilemap>();
                     destroyer.tilemapYMin = -2;

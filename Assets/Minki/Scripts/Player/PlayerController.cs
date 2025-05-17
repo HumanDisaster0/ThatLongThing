@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
     public RectTransform minimap;
 
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
+    public bool Invincibility { get { return m_invincibility; } set { m_invincibility = value; } }
 
     #endregion
 
@@ -83,7 +85,9 @@ public class PlayerController : MonoBehaviour
     bool m_jumpInput;
 
     bool m_skipInput;
-    
+
+    bool m_invincibility;
+
     //플레이어 상태
     PlayerState m_currentState = PlayerState.Idle;
 
@@ -394,8 +398,11 @@ public class PlayerController : MonoBehaviour
     /// 외부에서 상태를 변경시키기 위한 함수
     /// </summary>
     /// <param name="state"></param>
-    public void AnyState(PlayerState state)
+    public void AnyState(PlayerState state,bool forceChange = false)
     {
+        if (!forceChange && m_invincibility && state == PlayerState.Die)
+            return;
+
         var lastState = m_currentState;
         m_currentState = state;
         if (lastState != m_currentState)
@@ -414,10 +421,6 @@ public class PlayerController : MonoBehaviour
     {
         switch (state)
         {
-            case PlayerState.Idle:
-                //hitBoxCol.offset = Vector2.zero;
-                //hitBoxCol.size = new Vector2 { x = 0.5f, y = 1.0f };
-                return;
             case PlayerState.Walk:
                 SoundManager.instance.StopSound("Stone_Step", gameObject);
                 return;
@@ -562,7 +565,6 @@ public class PlayerController : MonoBehaviour
         m_currentVel += Vector2.up * jumpForce;
         m_isGrounded = false;
         m_currentState = PlayerState.Jump;
-        //audioSource.Play();
         m_coyoteJumpTimer = 0.0f;
         m_jumpBufferTimer = 0.0f;
         m_jumpInput = false;
@@ -610,4 +612,16 @@ public class PlayerController : MonoBehaviour
         hitInfo = new RaycastHit2D();
         return false;
     }
+
+    //private void OnGUI()
+    //{
+
+    //    // 텍스트 스타일 설정
+    //    GUIStyle textStyle = new GUIStyle();
+    //    textStyle.fontSize = 24;
+    //    textStyle.normal.textColor = Color.white;
+
+    //    // 화면 위치와 크기 설정 (x, y, width, height)
+    //    GUI.Label(new Rect(10, 10, 300, 50), $"{m_currentState}", textStyle);
+    //}
 }
