@@ -17,6 +17,7 @@ public class MagicAbility : MonoBehaviour
     [Header("FX")]
     public GameObject MagicFXPrefab;
     public string trapInfoTag = "TrapInfo";
+    public string magicFXTag = "MagicFX";
     public float MagicSpriteSize = 8.0f;
     public int FXPoolCount = 10;
     public LayerMask FXLayer = (1 << 5);
@@ -83,11 +84,12 @@ public class MagicAbility : MonoBehaviour
             {
                 for(int i = 0; i < overlapCount; i++)
                 {
-                    if (m_colliders[i].tag != trapInfoTag)
+                    if (m_colliders[i].tag != trapInfoTag 
+                        && m_colliders[i].tag != magicFXTag)
                         continue;
 
                     var trapinfo = m_colliders[i].GetComponent<TrapInfo>();
-                    if (trapinfo?.type == TrapType.Fine)
+                    if (trapinfo && (trapinfo?.type == TrapType.Fine || trapinfo.dontShowFX))
                         continue;
 
                     m_currentTrap.Add(m_colliders[i].GetHashCode());
@@ -111,6 +113,7 @@ public class MagicAbility : MonoBehaviour
                         fx.enabled = true;
                         fx.SPR1.enabled = true;
                         fx.SPR2.enabled = true;
+                        fx.transform.parent = m_colliders[i].transform;
                         fx.transform.position = m_colliders[i].transform.position;
                         fx.RestartAnimation();
 
@@ -127,6 +130,7 @@ public class MagicAbility : MonoBehaviour
                         value.enabled = false;
                         value.SPR1.enabled = false;
                         value.SPR2.enabled = false;
+                        value.transform.parent = null;
                         m_magicFXPool.Add(value);
                         m_keysToRemove.Add(hash);
                     }
@@ -146,6 +150,7 @@ public class MagicAbility : MonoBehaviour
                     fx.enabled = false;
                     fx.SPR1.enabled = false;
                     fx.SPR2.enabled = false;
+                    fx.transform.parent = null;
                     m_magicFXPool.Add(fx);
                 }
                 m_foundTrap.Clear();
@@ -171,6 +176,7 @@ public class MagicAbility : MonoBehaviour
                     fx.enabled = false;
                     fx.SPR1.enabled = false;
                     fx.SPR2.enabled = false;
+                    fx.transform.parent = null;
                     m_magicFXPool.Add(fx);
                 }
                 m_foundTrap.Clear();

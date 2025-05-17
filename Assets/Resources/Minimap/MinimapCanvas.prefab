@@ -1317,7 +1317,7 @@ MonoBehaviour:
   zoom: {fileID: 5543655909823768227}
   pinPrefab: {fileID: 8382961276296335010, guid: 6628d48fca2e8c34a988bf69bfa85249, type: 3}
   pinCountText: {fileID: 3919425973877231279}
-  maxPinCount: 5
+  maxPinCount: 0
 --- !u!1 &4900262644275117899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,7 +1628,6 @@ MonoBehaviour:
   scrollRect: {fileID: 4807797347130116473}
   tilemap: {fileID: 5093346113265722054}
   rawImage: {fileID: 7999793214588791407}
-  tileSize: 50
 --- !u!1 &5993044979963770599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1882,7 +1881,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentRect: {fileID: 993934995501703037}
   tilemap: {fileID: 5093346113265722054}
-  tileSize: 50
   xOffset: 0
   yOffset: 0
   Player: {fileID: 0}

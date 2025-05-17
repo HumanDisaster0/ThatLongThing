@@ -14,5 +14,7 @@ public enum TrapType
 public class TrapInfo : MonoBehaviour
 {
     public TrapType type;
+    public bool dontShowFX = false;
+    public bool staticType = false;
     public void SetType(TrapType trapType) {  type = trapType; } 
 }

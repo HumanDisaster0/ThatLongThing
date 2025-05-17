@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
+using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public static class MinimapTileInfo
 {
@@ -17,6 +19,9 @@ public class MinimapPreRenderer : MonoBehaviour
 
     void Start()
     {
+        if (m_resizedTexture == null)
+            m_resizedTexture = new Dictionary<int, Texture2D>();
+
         MinimapTileInfo.tileSize = 50;
 
         BoundsInt bounds = tilemap.cellBounds;
@@ -25,7 +30,8 @@ public class MinimapPreRenderer : MonoBehaviour
 
         if (texHeight > 863)
         {
-            MinimapTileInfo.tileSize = 25; 
+            m_resizedTexture.Clear();
+            MinimapTileInfo.tileSize = 34; 
             texWidth = bounds.size.x * MinimapTileInfo.tileSize;
             texHeight = bounds.size.y * MinimapTileInfo.tileSize;
         }
@@ -51,29 +57,40 @@ public class MinimapPreRenderer : MonoBehaviour
             for (int x = 0; x < bounds.size.x; x++)
             {
                 Vector3Int tilePos = new Vector3Int(bounds.x + x, bounds.y + y, 0);
-                TileBase tile = tilemap.GetTile(tilePos);
+                
+                Tile tile = tilemap.GetTile<Tile>(tilePos);
+                Sprite sprite = tile?.sprite;
 
                 int px = x * MinimapTileInfo.tileSize + pivotX;
                 int py = y * MinimapTileInfo.tileSize;
 
-                if (tile != null)
+                if (sprite != null)
                 {
-                    // 예시 색상: 타일마다 고정된 색상으로 칠함
-                    Color tileColor = Color.green;
+                    Texture2D sourceTex = sprite.texture;
+                    Rect rect = sprite.textureRect;
 
-                    switch (tile.name)
+                    if (!m_resizedTexture.ContainsKey(sourceTex.GetHashCode()))
                     {
-                        case "none_tile":
-                            tileColor = new Color(0.78f, 0.78f, 0.78f);
-                            break;
-                        case "trap_tile":
-                            tileColor = new Color(241.0f/255.0f,95.0f /255.0f,95.0f /255.0f);
-                            break;
+                        int rx = Mathf.FloorToInt(rect.x);
+                        int ry = Mathf.FloorToInt(rect.y);
+                        int rw = Mathf.FloorToInt(rect.width);
+                        int rh = Mathf.FloorToInt(rect.height);
+
+                        Color[] spritePixels = sourceTex.GetPixels(rx, ry, rw, rh);
+
+                        // 리사이즈 필요 시 처리
+                        Texture2D resized = new Texture2D(rw, rh, TextureFormat.RGBA32, false);
+                        resized.SetPixels(spritePixels);
+                        resized.Apply();
+
+                        Texture2D scaled = Resize(resized, MinimapTileInfo.tileSize, FilterMode.Bilinear); // 앞서 만든 Resize 함수
+
+                        m_resizedTexture.Add(sourceTex.GetHashCode(), scaled);
                     }
 
-                    Color[] pixels = new Color[MinimapTileInfo.tileSize * MinimapTileInfo.tileSize];
-                    for (int i = 0; i < pixels.Length; i++) pixels[i] = tileColor;
-                    tex.SetPixels(px, py, MinimapTileInfo.tileSize, MinimapTileInfo.tileSize, pixels);
+                    Color[] finalPixels = m_resizedTexture[sourceTex.GetHashCode()].GetPixels();
+
+                    tex.SetPixels(px, py, MinimapTileInfo.tileSize, MinimapTileInfo.tileSize, finalPixels);
                 }
             }
         }
@@ -88,4 +105,30 @@ public class MinimapPreRenderer : MonoBehaviour
 
         scrollRect.horizontalScrollbar.value = 0;
     }
+
+    Texture2D Resize(Texture2D src, int newSize, FilterMode filter)
+    {
+        // 임시 RenderTexture를 원하는 보간으로 준비
+        RenderTexture rt = RenderTexture.GetTemporary(
+            newSize, newSize,           // 크기
+            0,                          // 깊이
+            RenderTextureFormat.ARGB32
+        );
+        rt.filterMode = filter;        // Point, Bilinear, Trilinear 중 택
+
+        // GPU-사이드에서 스케일링
+        Graphics.Blit(src, rt);
+
+        // 다시 CPU로 읽어오기
+        RenderTexture prev = RenderTexture.active;
+        RenderTexture.active = rt;
+        Texture2D dst = new Texture2D(newSize, newSize, TextureFormat.RGBA32, false);
+        dst.ReadPixels(new Rect(0, 0, newSize, newSize), 0, 0);
+        dst.Apply();
+        RenderTexture.active = prev;
+        RenderTexture.ReleaseTemporary(rt);
+        return dst;
+    }
+
+    static Dictionary<int, Texture2D> m_resizedTexture;
 }

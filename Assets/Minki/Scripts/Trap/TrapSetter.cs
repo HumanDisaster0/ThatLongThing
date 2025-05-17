@@ -17,10 +17,16 @@ public class TrapSetter : MonoBehaviour
     {
         if (!trapInfo)
             trapInfo = GetComponent<TrapInfo>();
+
+        if(trapInfo.staticType)
+            m_result = trapInfo.type == TrapType.Fine ? false : true;
     }
 
     public void RandomSet()
     {
+        if (trapInfo.staticType)
+            return;
+
         var rand = Random.Range(0, 2);
         
         if(rand == 0)
@@ -39,7 +45,10 @@ public class TrapSetter : MonoBehaviour
 
     public void SpecifiedSet(bool on)
     {
-        if(on)
+        if (trapInfo.staticType)
+            return;
+
+        if (on)
         {
             trapInfo.type = TrapType.Danger;
             turnOnSet?.Invoke();

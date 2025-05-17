@@ -121,9 +121,10 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("MonsterManager").GetComponent<MonsterManager>().SetType(MonsterType.None);
                     foreach (var setter in result)
                     {
-
                         setter.SpecifiedSet(false);
                     }
+
+
                     break;
                 }
                 
@@ -149,6 +150,15 @@ public class StageManager : MonoBehaviour
                     destroyer.flyingTilePrefab = flyingTile;
 
                     destroyer.sideJitter = 10;
+
+                    var minimapPlayerPos = FindObjectsByType<MinimapPlayerPos>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+                    if(minimapPlayerPos != null)
+                    {
+                        var rect = minimapPlayerPos[0].GetComponent<RectTransform>();
+                        rect.sizeDelta = new Vector2(100, 200);
+                    }
+
                     break;
 
                 }
