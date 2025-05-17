@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: monsterAper
+  m_Name: MonsterRightApear
   m_Shader: {fileID: -6465566751694194690, guid: 5685ab145a2bc9249a1f30bb5eb7fea4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -41,11 +41,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlackY: -0.26
-    - _Cutoff: 0.19
+    - _BlackY: 48
+    - _Cutoff: 47
     - _Softness: 0.2
     - _dirReverse: 0
-    - _isVertical: 1
+    - _isVertical: 0
     m_Colors:
     - _MainColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
