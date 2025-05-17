@@ -15,22 +15,40 @@ public class MagicAbility : MonoBehaviour
     public float rotateSpeed = 20f;
 
     [Header("FX")]
-    public string FXTag = "MagicFX";
-    public LayerMask FXLayer = (1 << 5);
+    public GameObject MagicFXPrefab;
+    public string trapInfoTag = "TrapInfo";
     public float MagicSpriteSize = 8.0f;
+    public int FXPoolCount = 10;
+
 
     public Color BGSpriteColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
 
-    Dictionary<int, MagicFX> m_foundFX = new Dictionary<int, MagicFX>();
-    HashSet<int> m_currentFX = new HashSet<int>();
+    Dictionary<int, MagicFX> m_allocatedFX = new Dictionary<int, MagicFX>();
+    HashSet<int> m_foundTrap = new HashSet<int>();
+    HashSet<int> m_currentTrap = new HashSet<int>();
     List<int> m_keysToRemove = new List<int>();
     Collider2D[] m_colliders = new Collider2D[12];
     float m_useTimer = 0.0f;
     bool m_useAbility = false;
-    bool m_firstFound;
     Color m_t1Color = new Color(0, 0, 0, 0);
     Color m_t2Color = new Color(0, 0, 0, 0);
     float m_bgTimer;
+    List<MagicFX> m_magicFXPool = new List<MagicFX>();
+
+    private void Start()
+    {
+        if(m_magicFXPool.Count == 0)
+        {
+            for(int i = 0; i < FXPoolCount; i++)
+            {
+                var fx = Instantiate(MagicFXPrefab).GetComponent<MagicFX>();
+                fx.enabled = false;
+                fx.SPR1.enabled = false;
+                fx.SPR2.enabled = false;
+                m_magicFXPool.Add(fx);
+            }
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -39,7 +57,6 @@ public class MagicAbility : MonoBehaviour
         if (!m_useAbility && Input.GetKeyDown(KeyCode.LeftAlt))
         {
             m_useAbility = true;
-            m_firstFound = true;
             m_t1Color = new Color(0,0,0,0);
             m_t2Color = BGSpriteColor;
             m_bgTimer = 0.0f;
@@ -57,39 +74,59 @@ public class MagicAbility : MonoBehaviour
             magicSprite.transform.localScale = Vector3.one * radius * MagicSpriteSize;
             magicSprite.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
 
-            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, m_colliders,FXLayer);
+            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, m_colliders, -1);
 
-            m_currentFX.Clear();
+            m_currentTrap.Clear();
             m_keysToRemove.Clear();
             if (overlapCount > 0)
             {
                 for(int i = 0; i < overlapCount; i++)
                 {
-                    if (m_colliders[i].tag != FXTag)
+                    if (m_colliders[i].tag != trapInfoTag)
                         continue;
 
-                    var fx = m_colliders[i].GetComponent<MagicFX>();
-                    fx.SPR1.enabled = true;
-                    fx.SPR2.enabled = true;
+                    var trapinfo = m_colliders[i].GetComponent<TrapInfo>();
+                    if (trapinfo?.type == TrapType.Fine)
+                        continue;
 
-                    m_currentFX.Add(fx.GetHashCode());
+                    m_currentTrap.Add(m_colliders[i].GetHashCode());
 
-                    if (!m_foundFX.ContainsKey(fx.GetHashCode()))
+                    //fx활성화 - 풀에서 가져오기
+                    if (!m_foundTrap.Contains(m_colliders[i].GetHashCode()))
                     {
-                        m_foundFX[fx.GetHashCode()] = fx;
-                        fx.RestartAnimation();
-                    }
-                        
+                        m_foundTrap.Add(m_colliders[i].GetHashCode());
 
+                        MagicFX fx;
+                        if (m_magicFXPool.Count > 0)
+                        {
+                            fx = m_magicFXPool[m_magicFXPool.Count - 1];
+                            m_magicFXPool.RemoveAt(m_magicFXPool.Count - 1);
+                        }
+                        else
+                        {
+                            fx = Instantiate(MagicFXPrefab).GetComponent<MagicFX>();
+                        }
+                        
+                        fx.enabled = true;
+                        fx.SPR1.enabled = true;
+                        fx.SPR2.enabled = true;
+                        fx.transform.position = m_colliders[i].transform.position;
+                        fx.RestartAnimation();
+
+                        m_allocatedFX.Add(m_colliders[i].GetHashCode(), fx);
+                    }
                 }
 
-                foreach (var pair in m_foundFX)
+                foreach (var hash in m_foundTrap)
                 {
-                    int hash = pair.Key;
-                    if (!m_currentFX.Contains(hash))
+                    if (!m_currentTrap.Contains(hash))
                     {
-                        pair.Value.SPR1.enabled = false;
-                        pair.Value.SPR2.enabled = false;
+                        var value = m_allocatedFX[hash];
+
+                        value.enabled = false;
+                        value.SPR1.enabled = false;
+                        value.SPR2.enabled = false;
+                        m_magicFXPool.Add(value);
                         m_keysToRemove.Add(hash);
                     }
                 }
@@ -97,19 +134,21 @@ public class MagicAbility : MonoBehaviour
                 // 딕셔너리에서 제거
                 foreach (var key in m_keysToRemove)
                 {
-                    m_foundFX.Remove(key);
+                    m_foundTrap.Remove(key);
+                    m_allocatedFX.Remove(key);
                 }
-
-                m_firstFound = false;
             }
             else
             {
-                foreach(var fx in m_foundFX.Values)
+                foreach(var fx in m_allocatedFX.Values)
                 {
+                    fx.enabled = false;
                     fx.SPR1.enabled = false;
                     fx.SPR2.enabled = false;
+                    m_magicFXPool.Add(fx);
                 }
-                m_foundFX.Clear();
+                m_foundTrap.Clear();
+                m_allocatedFX.Clear();
             }
 
             if (m_useTimer > useTime)
@@ -124,15 +163,20 @@ public class MagicAbility : MonoBehaviour
         }
         else
         {
-            if (m_foundFX.Count > 0)
+            if (m_foundTrap.Count > 0) 
             {
-                foreach (var fx in m_foundFX.Values)
+                foreach (var fx in m_allocatedFX.Values)
                 {
+                    fx.enabled = false;
                     fx.SPR1.enabled = false;
                     fx.SPR2.enabled = false;
+                    m_magicFXPool.Add(fx);
                 }
-                m_foundFX.Clear();
+                m_foundTrap.Clear();
+                m_allocatedFX.Clear();
             }
+
         }
     }
 }
+
