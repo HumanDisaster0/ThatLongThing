@@ -188,30 +188,40 @@ public class SoundManager : MonoBehaviour
 
     private void CheckVolume()
     {
-        Vector2 leftDown = cam.ScreenToWorldPoint(new Vector2(0, 0));
-        Vector2 rightUp = cam.ScreenToWorldPoint(new Vector2(cam.scaledPixelWidth, cam.scaledPixelHeight));
+        //Vector2 leftDown = cam.ScreenToWorldPoint(new Vector2(0, 0));
+        //Vector2 rightUp = cam.ScreenToWorldPoint(new Vector2(cam.scaledPixelWidth, cam.scaledPixelHeight));
+
+        //foreach (var source in allSources)
+        //{
+        //    Vector2 pos = source.transform.position;
+
+        //    // 오브젝트가 화면 경계 내에 있는지 확인
+        //    bool isInside = (pos.x >= leftDown.x && pos.x <= rightUp.x) &&
+        //                    (pos.y >= leftDown.y && pos.y <= rightUp.y);
+
+        //    if (isInside)
+        //    {
+        //        source.volume = 1f; // 화면 안에 있을 때 볼륨 최대로 유지
+        //    }
+        //    else
+        //    {
+        //        // 화면 경계에서 얼마나 멀어졌는지 계산
+        //        float distance = Mathf.Min(Vector2.Distance(pos, leftDown), Vector2.Distance(pos, rightUp));
+
+        //        // 거리가 멀어질수록 볼륨 감소 (최소값 0 ~ 최대값 1)
+        //        source.volume = Mathf.Clamp01(1f - (distance / volumeGradation)); // `10f`는 조절 가능한 감쇠 거리
+        //    }
+        //}
 
         foreach (var source in allSources)
         {
             Vector2 pos = source.transform.position;
 
-            // 오브젝트가 화면 경계 내에 있는지 확인
-            bool isInside = (pos.x >= leftDown.x && pos.x <= rightUp.x) &&
-                            (pos.y >= leftDown.y && pos.y <= rightUp.y);
+            // 거리 기반으로 볼륨 조절
+            float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
+            float maxDistance = 10f;
 
-            if (isInside)
-            {
-                source.volume = 1f; // 화면 안에 있을 때 볼륨 최대로 유지
-            }
-            else
-            {
-                // 화면 경계에서 얼마나 멀어졌는지 계산
-                float distance = Mathf.Min(Vector2.Distance(pos, leftDown), Vector2.Distance(pos, rightUp));
-
-                // 거리가 멀어질수록 볼륨 감소 (최소값 0 ~ 최대값 1)
-                source.volume = Mathf.Clamp01(1f - (distance / volumeGradation)); // `10f`는 조절 가능한 감쇠 거리
-            }
+            source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
         }
-
     }
 }
