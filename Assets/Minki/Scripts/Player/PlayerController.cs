@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
     [Header("map")]
     public RectTransform minimap;
 
+    public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
+
     #endregion
 
     #region Private Member
@@ -78,6 +81,8 @@ public class PlayerController : MonoBehaviour
     float m_hInput;
     float m_vInput;
     bool m_jumpInput;
+
+    bool m_skipInput;
     
     //플레이어 상태
     PlayerState m_currentState = PlayerState.Idle;
@@ -173,7 +178,7 @@ public class PlayerController : MonoBehaviour
     {
         //---- 입력처리 ----//
 
-        if(minimap && minimap.gameObject.activeInHierarchy)
+        if(m_skipInput || (minimap && minimap.gameObject.activeInHierarchy))
         {
             m_hInput = 0;
             m_vInput = 0;
@@ -317,6 +322,7 @@ public class PlayerController : MonoBehaviour
             && m_jumpInput))
         {
             ExcuteJump();
+            return;
         }
 
         //Normal Transition->
@@ -412,6 +418,9 @@ public class PlayerController : MonoBehaviour
                 //hitBoxCol.offset = Vector2.zero;
                 //hitBoxCol.size = new Vector2 { x = 0.5f, y = 1.0f };
                 return;
+            case PlayerState.Walk:
+                SoundManager.instance.StopSound("Stone_Step", gameObject);
+                return;
         }
     }
 
@@ -423,15 +432,18 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.Play(m_hash_idleAnim);
                 return;
             case PlayerState.Walk:
+                SoundManager.instance.PlayLoopSound("Stone_Step", gameObject);
                 playerAnimator.Play(m_hash_walkAnim);
                 return;
             case PlayerState.Jump:
                 playerAnimator.Play(m_hash_jumpAnim);
+                SoundManager.instance.PlayNewSound("Jump", gameObject);
                 return;
             case PlayerState.Fall:
                 playerAnimator.Play(m_hash_jumpAnim);
                 return;
             case PlayerState.Die:
+                SoundManager.instance.PlaySound("Die1", gameObject);
                 playerAnimator.Play(m_hash_dieAnim);
                 return;
         }
