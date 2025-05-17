@@ -211,11 +211,18 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("NormalClearZone").SetActive(false);
 
                     //함정 상태 동기화
-                    var trapInfo = GameObject.Find("Level").transform.Find("Normal").Find("TrapInfo");
-
-                    for (int i = 0; i < trapInfo.childCount; i++)
+                    offTraps = 0;
+                    foreach (var setter in result)
                     {
-                        trapInfo.GetChild(i).GetComponent<TrapSetter>().RandomSet();
+                        setter.RandomSet();
+                        if (!setter.GetResult)
+                            offTraps++;
+                    }
+
+                    //함정이 모두 꺼진 경우 랜덤 하나 켜기
+                    if (result.Length == offTraps)
+                    {
+                        result[Random.Range(0, result.Length)].SpecifiedSet(true);
                     }
 
                     break;

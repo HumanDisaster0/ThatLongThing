@@ -29,7 +29,8 @@ public class PlayerPortalInteract : MonoBehaviour
         if(collision.CompareTag("Portal"))
         {
             //상호작용 키
-            if(m_pc.IsGrounded && Input.GetKeyDown(KeyCode.UpArrow))
+            if((m_pc.GetCurrentState() == PlayerState.Walk
+                || m_pc.GetCurrentState() == PlayerState.Idle) && Input.GetKeyDown(KeyCode.UpArrow))
             {
                 m_portalCenter = collision.transform.position;
                 m_isEntering = true;
