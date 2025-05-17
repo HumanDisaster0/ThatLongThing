@@ -68,15 +68,15 @@ public class SoundManager : MonoBehaviour
         {
             if (sources.Count != 0)
             {
-                sources[sources.Count-1].clip = _clip;
-                sources[sources.Count - 1].gameObject.transform.position =
-                    new Vector3(caller.transform.position.x, caller.transform.position.y, sources[sources.Count - 1].transform.position.z);
-                sources[sources.Count - 1].loop = false;
-                sources[sources.Count - 1].Play();
-                sources[sources.Count - 1].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
-                    StartCoroutine(StopTime(_clip.length, sources[sources.Count - 1].gameObject));
-                audioSource = sources[sources.Count-1];
-                sources[sources.Count - 1].gameObject.transform.SetParent(caller.transform);
+                sources[0].clip = _clip;
+                sources[0].gameObject.transform.position =
+                    new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
+                sources[0].loop = false;
+                sources[0].Play();
+                sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                    StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                audioSource = sources[0];
+                sources[0].gameObject.transform.SetParent(caller.transform);
             }
             else
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -115,15 +115,56 @@ public class SoundManager : MonoBehaviour
             {
                 if (sources.Count != 0)
                 {
-                    sources[sources.Count - 1].clip = _clip;
-                    sources[sources.Count - 1].gameObject.transform.position =
-                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[sources.Count-1].transform.position.z);
-                    sources[sources.Count - 1].loop = false;
-                    sources[sources.Count - 1].Play();
-                    sources[sources.Count - 1].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
-                        StartCoroutine(StopTime(_clip.length, sources[sources.Count-1].gameObject));
-                    audioSource = sources[sources.Count - 1];
-                    sources[sources.Count - 1].gameObject.transform.SetParent(caller.transform);
+                    sources[0].clip = _clip;
+                    sources[0].gameObject.transform.position =
+                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
+                    sources[0].loop = false;
+                    sources[0].Play();
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                        StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                    audioSource = sources[0];
+                    sources[0].gameObject.transform.SetParent(caller.transform);
+                }
+                else
+                    Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+            }
+        }
+        else
+            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+
+    public AudioSource PlayLoopSound(string soundName, GameObject caller)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있는 경우 실행
+        {
+            // 자식 오브젝트에서 모든 AudioSource 가져오기
+            AudioSource[] objSources = caller.GetComponentsInChildren<AudioSource>();
+            bool isExist = false;
+
+            foreach (AudioSource source in objSources)
+            {
+                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist)
+            {
+                if (sources.Count != 0)
+                {
+                    sources[0].clip = _clip;
+                    sources[0].gameObject.transform.position =
+                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
+                    sources[0].loop = true;
+                    sources[0].Play();
+                    audioSource = sources[0];
+                    sources[0].gameObject.transform.SetParent(caller.transform);
                 }
                 else
                     Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -157,7 +198,8 @@ public class SoundManager : MonoBehaviour
             {
                 Coroutine cor = obj.GetComponent<DefaultSourceData>().myCoroutine;
                 obj.transform.SetParent(transform);
-                StopCoroutine(cor);
+                if (cor != null)
+                    StopCoroutine(cor);
                 cor = null;
             }
         }
@@ -215,13 +257,16 @@ public class SoundManager : MonoBehaviour
 
         foreach (var source in allSources)
         {
-            Vector2 pos = source.transform.position;
+            if(source.transform.parent != transform)
+            {
+                Vector2 pos = source.transform.position;
 
-            // 거리 기반으로 볼륨 조절
-            float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
-            float maxDistance = 10f;
+                // 거리 기반으로 볼륨 조절
+                float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
+                float maxDistance = 10f;
 
-            source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+            }
         }
     }
 }
