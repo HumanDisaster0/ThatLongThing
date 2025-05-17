@@ -398,7 +398,7 @@ public class PlayerController : MonoBehaviour
     /// 외부에서 상태를 변경시키기 위한 함수
     /// </summary>
     /// <param name="state"></param>
-    public void AnyState(PlayerState state,bool forceChange = false)
+    public void AnyState(PlayerState state, bool forceChange = false)
     {
         if (!forceChange && m_invincibility && state == PlayerState.Die)
             return;

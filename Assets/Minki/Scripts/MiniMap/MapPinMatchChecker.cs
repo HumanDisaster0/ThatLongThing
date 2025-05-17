@@ -112,7 +112,7 @@ public class MapPinMatchChecker : MonoBehaviour
     TrapInfo TrapInfoOverlap(Vector2 point, float radius, LayerMask layerMask)
     {
         //non alloc으로 해당 경로의 모든 충돌가능한 콜라이더 참조 가져오기
-        var overlapCount = Physics2D.OverlapCircleNonAlloc(point, radius, m_cols);
+        var overlapCount = Physics2D.OverlapCircleNonAlloc(point, radius, m_cols, (1<<5));
 
         //hitcount가 하나라도 있는지 확인
         if (overlapCount > 0)

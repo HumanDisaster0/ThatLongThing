@@ -19,6 +19,7 @@ public class MagicAbility : MonoBehaviour
     public string trapInfoTag = "TrapInfo";
     public float MagicSpriteSize = 8.0f;
     public int FXPoolCount = 10;
+    public LayerMask FXLayer = (1 << 5);
 
 
     public Color BGSpriteColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
@@ -74,7 +75,7 @@ public class MagicAbility : MonoBehaviour
             magicSprite.transform.localScale = Vector3.one * radius * MagicSpriteSize;
             magicSprite.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
 
-            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, m_colliders, -1);
+            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, m_colliders, FXLayer);
 
             m_currentTrap.Clear();
             m_keysToRemove.Clear();
