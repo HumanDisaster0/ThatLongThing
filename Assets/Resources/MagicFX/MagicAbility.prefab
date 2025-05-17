@@ -46,16 +46,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ea469b24be32f4d8217539c1d42cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magicSprite: {fileID: 0}
-  BGSprite: {fileID: 0}
-  radius: 6
+  magicSprite: {fileID: 8486770983166289576}
+  BGSprite: {fileID: 7822771480045815893}
+  radius: 3
   useTime: 5
   rotateSpeed: 20
   MagicFXPrefab: {fileID: 2441009921034198154, guid: 30cd15fa22c29ee4587f30121f5a223d, type: 3}
   trapInfoTag: TrapInfo
-  MagicSpriteSize: 13
+  MagicSpriteSize: 0.5
   FXPoolCount: 10
-  BGSpriteColor: {r: 1, g: 1, b: 1, a: 0.4}
+  FXLayer:
+    serializedVersion: 2
+    m_Bits: 32
+  BGSpriteColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &8486770983166289576
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -63,7 +66,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441956511002051974}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -96,9 +99,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5c7bfa51c923ef945af0842b1bc03e6a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.21960784}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.34117648}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -110,6 +110,7 @@ MonoBehaviour:
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15
   playerScale: 1
+  minimap: {fileID: 0}
 --- !u!114 &8968510565193850932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,18 +270,6 @@ PrefabInstance:
       value: MagicAbility
       objectReference: {fileID: 0}
     - target: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -320,54 +309,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: radius
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: BGSprite
-      value: 
-      objectReference: {fileID: 7029066961958917782}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: magicSprite
-      value: 
-      objectReference: {fileID: 8708628115065600107}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: BGSpriteColor.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: BGSpriteColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: BGSpriteColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: BGSpriteColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: MagicSpriteSize
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8486770983166289576, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_Color.a
-      value: 0.34117648
-      objectReference: {fileID: 0}
-    - target: {fileID: 8486770983166289576, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8486770983166289576, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -376,15 +317,5 @@ PrefabInstance:
 --- !u!4 &5237649511848472771 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-  m_PrefabInstance: {fileID: 944720318475198147}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &7029066961958917782 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 7822771480045815893, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-  m_PrefabInstance: {fileID: 944720318475198147}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &8708628115065600107 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8486770983166289576, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
   m_PrefabInstance: {fileID: 944720318475198147}
   m_PrefabAsset: {fileID: 0}

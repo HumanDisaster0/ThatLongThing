@@ -53,6 +53,15 @@ public class StageManager : MonoBehaviour
             result[Random.Range(0, result.Length)].SpecifiedSet(true);
         }
 
+        //mappinSetter 설정
+        var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        if (mappinSetter != null)
+            Debug.LogWarning("StageManger - 지도 캔버스를 찾을 수 없음!, 지도 프리펩을 추가하세요");
+
+        foreach (var com in mappinSetter)
+            com.maxPinCount = result.Length;
+
         //이상현상
         switch (anomalyIdx)
         {

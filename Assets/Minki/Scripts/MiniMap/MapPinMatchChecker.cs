@@ -15,7 +15,6 @@ public class MapPinMatchChecker : MonoBehaviour
     public RectTransform refRect;
     public Tilemap tilemap;
     public string checkTag = "TrapInfo";
-    public int tileSize = 50;
     public float pinCheckRadius = 0.5f;
 
     int m_pivotX;
@@ -41,8 +40,8 @@ public class MapPinMatchChecker : MonoBehaviour
     {
         //월드 좌표 계산을 위한 사전 정보 수집
         BoundsInt bounds = tilemap.cellBounds;
-        int texWidth = bounds.size.x * tileSize;
-        int texHeight = bounds.size.y * tileSize;
+        int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
+        int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
 
         int canvasWidth = (int)refRect.sizeDelta.x;
         int canvasHeight = (int)refRect.sizeDelta.y;
@@ -65,8 +64,8 @@ public class MapPinMatchChecker : MonoBehaviour
             var anchoredPos = rect.anchoredPosition;
 
             //월드 좌표 계산
-            var posX = (anchoredPos.x - m_pivotX + (rect.sizeDelta.x * 0.5f)) / tileSize;
-            var posY = (anchoredPos.y + (m_maxY * tileSize) + m_pivotY - (rect.sizeDelta.y * 0.5f)) / tileSize;
+            var posX = (anchoredPos.x - m_pivotX + (rect.sizeDelta.x * 0.5f)) / MinimapTileInfo.tileSize;
+            var posY = (anchoredPos.y + (m_maxY * MinimapTileInfo.tileSize) + m_pivotY - (rect.sizeDelta.y * 0.5f)) / MinimapTileInfo.tileSize;
 
             var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
 
@@ -100,8 +99,6 @@ public class MapPinMatchChecker : MonoBehaviour
             }
 
             //var trapInfos = FindObjectsByType<TrapInfo>(FindObjectsSortMode.None);
-
-           
         }
         data.wrong += setter.maxPinCount - (data.wrong + data.correct);
 

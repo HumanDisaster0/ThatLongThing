@@ -3,6 +3,11 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 
+public static class MinimapTileInfo
+{
+    public static int tileSize = 50;
+}
+
 public class MinimapPreRenderer : MonoBehaviour
 {
     public RectTransform parentRect;
@@ -10,13 +15,21 @@ public class MinimapPreRenderer : MonoBehaviour
     public Tilemap tilemap;
     public RawImage rawImage;
 
-    public int tileSize = 50; // 타일 하나당 픽셀 크기
-
     void Start()
     {
+        MinimapTileInfo.tileSize = 50;
+
         BoundsInt bounds = tilemap.cellBounds;
-        int texWidth = bounds.size.x * tileSize;
-        int texHeight = bounds.size.y * tileSize;
+        int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
+        int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
+
+        if (texHeight > 863)
+        {
+            MinimapTileInfo.tileSize = 25; 
+            texWidth = bounds.size.x * MinimapTileInfo.tileSize;
+            texHeight = bounds.size.y * MinimapTileInfo.tileSize;
+        }
+           
 
         int canvasWidth = (int)parentRect.sizeDelta.x;
         int canvasHeight = (int)parentRect.sizeDelta.y;
@@ -40,8 +53,8 @@ public class MinimapPreRenderer : MonoBehaviour
                 Vector3Int tilePos = new Vector3Int(bounds.x + x, bounds.y + y, 0);
                 TileBase tile = tilemap.GetTile(tilePos);
 
-                int px = x * tileSize + pivotX;
-                int py = y * tileSize;
+                int px = x * MinimapTileInfo.tileSize + pivotX;
+                int py = y * MinimapTileInfo.tileSize;
 
                 if (tile != null)
                 {
@@ -58,9 +71,9 @@ public class MinimapPreRenderer : MonoBehaviour
                             break;
                     }
 
-                    Color[] pixels = new Color[tileSize * tileSize];
+                    Color[] pixels = new Color[MinimapTileInfo.tileSize * MinimapTileInfo.tileSize];
                     for (int i = 0; i < pixels.Length; i++) pixels[i] = tileColor;
-                    tex.SetPixels(px, py, tileSize, tileSize, pixels);
+                    tex.SetPixels(px, py, MinimapTileInfo.tileSize, MinimapTileInfo.tileSize, pixels);
                 }
             }
         }
