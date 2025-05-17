@@ -111,15 +111,20 @@ public class StageManager : MonoBehaviour
                 break;
 
             //no.9 - 거인국 네티
-            //todo - 부수는거 연결
+            //todo - 부수는거 연결, 플레이어 무적
             case 9:
                 var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                 pc.playerScale = 4.0f;
                 pc.ApplyScale();
                 var destroyer = pc.AddComponent<Destroyer>();
-                destroyer.detectionRadius = 4.0f;
+                destroyer.detectionRadius = 2.5f;
                 destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[1];
                 destroyer.destructibleTilemaps[0] = GameObject.Find("Ground").GetComponent<Tilemap>();
+                destroyer.tilemapYMin = -2;
+
+                var trapTrigger = pc.AddComponent<TrapTrigger>();
+                trapTrigger.OnResetTrigger = new UnityEngine.Events.UnityEvent();
+                trapTrigger.OnResetTrigger.AddListener(destroyer.RestoreDestroyedTiles);
 
                 var flyingTile = Resources.Load<GameObject>("FlyingThings");
                 destroyer.flyingTilePrefab = flyingTile;

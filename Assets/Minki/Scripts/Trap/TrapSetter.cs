@@ -35,8 +35,6 @@ public class TrapSetter : MonoBehaviour
             turnOnSet?.Invoke();
             m_result = true;
         }
-
-        print($"{gameObject.name} : {m_result} / {trapInfo.type}");
     }
 
     public void SpecifiedSet(bool on)
