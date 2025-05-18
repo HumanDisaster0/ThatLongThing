@@ -49,8 +49,17 @@ namespace SPTr.CMD
                 bool isValidKey = TryConvertStringToKey(splitText[0], out Key currentKey);
 #else
                 bool isValidKey = TryConvertStringToKey(splitText[0], out KeyCode currentKey);
+
+                if(isValidKey)
+                {
+                    var alphaKey = StringToAlphaKeyCode(splitText[0]);
+                    if (alphaKey != null)
+                    {
+                        currentKey = (KeyCode)alphaKey;
+                    }
+                }
 #endif
-                bool isCheckBinding = splitText.Length < 2 || (splitText[1] == string.Empty);
+                    bool isCheckBinding = splitText.Length < 2 || (splitText[1] == string.Empty);
                 bool isVoidAction = splitText.Length < 3;
 
                 if (isValidKey && !isCheckBinding)
@@ -137,6 +146,25 @@ namespace SPTr.CMD
         {
             return Enum.TryParse(keyString, true, out key);
         }
+
+        public static KeyCode? StringToAlphaKeyCode(string input)
+        {
+            switch (input)
+            {
+                case "0": return KeyCode.Alpha0;
+                case "1": return KeyCode.Alpha1;
+                case "2": return KeyCode.Alpha2;
+                case "3": return KeyCode.Alpha3;
+                case "4": return KeyCode.Alpha4;
+                case "5": return KeyCode.Alpha5;
+                case "6": return KeyCode.Alpha6;
+                case "7": return KeyCode.Alpha7;
+                case "8": return KeyCode.Alpha8;
+                case "9": return KeyCode.Alpha9;
+                default: return null;
+            }
+        }
+
 #endif
         private static void PrintErrorMSG(string msg)
         {
