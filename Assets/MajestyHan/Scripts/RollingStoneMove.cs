@@ -64,8 +64,6 @@ public class RollingStoneMove : MonoBehaviour
     }
 
 
-
-
     // 외부에서 활성화 (등장)
     public void Activate()
     {
