@@ -7,7 +7,8 @@ using UnityEngine;
 public enum MSpawnType
 {
     Normal = 0,
-    Alter
+    Alter,
+    NoMatter
 }
 
 [Serializable]
@@ -15,9 +16,9 @@ public struct MonsterData
 {
     public GameObject monster;
     public MonsterType startType;
+    public MSpawnType spawnType;
     public Vector3 startPos;
     public bool startActive;
-    public MSpawnType spawnType;
 }
 
 public class MonsterManager : MonoBehaviour
@@ -53,7 +54,11 @@ public class MonsterManager : MonoBehaviour
 
     public void SetSpawnType(MSpawnType type)
     {
-
+        foreach(var data in monsterDatas)
+        {
+            if(data.spawnType != type && data.spawnType != MSpawnType.NoMatter)
+                data.monster.SetActive(false);
+        }
     }
 
     public void SetType(MonsterType type, GameObject monster)
@@ -106,6 +111,9 @@ public class MonsterManager : MonoBehaviour
             data.startPos += new Vector3(0, scaleChange / 2, 0);
             data.monster.transform.localScale = new Vector2(targetScale, targetScale);
             data.monster.transform.position = data.startPos;
+
+            if (!Mathf.Approximately(data.monster.transform.position.y, 1f))
+                data.monster.transform.Find("StepCollider").gameObject.SetActive(false);
 
             monsterDatas[i] = data; // Update the list with the modified struct
         }
