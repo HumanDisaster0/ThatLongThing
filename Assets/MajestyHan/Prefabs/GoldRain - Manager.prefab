@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6745314599975329511}
   - component: {fileID: 4576288537982700557}
+  - component: {fileID: 214723189562133072}
   m_Layer: 0
-  m_Name: RainManager
+  m_Name: GoldRain - Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fadf53eca349314fac0e1d6e3754fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pool: {fileID: 0}
   spawnY: 15
   xMin: 0
   xMax: 30
@@ -55,3 +55,16 @@ MonoBehaviour:
   delayMax: 3
   fallDuration: 1.5
   xThresholdFactor: 2
+--- !u!114 &214723189562133072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223676507297601206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b90ae29bfd878b4786c6ba8d11f6584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rainPrefab: {fileID: 3644760361396975202, guid: 1de909178da7b21469e6ac3cd1e3028a, type: 3}

@@ -8,20 +8,24 @@ public class RainObjectPool : MonoBehaviour
 
     public GameObject Get()
     {
-        GameObject obj;
-
-        if (pool.Count > 0)
+        GameObject obj = null;
+                
+        while (pool.Count > 0)
         {
             obj = pool.Dequeue();
-        }
-        else
-        {
-            obj = Instantiate(rainPrefab);
+
+            if (obj == null) continue; 
+            if (!obj) continue;       
+            
+            obj.SetActive(true);
+            return obj;
         }
 
+        obj = Instantiate(rainPrefab);
         obj.SetActive(true);
         return obj;
     }
+
 
     public void Return(GameObject obj)
     {

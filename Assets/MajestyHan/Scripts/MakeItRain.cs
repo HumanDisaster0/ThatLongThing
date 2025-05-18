@@ -11,8 +11,7 @@ public class MakeItRain : MonoBehaviour
         public float delay;
     }
 
-    [Header("풀 매니저")]
-    public RainObjectPool pool;
+    private RainObjectPool pool;
 
     [Header("생성 범위 (X: min~max, Y는 spawnY)")]
     public float spawnY = 10f;
@@ -40,10 +39,13 @@ public class MakeItRain : MonoBehaviour
     private List<RainSlot> rainSchedule = new List<RainSlot>();
     private List<GameObject> activePrefabs = new List<GameObject>();
 
-
-
     private float xThreshold = 0.4f;
     private float delayThreshold = 0.2f;
+
+    private void Awake()
+    {
+        pool = GetComponent<RainObjectPool>();
+    }
 
     private void Start()
     {
@@ -73,15 +75,17 @@ public class MakeItRain : MonoBehaviour
             rainRoutine = null;
         }
 
-        // 현재 떠 있는 모든 프리팹 강제 리턴
+        // 생성된 모든 프리팹 파괴
         foreach (var obj in activePrefabs)
         {
             if (obj != null)
-                pool.Return(obj);
+                Destroy(obj); // 상남자 특, 그냥 다 삭제해버림
         }
 
         activePrefabs.Clear();
+        rainSchedule.Clear(); // 겹침 스케줄도 초기화
     }
+
 
     private IEnumerator RainLoop()
     {
@@ -111,8 +115,9 @@ public class MakeItRain : MonoBehaviour
 
             Vector3 spawnPos = new Vector3(x, spawnY, 0);
             GameObject obj = pool.Get();
+            obj.transform.position = spawnPos;
+
             activePrefabs.Add(obj);
-            obj.transform.position = spawnPos;            
 
             StartCoroutine(FallRoutine(obj, delay, x));
             StartCoroutine(RemoveFromScheduleAfterDelay(x, delay, delayMin));
@@ -136,11 +141,13 @@ public class MakeItRain : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
+        if (!obj) yield break;
+
         Vector3 startPos = obj.transform.position;
         Vector3 endPos = new Vector3(x, destroyY, 0);
         float t = 0f;
 
-        while (obj != null && t < fallDuration)
+        while (obj && obj.activeInHierarchy && t < fallDuration)
         {
             t += Time.deltaTime;
             float normalized = Mathf.Clamp01(t / fallDuration);
@@ -148,9 +155,10 @@ public class MakeItRain : MonoBehaviour
             yield return null;
         }
 
-        if (obj != null)
+        if (obj && obj.activeInHierarchy)
             pool.Return(obj);
     }
+
 
     private IEnumerator RemoveFromScheduleAfterDelay(float x, float delay, float extraDelay)
     {
