@@ -37,8 +37,6 @@ public class CometController : MonoBehaviour
     public AnimationCurve TCometAnimation; //백분율(0~100%) 애니메이션
     public AnimationCurve TScreenAnimation; //백분율(0~100%) 애니메이션
 
-    public UnityEvent OnCometHit;
-
     public Transform stone;
 
     private Volume m_volume;
@@ -52,6 +50,7 @@ public class CometController : MonoBehaviour
 
     private bool m_eventTrigger;
     private PlayerPortalInteract m_portalInteract;
+    private PlayerController m_pc;
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +77,7 @@ public class CometController : MonoBehaviour
         }
 
         m_portalInteract = FindObjectOfType<PlayerPortalInteract>();
+        m_pc = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
@@ -87,12 +87,18 @@ public class CometController : MonoBehaviour
 
         if(!m_eventTrigger 
             && m_timer > HitTime
-            && !m_portalInteract.IsEntering)
+            && !m_portalInteract.IsEntering
+            && m_pc.GetCurrentState() != PlayerState.Die)
         {
             m_eventTrigger = true;
             m_portalInteract.enabled = false;
             StartCoroutine(Flash());
         }
+
+        //if(!m_eventTrigger)
+        //{
+        //    FlashFX.color = Color.Lerp(FlashFX.color, new Color(1, 1, 1, 0.0f), 12f * Time.deltaTime);
+        //}
 
         stone.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
 
@@ -121,6 +127,14 @@ public class CometController : MonoBehaviour
             yield return null;
         }
 
-        OnCometHit?.Invoke();
+        m_pc.AnyState(PlayerState.Die, true);
+    }
+
+    public void ResetComet()
+    {
+        FlashFX.color = new Color(1, 1, 1, 0.0f);
+        m_portalInteract.enabled = true;
+        m_eventTrigger = false;
+        m_timer = 0.0f;
     }
 }

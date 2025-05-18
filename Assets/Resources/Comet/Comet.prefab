@@ -283,6 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4094589934634251077}
   - component: {fileID: 4441089607964205207}
+  - component: {fileID: 9209515458727489119}
   m_Layer: 0
   m_Name: Comet
   m_TagString: Untagged
@@ -393,10 +394,44 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  OnCometHit:
+  stone: {fileID: 7979326852608843670}
+--- !u!114 &9209515458727489119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382261737503121428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0694dd12f39643e4ba8c51da04b96ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isEnterTrigger: 0
+  isStayTrigger: 0
+  isExitTrigger: 0
+  activeTime: 0
+  OnStartTrigger:
     m_PersistentCalls:
       m_Calls: []
-  stone: {fileID: 7979326852608843670}
+  OnResetTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4441089607964205207}
+        m_TargetAssemblyTypeName: CometController, Assembly-CSharp
+        m_MethodName: ResetComet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5621760044252217297
 GameObject:
   m_ObjectHideFlags: 0

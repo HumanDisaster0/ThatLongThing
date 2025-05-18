@@ -122,7 +122,7 @@ public class StageManager : MonoBehaviour
                 {
                     GameObject.Find("ShadowMask").SetActive(false);
                     GameObject.Find("Anomaly").transform.Find("Comet").gameObject.SetActive(true);
-                    GameObject.Find("RedPortal").SetActive(false); 
+                    //GameObject.Find("RedPortal").SetActive(false); 
 
                     break;
                 }
