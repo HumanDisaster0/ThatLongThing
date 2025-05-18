@@ -7,7 +7,7 @@ public class DefaultSourceData : MonoBehaviour
 {
     public Coroutine myCoroutine;
     
-    public bool isVolConByManager = true;
+    public bool isVolCon = true;
     public bool isVisible = true;
 
     private void OnBecameInvisible()

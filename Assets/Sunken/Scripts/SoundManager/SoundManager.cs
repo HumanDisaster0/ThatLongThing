@@ -291,13 +291,10 @@ public class SoundManager : MonoBehaviour
         // 카메라 기준 계산
         foreach (AudioSource source in activeSources)
         {
-            if (source.gameObject.GetComponent<DefaultSourceData>().isVolConByManager)
-            {
-                DefaultSourceData data = source.GetComponent<DefaultSourceData>();
-                // 전역볼륨 확인후 맞으면 무시
-                if (!data.isVolConByManager)
-                    continue;
+            DefaultSourceData data = source.GetComponent<DefaultSourceData>();
 
+            if (data.isVolCon)
+            {
                 // 화면안에 없으면 무시
                 if (!data.isVisible)
                     continue;
