@@ -4,11 +4,31 @@ using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using UnityEditor.Build;
 
 public static class MinimapTileInfo
 {
-    public static int tileSize = DEFAULT_SIZE;
+    public static int tileSize
+    {
+        get
+        {
+            return m_tileSize;
+        }
+
+        set
+        {
+            if(m_tileSize != value)
+            {
+                m_tileSize = value;
+                OnChangedTileSize?.Invoke();
+            }
+        }
+    }
     public const int DEFAULT_SIZE = 50;
+
+    static int m_tileSize = DEFAULT_SIZE;
+
+    public static Action OnChangedTileSize;
 }
 
 public class MinimapPreRenderer : MonoBehaviour
@@ -31,7 +51,6 @@ public class MinimapPreRenderer : MonoBehaviour
 
         if (texHeight > 863)
         {
-            m_resizedTexture.Clear();
             MinimapTileInfo.tileSize = 34; 
             texWidth = bounds.size.x * MinimapTileInfo.tileSize;
             texHeight = bounds.size.y * MinimapTileInfo.tileSize;
@@ -65,12 +84,14 @@ public class MinimapPreRenderer : MonoBehaviour
                 int px = x * MinimapTileInfo.tileSize + pivotX;
                 int py = y * MinimapTileInfo.tileSize;
 
+              
+
                 if (sprite != null)
                 {
                     Texture2D sourceTex = sprite.texture;
                     Rect rect = sprite.textureRect;
-
-                    if (!m_resizedTexture.ContainsKey(sourceTex.GetHashCode()))
+                    int hash = HashCode.Combine(MinimapTileInfo.tileSize, sourceTex.GetHashCode());
+                    if (!m_resizedTexture.ContainsKey(hash))
                     {
                         int rx = Mathf.FloorToInt(rect.x);
                         int ry = Mathf.FloorToInt(rect.y);
@@ -86,10 +107,10 @@ public class MinimapPreRenderer : MonoBehaviour
 
                         Texture2D scaled = Resize(resized, MinimapTileInfo.tileSize, FilterMode.Bilinear); // 앞서 만든 Resize 함수
 
-                        m_resizedTexture.Add(sourceTex.GetHashCode(), scaled);
+                        m_resizedTexture.Add(hash, scaled);
                     }
 
-                    Color[] finalPixels = m_resizedTexture[sourceTex.GetHashCode()].GetPixels();
+                    Color[] finalPixels = m_resizedTexture[hash].GetPixels();
 
                     tex.SetPixels(px, py, MinimapTileInfo.tileSize, MinimapTileInfo.tileSize, finalPixels);
                 }
