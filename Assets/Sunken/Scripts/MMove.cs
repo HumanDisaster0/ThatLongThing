@@ -293,7 +293,11 @@ public class MMove : MonoBehaviour
     }
     public void Respawn()
     {
+        if(respawnPoint == null)
+            respawnPoint = gameObject.transform;
+
         gameObject.SetActive(true);
+        gameObject.transform.position = respawnPoint.position;
         rb.simulated = true;
         GetComponent<CapsuleCollider2D>().enabled = true;
         animCon.SetBool("isDead", false);

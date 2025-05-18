@@ -12,17 +12,13 @@ public class SpawnZoneScript : MonoBehaviour
 
             if(playerSprite.localScale != new Vector3(1f, 1f, 1f))
             {
-                Destroy(this.gameObject);
+                gameObject.SetActive(false);
             }
         }
 
         if (collision.name == "RollingBigStone")
         {
-            Transform monsterSprite = collision.gameObject.transform.Find("MonsterSprite");
-            if (monsterSprite.localScale != new Vector3(1f, 1f, 1f))
-            {
-                Destroy(this.gameObject);
-            }
+            gameObject.SetActive(false);
         }
     }
 }

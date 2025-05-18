@@ -11,6 +11,7 @@ TagManager:
   - RedZone
   - Minimap
   - Portal
+  - Zone
   layers:
   - Default
   - TransparentFX
