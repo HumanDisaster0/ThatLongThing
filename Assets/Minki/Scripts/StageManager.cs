@@ -123,7 +123,15 @@ public class StageManager : MonoBehaviour
 
                     break;
                 }
-                
+
+            //no.8 - 노 웨이 홈
+            case 8:
+                {
+                    GameObject.Find("BluePortal").SetActive(false);
+
+                    break;
+                }
+
 
             //no.9 - 거인국 네티
             //todo - 플레이어 무적

@@ -16,8 +16,11 @@ namespace Assets.Minki.Scripts.CMD
             {
                 foreach (var matcherCom in GameObject.FindObjectsByType<MapPinMatchChecker>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 {
-                    m_matcher = matcherCom;
-                    return m_matcher;
+                    if(m_matcher != null)
+                    {
+                        m_matcher = matcherCom;
+                        return m_matcher;
+                    }
                 }
                 return null;
             }
@@ -27,7 +30,7 @@ namespace Assets.Minki.Scripts.CMD
 
 
         public static ConsoleCommand cmd_matcher_checkmappin = new ConsoleCommand(
-            "cmd_player_gotomouse",
+            "cmd_matcher_checkmappin",
             () =>
             {
                 var data = matcher.CreateMatchData();
