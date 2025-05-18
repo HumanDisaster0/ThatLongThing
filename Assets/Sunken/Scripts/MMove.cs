@@ -215,7 +215,7 @@ public class MMove : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
 
-        if (respawnPoint == null)
+        if (respawnPoint.gameObject.activeSelf == false || respawnPoint == null)
             respawn = false;
         if (respawn)
             Respawn();
@@ -293,12 +293,6 @@ public class MMove : MonoBehaviour
     }
     public void Respawn()
     {
-        if(respawnPoint == null)
-        {
-            respawn = false;
-            return;
-        }
-
         gameObject.SetActive(true);
         rb.simulated = true;
         GetComponent<CapsuleCollider2D>().enabled = true;
