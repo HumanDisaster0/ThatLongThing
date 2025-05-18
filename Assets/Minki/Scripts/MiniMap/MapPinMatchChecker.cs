@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using Unity.VisualScripting;
 
 public struct MapMatchData
 {
@@ -38,18 +39,14 @@ public class MapPinMatchChecker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //월드 좌표 계산을 위한 사전 정보 수집
-        BoundsInt bounds = tilemap.cellBounds;
-        int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
-        int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
+        ApplyTileInfo();
 
-        int canvasWidth = (int)refRect.sizeDelta.x;
-        int canvasHeight = (int)refRect.sizeDelta.y;
+        MinimapTileInfo.OnChangedTileSize += ApplyTileInfo;
+    }
 
-        m_pivotX = Math.Max(0, (canvasWidth - texWidth) / 2);
-        m_pivotY = Math.Max(0, (canvasHeight - texHeight) / 2);
-
-        m_maxY = tilemap.cellBounds.max.y;
+    private void OnDestroy()
+    {
+        MinimapTileInfo.OnChangedTileSize -= ApplyTileInfo;
     }
 
     public MapMatchData CreateMatchData()
@@ -69,7 +66,7 @@ public class MapPinMatchChecker : MonoBehaviour
 
             var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
 
-            if(trapInfo)
+            if(trapInfo != null)
             {
                 if (!m_duplicatePrevent.Contains(trapInfo.GetHashCode()))
                     m_duplicatePrevent.Add(trapInfo.GetHashCode());
@@ -105,15 +102,35 @@ public class MapPinMatchChecker : MonoBehaviour
         return data;
     }
 
+    void ApplyTileInfo()
+    {
+        //월드 좌표 계산을 위한 사전 정보 수집
+        BoundsInt bounds = tilemap.cellBounds;
+        int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
+        int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
+
+        int canvasWidth = (int)refRect.sizeDelta.x;
+        int canvasHeight = (int)refRect.sizeDelta.y;
+
+        m_pivotX = Math.Max(0, (canvasWidth - texWidth) / 2);
+        m_pivotY = Math.Max(0, (canvasHeight - texHeight) / 2);
+
+        m_maxY = tilemap.cellBounds.max.y;
+    }
+
 
     TrapInfo TrapInfoOverlap(Vector2 point, float radius, LayerMask layerMask)
     {
         //non alloc으로 해당 경로의 모든 충돌가능한 콜라이더 참조 가져오기
+        Debug.DrawRay(point,Vector3.up,Color.cyan,2f);
+        print(point);
         var overlapCount = Physics2D.OverlapCircleNonAlloc(point, radius, m_cols, (1<<5));
 
         //hitcount가 하나라도 있는지 확인
         if (overlapCount > 0)
         {
+            print(overlapCount);
+
             //가장 가까운 콜라이더 찾기
             Collider2D nearestCol = null;
             var nearestDist = Mathf.Infinity;
@@ -121,22 +138,31 @@ public class MapPinMatchChecker : MonoBehaviour
             {
                 var currentCol = m_cols[i];
 
-                if (!currentCol)
+                if (currentCol == null)
+                {
+                    print("null");
                     continue;
+                }
+                   
 
-                if (currentCol.tag != checkTag)
+                if (!currentCol.CompareTag(checkTag))
+                {
+                    print($"not tag : {currentCol.tag}");
                     continue;
+                }
+                   
 
                 var dist = Vector3.Distance(currentCol.transform.position, point);
 
                 if (Vector3.Distance(currentCol.transform.position , point) < nearestDist)
                 {
+                    print(currentCol.name);
                     nearestDist = Vector3.Distance(currentCol.transform.position, point);
                     nearestCol = currentCol;
                 }
             }
 
-            return nearestCol.GetComponent<TrapInfo>();
+            return nearestCol?.GetComponent<TrapInfo>();
         }
 
         return null;

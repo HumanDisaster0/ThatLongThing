@@ -25,19 +25,8 @@ public class MinimapPlayerPos : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BoundsInt bounds = tilemap.cellBounds;
-        int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
-        int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
-
-        m_rect = GetComponent<RectTransform>();
-
-        int canvasWidth = (int)parentRect.sizeDelta.x;
-        int canvasHeight = (int)parentRect.sizeDelta.y;
-
-        m_pivotX = Math.Max(0, (canvasWidth - texWidth) / 2);
-        m_pivotY = Math.Max(0, (canvasHeight - texHeight) / 2);
-
-        m_maxY = tilemap.cellBounds.max.y;
+        ApplyTileInfo();
+        MinimapTileInfo.OnChangedTileSize += ApplyTileInfo;
 
         if (Player == null)
         {
@@ -53,4 +42,25 @@ public class MinimapPlayerPos : MonoBehaviour
         m_rect.anchoredPosition = new Vector2(m_pivotX + (Mathf.Abs(Player.position.x + xOffset)) * MinimapTileInfo.tileSize - (m_rect.sizeDelta.x * 0.5f), m_pivotY * -1f - (m_maxY * MinimapTileInfo.tileSize) + (Player.position.y + yOffset) * MinimapTileInfo.tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
     }
 
+    private void OnDestroy()
+    {
+        MinimapTileInfo.OnChangedTileSize -= ApplyTileInfo;
+    }
+
+    void ApplyTileInfo()
+    {
+        BoundsInt bounds = tilemap.cellBounds;
+        int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
+        int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
+
+        m_rect = GetComponent<RectTransform>();
+
+        int canvasWidth = (int)parentRect.sizeDelta.x;
+        int canvasHeight = (int)parentRect.sizeDelta.y;
+
+        m_pivotX = Math.Max(0, (canvasWidth - texWidth) / 2);
+        m_pivotY = Math.Max(0, (canvasHeight - texHeight) / 2);
+
+        m_maxY = tilemap.cellBounds.max.y;
+    }
 }
