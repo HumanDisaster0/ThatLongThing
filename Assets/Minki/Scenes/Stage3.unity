@@ -20078,6 +20078,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd98528ccebccbf40967e94cab1a6d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1839735485 &1647663449 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 5093346113265722054, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
+  m_PrefabInstance: {fileID: 1430374480}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1653677687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22142,6 +22147,22 @@ Transform:
   - {fileID: 575383765}
   m_Father: {fileID: 1040685955}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1992807716 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 993934995501703037, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
+  m_PrefabInstance: {fileID: 1430374480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1992807718 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2982526850313604682, guid: 2890e09e5e51ea947b083431fa58d4ce, type: 3}
+  m_PrefabInstance: {fileID: 1430374480}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3afc9544fd15d046af7823e65a36d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2065006742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22153,15 +22174,15 @@ PrefabInstance:
     - target: {fileID: 419506237780468926, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: setter
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1992807718}
     - target: {fileID: 419506237780468926, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: refRect
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1992807716}
     - target: {fileID: 419506237780468926, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: tilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1647663449}
     - target: {fileID: 2592921929951702410, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: m_Name
       value: MapPinChecker
