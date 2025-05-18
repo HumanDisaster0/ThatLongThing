@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -214,8 +215,8 @@ public class MMove : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
 
-        if(respawnPoint != null)
-            transform.position = respawnPoint.position;
+        if (respawnPoint == null)
+            respawn = false;
         if (respawn)
             Respawn();
         else
@@ -292,6 +293,12 @@ public class MMove : MonoBehaviour
     }
     public void Respawn()
     {
+        if(respawnPoint == null)
+        {
+            respawn = false;
+            return;
+        }
+
         gameObject.SetActive(true);
         rb.simulated = true;
         GetComponent<CapsuleCollider2D>().enabled = true;

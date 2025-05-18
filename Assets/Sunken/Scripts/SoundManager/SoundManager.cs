@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,6 +18,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Dictionary<string, AudioClip> soundClips = new Dictionary<string, AudioClip>();
 
     [SerializeField] int sourceSize = 10;
+    [SerializeField] float maxDistance = 10f; // 들리는 최대 거리
     [SerializeField] List<AudioSource> sources;
     [SerializeField] List<AudioSource> activeSources;
 
@@ -47,11 +50,6 @@ public class SoundManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(sources.Count != transform.childCount)
-        {
-            sources = GetComponentsInChildren<AudioSource>().ToList();
-        }
-
         CheckVolume();
     }
 
@@ -72,12 +70,17 @@ public class SoundManager : MonoBehaviour
                 sources[0].gameObject.transform.position =
                     new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
                 sources[0].loop = false;
+                sources[0].volume = 1f;
                 sources[0].Play();
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                 audioSource = sources[0];
-                activeSources.Add(sources[0]);
+
                 sources[0].gameObject.transform.SetParent(caller.transform);
+
+                activeSources.Add(sources[0]);
+                sources.Remove(sources[0]);
+
             }
             else
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -120,12 +123,15 @@ public class SoundManager : MonoBehaviour
                     sources[0].gameObject.transform.position =
                         new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
                     sources[0].loop = false;
+                    sources[0].volume = 1f;
                     sources[0].Play();
                     sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                     audioSource = sources[0];
-                    activeSources.Add(sources[0]);
                     sources[0].gameObject.transform.SetParent(caller.transform);
+
+                    activeSources.Add(sources[0]);
+                    sources.Remove(sources[0]);
                 }
                 else
                     Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -164,10 +170,13 @@ public class SoundManager : MonoBehaviour
                     sources[0].gameObject.transform.position =
                         new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
                     sources[0].loop = true;
+                    sources[0].volume = 1f;
                     sources[0].Play();
                     audioSource = sources[0];
-                    activeSources.Add(sources[0]);
                     sources[0].gameObject.transform.SetParent(caller.transform);
+
+                    activeSources.Add(sources[0]);
+                    sources.Remove(sources[0]);
                 }
                 else
                     Debug.LogWarning("사운드 매니저의 스피커 부족!!");
@@ -192,14 +201,16 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     source.Stop(); // 사운드 정지
+
+                    sources.Add(source); // 비활성화된 사운드 목록에 추가
                     activeSources.Remove(source); // 활성화된 사운드 목록에서 제거
 
                     obj = source.gameObject;
-                    Coroutine cor = obj.GetComponent<DefaultSourceData>().myCoroutine;
+                    DefaultSourceData data = obj.GetComponent<DefaultSourceData>();
                     obj.transform.SetParent(transform);
-                    if (cor != null)
-                        StopCoroutine(cor);
-                    cor = null;
+                    if (data.myCoroutine != null)
+                        StopCoroutine(data.myCoroutine);
+                    data.myCoroutine = null;
 
                     break;
                 }
@@ -209,9 +220,27 @@ public class SoundManager : MonoBehaviour
             Debug.LogError(caller + " 이 잘못된 사운드를 정지하였음!!");
     }
 
+    public void StopSound(AudioSource _audio)
+    {
+        if (_audio != null)
+        {
+            _audio.Stop(); // 사운드 정지
+
+            sources.Add(_audio); // 비활성화된 사운드 목록에 추가
+            activeSources.Remove(_audio); // 활성화된 사운드 목록에서 제거
+
+            DefaultSourceData data = _audio.gameObject.GetComponent<DefaultSourceData>();
+            _audio.transform.SetParent(transform);
+            if (data.myCoroutine != null)
+                StopCoroutine(data.myCoroutine);
+            data.myCoroutine = null;
+        }
+    }
+
     IEnumerator StopTime(float time, GameObject obj)
     {
         yield return new WaitForSeconds(time);
+        sources.Add(obj.GetComponent<AudioSource>());
         activeSources.Remove(obj.GetComponent<AudioSource>()); // 활성화된 사운드 목록에서 제거
         obj.transform.SetParent(transform);
     }
@@ -260,18 +289,31 @@ public class SoundManager : MonoBehaviour
         //}
 
         // 카메라 기준 계산
-        foreach (var source in activeSources)
+        foreach (AudioSource source in activeSources)
         {
             if (source.gameObject.GetComponent<DefaultSourceData>().isVolConByManager)
             {
-                Vector2 pos = source.transform.position;
+                DefaultSourceData data = source.GetComponent<DefaultSourceData>();
+                // 전역볼륨 확인후 맞으면 무시
+                if (!data.isVolConByManager)
+                    continue;
 
-                // 거리 기반으로 볼륨 조절
-                float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
-                float maxDistance = 10f;
+                // 화면안에 없으면 무시
+                if (!data.isVisible)
+                    continue;
+                else
+                {
+                    Vector2 pos = source.transform.position;
 
-                //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
-                source.volume = 1f - (distanceFromCenter / maxDistance);
+                    // 거리 기반으로 볼륨 조절
+                    float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
+
+                    float result = distanceFromCenter / maxDistance;
+
+                    // 볼륨 조절
+                    //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                    source.volume = 1f - result;
+                }
             }
         }
 
