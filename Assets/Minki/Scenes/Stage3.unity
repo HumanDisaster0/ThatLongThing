@@ -25908,6 +25908,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 102709199}
     m_Modifications:
+    - target: {fileID: 1290333338010935733, guid: 227f5e0beb4e4704db1629ed633c66e2, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4094589934634251077, guid: 227f5e0beb4e4704db1629ed633c66e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.500543
@@ -26104,7 +26108,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7794587042825960047, guid: 227f5e0beb4e4704db1629ed633c66e2, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4290659817714723523, guid: 227f5e0beb4e4704db1629ed633c66e2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
