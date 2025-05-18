@@ -27,7 +27,7 @@ namespace Assets.Minki.Scripts.CMD
 
 
         public static ConsoleCommand cmd_matcher_checkmappin = new ConsoleCommand(
-            "cmd_player_gotomouse",
+            "cmd_matcher_checkmappin",
             () =>
             {
                 var data = matcher.CreateMatchData();
