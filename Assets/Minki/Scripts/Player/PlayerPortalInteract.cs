@@ -45,6 +45,13 @@ public class PlayerPortalInteract : MonoBehaviour
     IEnumerator EnterPortal()
     {
         //플레이어 가만히
+        var shadowMask = transform.Find("ShadowMask");
+
+        if(shadowMask != null)
+        {
+            shadowMask.parent = null;
+        }
+
         m_col.isTrigger = true;
         m_pc.SetVelocity(Vector2.zero);
         m_pc.AnyState(PlayerState.Fall, true);
