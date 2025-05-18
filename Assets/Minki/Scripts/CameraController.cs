@@ -34,9 +34,19 @@ public class CameraController : MonoBehaviour
     float m_clampHeight;
     Vector3 m_currentPos = Vector3.zero;
     Vector3 m_targetPos = Vector3.zero;
+    Vector3 m_shakePos = Vector3.zero;
+    float m_shakeAmount = 1.0f;
+    int m_noiseSeed = 45;
+    float m_shakeSpeed = 1.0f;
+    float m_shakeRecovery = 1.0f;
+    float m_shakeTrauma = 0.0f;
+    bool m_nonTrauma = false;
+
 
     //bool m_flipWorldRect = false;
 
+    public bool IsNonTrauma() => m_nonTrauma;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -172,8 +182,31 @@ public class CameraController : MonoBehaviour
         m_currentPos.x = Mathf.Lerp(m_currentPos.x, m_targetPos.x, 1 - Mathf.Exp(-setXLerpSpeed * Time.deltaTime));
         m_currentPos.y = Mathf.Lerp(m_currentPos.y, m_targetPos.y, 1 - Mathf.Exp(-setYLerpSpeed * Time.deltaTime));
 
-        transform.position = m_currentPos + Vector3.up * yOffset + Vector3.forward * -10f;
+
+        //카메라 쉐이킹
+        m_shakePos = new Vector3(m_shakeAmount * (Mathf.PerlinNoise(m_noiseSeed, Time.time * m_shakeSpeed) * 2 - 1),
+        m_shakeAmount * (Mathf.PerlinNoise(m_noiseSeed + 1, Time.time * m_shakeSpeed) * 2 - 1),
+        m_shakeAmount * (Mathf.PerlinNoise(m_noiseSeed + 2, Time.time * m_shakeSpeed) * 2 - 1));
+        m_shakeTrauma = Mathf.Lerp(m_shakeTrauma, 0, m_shakeRecovery * Time.deltaTime);
+
+        transform.position = m_currentPos + Vector3.up * yOffset + Vector3.forward * -10f + (m_shakePos * (m_nonTrauma ? 1f : m_shakeTrauma));
+
+     
     }
+
+    public void ShakeCamera(float speed, float amount, float recovery)
+    {
+        m_shakeSpeed = speed;
+        m_shakeAmount = amount;
+        m_shakeRecovery = recovery;
+        m_shakeTrauma = 1f;
+    }
+
+    public void SetShakeTrauma(bool trauma)
+    {
+        m_nonTrauma = !trauma;
+    }
+
 
     private void OnDrawGizmos()
     {

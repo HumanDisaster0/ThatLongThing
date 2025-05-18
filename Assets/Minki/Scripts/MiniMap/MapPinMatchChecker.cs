@@ -122,15 +122,11 @@ public class MapPinMatchChecker : MonoBehaviour
     TrapInfo TrapInfoOverlap(Vector2 point, float radius, LayerMask layerMask)
     {
         //non alloc으로 해당 경로의 모든 충돌가능한 콜라이더 참조 가져오기
-        Debug.DrawRay(point,Vector3.up,Color.cyan,2f);
-        print(point);
         var overlapCount = Physics2D.OverlapCircleNonAlloc(point, radius, m_cols, (1<<5));
 
         //hitcount가 하나라도 있는지 확인
         if (overlapCount > 0)
         {
-            print(overlapCount);
-
             //가장 가까운 콜라이더 찾기
             Collider2D nearestCol = null;
             var nearestDist = Mathf.Infinity;
@@ -140,14 +136,12 @@ public class MapPinMatchChecker : MonoBehaviour
 
                 if (currentCol == null)
                 {
-                    print("null");
                     continue;
                 }
                    
 
                 if (!currentCol.CompareTag(checkTag))
                 {
-                    print($"not tag : {currentCol.tag}");
                     continue;
                 }
                    

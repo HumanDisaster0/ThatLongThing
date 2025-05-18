@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
-using UnityEditor.Build;
 
 public static class MinimapTileInfo
 {
@@ -38,7 +36,7 @@ public class MinimapPreRenderer : MonoBehaviour
     public Tilemap tilemap;
     public RawImage rawImage;
 
-    void Start()
+    void Awake()
     {
         if (m_resizedTexture == null)
             m_resizedTexture = new Dictionary<int, Texture2D>();

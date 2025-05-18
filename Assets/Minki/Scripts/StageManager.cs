@@ -143,7 +143,12 @@ public class StageManager : MonoBehaviour
                     pc.ApplyScale();
                     var destroyer = pc.gameObject.AddComponent<DestroyerForPlayer>();
                     destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[1];
-                    destroyer.destructibleTilemaps[0] = GameObject.Find("Ground").GetComponent<Tilemap>();
+                    destroyer.destructibleTilemaps[0] = GameObject.Find("Ground")?.GetComponent<Tilemap>();
+                    if(destroyer.destructibleTilemaps[0] == null)
+                    {
+                        Debug.LogWarning("Ground타일을 찾을 수 없습니다.");
+                        destroyer.enabled = false;
+                    }
                     destroyer.tilemapYMin = -2;
 
                     var trapTrigger = pc.gameObject.AddComponent<TrapTrigger>();
