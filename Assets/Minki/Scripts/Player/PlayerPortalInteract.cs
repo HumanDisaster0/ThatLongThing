@@ -24,12 +24,13 @@ public class PlayerPortalInteract : MonoBehaviour
         if (m_isEntering)
             return;
 
+
+
         //Portal인지 조사
         if(collision.CompareTag("Portal"))
         {
             //상호작용 키
-            if((m_pc.GetCurrentState() == PlayerState.Walk
-                || m_pc.GetCurrentState() == PlayerState.Idle) && Input.GetKeyDown(KeyCode.UpArrow))
+            if(m_pc.IsGrounded && Input.GetKey(KeyCode.UpArrow))
             {
                 m_portal = collision.transform;
                 m_isEntering = true;
