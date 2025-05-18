@@ -30,32 +30,33 @@ public class MakeItRain : MonoBehaviour
     public float delayMin = 0.1f;
     public float delayMax = 0.5f;
 
-    [Header("낙하 속도 (유닛/초)")]
-    public float fallSpeed = 5f;
+    [Header("낙하 시간 (초)")]
+    public float fallDuration = 1f;
+
+    [Header("겹침 허용 계수 (스프라이트 너비 × 계수)")]
+    public float xThresholdFactor = 1.1f;
 
     private Coroutine rainRoutine;
     private List<RainSlot> rainSchedule = new List<RainSlot>();
+    private List<GameObject> activePrefabs = new List<GameObject>();
 
-    // 계산된 기준값들
+
+
     private float xThreshold = 0.4f;
     private float delayThreshold = 0.2f;
-    private float fallDuration = 1f;
 
     private void Start()
     {
-        // 프리팹에서 스프라이트 크기 기반 xThreshold 계산
         if (pool != null && pool.rainPrefab != null)
         {
             var sr = pool.rainPrefab.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
-                xThreshold = sr.bounds.size.x * 1.1f; // 10% 여유
+                xThreshold = sr.bounds.size.x * xThresholdFactor;
             }
         }
 
-        // 낙하 시간 계산
-        fallDuration = Mathf.Abs(spawnY - destroyY) / fallSpeed;
-        delayThreshold = fallDuration * 0.5f; // 절반 지점 기준
+        delayThreshold = fallDuration * 0.5f;
     }
 
     public void StartRain()
@@ -71,6 +72,15 @@ public class MakeItRain : MonoBehaviour
             StopCoroutine(rainRoutine);
             rainRoutine = null;
         }
+
+        // 현재 떠 있는 모든 프리팹 강제 리턴
+        foreach (var obj in activePrefabs)
+        {
+            if (obj != null)
+                pool.Return(obj);
+        }
+
+        activePrefabs.Clear();
     }
 
     private IEnumerator RainLoop()
@@ -87,68 +97,65 @@ public class MakeItRain : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             float x = Random.Range(xMin, xMax);
-            float delay = GetNonOverlappingDelay(x);
+            float delay = Random.Range(delayMin, delayMax);
+
+            if (IsOverlapping(x, delay))
+            {
+                GameObject skipped = pool.Get();
+                skipped.transform.position = new Vector3(x, spawnY, 0);
+                pool.Return(skipped);
+                continue;
+            }
+
+            rainSchedule.Add(new RainSlot { x = x, delay = delay });
 
             Vector3 spawnPos = new Vector3(x, spawnY, 0);
             GameObject obj = pool.Get();
-            obj.transform.position = spawnPos;
+            activePrefabs.Add(obj);
+            obj.transform.position = spawnPos;            
 
             StartCoroutine(FallRoutine(obj, delay, x));
+            StartCoroutine(RemoveFromScheduleAfterDelay(x, delay, delayMin));
         }
     }
 
-    private float GetNonOverlappingDelay(float x)
+    private bool IsOverlapping(float x, float delay)
     {
-        float delay = Random.Range(delayMin, delayMax);
-        int maxTries = 20;
-
-        for (int i = 0; i < maxTries; i++)
+        foreach (var slot in rainSchedule)
         {
-            bool overlaps = false;
-
-            foreach (var slot in rainSchedule)
+            if (Mathf.Abs(slot.x - x) < xThreshold &&
+                Mathf.Abs(slot.delay - delay) < delayThreshold)
             {
-                if (Mathf.Abs(slot.x - x) < xThreshold &&
-                    Mathf.Abs(slot.delay - delay) < delayThreshold)
-                {
-                    overlaps = true;
-                    break;
-                }
+                return true;
             }
-
-            if (!overlaps)
-            {
-                rainSchedule.Add(new RainSlot { x = x, delay = delay });
-                return delay;
-            }
-
-            // 겹치면: 낙하 절반 ~ 완료 시점 사이로 추가 지연
-            delay += Random.Range(fallDuration * 0.5f, fallDuration);
         }
-
-        // 실패하면 강제로 추가 지연
-        delay += fallDuration;
-        rainSchedule.Add(new RainSlot { x = x, delay = delay });
-        return delay;
+        return false;
     }
 
     private IEnumerator FallRoutine(GameObject obj, float delay, float x)
     {
         yield return new WaitForSeconds(delay);
 
-        // 낙하 시작 전에 스케줄 제거
-        rainSchedule.RemoveAll(slot => Mathf.Approximately(slot.x, x) && Mathf.Approximately(slot.delay, delay));
-
+        Vector3 startPos = obj.transform.position;
         Vector3 endPos = new Vector3(x, destroyY, 0);
+        float t = 0f;
 
-        while (obj != null && obj.transform.position.y > destroyY)
+        while (obj != null && t < fallDuration)
         {
-            obj.transform.position = Vector3.MoveTowards(obj.transform.position, endPos, fallSpeed * Time.deltaTime);
+            t += Time.deltaTime;
+            float normalized = Mathf.Clamp01(t / fallDuration);
+            obj.transform.position = Vector3.Lerp(startPos, endPos, normalized);
             yield return null;
         }
 
         if (obj != null)
             pool.Return(obj);
+    }
+
+    private IEnumerator RemoveFromScheduleAfterDelay(float x, float delay, float extraDelay)
+    {
+        yield return new WaitForSeconds(delay + extraDelay);
+        rainSchedule.RemoveAll(slot => Mathf.Approximately(slot.x, x) && Mathf.Approximately(slot.delay, delay));
     }
 
     private void OnDrawGizmosSelected()
