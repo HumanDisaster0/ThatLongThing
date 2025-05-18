@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public enum PlayerState
 {

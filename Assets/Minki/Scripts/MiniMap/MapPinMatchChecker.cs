@@ -27,12 +27,12 @@ public class MapPinMatchChecker : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            var data = CreateMatchData();
+        //if(Input.GetKeyDown(KeyCode.C))
+        //{
+        //    var data = CreateMatchData();
 
-            print($"{data.correct} : {data.wrong}");
-        }
+        //    print($"{data.correct} : {data.wrong}");
+        //}
     }
 
     // Start is called before the first frame update

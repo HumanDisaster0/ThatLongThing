@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -56,7 +52,7 @@ public class StageManager : MonoBehaviour
         //mappinSetter 설정
         var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
-        if (mappinSetter != null)
+        if (mappinSetter == null)
             Debug.LogWarning("StageManger - 지도 캔버스를 찾을 수 없음!, 지도 프리펩을 추가하세요");
 
         foreach (var com in mappinSetter)
@@ -137,12 +133,12 @@ public class StageManager : MonoBehaviour
                     pc.Invincibility = true;
                     pc.playerScale = 4.0f;
                     pc.ApplyScale();
-                    var destroyer = pc.AddComponent<DestroyerForPlayer>();
+                    var destroyer = pc.gameObject.AddComponent<DestroyerForPlayer>();
                     destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[1];
                     destroyer.destructibleTilemaps[0] = GameObject.Find("Ground").GetComponent<Tilemap>();
                     destroyer.tilemapYMin = -2;
 
-                    var trapTrigger = pc.AddComponent<TrapTrigger>();
+                    var trapTrigger = pc.gameObject.AddComponent<TrapTrigger>();
                     trapTrigger.OnResetTrigger = new UnityEngine.Events.UnityEvent();
                     trapTrigger.OnResetTrigger.AddListener(destroyer.RestoreDestroyedTiles);
 

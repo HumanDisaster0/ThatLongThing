@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerPortalInteract : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class PlayerPortalInteract : MonoBehaviour
 
     Collider2D m_col;
     PlayerController m_pc;
-    Vector3 m_portalCenter;
+    Transform m_portal;
 
     bool m_isEntering;
 
@@ -32,10 +31,9 @@ public class PlayerPortalInteract : MonoBehaviour
             if((m_pc.GetCurrentState() == PlayerState.Walk
                 || m_pc.GetCurrentState() == PlayerState.Idle) && Input.GetKeyDown(KeyCode.UpArrow))
             {
-                m_portalCenter = collision.transform.position;
+                m_portal = collision.transform;
                 m_isEntering = true;
-                //PortalEvent 컴포넌트 있는지 검사
-                //있다면 OnPortalEnter 실행
+                
                 StartCoroutine(EnterPortal());
             }
         }
@@ -43,25 +41,42 @@ public class PlayerPortalInteract : MonoBehaviour
 
     IEnumerator EnterPortal()
     {
+        //플레이어 가만히
         m_col.isTrigger = true;
         m_pc.SetVelocity(Vector2.zero);
         m_pc.AnyState(PlayerState.Fall, true);
         m_pc.Freeze = true;
         yield return null;
 
-        Vector3 m_startPos = m_pc.transform.position;
-        Vector3 m_startScale = m_pc.transform.localScale;
+        Vector3 startPos = m_pc.transform.position;
+        Vector3 startScale = m_pc.transform.localScale;
+        Vector3 portalCenter = m_portal.transform.position;
 
+        //빨려들어가는 애니메이션 재생
         float timer = 0.0f;
         while (timer < portalEnterAnimation[portalEnterAnimation.length - 1].time)
         {
             timer += Time.deltaTime;
-            m_pc.transform.position = Vector3.Lerp(m_startPos, m_portalCenter, portalEnterAnimation.Evaluate(timer));
-            m_pc.transform.localScale = Vector3.Lerp(m_startScale, Vector3.zero, portalEnterAnimation.Evaluate(timer));
+            m_pc.transform.position = Vector3.Lerp(startPos, portalCenter, portalEnterAnimation.Evaluate(timer));
+            m_pc.transform.localScale = Vector3.Lerp(startScale, Vector3.zero, portalEnterAnimation.Evaluate(timer));
             yield return null;
         }
 
-        //씬 넘기기
+
+        //PortalEvent 컴포넌트 있는지 검사
+        //있다면 OnEnter 실행
+        if(m_portal.TryGetComponent(out PortalEvent portalEvent) 
+            && portalEvent.OnEnterPortal != null)
+        {
+            portalEvent.OnEnterPortal.Invoke();
+        }
+
+        //없다면 씬 넘기기
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
+
 
         yield return null;
     }
