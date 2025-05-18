@@ -13,6 +13,8 @@ public class PlayerPortalInteract : MonoBehaviour
 
     bool m_isEntering;
 
+    public bool IsEntering => m_isEntering;
+
     private void Awake()
     {
         m_col = GetComponent<Collider2D>();

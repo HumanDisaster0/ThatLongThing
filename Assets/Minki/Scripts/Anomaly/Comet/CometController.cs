@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using static Unity.Collections.AllocatorManager;
 using UnityEditor.Rendering;
+using UnityEngine.UI;
 
 public class CometController : MonoBehaviour
 {
@@ -29,6 +30,10 @@ public class CometController : MonoBehaviour
 
     public float rotateSpeed = 20.0f;
 
+    public float HitTime = 50.0f;
+
+    public RawImage FlashFX;
+
     public AnimationCurve TCometAnimation; //백분율(0~100%) 애니메이션
     public AnimationCurve TScreenAnimation; //백분율(0~100%) 애니메이션
 
@@ -44,6 +49,9 @@ public class CometController : MonoBehaviour
 
     private Camera m_cam;
     private CameraController m_camCon;
+
+    private bool m_eventTrigger;
+    private PlayerPortalInteract m_portalInteract;
 
     // Start is called before the first frame update
     void Start()
@@ -68,12 +76,24 @@ public class CometController : MonoBehaviour
         {
             Debug.LogWarning("Bloom 컴포넌트가 Volume Profile에 존재하지 않습니다.");
         }
+
+        m_portalInteract = FindObjectOfType<PlayerPortalInteract>();
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
         m_timer += Time.deltaTime;
+
+        if(!m_eventTrigger 
+            && m_timer > HitTime
+            && !m_portalInteract.IsEntering)
+        {
+            m_eventTrigger = true;
+            m_portalInteract.enabled = false;
+            StartCoroutine(Flash());
+        }
+
         stone.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
 
         float tc = TCometAnimation.Evaluate(m_timer);
@@ -86,5 +106,21 @@ public class CometController : MonoBehaviour
         m_bloom.intensity.value = Mathf.Lerp(startBloom,endBloom, ts);
         m_vignette.intensity.value = Mathf.Lerp(startVignette,endVignette, ts);
         m_chromaticAberration.intensity.value = Mathf.Lerp(startChromaticity,endChromaticity, ts);
+    }
+
+    IEnumerator Flash()
+    {
+        yield return null;
+
+        var timer = 0.0f;
+
+        while (timer < 1.2f)
+        {
+            timer += Time.deltaTime;
+            FlashFX.color = new Color(1, 1, 1, timer / 1.2f);
+            yield return null;
+        }
+
+        OnCometHit?.Invoke();
     }
 }
