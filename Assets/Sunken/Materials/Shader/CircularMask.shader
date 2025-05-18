@@ -6,6 +6,7 @@ Shader "Custom/SpriteCircularMaskBlackBase"
         _MaskCenter ("Mask Center", Vector) = (0.5, 0.5, 0, 0) // 텍스처 좌표 (UV) 기준
         _MaskRadius ("Mask Radius", Float) = 0.3 // 원형 마스크 크기
         _MaskSoftness ("Mask Softness", Float) = 0.1 // 경계 부드러움 정도
+        _AlphaFactor ("Alpha Multiply Factor", Float) = 1.0 // 추가
     }
 
     SubShader
@@ -24,6 +25,7 @@ Shader "Custom/SpriteCircularMaskBlackBase"
             float4 _MaskCenter;
             float _MaskRadius;
             float _MaskSoftness;
+            float _AlphaFactor;
 
             struct appdata_t
             {
@@ -49,10 +51,11 @@ Shader "Custom/SpriteCircularMaskBlackBase"
             {
                 float distance = length(i.uv - _MaskCenter.xy);
 
-                // 원 부분은 투명, 바깥쪽은 검은색 설정
+                // 마스크 영역 계산
                 float alpha = smoothstep(_MaskRadius, _MaskRadius + _MaskSoftness, distance);
-                
-                fixed4 baseColor = fixed4(0, 0, 0, alpha); // 기본 색상을 검은색으로 설정
+
+                // 검정 배경 + 텍스처 알파 조합
+                fixed4 baseColor = fixed4(0, 0, 0, alpha * _AlphaFactor);
                 return baseColor;
             }
             ENDCG

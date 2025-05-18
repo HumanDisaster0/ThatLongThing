@@ -36,6 +36,7 @@ public class CometController : MonoBehaviour
 
     public AnimationCurve TCometAnimation; //백분율(0~100%) 애니메이션
     public AnimationCurve TScreenAnimation; //백분율(0~100%) 애니메이션
+    public AnimationCurve TMaskAnimation; //백분율(0~100%) 애니메이션
 
     public Transform stone;
 
@@ -51,6 +52,7 @@ public class CometController : MonoBehaviour
     private bool m_eventTrigger;
     private PlayerPortalInteract m_portalInteract;
     private PlayerController m_pc;
+    private Material m_maskMat;
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +80,8 @@ public class CometController : MonoBehaviour
 
         m_portalInteract = FindObjectOfType<PlayerPortalInteract>();
         m_pc = FindObjectOfType<PlayerController>();
+
+        m_maskMat = m_pc.transform.Find("ShadowMask").GetComponent<SpriteRenderer>().material;
     }
 
     // Update is called once per frame
@@ -104,6 +108,7 @@ public class CometController : MonoBehaviour
 
         float tc = TCometAnimation.Evaluate(m_timer);
         float ts = TScreenAnimation.Evaluate(m_timer);
+        float tm = TMaskAnimation.Evaluate(m_timer);
 
         transform.position = Vector3.Lerp(startPos + m_cam.transform.position,endPos + m_cam.transform.position,tc);
         transform.localScale = Vector3.Lerp(startScale,endScale, tc);
@@ -112,6 +117,7 @@ public class CometController : MonoBehaviour
         m_bloom.intensity.value = Mathf.Lerp(startBloom,endBloom, ts);
         m_vignette.intensity.value = Mathf.Lerp(startVignette,endVignette, ts);
         m_chromaticAberration.intensity.value = Mathf.Lerp(startChromaticity,endChromaticity, ts);
+        m_maskMat.SetFloat("_AlphaFactor", 1 - tm);
     }
 
     IEnumerator Flash()

@@ -129,7 +129,7 @@ public class StageManager : MonoBehaviour
             //no.5 - Çý¼º Æ¯±Þ
             case 5:
                 {
-                    GameObject.Find("ShadowMask").SetActive(false);
+                    //GameObject.Find("ShadowMask").SetActive(false);
                     GameObject.Find("Anomaly").transform.Find("Comet").gameObject.SetActive(true);
                     //GameObject.Find("RedPortal").SetActive(false); 
 
