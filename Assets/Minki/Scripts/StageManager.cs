@@ -49,6 +49,12 @@ public class StageManager : MonoBehaviour
             result[Random.Range(0, result.Length)].SpecifiedSet(true);
         }
 
+        //함정이 모두 켜진 경우 랜덤 하나 끄기
+        else if (offTraps == 0)
+        {
+            result[Random.Range(0, result.Length)].SpecifiedSet(false);
+        }
+
         //mappinSetter 설정
         var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
@@ -109,7 +115,18 @@ public class StageManager : MonoBehaviour
                     }
                     break;
                 }
-                
+
+
+            //no.5 - 혜성 특급
+            case 5:
+                {
+                    GameObject.Find("ShadowMask").SetActive(false);
+                    GameObject.Find("Anomaly").transform.Find("Comet").gameObject.SetActive(true);
+                    GameObject.Find("RedPortal").SetActive(false); 
+
+                    break;
+                }
+
 
             //no.7 - 나 홀로 던전
             case 7:
@@ -245,6 +262,18 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("Anomaly").transform.Find("BigStone").gameObject.SetActive(true);
                     break;
                 }
+
+            //no.14 - 정말..다 멀쩡한 거 맞지?
+            case 14:
+                {
+                    //모든 함정 ON
+                    foreach (var setter in result)
+                    {
+                        setter.SpecifiedSet(true);
+                    }
+                    break;
+                }
+
             default:
                 break;
         }

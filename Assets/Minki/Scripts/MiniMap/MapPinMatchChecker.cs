@@ -150,7 +150,6 @@ public class MapPinMatchChecker : MonoBehaviour
 
                 if (Vector3.Distance(currentCol.transform.position , point) < nearestDist)
                 {
-                    print(currentCol.name);
                     nearestDist = Vector3.Distance(currentCol.transform.position, point);
                     nearestCol = currentCol;
                 }
