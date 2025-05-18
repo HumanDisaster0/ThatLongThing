@@ -18,9 +18,16 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Dictionary<string, AudioClip> soundClips = new Dictionary<string, AudioClip>();
 
     [SerializeField] int sourceSize = 10;
-    [SerializeField] float maxDistance = 10f; // 들리는 최대 거리
     [SerializeField] List<AudioSource> sources;
     [SerializeField] List<AudioSource> activeSources;
+
+    [Header("볼륨 조절")]
+    [Range(0f,1f)]
+    public float seVol = 1f; // SE
+    [Range(0f, 1f)]
+    public float bgVol = 1f; // BGM
+
+    [SerializeField] float maxDistance = 10f; // 들리는 최대 거리
 
     Camera cam;
 
@@ -309,7 +316,7 @@ public class SoundManager : MonoBehaviour
 
                     // 볼륨 조절
                     //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
-                    source.volume = 1f - result;
+                    source.volume = (1 - result) * seVol;
                 }
             }
         }

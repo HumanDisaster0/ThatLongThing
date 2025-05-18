@@ -27,6 +27,6 @@ public class BgmPlayer : MonoBehaviour
             defaultSrc = SoundManager.instance?.PlayLoopSound("Stage3_BGM", Camera.main.gameObject);
 
         defaultSrc.GetComponent<DefaultSourceData>().isVolCon = false;
-        defaultSrc.GetComponent<AudioSource>().volume = (float)volume / 100;
+        defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
     }
 }
