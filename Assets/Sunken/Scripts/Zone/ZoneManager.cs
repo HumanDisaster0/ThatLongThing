@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ZoneManager : MonoBehaviour
 {
-    static ZoneManager instance = null;
+    public static ZoneManager instance = null;
 
     [SerializeField] private List<GameObject> zones = new List<GameObject>();
     private List<bool> zoneStat = new List<bool>();

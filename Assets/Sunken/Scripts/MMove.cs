@@ -215,7 +215,7 @@ public class MMove : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
 
-        if (respawnPoint.gameObject.activeSelf == false || respawnPoint == null)
+        if (respawnPoint == null || respawnPoint?.gameObject.activeSelf == false)
             respawn = false;
         if (respawn)
             Respawn();

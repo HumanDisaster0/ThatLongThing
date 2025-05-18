@@ -16056,10 +16056,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 193481816}
     m_Modifications:
     - target: {fileID: 1139967166383593078, guid: bf71b492e2713ca45bac278d854383ae, type: 3}
-      propertyPath: zones.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1139967166383593078, guid: bf71b492e2713ca45bac278d854383ae, type: 3}
       propertyPath: zones.Array.data[0]
       value: 
       objectReference: {fileID: 1149793019}
@@ -16107,17 +16103,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3731033148242811942, guid: bf71b492e2713ca45bac278d854383ae, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7397458254222357334, guid: bf71b492e2713ca45bac278d854383ae, type: 3}
       propertyPath: m_Name
       value: ZoneManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 7397458254222357334, guid: bf71b492e2713ca45bac278d854383ae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16203,18 +16191,6 @@ PrefabInstance:
     - target: {fileID: 6852516686150723459, guid: 735550b1ce820ea4caaedca62095944c, type: 3}
       propertyPath: m_Name
       value: MonsterManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6892393852898581257, guid: 735550b1ce820ea4caaedca62095944c, type: 3}
-      propertyPath: isStayTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6892393852898581257, guid: 735550b1ce820ea4caaedca62095944c, type: 3}
-      propertyPath: isEnterTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6892393852898581257, guid: 735550b1ce820ea4caaedca62095944c, type: 3}
-      propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

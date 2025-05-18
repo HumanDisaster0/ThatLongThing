@@ -67,10 +67,19 @@ public class StageManager : MonoBehaviour
         //이상현상
         switch (anomalyIdx)
         {
+            //no.1 - 소인국 네티
+            case 1:
+                {
+                    MonsterManager.instance?.SetSpawnType(MSpawnType.Alter);
+                    MonsterManager.instance?.ChangeAllScale(4.0f);
+                    PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
+                    break;
+                }
+
             //no.2 - 쥬라식 던전
             case 2:
                 {
-                    GameObject.Find("PlatformManager").GetComponent<PlatformManager>().SetPlatformType(PlatformType.Alter);
+                    PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("Trex").gameObject.SetActive(true);
                     break;
                 }
@@ -79,7 +88,7 @@ public class StageManager : MonoBehaviour
             //no.3 - 복슬복슬한 행복
             case 3:
                 {
-                    GameObject.Find("MonsterManager").GetComponent<MonsterManager>().SetType(MonsterType.Rabbit);
+                    MonsterManager.instance?.SetType(MonsterType.Rabbit);
                     break;
                 }
 

@@ -18,8 +18,18 @@ public class PlatformPair
 
 public class PlatformManager : MonoBehaviour
 {
+    public static PlatformManager instance = null;
+
     [SerializeField] PlatformType currType;
     [SerializeField] List<PlatformPair> platforms;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
