@@ -16,17 +16,14 @@ namespace Assets.Minki.Scripts.CMD
             {
                 foreach (var matcherCom in GameObject.FindObjectsByType<MapPinMatchChecker>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 {
-                    if(m_matcher != null)
+                    if(matcherCom != null)
                     {
-                        m_matcher = matcherCom;
-                        return m_matcher;
+                        return matcherCom;
                     }
                 }
                 return null;
             }
         }
-
-        static MapPinMatchChecker m_matcher;
 
 
         public static ConsoleCommand cmd_matcher_checkmappin = new ConsoleCommand(

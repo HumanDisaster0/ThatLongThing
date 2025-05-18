@@ -69,7 +69,7 @@ public class MapPinMatchChecker : MonoBehaviour
 
             var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
 
-            if(trapInfo)
+            if(trapInfo != null)
             {
                 if (!m_duplicatePrevent.Contains(trapInfo.GetHashCode()))
                     m_duplicatePrevent.Add(trapInfo.GetHashCode());
@@ -124,7 +124,7 @@ public class MapPinMatchChecker : MonoBehaviour
                 if (!currentCol)
                     continue;
 
-                if (currentCol.tag != checkTag)
+                if (!currentCol.CompareTag(checkTag))
                     continue;
 
                 var dist = Vector3.Distance(currentCol.transform.position, point);
@@ -136,7 +136,7 @@ public class MapPinMatchChecker : MonoBehaviour
                 }
             }
 
-            return nearestCol.GetComponent<TrapInfo>();
+            return nearestCol?.GetComponent<TrapInfo>();
         }
 
         return null;
