@@ -8,10 +8,18 @@ public class SpawnZoneScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Player entered spawn zone");
             Transform playerSprite = collision.gameObject.transform.Find("PlayerSprite");
 
             if(playerSprite.localScale != new Vector3(1f, 1f, 1f))
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        if (collision.name == "RollingBigStone")
+        {
+            Transform monsterSprite = collision.gameObject.transform.Find("MonsterSprite");
+            if (monsterSprite.localScale != new Vector3(1f, 1f, 1f))
             {
                 Destroy(this.gameObject);
             }

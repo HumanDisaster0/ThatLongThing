@@ -15876,7 +15876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9026389670087738979, guid: 0ede2b1de839ee544ab204c60e585fb7, type: 3}
       propertyPath: m_Name
-      value: SpawnZone
+      value: SpawnZone2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
