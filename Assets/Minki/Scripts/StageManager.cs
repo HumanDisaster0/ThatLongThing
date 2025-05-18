@@ -251,6 +251,13 @@ public class StageManager : MonoBehaviour
                         result[Random.Range(0, result.Length)].SpecifiedSet(true);
                     }
 
+                    //함정이 모두 켜진 경우 랜덤 하나 끄기
+                    else if (offTraps == 0)
+                    {
+                        result[Random.Range(0, result.Length)].SpecifiedSet(false);
+                    }
+
+
                     break;
                 }
 
