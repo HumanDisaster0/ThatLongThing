@@ -43,7 +43,7 @@ public static class StageCMD
                 ChangeStage(stageNum, anomalyNum);
 
 
-            }, "/씬을 변경합니다. \n- cmd_changestage <스테이지 번호 (1~3)>, <이상현상 번호 (1~15)>", ExecFlag.CHEAT);
+            }, "씬을 변경합니다. \n- cmd_changestage <스테이지 번호 (1~3)>, <이상현상 번호 (1~15)>", ExecFlag.CHEAT);
 
     public static void ChangeStage(int stage, int anomaly = 0)
     {
