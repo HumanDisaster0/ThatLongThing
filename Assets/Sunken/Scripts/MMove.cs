@@ -179,9 +179,17 @@ public class MMove : MonoBehaviour
                     SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
                     if (transform.position.x >= range.GetMinX() && transform.position.x <= range.GetMaxX())
                     {
+                        int idx = 0;
                         do
                         {
-                            destX = range.GetRandomPosX();
+                            if(idx > 10)
+                            {
+                                destX = (range.GetMinX() + range.GetMaxX()) / 2f;
+                                break;
+                            }
+                            else
+                                destX = range.GetRandomPosX();
+                            idx++;
                             //Debug.Log("움직임 길이 : " + MathF.Abs(transform.position.x - destX));
                         }
                         while (MathF.Abs(transform.position.x - destX) <= minMoveLength || MathF.Abs(transform.position.x - destX) >= maxMoveLength);
