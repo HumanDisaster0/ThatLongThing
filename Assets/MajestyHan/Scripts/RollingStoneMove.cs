@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RollingStoneMove : MonoBehaviour
@@ -23,6 +24,7 @@ public class RollingStoneMove : MonoBehaviour
     private Vector3 initialPosition;
     private Destroyer dest;
 
+    private List<GameObject> m_destroyedEnemy = new List<GameObject>();
 
     void Start()
     {
@@ -71,8 +73,8 @@ public class RollingStoneMove : MonoBehaviour
 
             if (move != null && sr != null)
             {
-                move.SetStatus(MStatus.die);
                 dest.SpawnFlyingEnemy(other.transform.position, sr.sprite);
+                m_destroyedEnemy.Add(other.gameObject);
                 other.gameObject.SetActive(false);
             }
 
@@ -87,6 +89,14 @@ public class RollingStoneMove : MonoBehaviour
             // else
             //       Debug.LogWarning($"[RollingStone] Player 오브젝트에 PlayerController 없음: {other.name}");
         }
+    }
+
+    public void RespawnDestroyedEnemy()
+    {
+        foreach (var go in m_destroyedEnemy)
+            go.SetActive(true);
+
+        m_destroyedEnemy.Clear();
     }
 
 
