@@ -403,6 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MType: 0
+  mBehavior: 0
   moveSpeed: 2
   jumpForce: 2
   maxidleDuration: 4

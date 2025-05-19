@@ -7,6 +7,12 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum MBehavior
+{
+    Move = 0,
+    Stop
+}
+
 public enum MStatus
 {
     idle = 0,
@@ -28,6 +34,7 @@ public class MMove : MonoBehaviour
     #region Serialized Private Member
     [Header("몬스터옵션")]
     [SerializeField] MonsterType MType = 0;
+    [SerializeField] MBehavior mBehavior = 0;
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float jumpForce = 15f;
     [SerializeField] float maxidleDuration = 4f;
@@ -71,9 +78,15 @@ public class MMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckStatus();
-        MoveEnemy();
-        //GetGrounded();
+        if(mBehavior == MBehavior.Move)
+        {
+            CheckStatus();
+            MoveEnemy();
+        }
+        else if(mBehavior == MBehavior.Stop)
+        {
+            StopAnim();
+        }
     }
 
     private void GetGrounded()
@@ -271,6 +284,7 @@ public class MMove : MonoBehaviour
                 GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Mole/Mole_AnimCon");
                 GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Mole/00");
                 GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy");
+                gameObject.layer = 7;
                 transform.GetChild(3).localPosition = spriteOffset;
                 for (int i = 0; i < transform.childCount; i++)
                     transform.GetChild(i).gameObject.SetActive(true);
@@ -278,7 +292,8 @@ public class MMove : MonoBehaviour
             case MonsterType.Rabbit:
                 GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
                 GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
-                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player");
+                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player", "Ignore Raycast");
+                gameObject.layer = 9;
                 transform.GetChild(3).localPosition = Vector2.zero;
                 for (int i = 0; i < transform.childCount; i++)
                 {
@@ -289,6 +304,12 @@ public class MMove : MonoBehaviour
             case MonsterType.None:
                 gameObject.SetActive(false);
                 break;
+        }
+
+        if (!Mathf.Approximately(transform.parent.localScale.y, 1f))
+        {
+            Debug.Log(transform.Find("StepCollider").gameObject);
+            transform.Find("StepCollider").gameObject.SetActive(false);
         }
     }
     public void Respawn()
@@ -311,4 +332,16 @@ public class MMove : MonoBehaviour
         range.InitRange();
         SetStatus(MStatus.move);
     }
+
+    public void SetBehavior(MBehavior behavior)
+    {
+        mBehavior = behavior;
+    }
+
+    private void StopAnim()
+    {
+        StopAllCoroutines();
+        transform.Find("Sprite").GetComponent<Animator>().enabled = false;
+    }
+
 }

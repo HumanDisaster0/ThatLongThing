@@ -22,6 +22,7 @@ public class PlatformManager : MonoBehaviour
 
     [SerializeField] PlatformType currType;
     [SerializeField] List<PlatformPair> platforms;
+    [SerializeField] List<GameObject> moveTiles;
 
     private void Awake()
     {
@@ -56,5 +57,13 @@ public class PlatformManager : MonoBehaviour
         currType = _type;
 
         Start();
+    }
+
+    public void StopMoveTiles()
+    {
+        foreach(GameObject go in moveTiles)
+        {
+            go.transform.GetChild(0).GetComponent<PlatformMove>().SetCurrStat(0);
+        }
     }
 }
