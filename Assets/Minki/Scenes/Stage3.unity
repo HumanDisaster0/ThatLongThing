@@ -3714,6 +3714,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 3698259169579013767, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 5165078544398503445, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.9300003
@@ -25020,7 +25024,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: ca40d3fe6c2c6b84eb811d58eebec7f5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -28057,8 +28061,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.125, y: 10.75, z: 7}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.32, y: 0.32, z: 1.5999999}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4996442540536641735}
   - {fileID: 1913959844013689815}

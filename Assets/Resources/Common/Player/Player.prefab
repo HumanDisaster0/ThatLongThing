@@ -100,7 +100,7 @@ MonoBehaviour:
   spriteRoot: {fileID: 8560393258800881193}
   groundMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 193
   moveSpeed: 2.5
   moveSharpness: 12
   airAcceleration: 1.8
