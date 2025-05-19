@@ -13,8 +13,8 @@ public class DestroyerForPlayer : MonoBehaviour
     [Header("파편 물리 힘")]
     public float upwardForce = 12f;      // 위로 튕겨나가는 힘
     public float sideJitter = 1.5f;      // 좌우로 흔들리듯 튕기는 범위
-    public float torqueMin = -180f;      // 회전 최소값
-    public float torqueMax = 180f;       // 회전 최대값
+    public float torqueMin = -90f;      // 회전 최소값
+    public float torqueMax = 90f;       // 회전 최대값
 
     [Header("파괴 Y축 하한선")]
     public int tilemapYMin = 11; // 이 Y값 이하에 위치한 타일은 보호(파괴하지 않음)
@@ -37,6 +37,8 @@ public class DestroyerForPlayer : MonoBehaviour
 
     // 나중에 복구할 타일 정보 저장용
     private Dictionary<Tilemap, Dictionary<Vector3Int, TileBase>> destroyedTileMapData = new();
+
+    private List<GameObject> m_destroyedEnemy = new List<GameObject>();
 
     private void Awake()
     {
@@ -153,13 +155,29 @@ public class DestroyerForPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == 7)
+        int layer = collision.gameObject.layer;
+
+        if (layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.gameObject.GetComponent<MMove>().SetStatus(MStatus.die);
+            var move = collision.gameObject.GetComponent<MMove>();
+            var sr = collision.gameObject.GetComponentInChildren<SpriteRenderer>();
+
+            if (move != null && sr != null)
+            {
+                SpawnFlyingEnemy(collision.gameObject.transform.position, sr.sprite);
+                m_destroyedEnemy.Add(collision.gameObject);
+                collision.gameObject.SetActive(false);
+            }
         }
-            
     }
 
+    public void RespawnDestoryedEnemy()
+    {
+        foreach (var go in m_destroyedEnemy)
+            go.SetActive(true);
+
+        m_destroyedEnemy.Clear();
+    }
 
     // 적을 튕겨내는 연출 (타일처럼)
     public void SpawnFlyingEnemy(Vector3 position, Sprite originalSprite)
@@ -178,7 +196,7 @@ public class DestroyerForPlayer : MonoBehaviour
             upwardForce
         );
         rb.AddForce(force, ForceMode2D.Impulse);
-        rb.AddTorque(Random.Range(-60, 60), ForceMode2D.Impulse); //얘는 따로처리함
+        rb.AddTorque(Random.Range(-10, 10), ForceMode2D.Impulse); //얘는 따로처리함
 
         Destroy(flyingObj, 3f);
     }

@@ -127,6 +127,27 @@ public class CameraController : MonoBehaviour
         OnViewportSizeChanged();
     }
 
+    public void OnEnable()
+    {
+        m_targetPos = Player.position;
+
+        OnViewportSizeChanged();
+
+        m_targetPos.x = Mathf.Clamp(
+            m_targetPos.x,
+            worldRect.xMin + m_clampWidth,
+            worldRect.xMax - m_clampWidth
+        );
+
+        m_targetPos.y = Mathf.Clamp(
+            m_targetPos.y,
+            worldRect.yMin + m_clampHeight - yOffset,
+            worldRect.yMax - m_clampHeight - yOffset
+        );
+
+        m_currentPos = transform.position;
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {

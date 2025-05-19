@@ -197,6 +197,7 @@ public class StageManager : MonoBehaviour
                     var trapTrigger = pc.gameObject.AddComponent<TrapTrigger>();
                     trapTrigger.OnResetTrigger = new UnityEngine.Events.UnityEvent();
                     trapTrigger.OnResetTrigger.AddListener(destroyer.RestoreDestroyedTiles);
+                    trapTrigger.OnResetTrigger.AddListener(destroyer.RespawnDestoryedEnemy);
 
                     var flyingTile = Resources.Load<GameObject>("FlyingThings");
                     destroyer.flyingTilePrefab = flyingTile;
