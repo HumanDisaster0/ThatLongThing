@@ -11,39 +11,49 @@ public class DialogueManager : MonoBehaviour
 
     private List<string> currentLines;
     private int currentIndex;
-    private bool waitingForNext;
+    private bool isPlaying = false;
+    private bool waitingForInput = false;
+
+    private void Awake()
+    {
+        panel.SetActive(false);
+    }
 
     public IEnumerator ShowSequence(List<string> lines)
     {
         panel.SetActive(true);
+        isPlaying = true;
+
         currentLines = lines;
         currentIndex = 0;
-        waitingForNext = false;
 
-        dialogueText.text = currentLines[currentIndex];
-        waitingForNext = true;
+        ShowCurrentLine();
 
-        while (currentIndex < currentLines.Count)
-        {
+        while (isPlaying)
             yield return null;
-        }
 
         panel.SetActive(false);
     }
 
-    public void NextDialogue()
+    private void ShowCurrentLine()
     {
-        if (!waitingForNext) return;
-
-        currentIndex++;
-
         if (currentIndex >= currentLines.Count)
         {
-            waitingForNext = false;
+            isPlaying = false;
             return;
         }
 
         dialogueText.text = currentLines[currentIndex];
+        waitingForInput = true;
+    }
+
+    public void NextDialogue()
+    {
+        if (!waitingForInput) return;
+
+        waitingForInput = false;
+        currentIndex++;
+        ShowCurrentLine();
     }
 
     public void FlipBubble(bool flip)
@@ -55,8 +65,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        // 입력 기반으로 넘어가게 할 경우 여기에 작성
-        if (waitingForNext && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
+        if (isPlaying && waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
         {
             NextDialogue();
         }

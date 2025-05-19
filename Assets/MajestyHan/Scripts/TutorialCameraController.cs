@@ -43,6 +43,8 @@ public class TutorialCameraController : MonoBehaviour
     float m_shakeTrauma = 0.0f;
     bool m_nonTrauma = false;
 
+    public bool IsZoomed => isZoomed;
+
 
     //bool m_flipWorldRect = false;
 

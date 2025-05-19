@@ -10,42 +10,52 @@ public class TutorialManager : MonoBehaviour
     public Transform focusTarget2;
     public PlayerController player;
 
-    // Æ®¸®°Å 1 ÁøÀÔ ½Ã È£Ãâ
+    // íŠ¸ë¦¬ê±° 1 ì§„ì… ì‹œ í˜¸ì¶œ
     public void TriggerPoint1()
     {
-        player.Freeze = true;
+        player.SkipInput = true;
         cameraController.ZoomToTarget(focusTarget1);
 
         List<string> lines = new List<string>
         {
-            "¿©±â´Â Ã¹ ¹øÂ° ÁöÁ¡ÀÌ¾ß.",
-            "ÀÌ°÷¿¡¼­ ÀÌµ¿À» ¹è¿ï ¼ö ÀÖ¾î."
+            "ì—¬ê¸°ëŠ” ì²« ë²ˆì§¸ ì§€ì ì´ì•¼.",
+            "ì´ê³³ì—ì„œ ì´ë™ì„ ë°°ìš¸ ìˆ˜ ìˆì–´."
         };
 
         StartCoroutine(TutorialSequence(lines));
     }
 
-    // Æ®¸®°Å 2 ÁøÀÔ ½Ã È£Ãâ
+    // íŠ¸ë¦¬ê±° 2 ì§„ì… ì‹œ í˜¸ì¶œ
     public void TriggerPoint2()
     {
-        player.Freeze = true;
+        player.SkipInput = true;
         cameraController.ZoomToTarget(focusTarget2);
 
         List<string> lines = new List<string>
         {
-            "µÎ ¹øÂ° ÁöÁ¡ÀÌ¾ß.",
-            "ÀÌÁ¦ Á¡ÇÁÇÏ´Â ¹ıÀ» ¾Ë¾Æº¸ÀÚ!"
+            "ë‘ ë²ˆì§¸ ì§€ì ì´ì•¼.",
+            "ì´ì œ ì í”„í•˜ëŠ” ë²•ì„ ì•Œì•„ë³´ì!"
         };
 
         StartCoroutine(TutorialSequence(lines));
     }
 
-    // °øÅë ¿¬Ãâ ½ÃÄö½º
+    // ê³µí†µ ì—°ì¶œ ì‹œí€€ìŠ¤
     IEnumerator TutorialSequence(List<string> lines)
     {
-        yield return dialogue.ShowSequence(lines);            // ¸»Ç³¼± Ãâ·Â
-        cameraController.ResetZoom();                         // ÁÜ ¾Æ¿ô
-        yield return new WaitForSeconds(0.5f);                // ÁÜ ¾Æ¿ô ½Ã°£ °í·Á
-        player.Freeze = false;                                // ÀÔ·Â ÇØÁ¦
+        // ì¤Œì¸ ì™„ë£Œê¹Œì§€ ëŒ€ê¸°
+        yield return new WaitUntil(() => cameraController.IsZoomed);
+
+        // ë§í’ì„  ì¶œë ¥
+        yield return dialogue.ShowSequence(lines);
+
+        // ì¤Œì•„ì›ƒ ì‹œì‘
+        cameraController.ResetZoom();
+
+        // ì¤Œì•„ì›ƒ ì™„ë£Œê¹Œì§€ ëŒ€ê¸°
+        yield return new WaitUntil(() => !cameraController.IsZoomed);
+
+        // ì…ë ¥ ë‹¤ì‹œ í—ˆìš©
+        player.SkipInput = false;
     }
 }
