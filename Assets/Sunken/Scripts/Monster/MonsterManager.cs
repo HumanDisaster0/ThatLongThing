@@ -53,6 +53,8 @@ public class MonsterManager : MonoBehaviour
         {
             if(data.spawnType != type && data.spawnType != MSpawnType.NoMatter)
                 data.monster.SetActive(false);
+            else
+                data.monster.SetActive(true);
         }
     }
 
@@ -108,6 +110,14 @@ public class MonsterManager : MonoBehaviour
             data.monster.transform.position = data.startPos; 
 
             monsterDatas[i] = data; // Update the list with the modified struct
+        }
+    }
+
+    public void SetAllBehavior(MBehavior behavior)
+    {
+        foreach(var data in monsterDatas)
+        {
+            data.monster.transform.GetChild(0).GetComponent<MMove>().SetBehavior(behavior);
         }
     }
 }

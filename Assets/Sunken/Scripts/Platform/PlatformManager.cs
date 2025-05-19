@@ -59,7 +59,7 @@ public class PlatformManager : MonoBehaviour
         Start();
     }
 
-    public void StopMoveTiles()
+    public void StopSelectedMoveTiles()
     {
         foreach(GameObject go in moveTiles)
         {
