@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering.Universal; // URP의 PixelPerfectCamera를 위한 네임스페이스
 using UnityEngine.UIElements;
+using System.Collections;
 
 public class TutorialCameraController : MonoBehaviour
 {
@@ -47,9 +48,149 @@ public class TutorialCameraController : MonoBehaviour
 
     public bool IsNonTrauma() => m_nonTrauma;
 
-    // Start is called before the first frame update
+
+
+    //==============================================================================================
+    //임의로 추가한 부분 -> 튜토리얼에서만 사용하는 카메라 연출
+    //==============================================================================================
+
+    [Header("튜토리얼 전용")]
+    public Transform focusTarget;
+    public float zoomedOrthographicSize = 3f;
+    public float zoomDuration = 1f;
+    
+    [Header("Letterbox Timing")]
+    public float letterboxEnterDuration = 1.0f; // 등장 속도
+    public float letterboxExitDuration = 0.5f;  // 사라짐 속도
+
+    private float originalOrthographicSize;
+    private bool isZoomed = false;
+
+    public void ZoomToTarget(Transform target)
+    {
+        if (isZoomed) return;
+        isZoomed = true;
+
+        StopAllCoroutines();
+
+        Vector3 moveTargetPos = new Vector3(
+            target.position.x,
+            target.position.y - yOffset, // offset 유지
+            0f
+        );
+
+        AnimateLetterBox(true);
+        originalOrthographicSize = m_camera.orthographicSize;
+        StartCoroutine(ZoomAndMoveRoutine(zoomedOrthographicSize, moveTargetPos, zoomDuration, true));
+    }
+
+    public void ResetZoom()
+    {
+        if (!isZoomed) return;
+        isZoomed = false;
+
+        StopAllCoroutines();
+
+        Vector3 moveTargetPos = new Vector3(
+            Mathf.Clamp(Player.position.x, worldRect.xMin + m_clampWidth, worldRect.xMax - m_clampWidth),
+            Mathf.Clamp(Player.position.y, worldRect.yMin + m_clampHeight - yOffset, worldRect.yMax - m_clampHeight - yOffset),
+            0f
+        );
+
+        AnimateLetterBox(false);
+        StartCoroutine(ZoomAndMoveRoutine(originalOrthographicSize, moveTargetPos, zoomDuration, false));
+    }
+
+    IEnumerator ZoomAndMoveRoutine(float targetSize, Vector3 moveTargetPos, float duration, bool zoomingIn)
+    {
+        float elapsed = 0f;
+        float startSize = m_camera.orthographicSize;
+        Vector3 startPos = m_currentPos;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float easedT = Mathf.SmoothStep(0f, 1f, t);
+
+            m_camera.orthographicSize = Mathf.Lerp(startSize, targetSize, easedT);
+            m_targetPos = Vector3.Lerp(startPos, moveTargetPos, easedT);
+
+            yield return null;
+        }
+
+        m_camera.orthographicSize = targetSize;
+        m_targetPos = moveTargetPos;
+    }
+
+    //레터박스 관련
+    public GameObject topBar, bottomBar;
+    public void EnableLetterBox(bool on)
+    {
+        if (topBar == null || bottomBar == null)
+        {
+            Debug.LogWarning("Letterbox UI가 설정되지 않았습니다.");
+            return;
+        }
+
+        topBar.SetActive(on);
+        bottomBar.SetActive(on);
+    }
+
+    public void AnimateLetterBox(bool on)
+    {
+        if (topBar == null || bottomBar == null) return;
+
+        StopCoroutine(nameof(LetterboxSlide));
+        StartCoroutine(LetterboxSlide(on));
+    }
+
+    IEnumerator LetterboxSlide(bool enable)
+    {
+        RectTransform topRect = topBar.GetComponent<RectTransform>();
+        RectTransform bottomRect = bottomBar.GetComponent<RectTransform>();
+
+        float duration = enable ? letterboxEnterDuration : letterboxExitDuration;
+        float startTime = Time.time;
+
+        Vector2 topStart = topRect.anchoredPosition;
+        Vector2 bottomStart = bottomRect.anchoredPosition;
+
+        Vector2 topTarget = enable ? new Vector2(0, 0) : new Vector2(0, 120);
+        Vector2 bottomTarget = enable ? new Vector2(0, 0) : new Vector2(0, -120);
+
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            t = Mathf.SmoothStep(0, 1, t);
+
+            topRect.anchoredPosition = Vector2.Lerp(topStart, topTarget, t);
+            bottomRect.anchoredPosition = Vector2.Lerp(bottomStart, bottomTarget, t);
+
+            yield return null;
+        }
+
+        topRect.anchoredPosition = topTarget;
+        bottomRect.anchoredPosition = bottomTarget;
+    }
+
+
+
+    //==============================================================================================
+
+
+
     void Start()
     {
+        //==============================================================================================
+        //임의로 추가한 부분 -> 튜토리얼에서만 사용하는 카메라 연출
+        //==============================================================================================
+        isZoomed = false;
+        //==============================================================================================
+
+
+
+
         m_camera = GetComponent<Camera>();
         m_pixelPerfectCamera = GetComponent<PixelPerfectCamera>();
 
@@ -169,24 +310,26 @@ public class TutorialCameraController : MonoBehaviour
             OnViewportSizeChanged();
         }
 
-        if (Mathf.Abs(m_targetPos.x - Player.position.x) > depthX)
-            m_targetPos.x = Player.position.x > m_targetPos.x ? Player.position.x - depthX : Player.position.x + depthX;
+        if (!isZoomed) //임의로 추가함 byMajestyHan        
+        {
+            if (Mathf.Abs(m_targetPos.x - Player.position.x) > depthX)
+                m_targetPos.x = Player.position.x > m_targetPos.x ? Player.position.x - depthX : Player.position.x + depthX;
 
-        if (Mathf.Abs(m_targetPos.y - Player.position.y) > depthY)
-            m_targetPos.y = Player.position.y > m_targetPos.y ? Player.position.y - depthY : Player.position.y + depthY;
+            if (Mathf.Abs(m_targetPos.y - Player.position.y) > depthY)
+                m_targetPos.y = Player.position.y > m_targetPos.y ? Player.position.y - depthY : Player.position.y + depthY;
 
-        m_targetPos.x = Mathf.Clamp(
-            m_targetPos.x,
-            worldRect.xMin + m_clampWidth,
-            worldRect.xMax - m_clampWidth
-        );
+            m_targetPos.x = Mathf.Clamp(
+                m_targetPos.x,
+                worldRect.xMin + m_clampWidth,
+                worldRect.xMax - m_clampWidth
+            );
 
-        m_targetPos.y = Mathf.Clamp(
-            m_targetPos.y,
-            worldRect.yMin + m_clampHeight - yOffset,
-            worldRect.yMax - m_clampHeight - yOffset
-        );
-
+            m_targetPos.y = Mathf.Clamp(
+                m_targetPos.y,
+                worldRect.yMin + m_clampHeight - yOffset,
+                worldRect.yMax - m_clampHeight - yOffset
+            );
+        }
         var setXLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.x - m_currentPos.x) - deadzoneX) / deadzoneThresold));
         var setYLerpSpeed = minLerpSpeed + ((maxLerpSpeed - minLerpSpeed) * Mathf.Clamp01(Mathf.Max(0f, Mathf.Abs(Player.position.y - m_currentPos.y) - deadzoneY) / deadzoneThresold));
 
@@ -211,7 +354,6 @@ public class TutorialCameraController : MonoBehaviour
         m_shakeTrauma = Mathf.Lerp(m_shakeTrauma, 0, m_shakeRecovery * Time.deltaTime);
 
         transform.position = m_currentPos + Vector3.up * yOffset + Vector3.forward * -10f + (m_shakePos * (m_nonTrauma ? 1f : m_shakeTrauma));
-
 
     }
 

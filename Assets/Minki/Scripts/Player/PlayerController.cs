@@ -416,7 +416,7 @@ public class PlayerController : MonoBehaviour
                     if (m_hInput == 0)
                         m_currentState = PlayerState.Idle;
                     else
-                        m_currentState = PlayerState.Walk;
+                        m_currentState = PlayerState.Walk; 
                     //->¾É±â
                     return;
                 }
