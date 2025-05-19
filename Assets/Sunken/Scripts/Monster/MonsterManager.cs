@@ -56,6 +56,8 @@ public class MonsterManager : MonoBehaviour
             else
                 data.monster.SetActive(true);
         }
+
+        InitMonster();
     }
 
     public void SetType(MonsterType type, GameObject monster)
@@ -91,7 +93,11 @@ public class MonsterManager : MonoBehaviour
         for (int i = 0; i < monsterDatas.Count; i++)
         {
             if(monsterDatas[i].startActive)
+            {
+                monsterDatas[i].monster.transform.GetChild(0).gameObject.SetActive(true);
                 monsterDatas[i].monster.transform.GetChild(0).GetComponent<MMove>().Respawn();
+            }
+                
             monsterDatas[i].monster.transform.GetChild(0).position = monsterDatas[i].startPos;
         }
     }

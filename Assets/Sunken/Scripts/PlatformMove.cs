@@ -25,6 +25,7 @@ public class PlatformMove : MonoBehaviour
     private int currIdx = 0;
     private bool isReversal = false;
     private Vector2 initPos = Vector2.zero;
+    private PlatformStatus initStat;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +82,7 @@ public class PlatformMove : MonoBehaviour
     public void SetCurrStat(int statIndex)
     {
         currStat = (PlatformStatus)statIndex;
+        initStat = (PlatformStatus)statIndex;
     }
 
     private bool CloseEnough(Transform target)
@@ -101,6 +103,7 @@ public class PlatformMove : MonoBehaviour
         StopAllCoroutines();
         currIdx = 0;
         transform.position = initPos;
+        currStat = initStat;
     }
 
 

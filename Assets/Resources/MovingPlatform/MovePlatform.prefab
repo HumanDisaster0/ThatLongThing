@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1823116752755905768}
   - component: {fileID: 2926983110177675244}
   - component: {fileID: 8075281678194475032}
+  - component: {fileID: 7903480881190856724}
   m_Layer: 6
   m_Name: MovePlatform
   m_TagString: MovingPlatform
@@ -232,6 +233,43 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!114 &7903480881190856724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2614707059167499330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0694dd12f39643e4ba8c51da04b96ba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isEnterTrigger: 0
+  isStayTrigger: 0
+  isExitTrigger: 0
+  activeTime: 0.5
+  OnStartTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  OnResetTrigger:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3394628841793342512}
+        m_TargetAssemblyTypeName: PlatformMove, Assembly-CSharp
+        m_MethodName: ResetPos
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6699157901679158975
 GameObject:
   m_ObjectHideFlags: 0

@@ -59,6 +59,7 @@ public class MMove : MonoBehaviour
     private float timer = 0f;
     private bool isGrounded = true;
     private bool flipX = false;
+    private Vector2 initPos = Vector2.zero;
     #endregion
 
     private void OnValidate()
@@ -74,6 +75,7 @@ public class MMove : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
         range = GetComponentInParent<MRange>();
         animCon = GetComponentInChildren<Animator>();
+        initPos = transform.position;
     }
 
     void FixedUpdate()
@@ -230,6 +232,7 @@ public class MMove : MonoBehaviour
 
         if (respawnPoint == null || respawnPoint?.gameObject.activeSelf == false)
             respawn = false;
+
         if (respawn)
             Respawn();
         else
@@ -314,20 +317,30 @@ public class MMove : MonoBehaviour
     }
     public void Respawn()
     {
-        if(respawnPoint == null || !respawnPoint.gameObject.activeSelf)
-            return;
+        if (respawnPoint == null || !respawnPoint.gameObject.activeSelf)
+            Spawn(initPos);
+        else
+            Spawn(respawnPoint.position);
 
+        
+    }
+
+    void Spawn(Vector2 pos)
+    {
         gameObject.SetActive(true);
-        gameObject.transform.position = respawnPoint.position;
+        gameObject.transform.position = pos;
         rb.simulated = true;
         GetComponent<CapsuleCollider2D>().enabled = true;
         animCon.SetBool("isDead", false);
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            BoxCollider2D bc = transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>();
-            if (bc != null)
-                bc.enabled = true;
+            if (transform.GetChild(i).gameObject.activeSelf)
+            {
+                BoxCollider2D bc = transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>();
+                if (bc != null)
+                    bc.enabled = true;
+            }
         }
         range.InitRange();
         SetStatus(MStatus.move);
