@@ -173,7 +173,7 @@ public class StageManager : MonoBehaviour
                     pc.playerScale = 4.0f;
                     pc.ApplyScale();
                     var destroyer = pc.gameObject.AddComponent<DestroyerForPlayer>();
-                    destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[7];
+                    destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[6];
                     destroyer.destructibleTilemaps[0] = GameObject.Find("Ground")?.GetComponent<Tilemap>();
                     if(destroyer.destructibleTilemaps[0] == null)
                     {
@@ -184,7 +184,7 @@ public class StageManager : MonoBehaviour
                     if(destroyer.enabled)
                     {
                         var fallPlatforms = GameObject.Find("FallPlatforms").transform;
-                        for (int i = 0; i <= 4; i++)
+                        for (int i = 0; i <= 3; i++)
                         {
                             destroyer.destructibleTilemaps[i + 1] = fallPlatforms.GetChild(i).GetComponent<Tilemap>();
 

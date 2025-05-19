@@ -21,6 +21,7 @@ public class DestroyerForPlayer : MonoBehaviour
     [Header("참조")]
     public Tilemap[] destructibleTilemaps;    // 파괴 대상이 되는 타일맵들
     public GameObject flyingTilePrefab;       // 파괴 연출로 날아가는 프리팹 (SpriteRenderer + Rigidbody2D 필수)
+    public PlayerController playerController;
 
     // 이동 방향 계산용
     private Vector3 lastPosition;             // 이전 프레임 위치
