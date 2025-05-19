@@ -133,7 +133,7 @@ public class Destroyer : MonoBehaviour
             upwardForce
         );
         rb.AddForce(force, ForceMode2D.Impulse);
-        rb.AddTorque(Random.Range(-60, 60), ForceMode2D.Impulse); //얘는 따로처리함
+        rb.AddTorque(Random.Range(-10, 10), ForceMode2D.Impulse); //얘는 따로처리함
 
         Destroy(flyingObj, 3f);
     }
