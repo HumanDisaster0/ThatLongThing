@@ -41,7 +41,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaFactor: 1
+    - _AlphaFactor: 0.995
     - _EnableExternalAlpha: 0
     - _MaskRadius: 0.0075
     - _MaskSoftness: 0.005
