@@ -139,7 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: e7e419ff94afcfb43a8a0fd3a58d5f67, type: 2}
     - target: {fileID: 5933618402292779222, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 388
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: maxRangeX
@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: e7e419ff94afcfb43a8a0fd3a58d5f67, type: 2}
     - target: {fileID: 5933618402292779222, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 388
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: maxRangeX
@@ -848,7 +848,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: e7e419ff94afcfb43a8a0fd3a58d5f67, type: 2}
     - target: {fileID: 5933618402292779222, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 388
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: maxRangeX
