@@ -14,7 +14,10 @@ public class RollingStoneMove : MonoBehaviour
     [Header("화면 흔들림 연출 간격")]
     public float shakeInterval = 0.7f;
 
-    private float shakeTimer;
+    private float shakeTimer = 0f;
+
+    private float nextShakeTime = 2f;
+    private float irregularShakeTimer = 0f;
 
     private bool isActive = false;
     private Vector3 initialPosition;
@@ -47,6 +50,15 @@ public class RollingStoneMove : MonoBehaviour
             cam?.ShakeCamera(35f, 0.18f, 6f);
             shakeTimer = 0f;
         }
+
+        irregularShakeTimer += Time.deltaTime;
+        if (irregularShakeTimer >= nextShakeTime)
+        {
+            cam?.ShakeCamera(50f, 0.5f, 0.8f); // 강한 흔들림 한 번            
+            irregularShakeTimer = 0f;
+            nextShakeTime = Random.Range(2f, 5f); // 다음 타이밍 설정
+        }
+
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -87,6 +99,9 @@ public class RollingStoneMove : MonoBehaviour
         isActive = true;
 
         cam?.ShakeCamera(100f, 1f, 0.01f);
+
+        irregularShakeTimer = 0f;
+        nextShakeTime = Random.Range(3f, 5f); // 다음 타이밍 설정
     }
     // 외부에서 비활성화 (사라짐 + 위치 복구)
     public void Deactivate()
