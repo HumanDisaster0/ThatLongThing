@@ -366,6 +366,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 1828455315510239540, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2856126737364506940, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: respawn
       value: 0
@@ -1102,6 +1106,10 @@ PrefabInstance:
     - target: {fileID: 1828455315510239540, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_Name
       value: Monster (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828455315510239540, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2856126737364506940, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: respawn

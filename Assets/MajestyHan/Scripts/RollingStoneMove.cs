@@ -67,17 +67,16 @@ public class RollingStoneMove : MonoBehaviour
         if (layer == LayerMask.NameToLayer("Enemy"))
         {
             var move = other.GetComponent<MMove>();
-            var rb = other.GetComponent<Rigidbody2D>();
+            var sr = other.GetComponentInChildren<SpriteRenderer>();
 
-            if (move != null)
+            if (move != null && sr != null)
+            {
                 move.SetStatus(MStatus.die);
-            //   else
-            //      Debug.LogWarning($"[RollingStone] Enemy 오브젝트에 MMove 없음: {other.name}");
+                dest.SpawnFlyingEnemy(other.transform.position, sr.sprite);
+                other.gameObject.SetActive(false);
+            }
 
-            if (rb != null)
-                rb.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
-            // else
-            //    Debug.LogWarning($"[RollingStone] Enemy 오브젝트에 Rigidbody2D 없음: {other.name}");
+
         }
         else if (layer == LayerMask.NameToLayer("Player"))
         {

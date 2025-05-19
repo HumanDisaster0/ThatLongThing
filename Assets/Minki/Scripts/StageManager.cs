@@ -73,7 +73,7 @@ public class StageManager : MonoBehaviour
                     MonsterManager.instance?.SetSpawnType(MSpawnType.Alter);
                     MonsterManager.instance?.ChangeAllScale(4.0f);
                     PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
-                    PlatformManager.instance?.StopMoveTiles();
+                    PlatformManager.instance?.StopSelectedMoveTiles();
                     break;
                 }
 
@@ -315,6 +315,17 @@ public class StageManager : MonoBehaviour
                     break;
                 }
 
+            //no.15 - 타이무스토프
+            case 15:
+                {
+                    PlatformManager.instance.StopSelectedMoveTiles();
+                    MonsterManager.instance.SetAllBehavior(MBehavior.Stop);
+                    foreach (var setter in result)
+                    {
+                        setter.SpecifiedSet(false);
+                    }
+                    break;
+                }
             default:
                 break;
         }
