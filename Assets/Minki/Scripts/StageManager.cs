@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
@@ -140,6 +141,29 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("Anomaly").transform.Find("Comet").gameObject.SetActive(true);
                     //GameObject.Find("RedPortal").SetActive(false); 
 
+                    break;
+                }
+
+
+            //no.6 - 대량발생!! (4배)
+            case 6:
+                {
+                    var X4 = GameObject.Find("Anomaly").transform.Find("X4").gameObject;
+                    X4.SetActive(true);
+
+                    var trapTrigger = X4.transform.Find("TrapTrigger").GetComponent<TrapTrigger>();
+
+                    trapTrigger.OnResetTrigger = new UnityEngine.Events.UnityEvent();
+
+                    var monsters = X4.transform.Find("Monsters");
+
+                    for(int i = 0; i< monsters.childCount; i++)
+                    {
+                        trapTrigger.OnResetTrigger.AddListener(monsters.GetChild(i).GetComponentInChildren<MMove>(true).Respawn);
+                    }
+
+                    PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
+                    PlatformManager.instance?.StopSelectedMoveTiles();
                     break;
                 }
 

@@ -6,13 +6,18 @@ using UnityEngine;
 public class MagicAbility : MonoBehaviour
 {
     [Header("Component")]
-    public SpriteRenderer magicSprite;
-    public SpriteRenderer BGSprite;
+    public SpriteRenderer magicSpriteRender;
+    public SpriteRenderer BGSpriteRender;
+    public Sprite lowLevelSpr;
+    public Sprite MidLevelSpr;
+    public Sprite HighLevelSpr;
 
     [Header("Ability Property")]
-    public float radius = 6.0f;
+    public float radius = 0.5f;
     public float useTime = 5.0f;
     public float rotateSpeed = 20f;
+    [Range(1,3)]
+    public int magicLevel = 1;
 
     [Header("FX")]
     public GameObject MagicFXPrefab;
@@ -55,6 +60,21 @@ public class MagicAbility : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        magicLevel = Mathf.Clamp(magicLevel, 1, 3);
+
+        switch(magicLevel)
+        {
+            case 1:
+                magicSpriteRender.sprite = lowLevelSpr;
+                break;
+            case 2:
+                magicSpriteRender.sprite = MidLevelSpr;
+                break;
+            case 3:
+                magicSpriteRender.sprite = HighLevelSpr;
+                break;
+        }
+
         //키입력 확인
         if (!m_useAbility && Input.GetKeyDown(KeyCode.LeftAlt))
         {
@@ -65,18 +85,17 @@ public class MagicAbility : MonoBehaviour
         }
 
         m_bgTimer += Time.deltaTime;
-        BGSprite.color = Color.Lerp(m_t1Color, m_t2Color, m_bgTimer / 0.25f);
+        BGSpriteRender.color = Color.Lerp(m_t1Color, m_t2Color, m_bgTimer / 0.25f);
 
         //능력 사용중일 때
         if (m_useAbility)
         {
-            magicSprite.enabled = true;
+            magicSpriteRender.enabled = true;
             m_useTimer += Time.deltaTime;
 
-            magicSprite.transform.localScale = Vector3.one * radius * MagicSpriteSize;
-            magicSprite.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
+            magicSpriteRender.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
 
-            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius, m_colliders, FXLayer);
+            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius * magicLevel * Mathf.Sqrt(2f), m_colliders, FXLayer);
 
             m_currentTrap.Clear();
             m_keysToRemove.Clear();
@@ -116,7 +135,7 @@ public class MagicAbility : MonoBehaviour
                         fx.transform.parent = m_colliders[i].transform;
                         fx.transform.position = m_colliders[i].transform.position;
                         fx.RestartAnimation();
-
+                        fx.SetLevel(magicLevel);
                         m_allocatedFX.Add(m_colliders[i].GetHashCode(), fx);
                     }
                 }
@@ -161,7 +180,7 @@ public class MagicAbility : MonoBehaviour
             {
                 m_useAbility = false;
                 m_useTimer = 0.0f;
-                magicSprite.enabled = false;
+                magicSpriteRender.enabled = false;
                 m_t1Color = BGSpriteColor;
                 m_t2Color = new Color(0, 0, 0, 0);
                 m_bgTimer = 0.0f;

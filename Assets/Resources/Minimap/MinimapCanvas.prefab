@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5547465846159962522}
   - component: {fileID: 7771223938238696047}
   - component: {fileID: 3213466654259926989}
+  - component: {fileID: 9137487378147243121}
   m_Layer: 5
   m_Name: MinimapCanvas
   m_TagString: Minimap
@@ -103,6 +104,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &9137487378147243121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963232209583600746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb71cfe82c0276c4680149697dcc0700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniMapUIRect: {fileID: 8053187618601385887}
+  miniMapOpenRect: {fileID: 5446882627924723287}
 --- !u!1 &1105851686354241240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,7 +1186,6 @@ GameObject:
   - component: {fileID: 660260177982991211}
   - component: {fileID: 7838648454454480238}
   - component: {fileID: 4807797347130116473}
-  - component: {fileID: 8269526529647296689}
   - component: {fileID: 5543655909823768227}
   - component: {fileID: 2982526850313604682}
   m_Layer: 5
@@ -1271,20 +1285,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8269526529647296689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4322969026636072570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb71cfe82c0276c4680149697dcc0700, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  miniMapUIRect: {fileID: 8053187618601385887}
-  miniMapOpenRect: {fileID: 5446882627924723287}
 --- !u!114 &5543655909823768227
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,5 +16,10 @@ public class MapKeyboardControl : MonoBehaviour
             miniMapUIRect.gameObject.SetActive(false);
             miniMapOpenRect.gameObject.SetActive(true);
         }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            miniMapUIRect.gameObject.SetActive(true);
+            miniMapOpenRect.gameObject.SetActive(false);
+        }
     }
 }

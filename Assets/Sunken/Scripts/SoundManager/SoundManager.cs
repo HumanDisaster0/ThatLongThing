@@ -31,6 +31,7 @@ public class SoundManager : MonoBehaviour
 
     Camera cam;
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         while (sources.Count < sourceSize)
@@ -42,6 +43,7 @@ public class SoundManager : MonoBehaviour
         }
         sources = GetComponentsInChildren<AudioSource>().ToList();
     }
+#endif
 
     private void Awake()
     {

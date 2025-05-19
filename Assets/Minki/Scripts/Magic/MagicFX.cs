@@ -9,6 +9,9 @@ public class MagicFX : MonoBehaviour
     public Transform FX2;
     public SpriteRenderer SPR1;
     public SpriteRenderer SPR2;
+    public Sprite LowLevel;
+    public Sprite MidLevel;
+    public Sprite HighLevel;
 
     [Header("두번째 파동이 시작되는 시간 간격")]
     public float fxTimerDiff = 0.5f;
@@ -44,6 +47,25 @@ public class MagicFX : MonoBehaviour
         m_fx1Timer = 0.0f;
         m_fx2Timer = -fxTimerDiff;
         CalcAnimation();
+    }
+
+    public void SetLevel(int level)
+    {
+        switch(level)
+        {
+            case 1:
+                SPR1.sprite = LowLevel;
+                SPR2.sprite = LowLevel;
+                break;
+            case 2:
+                SPR1.sprite = MidLevel;
+                SPR2.sprite = MidLevel;
+                break;
+            case 3:
+                SPR1.sprite = HighLevel;
+                SPR2.sprite = HighLevel;
+                break;
+        }
     }
 
     void CalcAnimation()

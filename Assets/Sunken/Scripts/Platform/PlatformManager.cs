@@ -23,7 +23,7 @@ public class PlatformManager : MonoBehaviour
 
     [SerializeField] PlatformType currType;
     [SerializeField] List<PlatformPair> platforms;
-    [SerializeField] List<GameObject> moveTiles;
+    [SerializeField] List<TrapSetter> trapSetters;
 
     private void Awake()
     {
@@ -62,9 +62,9 @@ public class PlatformManager : MonoBehaviour
 
     public void StopSelectedMoveTiles()
     {
-        foreach(GameObject go in moveTiles)
+        foreach(var setter in trapSetters)
         {
-            go.transform.GetChild(0).GetComponent<PlatformMove>().SetCurrStat(0);
+            setter.SpecifiedSet(false);
         }
     }
 }

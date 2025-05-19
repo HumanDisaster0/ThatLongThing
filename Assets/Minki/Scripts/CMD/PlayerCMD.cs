@@ -38,4 +38,12 @@ public static class PlayerCMD
             pc.SetVelocity(Vector2.zero);
         },
         "/플레이어를 마우스 포인터 위치로 옮깁니다.", ExecFlag.CHEAT);
+
+    public static ConsoleCommand cmd_player_magiclevel = new ConsoleCommand(
+       "cmd_player_magiclevel",
+       (int level) =>
+       {
+           pc.GetComponentInChildren<MagicAbility>().magicLevel = level;
+       },
+       "플레이어의 마법레벨을 설정합니다. \n cmd_player_magiclevel <1~3>", ExecFlag.CHEAT);
 }

@@ -50,6 +50,9 @@ MonoBehaviour:
   FX2: {fileID: 7548075708605035283}
   SPR1: {fileID: 1617249321910895883}
   SPR2: {fileID: 7292197090090548971}
+  LowLevel: {fileID: 21300000, guid: 301692f0e78d0324984efcc94a423a62, type: 3}
+  MidLevel: {fileID: 21300000, guid: 1a79a9d7e0882674d835f0b406a97182, type: 3}
+  HighLevel: {fileID: 21300000, guid: 6260aac07895a664babdd93627a61d3d, type: 3}
   fxTimerDiff: 0.2
   fadeKeyframeIdx: 0
   FXCurve:
