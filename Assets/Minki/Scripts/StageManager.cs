@@ -73,6 +73,7 @@ public class StageManager : MonoBehaviour
                     MonsterManager.instance?.SetSpawnType(MSpawnType.Alter);
                     MonsterManager.instance?.ChangeAllScale(4.0f);
                     PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
+                    PlatformManager.instance?.StopMoveTiles();
                     break;
                 }
 

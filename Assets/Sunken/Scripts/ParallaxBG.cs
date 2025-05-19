@@ -14,6 +14,12 @@ public class ParallaxBG : MonoBehaviour
     [Header("배경 오프셋")]
     public Vector2 offset = Vector2.zero;
 
+    private void OnValidate()
+    {
+        Start();
+        LateUpdate();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

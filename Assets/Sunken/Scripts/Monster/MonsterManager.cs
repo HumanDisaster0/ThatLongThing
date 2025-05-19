@@ -37,11 +37,6 @@ public class MonsterManager : MonoBehaviour
         InitMonster();
     }
 
-    private void Start()
-    {
-        
-    }
-
     public void SetType(MonsterType type)
     {
         for (int i = 0; i < monsterDatas.Count; i++)
@@ -110,10 +105,7 @@ public class MonsterManager : MonoBehaviour
 
             data.startPos += new Vector3(0, scaleChange / 2, 0);
             data.monster.transform.localScale = new Vector2(targetScale, targetScale);
-            data.monster.transform.position = data.startPos;
-
-            if (!Mathf.Approximately(data.monster.transform.position.y, 1f))
-                data.monster.transform.Find("StepCollider").gameObject.SetActive(false);
+            data.monster.transform.position = data.startPos; 
 
             monsterDatas[i] = data; // Update the list with the modified struct
         }
