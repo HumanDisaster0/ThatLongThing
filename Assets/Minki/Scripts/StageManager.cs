@@ -81,6 +81,11 @@ public class StageManager : MonoBehaviour
                 {
                     PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("Trex").gameObject.SetActive(true);
+                    var fallPlatforms = GameObject.Find("TrapInfos").transform;
+                    for(int i = 4; i <= 6; i++)
+                    {
+                        fallPlatforms.GetChild(i).GetComponent<TrapSetter>().SpecifiedSet(false);
+                    }
                     break;
                 }
 
@@ -168,12 +173,25 @@ public class StageManager : MonoBehaviour
                     pc.playerScale = 4.0f;
                     pc.ApplyScale();
                     var destroyer = pc.gameObject.AddComponent<DestroyerForPlayer>();
-                    destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[1];
+                    destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[7];
                     destroyer.destructibleTilemaps[0] = GameObject.Find("Ground")?.GetComponent<Tilemap>();
                     if(destroyer.destructibleTilemaps[0] == null)
                     {
                         Debug.LogWarning("Ground타일을 찾을 수 없습니다.");
                         destroyer.enabled = false;
+                    }
+
+                    if(destroyer.enabled)
+                    {
+                        var fallPlatforms = GameObject.Find("FallPlatforms").transform;
+                        for (int i = 0; i <= 4; i++)
+                        {
+                            destroyer.destructibleTilemaps[i + 1] = fallPlatforms.GetChild(i).GetComponent<Tilemap>();
+
+                            print(destroyer.destructibleTilemaps[i + 1]);
+                        }
+
+                        destroyer.destructibleTilemaps[destroyer.destructibleTilemaps.Length - 1] = GameObject.Find("DynamicPlatforms").transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Tilemap>();
                     }
                     destroyer.tilemapYMin = -2;
 
@@ -276,6 +294,11 @@ public class StageManager : MonoBehaviour
                 {
                     GameObject.Find("PlatformManager").GetComponent<PlatformManager>().SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("BigStone").gameObject.SetActive(true);
+                    var fallPlatforms = GameObject.Find("TrapInfos").transform;
+                    for (int i = 4; i <= 6; i++)
+                    {
+                        fallPlatforms.GetChild(i).GetComponent<TrapSetter>().SpecifiedSet(false);
+                    }
                     break;
                 }
 
