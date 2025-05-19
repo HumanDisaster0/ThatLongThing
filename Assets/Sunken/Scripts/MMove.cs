@@ -295,7 +295,7 @@ public class MMove : MonoBehaviour
             case MonsterType.Rabbit:
                 GetComponentInChildren<Animator>().runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("Monster/Rabbit/Rabbit_AnimCon");
                 GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Monster/Rabbit/00");
-                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Enemy", "Player", "Ignore Raycast");
+                GetComponent<CapsuleCollider2D>().excludeLayers = LayerMask.GetMask("Friendly", "Enemy", "Player", "Ignore Raycast");
                 gameObject.layer = 9;
                 transform.GetChild(3).localPosition = Vector2.zero;
                 for (int i = 0; i < transform.childCount; i++)
@@ -355,6 +355,16 @@ public class MMove : MonoBehaviour
     {
         StopAllCoroutines();
         transform.Find("Sprite").GetComponent<Animator>().enabled = false;
+        gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        transform.Find("StepCollider").gameObject.SetActive(false);
+
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, LayerMask.GetMask("Default", "Ground"));
+        CapsuleCollider2D cc = gameObject.GetComponent<CapsuleCollider2D>();
+        RaycastHit2D hit = Physics2D.CapsuleCast(transform.position, cc.size, cc.direction, 0f, Vector2.down, 10f, LayerMask.GetMask("Default", "Ground"));
+        if(hit)
+        {
+            transform.position += Vector3.down * hit.distance;
+        }
     }
 
 }
