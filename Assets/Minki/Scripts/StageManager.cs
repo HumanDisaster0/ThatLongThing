@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -212,6 +213,13 @@ public class StageManager : MonoBehaviour
                     {
                         var rect = minimapPlayerPos[0].GetComponent<RectTransform>();
                         rect.sizeDelta = new Vector2(100, 200);
+                    }
+
+                    var monsters = GameObject.Find("Monsters").transform;
+
+                    for (int i = 0; i < monsters.childCount - 1; i++)
+                    {
+                        monsters.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<BoxCollider2D>().enabled = false;
                     }
 
                     break;
