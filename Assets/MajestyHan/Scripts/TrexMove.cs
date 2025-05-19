@@ -1,8 +1,12 @@
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 public class TrexMove : MonoBehaviour
 {
+
+    public CameraController cam;
     public enum MonsterState { Idle, Patrol, Chase, ReadyToJump, Jumping, Pause }
+    [Header("스테이터스")]
     public MonsterState state = MonsterState.Idle;
     public MonsterState prevState;
 
@@ -102,7 +106,7 @@ public class TrexMove : MonoBehaviour
             PlayerController pc = collision.gameObject.GetComponent<PlayerController>();
             if (pc != null)
                 pc.AnyState(PlayerState.Die);
-            
+
             if (state == MonsterState.Jumping)
                 prevState = MonsterState.Pause;
             else
@@ -114,16 +118,16 @@ public class TrexMove : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            
+
             PlayerController pc = other.gameObject.GetComponent<PlayerController>();
             if (pc != null)
                 pc.AnyState(PlayerState.Die);
-           
-            if (state==MonsterState.Jumping)
+
+            if (state == MonsterState.Jumping)
                 prevState = MonsterState.Pause;
             else
                 ChangeState(MonsterState.Pause);
-            
+
         }
     }
 
@@ -137,7 +141,7 @@ public class TrexMove : MonoBehaviour
         rb.velocity = new Vector2(dirX * chaseSpeed, rb.velocity.y);
     }
 
- 
+
 
     void DoPatrol()
     {
@@ -156,15 +160,15 @@ public class TrexMove : MonoBehaviour
 
     int DoThink()
     {
-        
+
         int num = Random.Range(0, 3) - 1;
         if (num == 0)
         {
-             ChangeState(MonsterState.Pause);
-             return 0;
-         }
-         else
-             return num;      
+            ChangeState(MonsterState.Pause);
+            return 0;
+        }
+        else
+            return num;
     }
 
     void DoJump()
@@ -182,7 +186,7 @@ public class TrexMove : MonoBehaviour
 
         transform.position = flat + Vector3.up * col.bounds.extents.y + Vector3.up * height;
 
-        if (t >= 1f)
+        if (t >= 1f) //착지 완료 시점 - 카메라 흔들리는 효과 넣을꺼임
         {
             isJumping = false;
             col.isTrigger = false;
@@ -191,9 +195,27 @@ public class TrexMove : MonoBehaviour
                 SetTargetPosition(preJumpTargetPosition.Value);
                 preJumpTargetPosition = null;
             }
+
+            if (cam != null)
+            {
+                cam.ShakeCamera(45f, 0.4f, 3f);
+            }
+            else
+            {
+                Debug.Log("카메라 없음");
+            }
+
             ChangeState(prevState);
         }
     }
+    public void OnTrexFootstep()
+    {
+        if (cam != null && state == MonsterState.Chase) // 달리는 중에만
+        {
+            cam.ShakeCamera(25f, 0.1f, 5f); // 빠르고 가벼운 흔들림
+        }
+    }
+
 
     void StartJump()
     {
@@ -257,7 +279,7 @@ public class TrexMove : MonoBehaviour
         thinkTimer = 0f;
         jumpTimer = 0f;
         readyTimer = 0f;
-   
+
     }
     public void PrepareJump(Vector3 target)
     {
@@ -271,7 +293,7 @@ public class TrexMove : MonoBehaviour
         if (state == MonsterState.ReadyToJump || state == MonsterState.Jumping)
             return;
 
-        prevState = state;        
+        prevState = state;
         targetPosition = target;
         StartJump();
     }
