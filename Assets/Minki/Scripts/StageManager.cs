@@ -312,6 +312,13 @@ public class StageManager : MonoBehaviour
                     break;
                 }
 
+            //no.13 - 하늘에서 골드가 내려온다면
+            case 13:
+                {
+                    GameObject.Find("Anomaly").transform.Find("GoldRain").gameObject.SetActive(true);
+                    break;
+                }
+
             //no.14 - 정말..다 멀쩡한 거 맞지?
             case 14:
                 {

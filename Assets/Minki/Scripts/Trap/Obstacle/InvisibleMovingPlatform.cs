@@ -18,11 +18,14 @@ public class InvisibleMovingPlatform : MonoBehaviour
     [SerializeField] bool loop = true;
     [SerializeField] PlatformStatus currStat = PlatformStatus.move;
     [SerializeField] Tilemap tilemap;
+    
 
     Rigidbody2D m_rb;
 
+    private Vector2 initPos = Vector2.zero;
     private int currIdx = 0;
     private bool isReversal = false;
+    private PlatformStatus resetStat;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +35,7 @@ public class InvisibleMovingPlatform : MonoBehaviour
             wayPoints.Add(transform);
         }
         m_rb = GetComponent<Rigidbody2D>();
+        initPos = transform.position;
     }
 
     private void Update()
@@ -90,6 +94,15 @@ public class InvisibleMovingPlatform : MonoBehaviour
     public void SetCurrStat(int statIndex)
     {
         currStat = (PlatformStatus)statIndex;
+        resetStat = (PlatformStatus)statIndex;
+    }
+
+    public void ResetPos()
+    {
+        StopAllCoroutines();
+        currIdx = 0;
+        transform.position = initPos;
+        currStat = resetStat;
     }
 
     private bool CloseEnough(Transform target)
