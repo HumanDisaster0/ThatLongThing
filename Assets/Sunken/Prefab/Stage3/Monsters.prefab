@@ -424,11 +424,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: maxRangeX
-      value: 1.5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: minRangeX
-      value: -1.5
+      value: -4.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1117,7 +1117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4538951114722322923, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 51.75
+      value: 53.5
       objectReference: {fileID: 0}
     - target: {fileID: 4538951114722322923, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1161,11 +1161,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: maxRangeX
-      value: 1.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7748775903536382693, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: minRangeX
-      value: -1.5
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
