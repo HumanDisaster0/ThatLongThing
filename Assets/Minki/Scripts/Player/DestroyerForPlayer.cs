@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,14 +22,30 @@ public class DestroyerForPlayer : MonoBehaviour
     [Header("참조")]
     public Tilemap[] destructibleTilemaps;    // 파괴 대상이 되는 타일맵들
     public GameObject flyingTilePrefab;       // 파괴 연출로 날아가는 프리팹 (SpriteRenderer + Rigidbody2D 필수)
-    public PlayerController playerController;
+
+    [Header("카메라 진동")]
+    public Vector3 shakeForce;
+    public float shakeRate = 0.5f;
 
     // 이동 방향 계산용
     private Vector3 lastPosition;             // 이전 프레임 위치
     private Vector2 moveDir = Vector2.right;  // 현재 이동 방향 (초기값 오른쪽)
+    private CameraController m_camCon;
+    private PlayerController m_pc;
+
+    private float m_moveAmount;
 
     // 나중에 복구할 타일 정보 저장용
     private Dictionary<Tilemap, Dictionary<Vector3Int, TileBase>> destroyedTileMapData = new();
+
+    private void Awake()
+    {
+        m_camCon = Camera.main.GetComponent<CameraController>();
+        m_pc = GetComponent<PlayerController>();
+
+        m_pc.OnStateChanged += (currentState) => { if (currentState == PlayerState.Jump) m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z); };
+        m_pc.OnLand += () => { m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z); };
+    }
 
     void Update()
     {
@@ -43,10 +60,27 @@ public class DestroyerForPlayer : MonoBehaviour
     {
         // 현재 이동 방향 계산 (position 변화량 기반)
         Vector3 delta = transform.position - lastPosition;
-        if (delta.sqrMagnitude > 0.001f)
+        if (delta.sqrMagnitude > 0.0001f)
             moveDir = delta.normalized;
+        else
+            moveDir = Vector2.zero;
 
         lastPosition = transform.position;
+
+        if (m_pc.GetCurrentState() == PlayerState.Walk)
+        {
+            m_moveAmount += Time.deltaTime;
+        }
+        else
+        {
+            m_moveAmount = 0;
+        }
+
+        if (m_moveAmount > shakeRate)
+        {
+            m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z);
+            m_moveAmount = 0;
+        }
     }
 
     void TryDestroyNearbyTiles(Tilemap tilemap)

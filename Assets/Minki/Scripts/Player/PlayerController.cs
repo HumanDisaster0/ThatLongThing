@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.CullingGroup;
 
 public enum PlayerState
 {
@@ -47,6 +48,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("map")]
     public RectTransform minimap;
+
+    public Action<PlayerState> OnStateChanged;
+    public Action OnLand;
 
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
     public bool Invincibility { get { return m_invincibility; } set { m_invincibility = value; } }
@@ -164,6 +168,7 @@ public class PlayerController : MonoBehaviour
         {
             m_currentVel.y = 0.0f;
             m_rb.velocity = m_currentVel;
+            OnLand?.Invoke();
         }
 
         // 상태 전이
@@ -171,6 +176,7 @@ public class PlayerController : MonoBehaviour
         CheckTransition();
         if (lastState != m_currentState)
         {
+            OnStateChanged?.Invoke(m_currentState);
             ExitState(lastState);
             EnterState(m_currentState);
         }
@@ -431,6 +437,7 @@ public class PlayerController : MonoBehaviour
         m_currentState = state;
         if (lastState != m_currentState)
         {
+            OnStateChanged?.Invoke(m_currentState);
             ExitState(lastState);
             EnterState(m_currentState);
         }

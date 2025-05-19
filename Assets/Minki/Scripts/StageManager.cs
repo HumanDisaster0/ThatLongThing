@@ -188,8 +188,6 @@ public class StageManager : MonoBehaviour
                         for (int i = 0; i <= 3; i++)
                         {
                             destroyer.destructibleTilemaps[i + 1] = fallPlatforms.GetChild(i).GetComponent<Tilemap>();
-
-                            print(destroyer.destructibleTilemaps[i + 1]);
                         }
 
                         destroyer.destructibleTilemaps[destroyer.destructibleTilemaps.Length - 1] = GameObject.Find("DynamicPlatforms").transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Tilemap>();
@@ -204,6 +202,8 @@ public class StageManager : MonoBehaviour
                     destroyer.flyingTilePrefab = flyingTile;
 
                     destroyer.sideJitter = 10;
+
+                    destroyer.shakeForce = new Vector3(8f, 0.2f, 5f);
 
                     var minimapPlayerPos = FindObjectsByType<MinimapPlayerPos>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
