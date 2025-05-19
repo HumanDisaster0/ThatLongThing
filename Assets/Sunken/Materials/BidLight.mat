@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StarLight_2
+  m_Name: BidLight
   m_Shader: {fileID: -6465566751694194690, guid: f3675d18893be3441b106a90f1fc8cb0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -61,11 +61,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GlowTex:
-        m_Texture: {fileID: 2800000, guid: 80800759d8238834f8cb777a382d5008, type: 3}
+        m_Texture: {fileID: 2800000, guid: 28b99be2e9d5ebf4390c540d735b0737, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 940fd8cad8f4f054dbada23b12a8ac42, type: 3}
+        m_Texture: {fileID: 2800000, guid: ca40d3fe6c2c6b84eb811d58eebec7f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
