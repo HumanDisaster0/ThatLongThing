@@ -314,8 +314,8 @@ public class MMove : MonoBehaviour
     }
     public void Respawn()
     {
-        if(respawnPoint == null)
-            respawnPoint = gameObject.transform;
+        if(respawnPoint == null || !respawnPoint.gameObject.activeSelf)
+            return;
 
         gameObject.SetActive(true);
         gameObject.transform.position = respawnPoint.position;

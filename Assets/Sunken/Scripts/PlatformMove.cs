@@ -24,6 +24,7 @@ public class PlatformMove : MonoBehaviour
 
     private int currIdx = 0;
     private bool isReversal = false;
+    private Vector2 initPos = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,8 @@ public class PlatformMove : MonoBehaviour
         {
             wayPoints.Add(transform);
         }
+
+        initPos = transform.position;
     }
 
     // Update is called once per frame
@@ -91,6 +94,13 @@ public class PlatformMove : MonoBehaviour
         }
         else
             return false;
+    }
+
+    public void ResetPos()
+    {
+        StopAllCoroutines();
+        currIdx = 0;
+        transform.position = initPos;
     }
 
 

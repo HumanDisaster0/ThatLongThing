@@ -79,7 +79,7 @@ public class MonsterManager : MonoBehaviour
             var data = monsterDatas[i];
             data.monster.transform.GetComponentInChildren<MMove>().SetType(data.startType);
 
-            data.startActive = data.monster.transform.GetChild(0).gameObject.activeSelf;
+            data.startActive = data.monster.activeSelf;
             data.startPos = data.monster.transform.GetChild(0).position;
 
             monsterDatas[i] = data; // Update the list with the modified struct
