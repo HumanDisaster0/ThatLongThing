@@ -1535,6 +1535,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5933618402292779222, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 128
@@ -2433,6 +2437,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5933618402292779222, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 128
@@ -3067,6 +3075,10 @@ PrefabInstance:
     - target: {fileID: 4538951114722322923, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8234089834174328553, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -7162,6 +7174,10 @@ PrefabInstance:
     - target: {fileID: 4538951114722322923, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8234089834174328553, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -15809,6 +15825,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8234089834174328553, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -17275,6 +17295,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -1.25
       objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5933618402292779222, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 128
@@ -17614,6 +17638,10 @@ PrefabInstance:
     - target: {fileID: 4538951114722322923, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018683036223728822, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5034212939805724519, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
       propertyPath: m_Controller
