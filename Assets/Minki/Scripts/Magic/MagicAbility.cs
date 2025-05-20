@@ -16,6 +16,7 @@ public class MagicAbility : MonoBehaviour
     public float radius = 0.5f;
     public float useTime = 5.0f;
     public float rotateSpeed = 20f;
+    public float scale = 1.0f;
     [Range(1,3)]
     public int magicLevel = 1;
 
@@ -41,8 +42,9 @@ public class MagicAbility : MonoBehaviour
     Color m_t2Color = new Color(0, 0, 0, 0);
     float m_bgTimer;
     List<MagicFX> m_magicFXPool = new List<MagicFX>();
+    float m_lastScale = 1.0f;
 
-    private void Start()
+    private void Awake()
     {
         if(m_magicFXPool.Count == 0)
         {
@@ -55,11 +57,31 @@ public class MagicAbility : MonoBehaviour
                 m_magicFXPool.Add(fx);
             }
         }
+        m_lastScale = scale;
+    }
+
+    public void UseMagic()
+    {
+        //실행 가능한지 확인
+        if (!m_useAbility)
+        {
+            SoundManager.instance.PlayNewSound("Magic_Execute", gameObject);
+            m_useAbility = true;
+            m_t1Color = new Color(0, 0, 0, 0);
+            m_t2Color = BGSpriteColor;
+            m_bgTimer = 0.0f;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_lastScale != scale)
+        {
+            m_lastScale = scale;
+            transform.localScale = Vector3.one * scale;
+        }
+
         magicLevel = Mathf.Clamp(magicLevel, 1, 3);
 
         switch(magicLevel)
@@ -75,14 +97,7 @@ public class MagicAbility : MonoBehaviour
                 break;
         }
 
-        //키입력 확인
-        if (!m_useAbility && Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            m_useAbility = true;
-            m_t1Color = new Color(0,0,0,0);
-            m_t2Color = BGSpriteColor;
-            m_bgTimer = 0.0f;
-        }
+
 
         m_bgTimer += Time.deltaTime;
         BGSpriteRender.color = Color.Lerp(m_t1Color, m_t2Color, m_bgTimer / 0.25f);
@@ -95,7 +110,7 @@ public class MagicAbility : MonoBehaviour
 
             magicSpriteRender.transform.Rotate(new Vector3(0, 0, rotateSpeed * Time.deltaTime));
 
-            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius * magicLevel * Mathf.Sqrt(2f), m_colliders, FXLayer);
+            var overlapCount = Physics2D.OverlapCircleNonAlloc(transform.position, radius * magicLevel * Mathf.Sqrt(2f) * scale, m_colliders, FXLayer);
 
             m_currentTrap.Clear();
             m_keysToRemove.Clear();
@@ -116,6 +131,8 @@ public class MagicAbility : MonoBehaviour
                     //fx활성화 - 풀에서 가져오기
                     if (!m_foundTrap.Contains(m_colliders[i].GetHashCode()))
                     {
+                        SoundManager.instance.PlayNewSound("Trap_Discover", m_colliders[i].gameObject);
+
                         m_foundTrap.Add(m_colliders[i].GetHashCode());
 
                         MagicFX fx;

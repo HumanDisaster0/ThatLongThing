@@ -6,7 +6,7 @@ using UnityEngine;
 public class DefaultSourceData : MonoBehaviour
 {
     public Coroutine myCoroutine;
-    public float maxDistance = 10f;
+    public float maxDistance = 20f;
     
     public bool isVolCon = true;
     public bool isVisible = true;

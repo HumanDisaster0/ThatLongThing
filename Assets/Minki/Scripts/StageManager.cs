@@ -197,7 +197,12 @@ public class StageManager : MonoBehaviour
                     var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                     pc.Invincibility = true;
                     pc.playerScale = 4.0f;
+                    pc.jumpForce = 8;
+                    pc.gravityForce = 15;
                     pc.ApplyScale();
+
+                    pc.transform.GetComponentInChildren<MagicAbility>().scale = 4.0f;
+
                     var destroyer = pc.gameObject.AddComponent<DestroyerForPlayer>();
                     destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[6];
                     destroyer.destructibleTilemaps[0] = GameObject.Find("Ground")?.GetComponent<Tilemap>();

@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer playerSprite;
     public Animator playerAnimator;
     public Transform spriteRoot;
+    public MagicAbility magic;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
 
@@ -238,6 +239,9 @@ public class PlayerController : MonoBehaviour
             if (lastCoyoteJumpTimer > 0.0f && m_coyoteJumpTimer <= 0.0f)
                 m_jumpCount++;
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+            magic.UseMagic();
     }
 
     void GroundCheck()
