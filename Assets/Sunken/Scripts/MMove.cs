@@ -105,7 +105,7 @@ public class MMove : MonoBehaviour
         switch(currStatus)
         {
             case MStatus.idle:
-                timer += Time.fixedDeltaTime;
+                timer += Time.deltaTime;
                 rb.velocity =  new Vector2(Mathf.Lerp(rb.velocity.x,0f, moveSharpness * Time.deltaTime), rb.velocity.y);
                 if (timer > idleTime)
                 {
@@ -137,7 +137,7 @@ public class MMove : MonoBehaviour
                     
                 break;
             case MStatus.die:
-                timer += Time.fixedDeltaTime;
+                timer += Time.deltaTime;
                 //if (timer > 3.0f)
                 //{
                 //    timer = 0f;
