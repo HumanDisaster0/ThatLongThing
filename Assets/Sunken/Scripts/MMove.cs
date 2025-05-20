@@ -169,7 +169,16 @@ public class MMove : MonoBehaviour
             switch (currStatus)
             {
                 case MStatus.idle:
-                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                    switch (MType)
+                    {
+                        case MonsterType.Mole:
+                            SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                            break;
+                        case MonsterType.Rabbit:
+                            SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
+                            break;
+                    }
+
                     animCon.SetBool("isWalking", false);
                     animCon.SetBool("isAttack", false);
                     idleTime = UnityEngine.Random.Range(maxidleDuration / 2f, maxidleDuration);
