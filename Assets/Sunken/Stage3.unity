@@ -1271,57 +1271,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd98528ccebccbf40967e94cab1a6d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &296437638
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 296437639}
-  - component: {fileID: 296437640}
-  m_Layer: 0
-  m_Name: CometSound
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &296437639
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296437638}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1538380624}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &296437640
+--- !u!114 &296437640 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4299854812938754817, guid: 1472e229c793b3a4d9cabe7458922433, type: 3}
+  m_PrefabInstance: {fileID: 882948267}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296437638}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26e1463e23c14a045862c66f81dd1f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comet: {fileID: 0}
-  volumeCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &386948731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1547,7 +1507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &399264748
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9635,10 +9595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4407415827090502544, guid: 1472e229c793b3a4d9cabe7458922433, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 296437639}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1472e229c793b3a4d9cabe7458922433, type: 3}
 --- !u!19719996 &885396610 stripped
@@ -12418,11 +12375,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4b37ce282520804ba004f9ade6d5573, type: 3}
---- !u!4 &1538380624 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4407415827090502544, guid: 1472e229c793b3a4d9cabe7458922433, type: 3}
-  m_PrefabInstance: {fileID: 882948267}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1551225576
 GameObject:
   m_ObjectHideFlags: 0
@@ -12955,7 +12907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549668909183498578, guid: 450da296b7fff954e9c87e5ad0c787fd, type: 3}
       propertyPath: anomalyIdx
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
