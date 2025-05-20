@@ -343,20 +343,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.0028017769
-      outSlope: 0.0028017769
+      inSlope: -0
+      outSlope: -0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.058478575
+      outWeight: 0.05377456
     - serializedVersion: 3
-      time: 30
+      time: 50
       value: 1
-      inSlope: 0.07975677
-      outSlope: 0.07975677
+      inSlope: 0.060927067
+      outSlope: 0.060927067
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.039004263
+      inWeight: 0.022750778
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -374,7 +374,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.075932965
     - serializedVersion: 3
-      time: 12.80767
+      time: 21
       value: 0
       inSlope: 0
       outSlope: 0
@@ -383,13 +383,55 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 30
+      time: 49
       value: 1
-      inSlope: 0.106206775
-      outSlope: 0.106206775
+      inSlope: 0.0929581
+      outSlope: 0.0929581
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.03852641
+      inWeight: 0.011705465
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  TMaskAnimation:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.1404475
+    - serializedVersion: 3
+      time: 5
+      value: 0
+      inSlope: 0.00036849885
+      outSlope: 0.00036849885
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0.45674443
+      outWeight: 1
+    - serializedVersion: 3
+      time: 21
+      value: 1
+      inSlope: 0.10661326
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.045831177
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 49
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.011705465
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

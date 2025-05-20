@@ -103,10 +103,10 @@ MonoBehaviour:
     m_Bits: 193
   moveSpeed: 2.5
   moveSharpness: 12
-  airAcceleration: 1.8
+  airAcceleration: 2.1
   airDrag: 0.1
-  jumpForce: 8
-  gravityForce: 15
+  jumpForce: 10.5
+  gravityForce: 25
   maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15

@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Linq;
 
 public static class MinimapTileInfo
 {
@@ -22,7 +24,7 @@ public static class MinimapTileInfo
             }
         }
     }
-    public const int DEFAULT_SIZE = 36;
+    public const int DEFAULT_SIZE = 50;
 
     static int m_tileSize = DEFAULT_SIZE;
 
@@ -43,13 +45,14 @@ public class MinimapPreRenderer : MonoBehaviour
 
         MinimapTileInfo.tileSize = MinimapTileInfo.DEFAULT_SIZE;
 
+        tilemap.CompressBounds();
         BoundsInt bounds = tilemap.cellBounds;
         int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
         int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
 
-        if (texHeight > 863)
+        if (texHeight > 812)
         {
-            MinimapTileInfo.tileSize = 25; 
+            MinimapTileInfo.tileSize = 26; 
             texWidth = bounds.size.x * MinimapTileInfo.tileSize;
             texHeight = bounds.size.y * MinimapTileInfo.tileSize;
         }
@@ -82,15 +85,19 @@ public class MinimapPreRenderer : MonoBehaviour
                 int px = x * MinimapTileInfo.tileSize + pivotX;
                 int py = y * MinimapTileInfo.tileSize;
 
-              
+
 
                 if (sprite != null)
                 {
                     Texture2D sourceTex = sprite.texture;
-                    Rect rect = sprite.textureRect;
+                    Rect rect = sprite.rect;
+
+                    int fullSize = Mathf.Max((int)rect.width, (int)rect.height);
                     int hash = HashCode.Combine(MinimapTileInfo.tileSize, sourceTex.GetHashCode());
+
                     if (!m_resizedTexture.ContainsKey(hash))
                     {
+                        // 스프라이트에서 실제 픽셀 가져오기
                         int rx = Mathf.FloorToInt(rect.x);
                         int ry = Mathf.FloorToInt(rect.y);
                         int rw = Mathf.FloorToInt(rect.width);
@@ -98,18 +105,23 @@ public class MinimapPreRenderer : MonoBehaviour
 
                         Color[] spritePixels = sourceTex.GetPixels(rx, ry, rw, rh);
 
-                        // 리사이즈 필요 시 처리
-                        Texture2D resized = new Texture2D(rw, rh, TextureFormat.RGBA32, false);
-                        resized.SetPixels(spritePixels);
-                        resized.Apply();
+                        // 새 정사각형 텍스처 생성 후 전체를 투명으로 초기화
+                        Texture2D paddedTex = new Texture2D(fullSize, fullSize, TextureFormat.RGBA32, false);
+                        Color[] clearPixels = Enumerable.Repeat(new Color(0, 0, 0, 0), fullSize * fullSize).ToArray();
+                        paddedTex.SetPixels(clearPixels);
 
-                        Texture2D scaled = Resize(resized, MinimapTileInfo.tileSize, FilterMode.Bilinear); // 앞서 만든 Resize 함수
+                        // 중심 정렬해서 스프라이트 복사
+                        int offsetX = (fullSize - rw) / 2;
+                        int offsetY = (fullSize - rh) / 2;
+                        paddedTex.SetPixels(offsetX, offsetY, rw, rh, spritePixels);
+                        paddedTex.Apply();
 
+                        // 원하는 크기로 리사이즈
+                        Texture2D scaled = Resize(paddedTex, MinimapTileInfo.tileSize, FilterMode.Bilinear);
                         m_resizedTexture.Add(hash, scaled);
                     }
 
                     Color[] finalPixels = m_resizedTexture[hash].GetPixels();
-
                     tex.SetPixels(px, py, MinimapTileInfo.tileSize, MinimapTileInfo.tileSize, finalPixels);
                 }
             }
