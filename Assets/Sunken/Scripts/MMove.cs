@@ -284,7 +284,7 @@ public class MMove : MonoBehaviour
         ExeType();
     }
 
-    private void ExeType()
+    public void ExeType()
     {
         gameObject.SetActive(true);
 

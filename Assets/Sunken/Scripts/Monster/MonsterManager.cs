@@ -45,6 +45,8 @@ public class MonsterManager : MonoBehaviour
             data.startType = type;
             monsterDatas[i] = data;
         }
+
+        InitMonster();
     }
 
     public void SetSpawnType(MSpawnType type)
@@ -72,6 +74,8 @@ public class MonsterManager : MonoBehaviour
                 return;
             }
         }
+
+        InitMonster();
     }
 
     public void InitMonster()
