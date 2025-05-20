@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
-{
-    public DialogueManager dialogue;
+{    
     public TutorialCameraController cameraController;
     public Transform focusTarget1;
     public Transform focusTarget2;
@@ -49,7 +48,7 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitUntil(() => cameraController.IsZoomFullyReady);
 
         // 말풍선 출력
-        yield return dialogue.ShowSequence(lines);
+        yield return DialogueManager.Instance.ShowSequence(lines);
 
         // 줌아웃 시작
         cameraController.ResetZoom();
