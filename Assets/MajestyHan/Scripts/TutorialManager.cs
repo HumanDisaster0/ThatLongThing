@@ -10,7 +10,6 @@ public class TutorialManager : MonoBehaviour
     public TutorialCameraController cameraController;
     public PlayerController player;
     public NPCController npc;
-    public TrapTrigger trigger;
 
     private Transform focusPlayer;
     private Transform focusNpc;
@@ -24,8 +23,6 @@ public class TutorialManager : MonoBehaviour
     private bool needPressedMagicKey = false;
     private bool needPressedCheckMapOkay = false;
     private bool needPressedCheckMapNope = false;
-
-
 
 
     private void Awake()
@@ -423,6 +420,7 @@ public class TutorialManager : MonoBehaviour
         "<color=#3f3f3f>뭐? 그럴 리가. 내 마법 탐지 결과에는 이미 작동한 함정이라는데."
     });
         cameraController.ShakeCamera(30, 0.5f, 2f);
+        
         //(심하게 흔들리는 천장!@#$)
 
         DialogueManager.Instance.SetBubbleStyle(1);
@@ -430,15 +428,12 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>안돼, 선배님!"
     });
-
+        moveSenpai.senpaiNowGoRight();
         DialogueManager.Instance.SetBubbleStyle(0);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
         "<color=#3f3f3f>응?"
     });
-
-        trigger.ResetTrigger(); //리셋 한번 해야하는데 민기씨가 말 안해줬음
-        trigger.ForceActiveTrigger(gameObject); //민기씨가 이따구로 해도 된다고함
 
         //씬 전환         
     }

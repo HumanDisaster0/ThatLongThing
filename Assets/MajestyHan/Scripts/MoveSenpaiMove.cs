@@ -68,7 +68,7 @@ public class MoveSenpaiMove : MonoBehaviour
     public void senpaiNowGoLeftWillReturn()
     {
         state = SenpaiState.MoveLeft;
-        Invoke("senpaiNowGoRight", 1.0f);
+        Invoke("senpaiPlzStop", 1.0f);
     }
 
     public void senpaiNowGoRight()

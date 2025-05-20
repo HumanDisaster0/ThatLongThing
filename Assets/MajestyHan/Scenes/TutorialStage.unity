@@ -467,6 +467,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 799262864}
+        m_TargetAssemblyTypeName: TrapTrigger, Assembly-CSharp
+        m_MethodName: ResetTrigger
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 799262864}
+        m_TargetAssemblyTypeName: TrapTrigger, Assembly-CSharp
+        m_MethodName: ForceActiveTrigger
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 145364238}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnResetTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -10907,7 +10931,6 @@ MonoBehaviour:
   cameraController: {fileID: 738869090}
   player: {fileID: 1244023932}
   npc: {fileID: 905332244}
-  trigger: {fileID: 799262864}
   focusEventSpace: {fileID: 145364242}
   mapPin: {fileID: 0}
 --- !u!114 &2128702062
