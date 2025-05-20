@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
+
+    [Header("Bubble Style")]
+    public List<Sprite> bubbleStyles;
+    public Image bubbleImage;
+    private int currentStyleIndex = 0;
 
     [Header("UI Reference")]
     public GameObject panel;
@@ -18,27 +24,24 @@ public class DialogueManager : MonoBehaviour
     private bool isPlaying = false;
     private bool waitingForInput = false;
     private Coroutine typingCoroutine;
-    private Action onComplete; // 범용 콜백
+    private Action onComplete;
 
     public bool IsPlaying => isPlaying;
 
     private void Awake()
     {
-        // 싱글톤 설정
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject); // 선택적 적용
-
         panel.SetActive(false);
     }
 
-    // 튜토리얼/일반 대사 모두 대응
-    public IEnumerator ShowSequence(List<string> lines, Action onCompleteCallback = null)
+    public IEnumerator ShowSequence(List<string> lines, int styleIndex = 0, Action onCompleteCallback = null)
     {
+        SetBubbleStyle(styleIndex);
         panel.SetActive(true);
         isPlaying = true;
         onComplete = onCompleteCallback;
@@ -70,17 +73,8 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeLine(string line)
     {
-        dialogueText.text = "";
         waitingForInput = false;
-
-        yield return null;
-
-        foreach (char c in line)
-        {
-            dialogueText.text += c;
-            yield return new WaitForSeconds(0.04f);
-        }
-
+        yield return StartCoroutine(TextTyper.TypeText(dialogueText, line, 0.04f));
         waitingForInput = true;
     }
 
@@ -114,6 +108,19 @@ public class DialogueManager : MonoBehaviour
         if (isPlaying && waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
         {
             NextDialogue();
+        }
+    }
+
+    public void SetBubbleStyle(int index)
+    {
+        if (index >= 0 && index < bubbleStyles.Count)
+        {
+            currentStyleIndex = index;
+            bubbleImage.sprite = bubbleStyles[index];
+        }
+        else
+        {
+            Debug.LogWarning($"말풍선 스타일 인덱스 {index}가 범위를 벗어났습니다.");
         }
     }
 }
