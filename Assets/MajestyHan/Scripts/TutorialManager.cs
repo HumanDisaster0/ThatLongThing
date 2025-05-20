@@ -303,7 +303,7 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>잘했어! \n그럼 이 함정은 제대로 작동하고 있는 거야.",
         "<color=#3f3f3f>하지만 가끔 지도와 다르게 작동하고 있는 함정이 있는데, \n그건 지도에 따로 마우스 <color=red>왼쪽 클릭<color=#3f3f3f>으로 표기를 해줘야 해.",
-        "<color=orange>한번 클릭<color=#3f3f3f>하면 함정이 <color=blue>정상작동<color=#3f3f3f>하는 거고, \n<color=brown>두번 클릭<color=#3f3f3f>하면 함정이 <color=red>오작동<color=#3f3f3f>을 하고 있다는 표시야."
+        "<color=blue>한번 클릭<color=#3f3f3f>하면 함정이 <color=blue>정상작동<color=#3f3f3f>하는 거고, \n<color=red>두번 클릭<color=#3f3f3f>하면 함정이 <color=red>오작동<color=#3f3f3f>을 하고 있다는 표시야."
     });
         // 줌아웃
         cameraController.ResetZoom();

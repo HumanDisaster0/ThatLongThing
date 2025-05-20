@@ -19,14 +19,16 @@ public class MarketManager : MonoBehaviour
     }
 
     //판매중인 아이템 리스트 등 멤버변수 예시
-    //
     public List<ItemData> ItemsOnSale = new List<ItemData>();
 
-    public int marketLevel = 1;
+    private void Start()
+    {
+        //ItemsOnSale.Add();
+    }
 
     public void addItem(ItemData item)
     {
-        ItemsOnSale.Add(item);        
+        ItemsOnSale.Add(item);
     }
 
     public void buyItem(ItemData item)
