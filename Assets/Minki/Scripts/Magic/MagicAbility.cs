@@ -60,6 +60,19 @@ public class MagicAbility : MonoBehaviour
         m_lastScale = scale;
     }
 
+    public void UseMagic()
+    {
+        //실행 가능한지 확인
+        if (!m_useAbility)
+        {
+            SoundManager.instance.PlayNewSound("Magic_Execute", gameObject);
+            m_useAbility = true;
+            m_t1Color = new Color(0, 0, 0, 0);
+            m_t2Color = BGSpriteColor;
+            m_bgTimer = 0.0f;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -84,15 +97,7 @@ public class MagicAbility : MonoBehaviour
                 break;
         }
 
-        //키입력 확인
-        if (!m_useAbility && Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            SoundManager.instance.PlayNewSound("Magic_Execute", gameObject);
-            m_useAbility = true;
-            m_t1Color = new Color(0,0,0,0);
-            m_t2Color = BGSpriteColor;
-            m_bgTimer = 0.0f;
-        }
+
 
         m_bgTimer += Time.deltaTime;
         BGSpriteRender.color = Color.Lerp(m_t1Color, m_t2Color, m_bgTimer / 0.25f);

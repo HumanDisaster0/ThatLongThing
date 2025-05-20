@@ -46,14 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ea469b24be32f4d8217539c1d42cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magicSpriteRender: {fileID: 7822771480045815893}
-  BGSpriteRender: {fileID: 0}
-  lowLevelSpr: {fileID: 0}
-  MidLevelSpr: {fileID: 0}
-  HighLevelSpr: {fileID: 0}
-  radius: 3
+  magicSpriteRender: {fileID: 8486770983166289576}
+  BGSpriteRender: {fileID: 7822771480045815893}
+  lowLevelSpr: {fileID: 21300000, guid: 301692f0e78d0324984efcc94a423a62, type: 3}
+  MidLevelSpr: {fileID: 21300000, guid: 1a79a9d7e0882674d835f0b406a97182, type: 3}
+  HighLevelSpr: {fileID: 21300000, guid: 6260aac07895a664babdd93627a61d3d, type: 3}
+  radius: 0.5
   useTime: 5
   rotateSpeed: 20
+  scale: 1
   magicLevel: 1
   MagicFXPrefab: {fileID: 2441009921034198154, guid: 30cd15fa22c29ee4587f30121f5a223d, type: 3}
   trapInfoTag: TrapInfo

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.CullingGroup;
 
-public enum PlayerState
+public enum NPCState
 {
     Idle = 0,
     Walk,
@@ -15,15 +15,14 @@ public enum PlayerState
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class PlayerController : MonoBehaviour
+public class NPCController : MonoBehaviour
 {
     #region Public Member
 
     [Header("참조 컴포넌트")]
-    public SpriteRenderer playerSprite;
+    public SpriteRenderer npcSprite;
     public Animator playerAnimator;
     public Transform spriteRoot;
-    public MagicAbility magic;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
 
@@ -45,12 +44,9 @@ public class PlayerController : MonoBehaviour
     public float jumpBufferTime = 0.15f; //착지 전 점프입력 유효 시간
 
     [Header("이상현상 관련")]
-    public float playerScale = 1.0f;
+    public float npcScale = 1.0f;
 
-    [Header("map")]
-    public RectTransform minimap;
-
-    public Action<PlayerState> OnStateChanged;
+    public Action<NPCState> OnStateChanged;
     public Action OnLand;
 
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
@@ -87,13 +83,15 @@ public class PlayerController : MonoBehaviour
     float m_hInput;
     float m_vInput;
     bool m_jumpInput;
+    bool m_wantJump;
     bool m_skipInput;
+    bool m_pressedJumpInput;
 
     bool m_freeze;
     bool m_invincibility;
 
     //플레이어 상태
-    PlayerState m_currentState = PlayerState.Idle;
+    NPCState m_currentState = NPCState.Idle;
 
 
     //애니메이션 해쉬 값 - 이렇게 하면 빨라요
@@ -114,15 +112,32 @@ public class PlayerController : MonoBehaviour
         ApplyScale();
     }
 
+    public void SetJumpInput()
+    {
+        m_jumpInput = true;
+    }
+
+
+    /// <summary>
+    /// -1 ~ 1사이의 값 입력
+    /// </summary>
+    /// <param name="dir">-1~1</param>
+    public void SetHorizontalInput(int dir)
+    {
+        var clamped = Math.Clamp(dir, -1, 1);
+
+        m_hInput = clamped;
+    }
+
     public void ApplyScale()
     {
         if (!m_col)
             m_col = GetComponent<BoxCollider2D>();
-        m_col.offset = PLAYER_DEFUALT_COL_OFFSET * playerScale;
-        m_col.size = PLAYER_DEFUALT_COL_SIZE * playerScale;
+        m_col.offset = PLAYER_DEFUALT_COL_OFFSET * npcScale;
+        m_col.size = PLAYER_DEFUALT_COL_SIZE * npcScale;
 
-        spriteRoot.transform.localScale = Vector3.one * playerScale;
-        spriteRoot.transform.localPosition = PLAYER_DEFUALT_SPR_POS * playerScale;
+        spriteRoot.transform.localScale = Vector3.one * npcScale;
+        spriteRoot.transform.localPosition = PLAYER_DEFUALT_SPR_POS * npcScale;
     }
 
     // Start is called before the first frame update
@@ -139,8 +154,6 @@ public class PlayerController : MonoBehaviour
         m_rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         m_rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         ApplyScale();
-
-        minimap = GameObject.FindWithTag("Minimap")?.transform?.Find("Panel")?.Find("MapRect")?.GetComponent<RectTransform>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -158,7 +171,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(m_freeze) return;
+        if (m_freeze) return;
 
         // 땅 체크
         var lastGrounded = m_isGrounded;
@@ -190,32 +203,29 @@ public class PlayerController : MonoBehaviour
     {
         //---- 입력처리 ----//
 
-        if(m_skipInput || (minimap && minimap.gameObject.activeInHierarchy))
+        if (m_skipInput)
         {
             m_hInput = 0;
             m_vInput = 0;
-            m_jumpInput = false;
+            m_wantJump = false;
             return;
         }
 
         //-- 방향키 입력
         var lastHInput = m_hInput;
 
-        m_hInput = (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) + (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
-        m_vInput = (Input.GetKey(KeyCode.DownArrow) ? -1 : 0) + (Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
-
         //이전 입력 비교 후 방향이 다른 경우
-        if (m_currentState != PlayerState.Die && m_hInput != lastHInput && Mathf.Abs(m_hInput) > 0)
+        if (m_currentState != NPCState.Die && m_hInput != lastHInput && Mathf.Abs(m_hInput) > 0)
         {
             //스프라이트 좌우 반전
-            playerSprite.flipX = m_hInput > 0 ? false : true;
+            npcSprite.flipX = m_hInput > 0 ? false : true;
         }
 
 
         //-- 점프 입력
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (m_jumpInput)
         {
-            m_jumpInput = true;
+            m_wantJump = true;
             m_jumpBufferTimer = jumpBufferTime; //점프 입력 버퍼 시간 갱신
         }
         else
@@ -234,14 +244,13 @@ public class PlayerController : MonoBehaviour
             //아닌 경우 감소
             var lastCoyoteJumpTimer = m_coyoteJumpTimer;
             m_coyoteJumpTimer -= Time.deltaTime;
-            
+
             //공중 3단 점프 방지를 위한 공중돌입 판정
             if (lastCoyoteJumpTimer > 0.0f && m_coyoteJumpTimer <= 0.0f)
                 m_jumpCount++;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-            magic.UseMagic();
+        m_jumpInput = false;
     }
 
     void GroundCheck()
@@ -254,11 +263,11 @@ public class PlayerController : MonoBehaviour
         m_isGrounded = false;
 
         //바닥 체크 (박스 캐스트 - 너비 사이즈 큼)
-        var isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.55f * playerScale, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
+        var isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.55f * npcScale, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out RaycastHit2D hitInfo);
 
         //바닥 체크 실패 시 작은 너비로 재도전
         if (!isHit || hitInfo.normal.y <= 0.7f)
-            isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f * playerScale, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
+            isHit = CharacterSweepTest(transform.position + Vector3.down * (m_col.size.y * 0.25f - m_col.offset.y), new Vector2(0.5f * npcScale, m_col.size.y * 0.5f), Vector2.down, checkDist, groundMask, out hitInfo);
 
 
         //점프 중이 아니고 바닥체크에 성공한 경우
@@ -318,7 +327,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (m_groundRB != null 
+        if (m_groundRB != null
             && lastGrounded
             && !m_isGrounded)
         {
@@ -346,18 +355,18 @@ public class PlayerController : MonoBehaviour
     public void CheckTransition()
     {
         //AnyState Transition->
-        if (m_currentState == PlayerState.Die)
+        if (m_currentState == NPCState.Die)
             return;
 
         // 점프 처리
         if ((m_jumpCount < 1
             && m_jumpBufferTimer > 0f
             && m_coyoteJumpTimer > 0f
-            && m_jumpInput)
+            && m_wantJump)
             ||
             (m_jumpCount > 0
             && m_jumpCount < maxJumpCount
-            && m_jumpInput))
+            && m_wantJump))
         {
             ExcuteJump();
             return;
@@ -366,61 +375,61 @@ public class PlayerController : MonoBehaviour
         //Normal Transition->
         switch (m_currentState)
         {
-            case PlayerState.Idle:
+            case NPCState.Idle:
                 if (m_isGrounded)
                 {
                     //->이동
                     if (Mathf.Abs(m_hInput) > 0)
-                        m_currentState = PlayerState.Walk;
+                        m_currentState = NPCState.Walk;
                     return;
                 }
                 //->낙하
                 if (!m_isGrounded)
                 {
-                    m_currentState = PlayerState.Fall;
+                    m_currentState = NPCState.Fall;
                     return;
                 }
                 return;
-            case PlayerState.Walk:
+            case NPCState.Walk:
                 if (m_isGrounded)
                 {
                     //->이동
                     if (m_hInput == 0)
-                        m_currentState = PlayerState.Idle;
+                        m_currentState = NPCState.Idle;
                     return;
                 }
                 //->낙하
                 if (!m_isGrounded)
                 {
-                    m_currentState = PlayerState.Fall;
+                    m_currentState = NPCState.Fall;
                     return;
                 }
                 return;
-            case PlayerState.Jump:
+            case NPCState.Jump:
                 if (m_isGrounded)
                 {
                     //->이동
                     if (m_hInput == 0)
-                        m_currentState = PlayerState.Idle;
+                        m_currentState = NPCState.Idle;
                     else
-                        m_currentState = PlayerState.Walk;
+                        m_currentState = NPCState.Walk;
                     return;
                 }
                 else
                 {
                     //->낙하
                     if (m_rb.velocity.y < 0.0f)
-                        m_currentState = PlayerState.Fall;
+                        m_currentState = NPCState.Fall;
                 }
                 return;
-            case PlayerState.Fall:
+            case NPCState.Fall:
                 if (m_isGrounded)
                 {
                     //->이동
                     if (m_hInput == 0)
-                        m_currentState = PlayerState.Idle;
+                        m_currentState = NPCState.Idle;
                     else
-                        m_currentState = PlayerState.Walk; 
+                        m_currentState = NPCState.Walk;
                     //->앉기
                     return;
                 }
@@ -432,9 +441,9 @@ public class PlayerController : MonoBehaviour
     /// 외부에서 상태를 변경시키기 위한 함수
     /// </summary>
     /// <param name="state"></param>
-    public void AnyState(PlayerState state, bool forceChange = false)
+    public void AnyState(NPCState state, bool forceChange = false)
     {
-        if (!forceChange && m_invincibility && state == PlayerState.Die)
+        if (!forceChange && m_invincibility && state == NPCState.Die)
             return;
 
         var lastState = m_currentState;
@@ -447,40 +456,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public PlayerState GetCurrentState()
+    public NPCState GetCurrentState()
     {
         return m_currentState;
     }
 
-    public void ExitState(PlayerState state)
+    public void ExitState(NPCState state)
     {
         switch (state)
         {
-            case PlayerState.Walk:
+            case NPCState.Walk:
                 SoundManager.instance.StopSound("Stone_Step", gameObject);
                 return;
         }
     }
 
-    public void EnterState(PlayerState state)
+    public void EnterState(NPCState state)
     {
         switch (state)
         {
-            case PlayerState.Idle:
+            case NPCState.Idle:
                 playerAnimator.Play(m_hash_idleAnim);
                 return;
-            case PlayerState.Walk:
+            case NPCState.Walk:
                 SoundManager.instance?.PlayLoopSound("Stone_Step", gameObject);
                 playerAnimator.Play(m_hash_walkAnim);
                 return;
-            case PlayerState.Jump:
+            case NPCState.Jump:
                 playerAnimator.Play(m_hash_jumpAnim);
                 SoundManager.instance.PlayNewSound("Jump", gameObject);
                 return;
-            case PlayerState.Fall:
+            case NPCState.Fall:
                 playerAnimator.Play(m_hash_jumpAnim);
                 return;
-            case PlayerState.Die:
+            case NPCState.Die:
                 SoundManager.instance.PlayBackSound("Die1");
                 playerAnimator.Play(m_hash_dieAnim);
                 return;
@@ -491,30 +500,30 @@ public class PlayerController : MonoBehaviour
     {
         switch (m_currentState)
         {
-            case PlayerState.Idle:
-            case PlayerState.Walk:
-            case PlayerState.Jump:
-            case PlayerState.Fall:
+            case NPCState.Idle:
+            case NPCState.Walk:
+            case NPCState.Jump:
+            case NPCState.Fall:
                 DefaultMovement();
                 break;
-            case PlayerState.Die:
+            case NPCState.Die:
                 m_hInput = 0;
-                m_jumpInput = false;
+                m_wantJump = false;
                 m_coyoteJumpTimer = 0f;
                 m_jumpBufferTimer = 0f;
-                m_jumpInput = false;
+                m_wantJump = false;
                 DefaultMovement();
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 {
                     PlayerSpawnManager.instance.Respawn();
                     SetVelocity(Vector2.zero);
-                    AnyState(PlayerState.Fall);
+                    AnyState(NPCState.Fall);
                 }
                 break;
         }
 
         if (m_jumpBufferTimer <= 0.0f)
-            m_jumpInput = false;
+            m_wantJump = false;
     }
 
     void DefaultMovement()
@@ -611,17 +620,17 @@ public class PlayerController : MonoBehaviour
         m_groundRB = null;
         m_currentVel += Vector2.up * jumpForce;
         m_isGrounded = false;
-        m_currentState = PlayerState.Jump;
+        m_currentState = NPCState.Jump;
         m_coyoteJumpTimer = 0.0f;
         m_jumpBufferTimer = 0.0f;
-        m_jumpInput = false;
+        m_wantJump = false;
         m_jumpCount++;
         return;
     }
 
-    
+
     //커스텀 박스캐스트입니다. 정확한 레이어마스크 감지를 위해 만든 함수입니다.
-    bool CharacterSweepTest(Vector2 origin, Vector2 size, Vector2 direction, float distance, LayerMask layerMask,out RaycastHit2D hitInfo)
+    bool CharacterSweepTest(Vector2 origin, Vector2 size, Vector2 direction, float distance, LayerMask layerMask, out RaycastHit2D hitInfo)
     {
         //non alloc으로 해당 경로의 모든 충돌가능한 콜라이더 참조 가져오기
         var hitCount = Physics2D.BoxCastNonAlloc(origin, size, 0.0f, direction, m_hits, distance, layerMask);
@@ -632,7 +641,7 @@ public class PlayerController : MonoBehaviour
             //가장 가까운 콜라이더 찾기
             var nearestHit = new RaycastHit2D();
             var nearestDist = Mathf.Infinity;
-            for(int i = 0; i < hitCount; i++)
+            for (int i = 0; i < hitCount; i++)
             {
                 var currentHit = m_hits[i];
 
@@ -643,7 +652,7 @@ public class PlayerController : MonoBehaviour
                     || currentHit.collider.isTrigger)
                     continue;
 
-                if(currentHit.distance < nearestDist)
+                if (currentHit.distance < nearestDist)
                 {
                     nearestDist = currentHit.distance;
                     nearestHit = currentHit;
