@@ -54,11 +54,11 @@ public class GoldManager : MonoBehaviour
         }
     }
 
-    public void SetReward()
+    public void SetReward(int ftc, int dc, int ec)
     {
-        GoldManager.Instance.findTrapCount = 5;
-        GoldManager.Instance.deadCount = 2;
-        GoldManager.Instance.ejectionCount = 1;
+        GoldManager.Instance.findTrapCount = ftc;
+        GoldManager.Instance.deadCount = dc;
+        GoldManager.Instance.ejectionCount = ec;
         GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
 
         //calRewardGold ÀÓ½Ã°ª : findTrapCount * 100 + deadCount * 20 + ejectionCount * 200;

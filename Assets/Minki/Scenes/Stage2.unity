@@ -8100,10 +8100,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.035937503
+    y: 0.0009259259
+    width: 0.6666667
+    height: 0.6666666
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -8755,6 +8755,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1004564136}
+    - target: {fileID: 5946089874213641564, guid: 58bfd8e4585dadb408c61ede0407f90c, type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
