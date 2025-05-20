@@ -15,26 +15,34 @@ public class MapKeyboardControl : MonoBehaviour
         {
             if (miniMapUIRect.gameObject.activeSelf)
             {
-                miniMapUIRect.gameObject.SetActive(false);
-                miniMapOpenRect.gameObject.SetActive(true);
+                HideMinimap();
             }
             else
             {
-                miniMapUIRect.gameObject.SetActive(true);
-                miniMapOpenRect.gameObject.SetActive(false);
+                ShowMinimap();
             }
             return;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            miniMapUIRect.gameObject.SetActive(false);
-            miniMapOpenRect.gameObject.SetActive(true);
+            HideMinimap();
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            miniMapUIRect.gameObject.SetActive(true);
-            miniMapOpenRect.gameObject.SetActive(false);
+            ShowMinimap();
         }
+    }
+
+    public void HideMinimap()
+    {
+        miniMapUIRect.gameObject.SetActive(false);
+        miniMapOpenRect.gameObject.SetActive(true);
+    }
+
+    public void ShowMinimap()
+    {
+        miniMapUIRect.gameObject.SetActive(true);
+        miniMapOpenRect.gameObject.SetActive(false);
     }
 }

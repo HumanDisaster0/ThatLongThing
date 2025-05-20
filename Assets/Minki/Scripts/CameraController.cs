@@ -53,23 +53,7 @@ public class CameraController : MonoBehaviour
         m_camera = GetComponent<Camera>();
         m_pixelPerfectCamera = GetComponent<PixelPerfectCamera>();
 
-        m_targetPos = Player.position;
-
-        OnViewportSizeChanged();
-
-        m_targetPos.x = Mathf.Clamp(
-            m_targetPos.x,
-            worldRect.xMin + m_clampWidth,
-            worldRect.xMax - m_clampWidth
-        );
-
-        m_targetPos.y = Mathf.Clamp(
-            m_targetPos.y,
-            worldRect.yMin + m_clampHeight - yOffset,
-            worldRect.yMax - m_clampHeight - yOffset
-        );
-
-        m_currentPos = m_targetPos;
+        TrackPositionImediate();
 
         m_lastWidth = Screen.width;
         m_lastHeight = Screen.height;
@@ -228,6 +212,26 @@ public class CameraController : MonoBehaviour
         m_nonTrauma = !trauma;
     }
 
+    public void TrackPositionImediate()
+    {
+        m_targetPos = Player.position;
+
+        OnViewportSizeChanged();
+
+        m_targetPos.x = Mathf.Clamp(
+            m_targetPos.x,
+            worldRect.xMin + m_clampWidth,
+            worldRect.xMax - m_clampWidth
+        );
+
+        m_targetPos.y = Mathf.Clamp(
+            m_targetPos.y,
+            worldRect.yMin + m_clampHeight - yOffset,
+            worldRect.yMax - m_clampHeight - yOffset
+        );
+
+        m_currentPos = m_targetPos;
+    }
 
     private void OnDrawGizmos()
     {

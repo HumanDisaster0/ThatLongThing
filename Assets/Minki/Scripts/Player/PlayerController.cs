@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnimator;
     public Transform spriteRoot;
     public MagicAbility magic;
+    public PreLifeCountIndicator preLifeIndicator;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
 
@@ -92,6 +93,8 @@ public class PlayerController : MonoBehaviour
     bool m_freeze;
     bool m_invincibility;
 
+    int m_debugDeathCount;
+
     //플레이어 상태
     PlayerState m_currentState = PlayerState.Idle;
 
@@ -100,7 +103,7 @@ public class PlayerController : MonoBehaviour
     readonly static int m_hash_idleAnim = Animator.StringToHash("anim_player_idle");
     readonly static int m_hash_walkAnim = Animator.StringToHash("anim_player_walk");
     readonly static int m_hash_jumpAnim = Animator.StringToHash("anim_player_jump");
-    //readonly static int m_hash_fallAnim = Animator.StringToHash("anim_knight_fall");
+    readonly static int m_hash_fallAnim = Animator.StringToHash("anim_player_fall");
     readonly static int m_hash_dieAnim = Animator.StringToHash("anim_player_die");
 
     readonly Vector2 PLAYER_DEFUALT_COL_OFFSET = new Vector2(0, -0.02f);
@@ -141,6 +144,13 @@ public class PlayerController : MonoBehaviour
         ApplyScale();
 
         minimap = GameObject.FindWithTag("Minimap")?.transform?.Find("Panel")?.Find("MapRect")?.GetComponent<RectTransform>();
+
+        if (preLifeIndicator == null)
+        {
+            var indicator = FindObjectsByType<PreLifeCountIndicator>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            if(indicator.Length >0)
+                preLifeIndicator = indicator[0];
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -480,10 +490,10 @@ public class PlayerController : MonoBehaviour
                 return;
             case PlayerState.Jump:
                 playerAnimator.Play(m_hash_jumpAnim);
-                SoundManager.instance.PlayNewSound("Jump", gameObject);
+                //SoundManager.instance.PlayNewSound("Jump", gameObject);
                 return;
             case PlayerState.Fall:
-                playerAnimator.Play(m_hash_jumpAnim);
+                playerAnimator.Play(m_hash_fallAnim);
                 return;
             case PlayerState.Die:
                 SoundManager.instance.PlayBackSound("Die1");
@@ -511,9 +521,9 @@ public class PlayerController : MonoBehaviour
                 DefaultMovement();
                 if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 {
-                    PlayerSpawnManager.instance.Respawn();
-                    SetVelocity(Vector2.zero);
-                    AnyState(PlayerState.Fall);
+                    //PlayerSpawnManager.instance.Respawn();
+                    Freeze = true;
+                    preLifeIndicator.PlayRespawnAnimation(++m_debugDeathCount);
                 }
                 break;
         }
@@ -613,6 +623,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        SoundManager.instance.PlayNewSound("Jump", gameObject);
         m_groundRB = null;
         m_currentVel += Vector2.up * jumpForce;
         m_isGrounded = false;

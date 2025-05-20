@@ -55,7 +55,7 @@ public class PlayerPortalInteract : MonoBehaviour
 
         m_col.isTrigger = true;
         m_pc.SetVelocity(Vector2.zero);
-        m_pc.AnyState(PlayerState.Fall, true);
+        m_pc.AnyState(PlayerState.Jump, true);
         m_pc.Freeze = true;
         yield return null;
 

@@ -21,7 +21,7 @@ public class NPCController : MonoBehaviour
 
     [Header("참조 컴포넌트")]
     public SpriteRenderer npcSprite;
-    public Animator playerAnimator;
+    public Animator npcAnimator;
     public Transform spriteRoot;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
@@ -475,22 +475,22 @@ public class NPCController : MonoBehaviour
         switch (state)
         {
             case NPCState.Idle:
-                playerAnimator.Play(m_hash_idleAnim);
+                npcAnimator.Play(m_hash_idleAnim);
                 return;
             case NPCState.Walk:
                 SoundManager.instance?.PlayLoopSound("Stone_Step", gameObject);
-                playerAnimator.Play(m_hash_walkAnim);
+                npcAnimator.Play(m_hash_walkAnim);
                 return;
             case NPCState.Jump:
-                playerAnimator.Play(m_hash_jumpAnim);
+                npcAnimator.Play(m_hash_jumpAnim);
                 SoundManager.instance.PlayNewSound("Jump", gameObject);
                 return;
             case NPCState.Fall:
-                playerAnimator.Play(m_hash_jumpAnim);
+                npcAnimator.Play(m_hash_jumpAnim);
                 return;
             case NPCState.Die:
                 SoundManager.instance.PlayBackSound("Die1");
-                playerAnimator.Play(m_hash_dieAnim);
+                npcAnimator.Play(m_hash_dieAnim);
                 return;
         }
     }
@@ -512,9 +512,8 @@ public class NPCController : MonoBehaviour
                 m_jumpBufferTimer = 0f;
                 m_wantJump = false;
                 DefaultMovement();
-                if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                if (npcAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 {
-                    PlayerSpawnManager.instance.Respawn();
                     SetVelocity(Vector2.zero);
                     AnyState(NPCState.Fall);
                 }
