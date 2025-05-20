@@ -22,6 +22,7 @@ public class CustomClickable : MonoBehaviour
     public Func<bool> interactionCondition = () => true;
 
     public bool isInteractable = true;
+    bool prevInteractable = true;
 
 
 
@@ -37,7 +38,7 @@ public class CustomClickable : MonoBehaviour
     {
         isMouseOver = true;
         //print("마우스 롤오버!");
-        if (hoverSprite != null)
+        if (hoverSprite != null && isInteractable)
         {           
             spriteRenderer.sprite = hoverSprite;
         }
@@ -97,6 +98,27 @@ public class CustomClickable : MonoBehaviour
         {
             col.size = sr.sprite.bounds.size;
             col.offset = sr.sprite.bounds.center;
+        }
+    }
+
+    private void Update()
+    {
+        if(prevInteractable != isInteractable)
+        {
+            prevInteractable = isInteractable;
+            UpdateSprite();
+        }
+    }
+
+    private void UpdateSprite()
+    {
+        if (!isInteractable && normalSprite)
+        {
+            GetComponent<SpriteRenderer>().color = Color.gray;
+        }
+        else if (normalSprite)
+        {
+            GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 }

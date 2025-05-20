@@ -6,6 +6,10 @@ public class MarketManager : MonoBehaviour
 {
     public static MarketManager Instance { get; private set; }
 
+    [SerializeField] private CustomClickable doubleJumpItem;
+    [SerializeField] private CustomClickable shieldItem;
+    [SerializeField] private CustomClickable magicSizeItem;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
