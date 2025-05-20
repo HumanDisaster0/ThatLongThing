@@ -78,6 +78,7 @@ public class MagicAbility : MonoBehaviour
         //키입력 확인
         if (!m_useAbility && Input.GetKeyDown(KeyCode.LeftAlt))
         {
+            SoundManager.instance.PlayNewSound("Magic_Execute", gameObject);
             m_useAbility = true;
             m_t1Color = new Color(0,0,0,0);
             m_t2Color = BGSpriteColor;
