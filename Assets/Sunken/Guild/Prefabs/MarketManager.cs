@@ -1,14 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MarketManager : MonoBehaviour
 {
     public static MarketManager Instance { get; private set; }
 
+    [Header("아이템 가격")]
+    public int doubleJumpPrice = 30;
+    public int shieldPrice = 10;
+    public int magicSizePrice = 20;
+
     [SerializeField] private CustomClickable doubleJumpItem;
     [SerializeField] private CustomClickable shieldItem;
     [SerializeField] private CustomClickable magicSizeItem;
+
+    int doubleJumpLevel = 0;
+    int shieldLevel = 0;
+    int magicSizeLevel = 0;
+
+    int prevGold;
 
     private void Awake()
     {
@@ -22,22 +32,109 @@ public class MarketManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    //판매중인 아이템 리스트 등 멤버변수 예시
-    public List<ItemData> ItemsOnSale = new List<ItemData>();
-
     private void Start()
     {
-        //ItemsOnSale.Add();
+        // 레벨이 로드될 때마다 아이템을 초기화합니다.
+        OnLevelWasLoaded(0);
     }
 
-    public void addItem(ItemData item)
+    void Update()
     {
-        ItemsOnSale.Add(item);
+        // 아이템 상태를 업데이트합니다.
+        if (GoldManager.Instance.totalGold != prevGold)
+        {
+            prevGold = GoldManager.Instance.totalGold;
+            UpdateItemStatus();
+        }
     }
 
-    public void buyItem(ItemData item)
+    private void OnLevelWasLoaded(int level)
     {
-        ItemsOnSale.Add(item);
+        // 레벨이 로드될 때마다 아이템을 초기화합니다.
+        doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
+        shieldItem = GameObject.Find("Item_b")?.GetComponent<CustomClickable>();
+        magicSizeItem = GameObject.Find("Item_c")?.GetComponent<CustomClickable>();
+        prevGold = GoldManager.Instance.totalGold;
+
+        if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
+        {
+            UpdateItemStatus();
+
+            doubleJumpItem.onClick = () =>
+            {
+                Debug.Log("더블 점프 아이템 구매");
+                PlaySound();
+                GoldManager.Instance.totalGold -= doubleJumpPrice;
+                doubleJumpLevel++;
+                UpdateItemStatus();
+                doubleJumpItem.isInteractable = doubleJumpLevel < 1;
+            };
+            shieldItem.onClick = () =>
+            {
+                Debug.Log("방패 아이템 구매");
+                PlaySound();
+                GoldManager.Instance.totalGold -= shieldPrice;
+                shieldLevel++;
+                UpdateItemStatus();
+            };
+            magicSizeItem.onClick = () =>
+            {
+                Debug.Log("마법 크기 아이템 구매");
+                PlaySound();
+                GoldManager.Instance.totalGold -= magicSizePrice;
+                magicSizeLevel++;
+                UpdateItemStatus();
+                magicSizeItem.isInteractable = magicSizeLevel < 2;
+            };
+        }
     }
 
+    void UpdateItemStatus()
+    {
+        if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
+        {
+            doubleJumpItem.isInteractable = doubleJumpLevel < 1 && GoldManager.Instance.totalGold >= doubleJumpPrice;
+            shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
+            magicSizeItem.isInteractable = magicSizeLevel < 2 && GoldManager.Instance.totalGold >= magicSizePrice;
+
+            doubleJumpItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + doubleJumpLevel);
+            shieldItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + shieldLevel);
+            magicSizeItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + magicSizeLevel);
+        }
+    }
+
+    void PlaySound()
+    {
+        SoundManager.instance?.PlayNewBackSound("Gold_Register");
+    }
+
+    bool UseShield()
+    {
+        if (shieldLevel > 0)
+        {
+            shieldLevel--;
+            return true;
+        }
+        return false;
+    }
+
+    int GetDoubleJumpLevel()
+    {
+        return doubleJumpLevel;
+    }
+
+    int GetMagicSizeLevel()
+    {
+        return magicSizeLevel;
+    }
+
+    public void PauseMarket(bool _value)
+    {
+        if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
+        {
+            doubleJumpItem.isInteractable = _value;
+            shieldItem.isInteractable = _value;
+            magicSizeItem.isInteractable = _value;
+        }
+    }
 }

@@ -30,6 +30,7 @@ public class SoundManager : MonoBehaviour
     Camera cam;
     bool isAllStop = false;
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         while (sources.Count < sourceSize)
@@ -40,6 +41,7 @@ public class SoundManager : MonoBehaviour
             sources.Add(obj.GetComponent<AudioSource>());
         }
     }
+#endif
 
     private void Awake()
     {
@@ -50,14 +52,22 @@ public class SoundManager : MonoBehaviour
 
         sources = GetComponentsInChildren<AudioSource>().ToList();
 
-        cam = Camera.main;
         LoadAllSound();
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         CheckVolume();
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        cam = Camera.main;
+        if (!cam)
+            Debug.LogError("카메라가 없다고? 진짜?");
     }
 
     /// <summary>
