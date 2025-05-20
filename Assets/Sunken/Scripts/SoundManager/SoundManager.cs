@@ -28,6 +28,7 @@ public class SoundManager : MonoBehaviour
     public float bgVol = 1f; // BGM
 
     Camera cam;
+    bool isAllStop = false;
 
     private void OnValidate()
     {
@@ -568,25 +569,31 @@ public class SoundManager : MonoBehaviour
         foreach (AudioSource source in activeSources)
         {
             DefaultSourceData data = source.GetComponent<DefaultSourceData>();
-
-            if (data.isVolCon)
+            if(!isAllStop)
             {
-                // 화면안에 없으면 무시
-                if (!data.isVisible)
-                    continue;
-                else
+                if (data.isVolCon)
                 {
-                    Vector2 pos = source.transform.position;
+                    // 화면안에 없으면 무시
+                    if (!data.isVisible)
+                        continue;
+                    else
+                    {
+                        Vector2 pos = source.transform.position;
 
-                    // 거리 기반으로 볼륨 조절
-                    float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
+                        // 거리 기반으로 볼륨 조절
+                        float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
 
-                    float result = distanceFromCenter / data.maxDistance;
+                        float result = distanceFromCenter / data.maxDistance;
 
-                    // 볼륨 조절
-                    //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
-                    source.volume = (1 - result) * seVol;
+                        // 볼륨 조절
+                        //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                        source.volume = (1 - result) * seVol;
+                    }
                 }
+            }
+            else
+            {
+                source.volume = 0f;
             }
         }
 
@@ -611,5 +618,15 @@ public class SoundManager : MonoBehaviour
         //        source.GetComponent<DefaultSourceData>().volume = 0f;
         //    }
         //}
+    }
+
+    public void SetMute(bool _value)
+    {
+        isAllStop = _value;
+
+        if(!isAllStop)
+        {
+            BgmPlayer.instance.StartBgmPlayer();
+        }
     }
 }
