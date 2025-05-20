@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class SoundTest : MonoBehaviour
 {
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        SoundManager.instance.PlayLoopSound("Grass_Step", this.gameObject);
+        if(collision.CompareTag("Player"))
+            SoundManager.instance.SetMute(true);
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        //SoundManager.instance.PlaySound("Grass_Step", this.gameObject);
+        if (collision.CompareTag("Player"))
+            SoundManager.instance.SetMute(false);
     }
 }

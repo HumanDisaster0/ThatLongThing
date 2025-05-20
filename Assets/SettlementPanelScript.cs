@@ -47,9 +47,9 @@ public class SettlementPanelScript : MonoBehaviour
     {
         if (GoldManager.Instance != null)
         {
-            text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 100})";
-            text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.deadCount * 20})";
-            text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount *100})";
+            text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
+            text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
+            text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount *10})";
             text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
 
             //text1.text = GoldManager.Instance.findTrapCount.ToString();
