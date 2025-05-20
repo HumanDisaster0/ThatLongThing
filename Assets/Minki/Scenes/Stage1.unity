@@ -1085,7 +1085,7 @@ MonoBehaviour:
   isEnterTrigger: 1
   isStayTrigger: 1
   isExitTrigger: 0
-  activeTime: 0.5
+  activeTime: 0.05
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -1747,7 +1747,7 @@ MonoBehaviour:
   isEnterTrigger: 1
   isStayTrigger: 1
   isExitTrigger: 0
-  activeTime: 0.5
+  activeTime: 0.05
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -2807,10 +2807,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.59531254
+    y: 0.050925925
+    width: 0.16666667
+    height: 0.16666666
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -6367,9 +6367,89 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[159].second.m_TileSpriteIndex
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1952842356685447958, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2663830927474098239, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2663830927474098239, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871622641615087368, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3871622641615087368, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026532178383561011, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024684687924323663, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024684687924323663, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024684687924323663, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583389762671731732, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6583389762671731732, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7247667683537180757, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
       propertyPath: m_Name
       value: MinimapCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618406270706023988, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618406270706023988, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618406270706023988, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7814550107565781824, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897707547503016893, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145367176912007799, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145367176912007799, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145367176912007799, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145367176912007799, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

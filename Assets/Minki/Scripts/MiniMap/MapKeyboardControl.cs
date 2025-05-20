@@ -11,12 +11,27 @@ public class MapKeyboardControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (miniMapUIRect.gameObject.activeSelf)
+            {
+                miniMapUIRect.gameObject.SetActive(false);
+                miniMapOpenRect.gameObject.SetActive(true);
+            }
+            else
+            {
+                miniMapUIRect.gameObject.SetActive(true);
+                miniMapOpenRect.gameObject.SetActive(false);
+            }
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             miniMapUIRect.gameObject.SetActive(false);
             miniMapOpenRect.gameObject.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             miniMapUIRect.gameObject.SetActive(true);
             miniMapOpenRect.gameObject.SetActive(false);
