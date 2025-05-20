@@ -105,6 +105,7 @@ public class MapPinMatchChecker : MonoBehaviour
     void ApplyTileInfo()
     {
         //월드 좌표 계산을 위한 사전 정보 수집
+        tilemap.CompressBounds();
         BoundsInt bounds = tilemap.cellBounds;
         int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
         int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
@@ -166,6 +167,15 @@ public class MapPinMatchChecker : MonoBehaviour
     {
         if (!setter)
             return;
+        //tilemap.CompressBounds();
+        //var b = tilemap.cellBounds;
+
+        //Gizmos.DrawSphere(b.max, 0.5f);
+        //Gizmos.DrawSphere(b.min, 0.5f);
+
+        //Debug.Log(b.max);
+        //Debug.Log(b.min);
+
         foreach (var pin in setter.pins)
         {
             var rect = pin.GetComponent<RectTransform>();
