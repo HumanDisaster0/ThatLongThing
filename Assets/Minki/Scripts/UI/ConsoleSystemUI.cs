@@ -55,6 +55,12 @@ namespace SPTr.UI
                 var cmd = DevConsole.FindCommand(split[0]);
                 if (cmd != null)
                 {
+                    if (cmd.Description == null || cmd.Description.Length > 1)
+                    {
+                        Debug.Log($"<color={COLOR_ERROR}>명령어의 설명이 존재하지 않습니다.</color>");
+                        return;
+                    }
+
                     Debug.Log($"<color={COLOR_INFO}>{(cmd.Description[0] != '/' ? cmd.Description : cmd.Description[1..])}</color>");
                 }
                 else
