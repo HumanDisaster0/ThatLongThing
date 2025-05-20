@@ -83,6 +83,7 @@ public class SoundManager : MonoBehaviour
                 sources[0].Play();
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
                 audioSource = sources[0];
 
                 sources[0].gameObject.transform.SetParent(caller.transform);
@@ -96,6 +97,40 @@ public class SoundManager : MonoBehaviour
         }
         else
             Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+
+    public AudioSource PlayNewBackSound(string soundName)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있을경우 실행
+        {
+            if (sources.Count != 0)
+            {
+                sources[0].clip = _clip;
+                sources[0].gameObject.transform.position =
+                    new Vector3(cam.transform.position.x, cam.transform.position.y, sources[0].transform.position.z);
+                sources[0].loop = false;
+                sources[0].volume = 1f;
+                sources[0].Play();
+                sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                    StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = false;
+                audioSource = sources[0];
+
+                sources[0].gameObject.transform.SetParent(cam.transform);
+
+                activeSources.Add(sources[0]);
+                sources.Remove(sources[0]);
+
+            }
+            else
+                Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+        }
+        else
+            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -136,6 +171,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].Play();
                     sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
                     audioSource = sources[0];
                     sources[0].gameObject.transform.SetParent(caller.transform);
 
@@ -148,6 +184,53 @@ public class SoundManager : MonoBehaviour
         }
         else
             Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+    public AudioSource PlayBackSound(string soundName)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있을경우 실행
+        {
+            // 자식 오브젝트에서 모든 AudioSource 가져오기
+            AudioSource[] objSources = cam.GetComponentsInChildren<AudioSource>();
+            bool isExist = false;
+
+            foreach (AudioSource source in objSources)
+            {
+                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist)
+            {
+                if (sources.Count != 0)
+                {
+                    sources[0].clip = _clip;
+                    sources[0].gameObject.transform.position =
+                        new Vector3(cam.transform.position.x, cam.transform.position.y, sources[0].transform.position.z);
+                    sources[0].loop = false;
+                    sources[0].volume = 1f;
+                    sources[0].Play();
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                        StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = false;
+                    audioSource = sources[0];
+                    sources[0].gameObject.transform.SetParent(cam.transform);
+
+                    activeSources.Add(sources[0]);
+                    sources.Remove(sources[0]);
+                }
+                else
+                    Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+            }
+        }
+        else
+            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -193,6 +276,51 @@ public class SoundManager : MonoBehaviour
         }
         else
             Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+
+    public AudioSource PlayLoopBackSound(string soundName)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있는 경우 실행
+        {
+            // 자식 오브젝트에서 모든 AudioSource 가져오기
+            AudioSource[] objSources = cam.GetComponentsInChildren<AudioSource>();
+            bool isExist = false;
+
+            foreach (AudioSource source in objSources)
+            {
+                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist)
+            {
+                if (sources.Count != 0)
+                {
+                    sources[0].clip = _clip;
+                    sources[0].gameObject.transform.position =
+                        new Vector3(cam.transform.position.x, cam.transform.position.y, sources[0].transform.position.z);
+                    sources[0].loop = true;
+                    sources[0].volume = 1f;
+                    sources[0].Play();
+                    audioSource = sources[0];
+                    sources[0].gameObject.transform.SetParent(cam.transform);
+
+                    activeSources.Add(sources[0]);
+                    sources.Remove(sources[0]);
+                }
+                else
+                    Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+            }
+        }
+        else
+            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
