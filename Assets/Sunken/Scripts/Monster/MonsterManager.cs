@@ -43,6 +43,7 @@ public class MonsterManager : MonoBehaviour
         {
             var data = monsterDatas[i];
             data.startType = type;
+            data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
             monsterDatas[i] = data;
         }
     }
@@ -68,6 +69,7 @@ public class MonsterManager : MonoBehaviour
             {
                 var data = monsterDatas[i];
                 data.startType = type;
+                data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
                 monsterDatas[i] = data;
                 return;
             }

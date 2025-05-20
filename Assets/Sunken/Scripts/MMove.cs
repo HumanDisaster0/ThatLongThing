@@ -176,13 +176,23 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.move:
                     animCon.SetBool("isWalking", true);
-                    SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
+
+                    switch(MType)
+                    {
+                        case MonsterType.Mole:
+                            SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
+                            break;
+                        case MonsterType.Rabbit:
+                            SoundManager.instance?.PlayLoopSound("Rabbit_Footstep", this.gameObject);
+                            break;
+                    }
+
                     if (transform.position.x >= range.GetMinX() && transform.position.x <= range.GetMaxX())
                     {
                         int idx = 0;
                         do
                         {
-                            if(idx > 10)
+                            if (idx > 10)
                             {
                                 destX = (range.GetMinX() + range.GetMaxX()) / 2f;
                                 break;
@@ -206,7 +216,16 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.die:
                     animCon.SetBool("isDead", true);
-                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+
+                    switch (MType)
+                    {
+                        case MonsterType.Mole:
+                            SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                            break;
+                        case MonsterType.Rabbit:
+                            SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
+                            break;
+                    }
                     SoundManager.instance?.PlaySound("Mole_Die", this.gameObject);
                     rb.velocity = Vector2.zero;
                     rb.simulated = false;
@@ -284,7 +303,7 @@ public class MMove : MonoBehaviour
         ExeType();
     }
 
-    private void ExeType()
+    public void ExeType()
     {
         gameObject.SetActive(true);
 
