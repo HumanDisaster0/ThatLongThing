@@ -187,6 +187,7 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
+                    audioSource = source;
                     break;
                 }
             }
@@ -235,6 +236,7 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
+                    audioSource = source;
                     break;
                 }
             }
@@ -284,6 +286,7 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
+                    audioSource = source;
                     break;
                 }
             }
@@ -312,7 +315,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!!");
+            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!! : " + soundName);
 
         return audioSource;
     }
@@ -332,6 +335,7 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
+                    audioSource = source;
                     break;
                 }
             }
@@ -378,6 +382,7 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
+                    audioSource = source;
                     break;
                 }
             }
@@ -425,6 +430,7 @@ public class SoundManager : MonoBehaviour
                 if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
+                    audioSource = source;
                     break;
                 }
             }
