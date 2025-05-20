@@ -153,54 +153,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionCardPrefab: {fileID: 3194423735553105002, guid: bd27e18a699cddd409d878d9e5e5ca5e, type: 3}
   missionSprites:
-  - {fileID: 21300000, guid: e546238ce469eed4ea05df08a7acc0e3, type: 3}
-  - {fileID: 21300000, guid: b381d5d53d205454895092e08c684cc2, type: 3}
-  - {fileID: 21300000, guid: a0e5f59b1e2beab429039240d23f6a6e, type: 3}
-  - {fileID: 21300000, guid: ca06cee4f776c6344b60c5128ce48326, type: 3}
-  - {fileID: 21300000, guid: 05cafabb6c326fa41860e6c5e966d6eb, type: 3}
-  - {fileID: 21300000, guid: e3eb2d65a3fa0f747bd04350468ce822, type: 3}
-  - {fileID: 21300000, guid: f18efc956f703fc448f6be8027815b23, type: 3}
-  - {fileID: 21300000, guid: 5ab194f650fbb104e83a31014ef2b07d, type: 3}
-  - {fileID: 21300000, guid: b7213af3ebf35f448ab81bcd4b22fbe8, type: 3}
-  - {fileID: 21300000, guid: 062bf76dfff6c164d986dc83e78485c7, type: 3}
-  - {fileID: 21300000, guid: 8e95dd3139e2ae24a8a19b6f660d540d, type: 3}
-  - {fileID: 21300000, guid: 3d616c8660df5ea48a94f523dea8bf22, type: 3}
-  - {fileID: 21300000, guid: 705e3c778a0f0c845b600070835c1dc2, type: 3}
-  - {fileID: 21300000, guid: 43a741fcd7524ca489db6125207b88d3, type: 3}
-  - {fileID: 21300000, guid: 73d200e07e3c437428506f12160b2eef, type: 3}
+  - {fileID: 21300000, guid: a852273d5cdb249488d8ca08712f3e9f, type: 3}
+  - {fileID: 21300000, guid: c1e1fcc3c8539de4c81d6ce603fe588c, type: 3}
+  - {fileID: 21300000, guid: 4f129a5e55b2c5940a3861eebaab6fc9, type: 3}
+  - {fileID: 21300000, guid: 3a47b6b14ed403e41b3ca5b56cf7e959, type: 3}
+  - {fileID: 21300000, guid: 4350b17766839074bb59aa2d4012de72, type: 3}
+  - {fileID: 21300000, guid: b3dd7e75e209d694d90cd7bdfb7b1fc0, type: 3}
+  - {fileID: 21300000, guid: 1f1015b7070385745a3f2de5ba634c1d, type: 3}
+  - {fileID: 21300000, guid: 7b06a13e4e380694b96fad36420f6843, type: 3}
+  - {fileID: 21300000, guid: 5a51718134b06c84385cde54545fd569, type: 3}
+  - {fileID: 21300000, guid: b1b78750219547d41a611029a9ff631c, type: 3}
+  - {fileID: 21300000, guid: 84fa9a1976acb30409dd5db1e1c2f409, type: 3}
+  - {fileID: 21300000, guid: 39f00ff6f0f74b24bbb80f0db310c973, type: 3}
+  - {fileID: 21300000, guid: 6d30abf39257eea4b970573ebe07c2ff, type: 3}
+  - {fileID: 21300000, guid: 1c61c4f1f3c7e46469bc9995c54fe681, type: 3}
+  - {fileID: 21300000, guid: fe380f2f539624a4ca6ceda60d4b5db9, type: 3}
   missionSpritesHover:
-  - {fileID: 21300000, guid: 59ea37f5623e1f0459b9eff9ed24e2dd, type: 3}
-  - {fileID: 21300000, guid: fe567c864e3d1ab45b54c886939eb1f1, type: 3}
-  - {fileID: 21300000, guid: 13c06528068000a4a94a5ba085ae081f, type: 3}
-  - {fileID: 21300000, guid: e0e70d1ce63d99344b00371c901c6422, type: 3}
-  - {fileID: 21300000, guid: 51b45b0c4711f7d43af8681f0a78e6d4, type: 3}
-  - {fileID: 21300000, guid: d76a65b27b771684194be089de1c406c, type: 3}
-  - {fileID: 21300000, guid: c5b0b5ffca9067a47a85ae1fee9ec292, type: 3}
-  - {fileID: 21300000, guid: 6f42df6e343431144ad7ddebaf109044, type: 3}
-  - {fileID: 21300000, guid: 676ae9f0cad56d54998c773ca103c36b, type: 3}
-  - {fileID: 21300000, guid: 24743640ba4cd284dafa8f586c349b26, type: 3}
-  - {fileID: 21300000, guid: 7e9173d3b832efd45837cce602805f88, type: 3}
-  - {fileID: 21300000, guid: ee7087cd395ab3f44b5aa6c65c750049, type: 3}
-  - {fileID: 21300000, guid: 6b544afe94af6e2488dbb5fff4c20b7f, type: 3}
-  - {fileID: 21300000, guid: bafd16382563c714287d78405ee61acd, type: 3}
-  - {fileID: 21300000, guid: 5612c47f3120c2a468eeccbf9ba13f94, type: 3}
+  - {fileID: 21300000, guid: 8ebc9c4e1487e71489c4163641b1cc10, type: 3}
+  - {fileID: 21300000, guid: bdad620f194761f4f9e3a242f7d50fcd, type: 3}
+  - {fileID: 21300000, guid: 16fe1647cca2fc741996890cb3786fd3, type: 3}
+  - {fileID: 21300000, guid: 16e76dc37ad54bb408e585e3dae06e56, type: 3}
+  - {fileID: 21300000, guid: 4b57e7e105ae52047a89acb10ac0490f, type: 3}
+  - {fileID: 21300000, guid: 53d5d1e9ea99ee44886e930fc413c294, type: 3}
+  - {fileID: 21300000, guid: 7feb953c9880f944f8830fb8f8400878, type: 3}
+  - {fileID: 21300000, guid: eaab4cd73fed2b742a377e3940f17769, type: 3}
+  - {fileID: 21300000, guid: 3d8e54255920a1242b7d09f643943814, type: 3}
+  - {fileID: 21300000, guid: 965caf5db631ca143948ae2d7d3cf4c6, type: 3}
+  - {fileID: 21300000, guid: 480ef2a9ba59d0748bf77ea661d103cf, type: 3}
+  - {fileID: 21300000, guid: 87eb40a16ef04894ebc25634cc78825a, type: 3}
+  - {fileID: 21300000, guid: 6ac1a95b1a45ac44fbde3e7cd33d8c51, type: 3}
+  - {fileID: 21300000, guid: d3afc267f396da24cb074c80d6d6003a, type: 3}
+  - {fileID: 21300000, guid: 7213da038a875a04baf82dd58f35047c, type: 3}
   emptyMissionSprite: {fileID: 21300000, guid: ac3c3e8f53611b04fbadf4f8a0c20642, type: 3}
   missionDetailSprites:
-  - {fileID: 21300000, guid: 507318c4aef98f14191497972f520572, type: 3}
-  - {fileID: 21300000, guid: 495a54bf479f39f4ea7c520c2a799650, type: 3}
-  - {fileID: 21300000, guid: 74063026061c50f44a7e2a65491b8624, type: 3}
-  - {fileID: 21300000, guid: 8c83595490efc2b46a6dc4cbf6d15f82, type: 3}
-  - {fileID: 21300000, guid: c6fb8034797f989458ad44d0877a4ef8, type: 3}
-  - {fileID: 21300000, guid: 84f201bd730b5f4458105c1913eae2a7, type: 3}
-  - {fileID: 21300000, guid: 4fc66d06c37a9c74aa36e5adc43c3993, type: 3}
-  - {fileID: 21300000, guid: 752f8b16cfd188a4384c74d867e66bf4, type: 3}
-  - {fileID: 21300000, guid: ed2a19889fd4ac544bc79fc84898a851, type: 3}
-  - {fileID: 21300000, guid: c8f6c6f7710e76b43b14daf9324122c6, type: 3}
-  - {fileID: 21300000, guid: 2b0d1dfe5e595514292d7479d184b35c, type: 3}
-  - {fileID: 21300000, guid: be93228d6c2d3d2448d376e77f0cb3e2, type: 3}
-  - {fileID: 21300000, guid: 7d40be9533b70364095d43fe7e0ea860, type: 3}
-  - {fileID: 21300000, guid: acf144d31a70cf94499986d7427b22a7, type: 3}
-  - {fileID: 21300000, guid: d769a78bb2a50c0498033a8ccd108ea1, type: 3}
+  - {fileID: 21300000, guid: 48d668b0730d839418c7ab1eb5ea6106, type: 3}
+  - {fileID: 21300000, guid: 0f1d4547c1157a54f992b3f25d043480, type: 3}
+  - {fileID: 21300000, guid: b74af2c0d3fe87743a11fc8ed04f26ca, type: 3}
+  - {fileID: 21300000, guid: bfa5f9dd462230b4d91b24595c9ef171, type: 3}
+  - {fileID: 21300000, guid: 970eb3ae1e2bf0847b91d91799aad38a, type: 3}
+  - {fileID: 21300000, guid: 17e07717770b9f641965f6586e09f2eb, type: 3}
+  - {fileID: 21300000, guid: 757ce5c516811214c8680d0776286669, type: 3}
+  - {fileID: 21300000, guid: 4251c98c75f4f9f438c7e9f53895ee0f, type: 3}
+  - {fileID: 21300000, guid: a92798ce0d5559d438ee0fef147d5def, type: 3}
+  - {fileID: 21300000, guid: 19644e13e7022934fb001ea1cdf2c0fd, type: 3}
+  - {fileID: 21300000, guid: 3bd994a04c2e3c445920eac3bf621450, type: 3}
+  - {fileID: 21300000, guid: 155802b10bf306947af7501af356cfc4, type: 3}
+  - {fileID: 21300000, guid: 4f545f9784f92fb4e9eb07d4b042021b, type: 3}
+  - {fileID: 21300000, guid: f7ae44fb352164b44a481cd42199d2db, type: 3}
+  - {fileID: 21300000, guid: af3eed859214b374fbb4fd9bbd7d44b9, type: 3}
   missionDetailPrefab: {fileID: 2345454996512592591, guid: c945f3b21b7a9ba44b3c95b5dd67353e, type: 3}
   mIdx: 0
 --- !u!4 &62534050

@@ -8,6 +8,14 @@ public class GoldManager : MonoBehaviour
 
     public int gold = 0;
 
+    public int rewardGold = 0;
+
+    public int findTrapCount = 0;
+    public int deadCount = 0;
+    public int ejectionCount = 0;
+
+
+
     private void Awake()
     {
         // ½Ì±ÛÅæ À¯Áö
@@ -21,10 +29,12 @@ public class GoldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // ¾À ÀüÈ¯ ½Ã ÆÄ±« ¹æÁö
     }
 
-    public void PlusGold(int amount)
+    public void getRewardGold(int amount)
     {
         gold += amount;
         Debug.Log($"Gold Áõ°¡: {gold}");
+
+        rewardGold = 0;
     }
 
     public void MinusGold(int amount)

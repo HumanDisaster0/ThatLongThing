@@ -112,13 +112,9 @@ public class PostedMissionPanel : MonoBehaviour
             return;
         }
         else
-        {
-            int tNum = ResolveCodeToIndex(code);
-            if (tNum < 0 || tNum >= missionSprites.Length)
-                return;
-
-            sprite = missionSprites[tNum];
-            hSprite = missionSpritesHover[tNum];
+        {            
+            sprite = missionSprites[index];
+            hSprite = missionSpritesHover[index];
         }
 
         clickable.SetSprites(sprite, hSprite);
@@ -130,7 +126,7 @@ public class PostedMissionPanel : MonoBehaviour
     private int ResolveCodeToIndex(int code)
     {
         int stage = code / 100;
-        int anomaly = code % 10;
+        int anomaly = code % 100;
 
         if (stage == 1)
             return anomaly;
@@ -157,7 +153,7 @@ public class PostedMissionPanel : MonoBehaviour
         }
 
         int code = currentMissionCodes[index];
-        int spriteIndex = ResolveCodeToIndex(code);
+        int spriteIndex = index;
 
         mIdx = code;
 
@@ -181,13 +177,11 @@ public class PostedMissionPanel : MonoBehaviour
 
             popupComp.acceptButton.SetClickAction(() =>
             {
-                print("しし");
                 PostedMissionPanel.Instance.PopupBtnAccept();
             });
 
             popupComp.rejectButton.SetClickAction(() =>
             {
-                print("ししし!");
                 PostedMissionPanel.Instance.PopupBtnReject();
             });
         }
