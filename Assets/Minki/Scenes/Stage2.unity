@@ -9788,7 +9788,7 @@ MonoBehaviour:
   zoom: {fileID: 1099307343519041320}
   pinPrefab: {fileID: 8382961276296335010, guid: 6628d48fca2e8c34a988bf69bfa85249, type: 3}
   pinCountText: {fileID: 3836727553386841812}
-  UseTilemapScale: 0
+  UseTilemapScale: 1
   maxPinCount: 0
 --- !u!224 &1514675912959986226
 RectTransform:
