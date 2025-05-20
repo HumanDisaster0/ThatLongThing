@@ -13,6 +13,7 @@ public class GoldManager : MonoBehaviour
     public int findTrapCount = 0;
     public int deadCount = 0;
     public int ejectionCount = 0;
+    public int rdc = 0;
 
     public int Tax = 0;
 
@@ -32,8 +33,8 @@ public class GoldManager : MonoBehaviour
     }
 
     public int calRewardGold()
-    {
-        return findTrapCount * 100 - deadCount * 20 - ejectionCount * 200;
+    {        
+        return findTrapCount * 5 - rdc * 3 - ejectionCount * 10;
     }
 
     public void getRewardGold(int amount)
@@ -58,6 +59,7 @@ public class GoldManager : MonoBehaviour
     {
         GoldManager.Instance.findTrapCount = ftc;
         GoldManager.Instance.deadCount = dc;
+        GoldManager.Instance.rdc = dc > 5 ? 5 : dc;
         GoldManager.Instance.ejectionCount = ec;
         GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
 
@@ -69,6 +71,7 @@ public class GoldManager : MonoBehaviour
         GoldManager.Instance.findTrapCount = 0;
         GoldManager.Instance.deadCount = 0;
         GoldManager.Instance.ejectionCount = 0;
+        GoldManager.Instance.rdc = 0;
         GoldManager.Instance.rewardGold = 0;
     }
 }
