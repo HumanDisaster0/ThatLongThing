@@ -15,6 +15,8 @@ public class SettlementPanelScript : MonoBehaviour
 
     private CustomClickable closeButton;
 
+    public GameObject taxBg;
+
     void Awake()
     {
         if (!gameObject.activeSelf)
@@ -55,6 +57,7 @@ public class SettlementPanelScript : MonoBehaviour
             text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
             text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount *10})";
             text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
+            textTax.text = GoldManager.Instance.Tax.ToString();
 
             //text1.text = GoldManager.Instance.findTrapCount.ToString();
             //text2.text = GoldManager.Instance.deadCount.ToString();
@@ -73,6 +76,17 @@ public class SettlementPanelScript : MonoBehaviour
 
     void OnEnable()
     {
+        if(GuildRoomManager.Instance.day == 3)
+        {
+            taxBg.gameObject.SetActive(true);
+            textTax.gameObject.SetActive(true);
+        }
+        else
+        {
+            taxBg.gameObject.SetActive(false);
+            textTax.gameObject.SetActive(false);
+        }
+
         if (SceneManager.GetActiveScene().name == "GuildMain")
         {
             if (GoldManager.Instance != null)
@@ -81,6 +95,7 @@ public class SettlementPanelScript : MonoBehaviour
                 text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
                 text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
                 text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
+                textTax.text = GoldManager.Instance.Tax.ToString();
             }
         }
     }

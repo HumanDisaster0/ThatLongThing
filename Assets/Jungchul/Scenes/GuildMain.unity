@@ -3657,6 +3657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panel: {fileID: 1191876219}
+  taxBg: {fileID: 379266706}
 --- !u!1 &1194666558
 GameObject:
   m_ObjectHideFlags: 0
@@ -5311,6 +5312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7d001e93d38184e87246f44f786d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GoldText: {fileID: 0}
+  DayText: {fileID: 0}
+  TaxText: {fileID: 0}
 --- !u!4 &1722520704
 Transform:
   m_ObjectHideFlags: 0

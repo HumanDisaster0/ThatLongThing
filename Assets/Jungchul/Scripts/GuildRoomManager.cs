@@ -26,7 +26,11 @@ public class GuildRoomManager : MonoBehaviour
 
     public int day = 1;
 
+    public int week = 1;
+
     public bool tempChecker = true;
+
+    private bool trollCheck = false;
 
 
     public enum viewState
@@ -85,6 +89,9 @@ public class GuildRoomManager : MonoBehaviour
 
         isFirstTime = true;
         isReturned = false;
+
+        trollCheck = false;
+
         curVstate = viewState.IDLE;
 
 
@@ -282,7 +289,7 @@ public class GuildRoomManager : MonoBehaviour
                     guildCounterPanel.gameObject.SetActive(true);
 
                 }
-                if (!isGetRewardYet && isReportYet)
+                if (!isGetRewardYet && isReportYet && !trollCheck)
                 {
                     
                     checkResult.gameObject.SetActive(true);
@@ -298,9 +305,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 if (!isReportYet)
                 {
-                    textDrawer.TextRefresh();
                     selectedMission = 0;
-                    //SetRoomState(viewState.IDLE);
                 }
 
                 if (Input.GetMouseButtonDown(0) && gcp.isEnd)
@@ -308,7 +313,17 @@ public class GuildRoomManager : MonoBehaviour
                     Debug.Log($"isEnd! {gcp.isEnd}");
 
                     checkResult.gameObject.SetActive(false);
+
+                    day++;
+                    if (day == 4)
+                    {
+                        day = 1;
+                        week++;
+                    }
+
                     textDrawer.TextRefresh();
+
+                    gcp.isEnd = false;
 
                 }
                 break;
@@ -399,18 +414,6 @@ public class GuildRoomManager : MonoBehaviour
             }
 
             DoorOutOff();
-
-            day++;
-            if(day == 4)
-            {
-                day = 1;
-            }
-
-            textDrawer.TextRefresh();
-
-
-
-
 
             return;
         }
