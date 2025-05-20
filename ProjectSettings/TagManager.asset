@@ -13,6 +13,7 @@ TagManager:
   - Portal
   - Zone
   - GreenZone
+  - NPC
   layers:
   - Default
   - TransparentFX

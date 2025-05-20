@@ -18,6 +18,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject panel;
     public TextMeshProUGUI dialogueText;
     public RectTransform bubbleBackground;
+    
+    public void SetInputEnabled(bool enabled) => allowInput = enabled;
+    private bool allowInput = true;
 
     private List<string> currentLines;
     private int currentIndex;
@@ -106,7 +109,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (!isPlaying) return;
+        if (!isPlaying || !allowInput) return;
 
         // 타이핑 도중 스킵 처리
         if (!waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))

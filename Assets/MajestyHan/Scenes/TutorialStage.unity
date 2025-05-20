@@ -8367,8 +8367,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Senpai
       objectReference: {fileID: 0}
+    - target: {fileID: 3615332362970746100, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
+      propertyPath: m_TagString
+      value: NPC
+      objectReference: {fileID: 0}
     - target: {fileID: 3850543632918335665, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
       propertyPath: BGSpriteColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6178583404621266118, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6699201644004827106, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
@@ -8415,9 +8423,17 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7324838521926188376, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7929779861695394332, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
       propertyPath: m_Size.x
-      value: 1
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8991510924745489340, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

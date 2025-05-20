@@ -8,7 +8,7 @@ public class PlayerGreenZone : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") || collision.CompareTag("NPC"))
         {
             var spawn = collision.GetComponent<PlayerSpawnManager>();
             if (spawn != null)
