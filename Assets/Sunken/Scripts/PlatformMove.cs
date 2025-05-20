@@ -87,7 +87,7 @@ public class PlatformMove : MonoBehaviour
 
     private bool CloseEnough(Transform target)
     {
-        if (Vector2.Distance(transform.position, target.position) < 0.1f)
+        if (Vector2.Distance(transform.position, target.position) < 0.01f)
         {
             transform.position = target.position;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;

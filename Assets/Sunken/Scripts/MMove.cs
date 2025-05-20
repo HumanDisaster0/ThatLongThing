@@ -78,7 +78,7 @@ public class MMove : MonoBehaviour
         initPos = transform.position;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(mBehavior == MBehavior.Move)
         {
