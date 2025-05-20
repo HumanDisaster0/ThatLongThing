@@ -23,8 +23,8 @@ public class MonsterStep : MonoBehaviour
             //collision.GetComponent<PlayerController>().AddForceToRB(new Vector2(0, collision.GetComponent<Rigidbody2D>().velocity.y * -1.0f));
             pc.SetVelocity(new Vector2(collision.GetComponent<Rigidbody2D>().velocity.x, 0f));
             pc.AddForceToRB(Vector2.up * boundForce);
-            GetComponent<BoxCollider2D>().enabled = false;
             move.SetStatus(MStatus.die);
+            GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 }
