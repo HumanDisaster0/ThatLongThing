@@ -43,10 +43,9 @@ public class MonsterManager : MonoBehaviour
         {
             var data = monsterDatas[i];
             data.startType = type;
+            data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
             monsterDatas[i] = data;
         }
-
-        InitMonster();
     }
 
     public void SetSpawnType(MSpawnType type)
@@ -70,12 +69,11 @@ public class MonsterManager : MonoBehaviour
             {
                 var data = monsterDatas[i];
                 data.startType = type;
+                data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
                 monsterDatas[i] = data;
                 return;
             }
         }
-
-        InitMonster();
     }
 
     public void InitMonster()
