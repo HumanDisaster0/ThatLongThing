@@ -14,6 +14,8 @@ public class GuildRoomManager : MonoBehaviour
 
     private bool isFirstTime = true;
     private bool isReturned = false;
+    public bool isGetRewardYet = true;
+    public bool isReportYet = true;
     private bool isMissionSelected = false;
 
     public int selectedMission = 0;
@@ -228,7 +230,7 @@ public class GuildRoomManager : MonoBehaviour
                     GoldManager.Instance.ClearReward();
                 }
                 avatar.isMovable = true;
-
+                
                 break;
 
             case viewState.COUNTER:
@@ -238,11 +240,12 @@ public class GuildRoomManager : MonoBehaviour
                 if (!guildCounterPanel.gameObject.activeSelf)
                 {
                     guildCounterPanel.gameObject.SetActive(true);
-                    if (isReturned)
+                    if (!isGetRewardYet)
                     {
                         gCounter = guildCounterPanel.GetComponent<GuildCounter>();
 
                         gCounter.StartQuiz();
+                        isReportYet = false;
                     }
 
                 }
@@ -327,6 +330,8 @@ public class GuildRoomManager : MonoBehaviour
 
             settlementPanel.gameObject.SetActive(true);
 
+            isReturned = false;
+
             foreach (var obj in guildObjects)
             {
                 obj.isInteractable = true;
@@ -344,6 +349,8 @@ public class GuildRoomManager : MonoBehaviour
     {
         print("내가돌아왔다!");
         isReturned = true;
+        isReportYet = true;
+        isGetRewardYet = true;
 
     }
 

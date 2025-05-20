@@ -62,6 +62,7 @@ public class SettlementPanelScript : MonoBehaviour
     private void OnCloseButtonClicked()
     {
         gameObject.SetActive(false); // 현재 SettlementPanel 비활성화
+        GuildRoomManager.Instance.isGetRewardYet = false;
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
 
     }
