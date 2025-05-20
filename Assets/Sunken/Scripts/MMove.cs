@@ -224,7 +224,7 @@ public class MMove : MonoBehaviour
                     FlipSprite(dir > 0f ? true : false);
                     break;
                 case MStatus.die:
-                    animCon.SetBool("isDead", true);
+                    animCon.SetTrigger("isDead");
 
                     switch (MType)
                     {
@@ -367,8 +367,8 @@ public class MMove : MonoBehaviour
         gameObject.transform.position = pos;
         rb.simulated = true;
         GetComponent<CapsuleCollider2D>().enabled = true;
-        animCon.SetBool("isDead", false);
-
+        animCon.ResetTrigger("isDead");
+        animCon.Play("Idle");
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf)
