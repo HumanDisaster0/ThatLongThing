@@ -316,6 +316,11 @@ public class PlayerController : MonoBehaviour
                     m_rb.position += rotVel * Time.deltaTime;
                 }
             }
+
+            if(hitInfo.transform.TryGetComponent(out TrapTrigger traptrigger))
+            {
+                traptrigger.ForceActiveTrigger(gameObject);
+            }
         }
 
         if (m_groundRB != null 
