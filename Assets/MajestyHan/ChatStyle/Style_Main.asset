@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Style_Main
+  m_EditorClassIdentifier: Assembly-CSharp::ChatBubbleStyle
+  cornerTopLeft:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  cornerTopRight:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  cornerBottomLeft:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  cornerBottomRight:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  edgeTop:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  edgeBottom:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  edgeLeft:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  edgeRight:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  centerTile:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  decorationTileA:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
+  decorationTileB:
+    prefab: {fileID: 0}
+    localScale: {x: 1, y: 1, z: 1}
