@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,9 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager Instance { get; private set; }
+
+    [Header("UI Reference")]
     public GameObject panel;
     public TextMeshProUGUI dialogueText;
     public RectTransform bubbleBackground;
@@ -14,16 +18,31 @@ public class DialogueManager : MonoBehaviour
     private bool isPlaying = false;
     private bool waitingForInput = false;
     private Coroutine typingCoroutine;
+    private Action onComplete; // 범용 콜백
+
+    public bool IsPlaying => isPlaying;
 
     private void Awake()
     {
+        // 싱글톤 설정
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        //DontDestroyOnLoad(gameObject); // 선택적 적용
+
         panel.SetActive(false);
     }
 
-    public IEnumerator ShowSequence(List<string> lines)
+    // 튜토리얼/일반 대사 모두 대응
+    public IEnumerator ShowSequence(List<string> lines, Action onCompleteCallback = null)
     {
         panel.SetActive(true);
         isPlaying = true;
+        onComplete = onCompleteCallback;
+
         currentLines = lines;
         currentIndex = 0;
         ShowCurrentLine();
@@ -32,6 +51,7 @@ public class DialogueManager : MonoBehaviour
             yield return null;
 
         panel.SetActive(false);
+        onComplete?.Invoke();
     }
 
     private void ShowCurrentLine()
@@ -66,7 +86,6 @@ public class DialogueManager : MonoBehaviour
 
     public void NextDialogue()
     {
-        // 타이핑 중이라면 전체 문장 즉시 출력
         if (typingCoroutine != null && !waitingForInput)
         {
             StopCoroutine(typingCoroutine);
@@ -76,7 +95,6 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        // 아직 대기 중이 아니라면 무시
         if (!waitingForInput) return;
 
         waitingForInput = false;
