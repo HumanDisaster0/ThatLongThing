@@ -12,6 +12,8 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     public GameObject pinPrefab;
     public Text pinCountText;
 
+    public bool UseTilemapScale = false;
+
     public IEnumerable<Transform> pins => m_pins.Values;
     public int maxPinCount = 5;
 
@@ -32,8 +34,11 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
             var pinGO = Instantiate(pinPrefab);
             pinGO.transform.SetParent(mapContent, false);
             var pinRect = pinGO.GetComponent<RectTransform>();
-            pinRect.sizeDelta = new Vector2(MinimapTileInfo.tileSize,MinimapTileInfo.tileSize);
-            pinRect.anchoredPosition = localPoint + new Vector2(-pinRect.sizeDelta.x * 0.5f * (1/zoom.GetScale), pinRect.sizeDelta.y * 0.5f * (1 / zoom.GetScale));
+            if(UseTilemapScale)
+            {
+                pinRect.sizeDelta = new Vector2(MinimapTileInfo.tileSize, MinimapTileInfo.tileSize);
+            }
+            pinRect.anchoredPosition = localPoint + new Vector2(-pinRect.sizeDelta.x * 0.5f * (1/zoom.GetScale) + 5.0f, pinRect.sizeDelta.y * 0.5f * (1 / zoom.GetScale) - 2.5f);
            
             pinGO.GetComponent<MapPin>().pinSetter = this;
             m_pins[pinGO.GetHashCode()] = pinGO.transform;

@@ -5,10 +5,8 @@ using UnityEngine;
 
 public class DefaultSourceData : MonoBehaviour
 {
-    [Range(0f, 1f)]
-    public float volume = 1f;
-
     public Coroutine myCoroutine;
+    public float maxDistance = 10f;
     
     public bool isVolCon = true;
     public bool isVisible = true;

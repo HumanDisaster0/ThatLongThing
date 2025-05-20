@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         m_rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         ApplyScale();
 
-        minimap = GameObject.FindWithTag("Minimap")?.transform?.Find("Panel")?.Find("Minimap")?.GetComponent<RectTransform>();
+        minimap = GameObject.FindWithTag("Minimap")?.transform?.Find("Panel")?.Find("MapRect")?.GetComponent<RectTransform>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -466,7 +466,7 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.Play(m_hash_idleAnim);
                 return;
             case PlayerState.Walk:
-                SoundManager.instance.PlayLoopSound("Stone_Step", gameObject);
+                SoundManager.instance?.PlayLoopSound("Stone_Step", gameObject);
                 playerAnimator.Play(m_hash_walkAnim);
                 return;
             case PlayerState.Jump:
@@ -477,7 +477,7 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.Play(m_hash_jumpAnim);
                 return;
             case PlayerState.Die:
-                SoundManager.instance.PlaySound("Die1", gameObject);
+                SoundManager.instance.PlayBackSound("Die1");
                 playerAnimator.Play(m_hash_dieAnim);
                 return;
         }

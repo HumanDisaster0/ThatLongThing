@@ -129,6 +129,8 @@ public class DestroyerForPlayer : MonoBehaviour
     // 파괴된 타일 연출용 프리팹을 소환해 튕겨냄
     void SpawnFlyingTile(Tilemap tilemap, Vector3Int cellPos)
     {
+        SoundManager.instance.PlayNewSound("Tile_Break", gameObject);
+
         Vector3 worldPos = tilemap.GetCellCenterWorld(cellPos);
         GameObject flyingTile = Instantiate(flyingTilePrefab, worldPos, Quaternion.identity);
 
@@ -182,6 +184,8 @@ public class DestroyerForPlayer : MonoBehaviour
     // 적을 튕겨내는 연출 (타일처럼)
     public void SpawnFlyingEnemy(Vector3 position, Sprite originalSprite)
     {
+        SoundManager.instance.PlayNewSound("Mole_Die2", gameObject);
+
         GameObject flyingObj = Instantiate(flyingTilePrefab, position, Quaternion.identity);
 
         var sr = flyingObj.GetComponent<SpriteRenderer>();
@@ -215,7 +219,7 @@ public class DestroyerForPlayer : MonoBehaviour
 
         destroyedTileMapData.Clear(); // 복구 기록 초기화
     }
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1f, 0.3f, 0.3f, 0.5f); // 반투명 빨강
@@ -223,4 +227,5 @@ public class DestroyerForPlayer : MonoBehaviour
         // 플레이어의 현재 위치 기준으로 감지 범위 표시
         Gizmos.DrawCube(transform.position, detectionHalfExtend * 2f);
     }
+#endif
 }

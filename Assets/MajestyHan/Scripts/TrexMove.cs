@@ -205,6 +205,7 @@ public class TrexMove : MonoBehaviour
                 Debug.Log("카메라 없음");
             }
 
+            SoundManager.instance?.PlayNewBackSound("Trex_Land");
             ChangeState(prevState);
         }
     }

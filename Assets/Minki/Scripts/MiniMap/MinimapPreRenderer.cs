@@ -22,7 +22,7 @@ public static class MinimapTileInfo
             }
         }
     }
-    public const int DEFAULT_SIZE = 50;
+    public const int DEFAULT_SIZE = 36;
 
     static int m_tileSize = DEFAULT_SIZE;
 
@@ -49,7 +49,7 @@ public class MinimapPreRenderer : MonoBehaviour
 
         if (texHeight > 863)
         {
-            MinimapTileInfo.tileSize = 34; 
+            MinimapTileInfo.tileSize = 25; 
             texWidth = bounds.size.x * MinimapTileInfo.tileSize;
             texHeight = bounds.size.y * MinimapTileInfo.tileSize;
         }

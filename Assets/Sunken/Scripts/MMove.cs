@@ -105,7 +105,7 @@ public class MMove : MonoBehaviour
         switch(currStatus)
         {
             case MStatus.idle:
-                timer += Time.fixedDeltaTime;
+                timer += Time.deltaTime;
                 rb.velocity =  new Vector2(Mathf.Lerp(rb.velocity.x,0f, moveSharpness * Time.deltaTime), rb.velocity.y);
                 if (timer > idleTime)
                 {
@@ -137,7 +137,7 @@ public class MMove : MonoBehaviour
                     
                 break;
             case MStatus.die:
-                timer += Time.fixedDeltaTime;
+                timer += Time.deltaTime;
                 //if (timer > 3.0f)
                 //{
                 //    timer = 0f;
@@ -169,7 +169,16 @@ public class MMove : MonoBehaviour
             switch (currStatus)
             {
                 case MStatus.idle:
-                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                    switch (MType)
+                    {
+                        case MonsterType.Mole:
+                            SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                            break;
+                        case MonsterType.Rabbit:
+                            SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
+                            break;
+                    }
+
                     animCon.SetBool("isWalking", false);
                     animCon.SetBool("isAttack", false);
                     idleTime = UnityEngine.Random.Range(maxidleDuration / 2f, maxidleDuration);
@@ -215,7 +224,7 @@ public class MMove : MonoBehaviour
                     FlipSprite(dir > 0f ? true : false);
                     break;
                 case MStatus.die:
-                    animCon.SetBool("isDead", true);
+                    animCon.SetTrigger("isDead");
 
                     switch (MType)
                     {
@@ -358,8 +367,8 @@ public class MMove : MonoBehaviour
         gameObject.transform.position = pos;
         rb.simulated = true;
         GetComponent<CapsuleCollider2D>().enabled = true;
-        animCon.SetBool("isDead", false);
-
+        animCon.ResetTrigger("isDead");
+        animCon.Play("Idle");
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf)
