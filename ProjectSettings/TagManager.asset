@@ -12,6 +12,7 @@ TagManager:
   - Minimap
   - Portal
   - Zone
+  - GreenZone
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,7 @@ public class PlayerSpawnManager : MonoBehaviour
 
     Transform m_spawnPoint = null;
     Transform m_player;
+    public Transform spawnPoint => m_spawnPoint;
 
     private void Awake()
     {
