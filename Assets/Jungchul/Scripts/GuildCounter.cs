@@ -5,60 +5,86 @@ using TMPro;
 public class GuildCounter : MonoBehaviour
 {
     [Header("UI 오브젝트")]
-    public TextMeshPro whatDidYouText;        // ment > whatdidyou
-    public CustomClickable[] choices;         // choice1 ~ choice3
-    public TextMeshPro[] choiceTexts;         // choice1~3 하위 text_c_1~3
-    public GameObject answerBox;              // answer 오브젝트
-    public TextMeshPro answerText;            // answer > ansText
+    public TextMeshPro whatDidYouText;
+    public CustomClickable[] choices;
+    public TextMeshPro[] choiceTexts;
+    public GameObject answerBox;
+    public TextMeshPro answerText;
+
+    [Header("중간 결과 발표용")]
+    public GameObject resultPanel;            // 중간 결과 발표용 패널 (비활성 상태로 시작)
+    public TextMeshPro resultText;            // 결과 요약 텍스트
+    public Sprite resultImage;  // 이미지 등 효과
 
     private List<QuestionData> questions;
     private int currentQuestionIndex = 0;
     private bool isAnswerRevealed = false;
+    private int totalSolvedCount = 0;         // 전체 푼 문제 수
 
-    public List<QuestionResult> quizResults = new List<QuestionResult>(); // 외부 접근용 결과
+    private int qIdx = 0;                     // GuildRoomManager.selectedMission / 1000
+    private GuildRoomManager guildRoomManager;
 
-    void Start()
+    public List<QuestionResult> quizResults = new List<QuestionResult>();
+
+    void Awake()
     {
-        InitUI();
-        questions = CSVLoader.LoadQuestions();
-        ShowQuestion(currentQuestionIndex);
-        SetupClickEvents();
+        guildRoomManager = FindObjectOfType<GuildRoomManager>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (isAnswerRevealed && Input.GetMouseButtonDown(0))
+        // 문제번호 계산
+        int missionCode = guildRoomManager.selectedMission;
+        qIdx = missionCode / 1000;
+
+        // 중간결과 확인
+        if ((totalSolvedCount + 1) % 3 == 0)
         {
-            ShowNpcReply();
-            isAnswerRevealed = false;
+            ShowMidResult();
+            return;
         }
+
+        StartQuiz();
+    }
+
+    public void StartQuiz()
+    {
+        InitUI();
+
+        if (questions == null)
+            questions = CSVLoader.LoadQuestions();
+
+        currentQuestionIndex = qIdx;
+        ShowQuestion(currentQuestionIndex);
+        SetupClickEvents();
     }
 
     void InitUI()
     {
         whatDidYouText.text = "테스트 문제";
         answerBox.SetActive(false);
+        resultPanel.SetActive(false);
+
+        foreach (var c in choices)
+            c.gameObject.SetActive(true);
     }
 
     void SetupClickEvents()
     {
         for (int i = 0; i < choices.Length; i++)
         {
-            int index = i; // 클로저 방지
+            int index = i;
             choices[i].SetClickAction(() => OnChoiceSelected(index));
         }
     }
 
     void ShowQuestion(int index)
     {
-        if (index >= questions.Count) return;
-
-        QuestionData q = questions[index];
+        var q = questions[index];
 
         for (int i = 0; i < 3; i++)
         {
             choiceTexts[i].text = q.choices[i];
-            choices[i].gameObject.SetActive(true);
         }
 
         answerBox.SetActive(false);
@@ -66,31 +92,50 @@ public class GuildCounter : MonoBehaviour
 
     void OnChoiceSelected(int choiceIndex)
     {
-        QuestionData q = questions[currentQuestionIndex];
+        var q = questions[currentQuestionIndex];
 
-        // 결과 저장
         quizResults.Add(new QuestionResult
         {
             questionIndex = currentQuestionIndex,
-            isCorrect = (choiceIndex == q.correctIndex)
+            isCorrect = choiceIndex == q.correctIndex
         });
 
-        // 선택지 비활성화
         foreach (var btn in choices)
             btn.gameObject.SetActive(false);
 
         answerText.text = q.characterComment[choiceIndex];
         answerBox.SetActive(true);
         isAnswerRevealed = true;
+        totalSolvedCount++;
+
+        // 문제 번호 초기화
+        guildRoomManager.selectedMission = 0;
     }
 
-    void ShowNpcReply()
+    void Update()
     {
-        QuestionData q = questions[currentQuestionIndex];
-        whatDidYouText.text = q.npcReplies[q.correctIndex]; // 정답 기준 출력
+        if (isAnswerRevealed && Input.GetMouseButtonDown(0))
+        {
+            whatDidYouText.text = questions[currentQuestionIndex].npcReplies[questions[currentQuestionIndex].correctIndex];
+            isAnswerRevealed = false;
+        }
+    }
 
-        // 다음 문제로 넘어가고 싶다면 여기서 index 증가
-        // currentQuestionIndex++;
-        // ShowQuestion(currentQuestionIndex);
+    void ShowMidResult()
+    {
+        resultPanel.SetActive(true);
+
+        int last3Start = Mathf.Max(quizResults.Count - 3, 0);
+        int correctCount = 0;
+        for (int i = last3Start; i < quizResults.Count; i++)
+        {
+            if (quizResults[i].isCorrect)
+                correctCount++;
+        }
+
+        resultText.text = $"최근 3문제 중 {correctCount}개 정답!";
+        // resultImage.sprite = ...; // 이미지 변경도 가능
+
+        // 퀴즈 시작은 외부에서 resultPanel 종료 이후 StartQuiz() 수동 호출
     }
 }

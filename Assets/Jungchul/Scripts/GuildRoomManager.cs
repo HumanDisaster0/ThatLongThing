@@ -57,6 +57,8 @@ public class GuildRoomManager : MonoBehaviour
     public GameObject missionBoardPanel;
     public GameObject albumPanel;
 
+    public GuildCounter gCounter;
+
 
     private void Awake()
     {
@@ -236,6 +238,13 @@ public class GuildRoomManager : MonoBehaviour
                 if (!guildCounterPanel.gameObject.activeSelf)
                 {
                     guildCounterPanel.gameObject.SetActive(true);
+                    if (isReturned)
+                    {
+                        gCounter = guildCounterPanel.GetComponent<GuildCounter>();
+
+                        gCounter.StartQuiz();
+                    }
+
                 }
 
                 break;
@@ -314,11 +323,9 @@ public class GuildRoomManager : MonoBehaviour
 
         if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
         {
-            curVstate = viewState.SETTLEMENT;
+            curVstate = viewState.COUNTER;
 
             settlementPanel.gameObject.SetActive(true);
-
-            isReturned = false;
 
             foreach (var obj in guildObjects)
             {
