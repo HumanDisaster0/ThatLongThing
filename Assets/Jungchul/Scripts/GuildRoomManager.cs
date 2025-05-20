@@ -18,10 +18,13 @@ public class GuildRoomManager : MonoBehaviour
 
     public int selectedMission = 0;
 
+    public int day = 1;
+
 
     public enum viewState
     {
         IDLE,
+        COUNTER,
         SETTLEMENT,
         MARKET,
         MISSIONBOARD,
@@ -47,6 +50,7 @@ public class GuildRoomManager : MonoBehaviour
     public float worldLeftLimit = -7.6f;
     public float worldRightLimit = 7.6f;
 
+    public GameObject guildCounterPanel;
     public GameObject settlementPanel;
     public GameObject missionBoardPanel;
     public GameObject albumPanel;
@@ -102,13 +106,15 @@ public class GuildRoomManager : MonoBehaviour
         guildObjects[3] = DoorOut;
 
 
-        settlementPanel = GameObject.Find("SettlementPanel");
+        guildCounterPanel = GameObject.Find("GuildCounter");
         missionBoardPanel = GameObject.Find("MissionBoardPanel");
         albumPanel = GameObject.Find("MissionBoardPanel");
+        settlementPanel = GameObject.Find("SettlementPanel");
 
-        if (settlementPanel != null) settlementPanel.SetActive(false);
+        if (guildCounterPanel != null) guildCounterPanel.SetActive(false);
         if (missionBoardPanel != null) missionBoardPanel.SetActive(false);
         if (albumPanel != null) albumPanel.SetActive(false);
+        if (settlementPanel != null) settlementPanel.SetActive(false);
 
         avatar = FindObjectOfType<AvatarController>();
 
@@ -222,15 +228,19 @@ public class GuildRoomManager : MonoBehaviour
 
                 break;
 
-            case viewState.SETTLEMENT:
+            case viewState.COUNTER:
 
                 avatar.isMovable = false;
 
-                if (!settlementPanel.gameObject.activeSelf)
+                if (!guildCounterPanel.gameObject.activeSelf)
                 {
-                    settlementPanel.gameObject.SetActive(true);
+                    guildCounterPanel.gameObject.SetActive(true);
                 }
 
+                break;
+
+
+            case viewState.SETTLEMENT:
                 break;
 
             case viewState.MISSIONBOARD:
@@ -262,18 +272,17 @@ public class GuildRoomManager : MonoBehaviour
 
                 this.enabled = false;
 
-                LoadStage(selectedMission);
-                //if (selectedMission == 1)
-                //{
-                //    SceneManager.LoadScene("DummyMission");
-                //    return;
-                //}
+                //LoadStage(selectedMission);
+               
+                    
 
-                //else
-                //{
+                int stg = selectedMission / 100;
+                int ano = selectedMission % 100;
+                Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
 
-                //    SceneManager.LoadScene("DummyMission");
-                //}
+                //StageManager.instance.anomalyIdx = ano;
+
+                SceneManager.LoadScene("DummyMission");
 
                 break;
 
@@ -287,10 +296,19 @@ public class GuildRoomManager : MonoBehaviour
 
     public void ForceMoveOnRetrun()
     {
-        print("복귀신고!");
-        avatar.isMovable = false;
-        if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
+        bool tempChecker = true;
+        
+        if (tempChecker)
         {
+            print("복귀신고!");
+            avatar.isMovable = false;
+            tempChecker = false;
+        }
+
+        avatar.transform.position += Vector3.right * -5.0f * Time.deltaTime;
+
+        if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
+        {            
             settlementPanel.gameObject.SetActive(true);
 
             isReturned = false;
@@ -301,12 +319,12 @@ public class GuildRoomManager : MonoBehaviour
 
             DoorOutOff();
 
-            curVstate = viewState.IDLE;
+            day++;
+
+            curVstate = viewState.SETTLEMENT;
 
             return;
-        }
-
-        avatar.transform.position += Vector3.right * -5.0f * Time.deltaTime;
+        }        
     }
 
     public void SetReturned()
