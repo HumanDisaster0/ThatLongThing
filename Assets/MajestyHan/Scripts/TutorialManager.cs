@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -8,9 +9,14 @@ public class TutorialManager : MonoBehaviour
 {
     public TutorialCameraController cameraController;
     public PlayerController player;
+    public NPCController npc;
+    public TrapTrigger trigger;
 
-    public Transform focusTarget1;
-    public Transform focusTarget2;
+    private Transform focusPlayer;
+    private Transform focusNpc;
+    public Transform focusEventSpace;
+
+    private MoveSenpaiMove moveSenpai;
 
     public MapPinMatchChecker mapPin;
 
@@ -21,9 +27,13 @@ public class TutorialManager : MonoBehaviour
 
 
 
+
     private void Awake()
     {
         mapPin = FindObjectOfType<MapPinMatchChecker>();
+        focusPlayer = player.transform;
+        focusNpc = npc.transform;
+        moveSenpai = GetComponent<MoveSenpaiMove>();
     }
 
     private void Start()
@@ -40,7 +50,7 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (needPressedCheckMapOkay)
+        if (needPressedCheckMapOkay && !needPressedMapKey)
         {
             foreach (var pin in mapPin.setter.pins)
             {
@@ -55,7 +65,7 @@ public class TutorialManager : MonoBehaviour
             }
         }
 
-        if (needPressedCheckMapNope)
+        if (needPressedCheckMapNope && !needPressedMapKey)
         {
             foreach (var pin in mapPin.setter.pins)
             {
@@ -74,7 +84,9 @@ public class TutorialManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
-                player.SkipInput = false;
+                if (!needPressedCheckMapNope && !needPressedCheckMapOkay)
+                    player.SkipInput = false;
+
                 needPressedMapKey = false;
             }
         }
@@ -101,18 +113,20 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerPointA()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusNpc);
 
         StartCoroutine(Cutscene_A());
     }
 
     public void TriggerPointB()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusNpc);
 
         StartCoroutine(Cutscene_B());
     }
@@ -120,35 +134,41 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerPointC()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusPlayer); // 이부분은 플레이어 줌인
 
         StartCoroutine(Cutscene_C());
     }
 
     public void TriggerPointD()
     {
+        clearFlag();
+        moveSenpai.ChangeSenpaiState(MoveSenpaiMove.SenpaiState.MoveRight);
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusPlayer); // 센빠이가 움직여서 플레이어에 고정
 
         StartCoroutine(Cutscene_D());
     }
     public void TriggerPointE()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusNpc);
 
         StartCoroutine(Cutscene_E());
     }
 
     public void TriggerPointF()
     {
+        clearFlag();
+        moveSenpai.ChangeSenpaiState(MoveSenpaiMove.SenpaiState.MoveRight);
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusPlayer); //마찬가지
 
         StartCoroutine(Cutscene_F());
     }
@@ -157,38 +177,43 @@ public class TutorialManager : MonoBehaviour
 
     public void TriggerPointG()
     {
+        clearFlag();
+        moveSenpai.ChangeSenpaiState(MoveSenpaiMove.SenpaiState.SenpaiIsNowMoving);
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusEventSpace); //사망장소 줌인
 
         StartCoroutine(Cutscene_G());
     }
 
 
-    //이후 미사용 대화
+    //이후 미사용 대화////////////////////////////////////////
     public void TriggerPointH()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusNpc);
 
         StartCoroutine(Cutscene_H());
     }
 
     public void TriggerPointI()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusPlayer);
 
         StartCoroutine(Cutscene_I());
     }
 
     public void TriggerPointJ()
     {
+        clearFlag();
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusTarget1);
+        cameraController.ZoomToTarget(focusPlayer);
 
         StartCoroutine(Cutscene_J());
     }
@@ -280,7 +305,8 @@ public class TutorialManager : MonoBehaviour
         DialogueManager.Instance.SetBubbleStyle(0);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
-        "<color=#3f3f3f>뭐, 그래도 탐지는 잘 되니까 됐어. \n이제 저 함정 위로 올라가 볼래?"
+        "<color=#3f3f3f>뭐, 그래도 탐지는 잘 되니까 됐어. \n이제 저 함정 위로 올라가서 함정이 작동하는지 확인해봐.",
+        "<color=#3f3f3f>조심해, 떨어지기 전에 점프해야해!"
     });
 
         // 줌아웃
@@ -303,13 +329,14 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>잘했어! \n그럼 이 함정은 제대로 작동하고 있는 거야.",
         "<color=#3f3f3f>하지만 가끔 지도와 다르게 작동하고 있는 함정이 있는데, \n그건 지도에 따로 마우스 <color=red>왼쪽 클릭<color=#3f3f3f>으로 표기를 해줘야 해.",
-        "<color=blue>한번 클릭<color=#3f3f3f>하면 함정이 <color=blue>정상작동<color=#3f3f3f>하는 거고, \n<color=red>두번 클릭<color=#3f3f3f>하면 함정이 <color=red>오작동<color=#3f3f3f>을 하고 있다는 표시야."
+        "<color=#3da807>한번 클릭<color=#3f3f3f>하면 함정이 <color=#3da807>정상작동<color=#3f3f3f>하는 거고, \n<color=red>두번 클릭<color=#3f3f3f>하면 함정이 <color=red>오작동<color=#3f3f3f>을 하고 있다는 표시야."
     });
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
         needPressedCheckMapOkay = true;
+        needPressedMapKey = true;
     }
     //=====================================================================================================================
     //대화 E
@@ -356,6 +383,7 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
         needPressedCheckMapNope = true;
+        needPressedMapKey = true;
     }
     //=====================================================================================================================
     //대화 G
@@ -394,9 +422,8 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>뭐? 그럴 리가. 내 마법 탐지 결과에는 이미 작동한 함정이라는데."
     });
-
+        cameraController.ShakeCamera(30, 0.5f, 2f);
         //(심하게 흔들리는 천장!@#$)
-
 
         DialogueManager.Instance.SetBubbleStyle(1);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
@@ -409,19 +436,12 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>응?"
     });
-        //(돌이 떨어진다!@#$)
 
-        // 줌아웃
-        cameraController.ResetZoom();
-        yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
+        trigger.ResetTrigger(); //리셋 한번 해야하는데 민기씨가 말 안해줬음
+        trigger.ForceActiveTrigger(gameObject); //민기씨가 이따구로 해도 된다고함
 
-        player.SkipInput = false;
+        //씬 전환         
     }
-
-
-
-
-
 
     //=====================================================================================================================
     //대화 H -- 이후 미사용
