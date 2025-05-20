@@ -7,6 +7,7 @@ using static UnityEditor.Rendering.InspectorCurveEditor;
 using System.Linq;
 using System;
 
+
 public class GuildRoomManager : MonoBehaviour
 {
     public static GuildRoomManager Instance;
@@ -63,6 +64,9 @@ public class GuildRoomManager : MonoBehaviour
     public GameObject albumPanel;
 
     public GameObject checkResult;
+
+    public TextDrawer textDrawer;
+   
 
 
     private void Awake()
@@ -138,6 +142,7 @@ public class GuildRoomManager : MonoBehaviour
             guildCounterPanel = GameObject.Find("GuildCounter");
             albumPanel = GameObject.Find("MissionBoardPanel");
             checkResult = GameObject.Find("d_CheckResult");
+            
 
             settlementPanel = GameObject.Find("SettlementPanel");
             if (settlementPanel == null)
@@ -155,6 +160,10 @@ public class GuildRoomManager : MonoBehaviour
             if (albumPanel != null) albumPanel.SetActive(false);
             if (settlementPanel != null) settlementPanel.SetActive(false);
             if (checkResult != null) checkResult.SetActive(false);
+
+            textDrawer = FindObjectOfType<TextDrawer>();
+
+
 
             avatar = FindObjectOfType<AvatarController>();
 
@@ -275,13 +284,12 @@ public class GuildRoomManager : MonoBehaviour
                 }
                 if (!isGetRewardYet && isReportYet)
                 {
+                    
                     checkResult.gameObject.SetActive(true);
                     if (checkResult)
                     {
                         Debug.Log("checkResult»∞º∫»≠");
                     }
-
-                    //var cr = checkResult;
 
                     gcp.StartQuiz();
 
@@ -290,6 +298,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 if (!isReportYet)
                 {
+                    textDrawer.TextRefresh();
                     selectedMission = 0;
                     //SetRoomState(viewState.IDLE);
                 }
@@ -299,6 +308,7 @@ public class GuildRoomManager : MonoBehaviour
                     Debug.Log($"isEnd! {gcp.isEnd}");
 
                     checkResult.gameObject.SetActive(false);
+                    textDrawer.TextRefresh();
 
                 }
                 break;
@@ -391,6 +401,16 @@ public class GuildRoomManager : MonoBehaviour
             DoorOutOff();
 
             day++;
+            if(day == 4)
+            {
+                day = 1;
+            }
+
+            textDrawer.TextRefresh();
+
+
+
+
 
             return;
         }

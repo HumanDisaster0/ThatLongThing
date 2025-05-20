@@ -84,6 +84,7 @@ public class GuildCounter : MonoBehaviour
         whatDidYouText.text = "이번 의뢰 수고 많으셨습니다.\n의뢰의 대상은 결국 무엇이었나요?";
         answerBox.SetActive(false);
         resultPanel.SetActive(false);
+        answerBox.SetActive(false);
 
         foreach (var c in choices)
             c.gameObject.SetActive(true);
@@ -108,11 +109,12 @@ public class GuildCounter : MonoBehaviour
             choiceTexts[i].text = q.choices[i];
         }
 
-        answerBox.SetActive(false);
+        
     }
 
     void OnChoiceSelected(int choiceIndex)
     {
+        answerBox.SetActive(true);
         sIndex = choiceIndex;
         var q = questions[currentQuestionIndex];
 

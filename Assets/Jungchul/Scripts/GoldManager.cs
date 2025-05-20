@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GoldManager : MonoBehaviour
 {
+    //상점가격 3개
+    //60 20 40->80
     public static GoldManager Instance { get; private set; }
 
     public int totalGold = 0;
@@ -15,7 +17,7 @@ public class GoldManager : MonoBehaviour
     public int ejectionCount = 0;
     public int rdc = 0;
 
-    public int Tax = 0;
+    public int Tax = 60;
 
 
 
@@ -27,14 +29,14 @@ public class GoldManager : MonoBehaviour
             Destroy(gameObject); // 중복 제거
             return;
         }
-
+        Tax = 60;
         Instance = this;
         DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴 방지
     }
 
     public int calRewardGold()
     {        
-        return findTrapCount * 5 - rdc * 3 - ejectionCount * 10;
+        return findTrapCount * 5 - rdc * 2 - ejectionCount * 10;
     }
 
     public void getRewardGold(int amount)
@@ -62,7 +64,7 @@ public class GoldManager : MonoBehaviour
         GoldManager.Instance.rdc = dc > 5 ? 5 : dc;
         GoldManager.Instance.ejectionCount = ec;
         GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
-
+        GoldManager.Instance.Tax = 60;
         //calRewardGold 임시값 : findTrapCount * 100 + deadCount * 20 + ejectionCount * 200;
     }
 
