@@ -9,6 +9,10 @@ public class MissionBoardPannel : MonoBehaviour
 
     private void Awake()
     {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
         CloseBtn.SetClickAction(() =>
         {            
             //PostedMissionPanel.Instance.CardShowSet(false);

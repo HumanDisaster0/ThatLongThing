@@ -470,7 +470,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 33
+  m_SortingOrder: 34
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &140907819
 GameObject:
@@ -641,7 +641,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 33
+  m_SortingOrder: 34
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &176027757
 GameObject:
@@ -1189,7 +1189,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 33
+  m_SortingOrder: 34
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &338864041
 GameObject:
@@ -1568,11 +1568,14 @@ MonoBehaviour:
   - {fileID: 1131415853}
   - {fileID: 1628521513}
   - {fileID: 1173929920}
-  answerBox: {fileID: 131941078}
+  answerBox: {fileID: 1942324345}
   answerText: {fileID: 1320040528}
+  closeButton: {fileID: 0}
   resultPanel: {fileID: 1734346170}
   resultText: {fileID: 2055260048}
   resultImage: {fileID: 21300000, guid: 5a403bfb7611c7f45b8ed25031268bf1, type: 3}
+  isEnd: 0
+  sIndex: 0
 --- !u!1 &670568000
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,7 +2066,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.08627451, g: 0.08627451, b: 0.08627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2165,7 +2168,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 23
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &837482647
 GameObject:
@@ -3433,7 +3436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1191876220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3629,6 +3632,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1209395979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1209395981}
+  - component: {fileID: 1209395980}
+  m_Layer: 0
+  m_Name: QuizDataDebugger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1209395980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209395979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea0a550554a8d347b8080efef54fe0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1209395981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209395979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1231426807
 GameObject:
   m_ObjectHideFlags: 0
@@ -3968,7 +4015,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 33
+  m_SortingOrder: 34
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1291154856
 GameObject:
@@ -4123,7 +4170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.99, y: -4.46}
+  m_AnchoredPosition: {x: 3.46, y: -4.02}
   m_SizeDelta: {x: 8, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1320040528
@@ -4148,15 +4195,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD63C\uB2F4\uAD6C\uB97C \uBC1B\uC544\uB77C!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2746124d26ca8c34dab10b5a40ef82e8, type: 2}
-  m_sharedMaterial: {fileID: -8415357420808858718, guid: 2746124d26ca8c34dab10b5a40ef82e8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5c4a37bccf0de0845815284b57048c8c, type: 2}
+  m_sharedMaterial: {fileID: 2844918777622023357, guid: 5c4a37bccf0de0845815284b57048c8c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4279637526
+  m_fontColor: {r: 0.08627451, g: 0.08627451, b: 0.08627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4238,7 +4285,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8415357420808858718, guid: 2746124d26ca8c34dab10b5a40ef82e8, type: 2}
+  - {fileID: 2844918777622023357, guid: 5c4a37bccf0de0845815284b57048c8c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4481,7 +4528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1589586607
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5780,7 +5827,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 33
+  m_SortingOrder: 34
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1942324345
 GameObject:
@@ -6741,3 +6788,4 @@ SceneRoots:
   - {fileID: 338864042}
   - {fileID: 599764292}
   - {fileID: 1191876222}
+  - {fileID: 1209395981}

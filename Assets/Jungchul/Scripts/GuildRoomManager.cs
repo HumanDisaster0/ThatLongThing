@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Rendering.InspectorCurveEditor;
 using System.Linq;
+using System;
 
 public class GuildRoomManager : MonoBehaviour
 {
@@ -12,11 +13,13 @@ public class GuildRoomManager : MonoBehaviour
 
     public GameObject GuildRoomManagerPrefab;
 
+    private bool hideObjectActivated = false;  
     private bool isFirstTime = true;
     private bool isReturned = false;
     public bool isGetRewardYet = true;
     public bool isReportYet = true;
     private bool isMissionSelected = false;
+
 
     public int selectedMission = 0;
 
@@ -59,7 +62,7 @@ public class GuildRoomManager : MonoBehaviour
     public GameObject missionBoardPanel;
     public GameObject albumPanel;
 
-    public GuildCounter gCounter;
+    public GameObject checkResult;
 
 
     private void Awake()
@@ -100,6 +103,24 @@ public class GuildRoomManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (!hideObjectActivated && scene.name == "GuildMain")
+        {
+            var allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+            foreach (var go in allObjects)
+            {
+                // 이름으로 찾되, 현재 로드된 씬에 속한 오브젝트만 필터링
+                if ((go.name == "SettlementPanel" || go.name == "MissionBoardPanel")
+                    && go.scene == scene)
+                {
+                    go.SetActive(true);
+                    Debug.Log($"[{go.name}] 강제로 활성화됨");
+                }
+            }
+
+            //hideObjectActivated = true;
+        }
+
         if (SceneManager.GetActiveScene().name == "GuildMain")
         {
             var temp = FindObjectsOfType<GuildRoomObject>();
@@ -115,14 +136,25 @@ public class GuildRoomManager : MonoBehaviour
 
 
             guildCounterPanel = GameObject.Find("GuildCounter");
-            missionBoardPanel = GameObject.Find("MissionBoardPanel");
             albumPanel = GameObject.Find("MissionBoardPanel");
+            checkResult = GameObject.Find("d_CheckResult");
+
             settlementPanel = GameObject.Find("SettlementPanel");
+            if (settlementPanel == null)
+            {
+                Debug.Log("settlementPanel is null");
+            }
+            missionBoardPanel = GameObject.Find("MissionBoardPanel");
+            if (missionBoardPanel == null)
+            {
+                Debug.Log("missionBoardPanel is null");
+            }
 
             if (guildCounterPanel != null) guildCounterPanel.SetActive(false);
             if (missionBoardPanel != null) missionBoardPanel.SetActive(false);
             if (albumPanel != null) albumPanel.SetActive(false);
             if (settlementPanel != null) settlementPanel.SetActive(false);
+            if (checkResult != null) checkResult.SetActive(false);
 
             avatar = FindObjectOfType<AvatarController>();
 
@@ -157,7 +189,6 @@ public class GuildRoomManager : MonoBehaviour
 
                 Debug.Log($"{name}" + selectedMission + "클리어!");
 
-                selectedMission = 0;
             }
 
 
@@ -195,7 +226,7 @@ public class GuildRoomManager : MonoBehaviour
     void Update()
     {
         if (isReturned)
-        { 
+        {
             ForceMoveOnRetrun();
             return;
         }
@@ -230,26 +261,46 @@ public class GuildRoomManager : MonoBehaviour
                     GoldManager.Instance.ClearReward();
                 }
                 avatar.isMovable = true;
-                
+
                 break;
 
             case viewState.COUNTER:
 
                 avatar.isMovable = false;
-
+                var gcp = guildCounterPanel.GetComponent<GuildCounter>();
                 if (!guildCounterPanel.gameObject.activeSelf)
                 {
                     guildCounterPanel.gameObject.SetActive(true);
-                    if (!isGetRewardYet)
-                    {
-                        gCounter = guildCounterPanel.GetComponent<GuildCounter>();
-
-                        gCounter.StartQuiz();
-                        isReportYet = false;
-                    }
 
                 }
+                if (!isGetRewardYet && isReportYet)
+                {
+                    checkResult.gameObject.SetActive(true);
+                    if (checkResult)
+                    {
+                        Debug.Log("checkResult활성화");
+                    }
 
+                    //var cr = checkResult;
+
+                    gcp.StartQuiz();
+
+                    isReportYet = false;
+                }
+
+                if (!isReportYet)
+                {
+                    selectedMission = 0;
+                    //SetRoomState(viewState.IDLE);
+                }
+
+                if (Input.GetMouseButtonDown(0) && gcp.isEnd)
+                {
+                    Debug.Log($"isEnd! {gcp.isEnd}");
+
+                    checkResult.gameObject.SetActive(false);
+
+                }
                 break;
 
 
@@ -339,18 +390,19 @@ public class GuildRoomManager : MonoBehaviour
 
             DoorOutOff();
 
-            day++;            
+            day++;
 
             return;
-        }        
+        }
     }
 
     public void SetReturned()
     {
         print("내가돌아왔다!");
         isReturned = true;
-        isReportYet = true;
         isGetRewardYet = true;
+        isReportYet = true;
+
 
     }
 

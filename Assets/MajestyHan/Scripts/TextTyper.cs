@@ -4,30 +4,38 @@ using UnityEngine;
 
 public static class TextTyper
 {
-    public static IEnumerator TypeText(TextMeshProUGUI target, string message, float speed = 0.04f)
+    public static IEnumerator TypeText(TextMeshProUGUI target, string message, float speed, System.Func<bool> isSkipRequested)
     {
-        target.text = "";
-
+        System.Text.StringBuilder builder = new System.Text.StringBuilder();
         int i = 0;
+
         while (i < message.Length)
         {
-            // 리치 텍스트 태그 시작
+            if (isSkipRequested())
+            {
+                target.text = message; // 전체 문장 덮어씌우기
+                yield break;
+            }
+
             if (message[i] == '<')
             {
                 int tagCloseIndex = message.IndexOf('>', i);
                 if (tagCloseIndex != -1)
                 {
                     string tag = message.Substring(i, tagCloseIndex - i + 1);
-                    target.text += tag;
+                    builder.Append(tag);
+                    target.text = builder.ToString();
                     i = tagCloseIndex + 1;
                     continue;
                 }
             }
 
-            target.text += message[i];
+            builder.Append(message[i]);
+            target.text = builder.ToString();
             i++;
             yield return new WaitForSeconds(speed);
         }
     }
+
 }
 

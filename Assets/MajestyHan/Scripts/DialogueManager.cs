@@ -26,6 +26,9 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private Action onComplete;
 
+    private bool skipRequested = false;
+    private string currentTypingLine;
+
     public bool IsPlaying => isPlaying;
 
     private void Awake()
@@ -72,8 +75,9 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeLine(string line)
     {
-        waitingForInput = false;
-        yield return StartCoroutine(TextTyper.TypeText(dialogueText, line, 0.04f));
+        skipRequested = false;
+        currentTypingLine = line;
+        yield return StartCoroutine(TextTyper.TypeText(dialogueText, line, 0.04f, () => skipRequested));
         waitingForInput = true;
     }
 
@@ -81,10 +85,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (typingCoroutine != null && !waitingForInput)
         {
-            StopCoroutine(typingCoroutine);
-            dialogueText.text = currentLines[currentIndex];
-            typingCoroutine = null;
-            waitingForInput = true;
+            // Skip 요청 플래그만 켜주면, 코루틴 안에서 전체 출력하고 끝냄
+            skipRequested = true;
             return;
         }
 
@@ -104,7 +106,17 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (isPlaying && waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
+        if (!isPlaying) return;
+
+        // 타이핑 도중 스킵 처리
+        if (!waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
+        {
+            NextDialogue(); // -> skipRequested = true 가 됨
+            return;
+        }
+
+        // 타이핑 끝난 후 다음 대사 넘김
+        if (waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
         {
             NextDialogue();
         }
