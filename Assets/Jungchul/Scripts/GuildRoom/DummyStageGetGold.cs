@@ -15,19 +15,21 @@ public class DummyStageGetGold : MonoBehaviour
 
         clickable.SetClickAction(() =>
         {
+            GoldManager.Instance.SetReward();
+
             if (panel != null)
             {
                 panel.gameObject.SetActive(false);
-
-                GoldManager.Instance.rewardGold = gold;
-                
-                GoldManager.Instance.getRewardGold(gold);
+                                               
+                GoldManager.Instance.getRewardGold(GoldManager.Instance.rewardGold);
 
                 NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
                                 
                 GuildRoomManager.Instance.SetReturned();
 
                 SceneManager.LoadScene("GuildMain");
+
+                Debug.Log($"rewardGold:{GoldManager.Instance.rewardGold}");
 
             }
         });
@@ -37,4 +39,7 @@ public class DummyStageGetGold : MonoBehaviour
     {
         
     }
+
+   
+
 }

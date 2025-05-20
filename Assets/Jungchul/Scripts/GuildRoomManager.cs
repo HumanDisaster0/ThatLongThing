@@ -20,6 +20,8 @@ public class GuildRoomManager : MonoBehaviour
 
     public int day = 1;
 
+    public bool tempChecker = true;
+
 
     public enum viewState
     {
@@ -94,79 +96,83 @@ public class GuildRoomManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var temp = FindObjectsOfType<GuildRoomObject>();
-        MissionBoard = temp.FirstOrDefault(p => p.code == "MB");
-        Settlement = temp.FirstOrDefault(p => p.code == "SM");
-        Pokedex = temp.FirstOrDefault(p => p.code == "PD");
-        DoorOut = temp.FirstOrDefault(p => p.code == "DO");
-
-        guildObjects[0] = MissionBoard;
-        guildObjects[1] = Settlement;
-        guildObjects[2] = Pokedex;
-        guildObjects[3] = DoorOut;
-
-
-        guildCounterPanel = GameObject.Find("GuildCounter");
-        missionBoardPanel = GameObject.Find("MissionBoardPanel");
-        albumPanel = GameObject.Find("MissionBoardPanel");
-        settlementPanel = GameObject.Find("SettlementPanel");
-
-        if (guildCounterPanel != null) guildCounterPanel.SetActive(false);
-        if (missionBoardPanel != null) missionBoardPanel.SetActive(false);
-        if (albumPanel != null) albumPanel.SetActive(false);
-        if (settlementPanel != null) settlementPanel.SetActive(false);
-
-        avatar = FindObjectOfType<AvatarController>();
-
-        if (avatar != null)
+        if (SceneManager.GetActiveScene().name == "GuildMain")
         {
-            if (isFirstTime && avatar)
+            var temp = FindObjectsOfType<GuildRoomObject>();
+            MissionBoard = temp.FirstOrDefault(p => p.code == "MB");
+            Settlement = temp.FirstOrDefault(p => p.code == "SM");
+            Pokedex = temp.FirstOrDefault(p => p.code == "PD");
+            DoorOut = temp.FirstOrDefault(p => p.code == "DO");
+
+            guildObjects[0] = MissionBoard;
+            guildObjects[1] = Settlement;
+            guildObjects[2] = Pokedex;
+            guildObjects[3] = DoorOut;
+
+
+            guildCounterPanel = GameObject.Find("GuildCounter");
+            missionBoardPanel = GameObject.Find("MissionBoardPanel");
+            albumPanel = GameObject.Find("MissionBoardPanel");
+            settlementPanel = GameObject.Find("SettlementPanel");
+
+            if (guildCounterPanel != null) guildCounterPanel.SetActive(false);
+            if (missionBoardPanel != null) missionBoardPanel.SetActive(false);
+            if (albumPanel != null) albumPanel.SetActive(false);
+            if (settlementPanel != null) settlementPanel.SetActive(false);
+
+            avatar = FindObjectOfType<AvatarController>();
+
+            if (avatar != null)
             {
-                print("신병받아라!");
-                avatar.transform.position = new Vector3(7.5f, -1.65f, 0);
+                if (isFirstTime && avatar)
+                {
+                    print("신병받아라!");
+                    avatar.transform.position = new Vector3(7.5f, -1.65f, 0);
+                }
+                else if (!isFirstTime && isReturned)
+                {
+                    tempChecker = true;
+                    avatar.transform.position = new Vector3(8.5f, -1.65f, 0);
+                    print("돌아와썹");
+                }
+                worldLeftLimit = -8.6f;
+                worldRightLimit = 8.6f;
+                avatar.SetLimits(worldLeftLimit, worldRightLimit);
+
+                foreach (var obj in guildObjects)
+                {
+                    obj.isHighlighted = false;
+                }
             }
-            else if (!isFirstTime && isReturned)
+
+            //미션 클리어 처리     
+
+            if (selectedMission != -1 && selectedMission != 0)
             {
-                avatar.transform.position = new Vector3(8.5f, -1.65f, 0);
-                print("돌아와썹");
-            }
-            worldLeftLimit = -8.6f;
-            worldRightLimit = 8.6f;
-            avatar.SetLimits(worldLeftLimit, worldRightLimit);
+                MissionSelectManager.Instance.SetMissionCleared(selectedMission);
 
-            foreach (var obj in guildObjects)
+                Debug.Log($"{name}" + selectedMission + "클리어!");
+
+                selectedMission = 0;
+            }
+
+
+            if (PostedMissionPanel.Instance != null)
             {
-                obj.isHighlighted = false;
+                PostedMissionPanel.Instance.enabled = true;
+
+                // GuildRoom 진입마다 새로운 미션 받기
+                var codes = MissionSelectManager.Instance.Generate3MissionCodes();
+                PostedMissionPanel.Instance.InitPanel(codes);
+
+                PostedMissionPanel.Instance.CardShowSet(false);
+
+                print("카드 초기화 잘 됐어!");
             }
+
+
+            DoorOutOff();
         }
-
-        //미션 클리어 처리     
-
-        if (selectedMission != -1 && selectedMission != 0)
-        {
-            MissionSelectManager.Instance.SetMissionCleared(selectedMission);
-
-            Debug.Log($"{name}" + selectedMission + "클리어!");
-
-            selectedMission = 0;
-        }
-
-
-        if (PostedMissionPanel.Instance != null)
-        {
-            PostedMissionPanel.Instance.enabled = true;
-
-            // GuildRoom 진입마다 새로운 미션 받기
-            var codes = MissionSelectManager.Instance.Generate3MissionCodes();
-            PostedMissionPanel.Instance.InitPanel(codes);
-
-            PostedMissionPanel.Instance.CardShowSet(false);
-
-            print("카드 초기화 잘 됐어!");
-        }
-
-
-        DoorOutOff();
     }
 
 
@@ -185,14 +191,7 @@ public class GuildRoomManager : MonoBehaviour
     void Update()
     {
         if (isReturned)
-        {
-            print("돌아온상태");
-
-            foreach (var obj in guildObjects)
-            {
-                obj.isInteractable = false;
-            }
-
+        { 
             ForceMoveOnRetrun();
             return;
         }
@@ -220,9 +219,11 @@ public class GuildRoomManager : MonoBehaviour
             case viewState.IDLE:
                 if (!avatar.isMovable)
                 {
+                    //
                     Debug.Log($"{name}:" + selectedMission + "선택됨");
                     PostedMissionPanel.Instance.CardShowSet(false);
                     PauseManager.Instance.pauseButtonInstance.SetActive(true);
+                    GoldManager.Instance.ClearReward();
                 }
                 avatar.isMovable = true;
 
@@ -273,11 +274,11 @@ public class GuildRoomManager : MonoBehaviour
                 this.enabled = false;
 
                 //LoadStage(selectedMission);
-               
-                    
 
-                int stg = selectedMission / 100;
-                int ano = selectedMission % 100;
+
+                int reCode = selectedMission % 1000;
+                int stg = reCode / 100;
+                int ano = reCode % 100;
                 Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
 
                 //StageManager.instance.anomalyIdx = ano;
@@ -296,22 +297,29 @@ public class GuildRoomManager : MonoBehaviour
 
     public void ForceMoveOnRetrun()
     {
-        bool tempChecker = true;
-        
         if (tempChecker)
         {
             print("복귀신고!");
             avatar.isMovable = false;
+
+            foreach (var obj in guildObjects)
+            {
+                obj.isInteractable = false;
+            }
+
             tempChecker = false;
         }
 
         avatar.transform.position += Vector3.right * -5.0f * Time.deltaTime;
 
         if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
-        {            
+        {
+            curVstate = viewState.SETTLEMENT;
+
             settlementPanel.gameObject.SetActive(true);
 
             isReturned = false;
+
             foreach (var obj in guildObjects)
             {
                 obj.isInteractable = true;
@@ -319,9 +327,7 @@ public class GuildRoomManager : MonoBehaviour
 
             DoorOutOff();
 
-            day++;
-
-            curVstate = viewState.SETTLEMENT;
+            day++;            
 
             return;
         }        
@@ -373,9 +379,9 @@ public class GuildRoomManager : MonoBehaviour
 
     public void LoadStage(int code)
     {
-
-        int stg = code / 100;
-        int ano = code % 100;
+        int reCode = code / 1000;
+        int stg = reCode / 100;
+        int ano = reCode % 100;
         Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
 
         if (stg == 1)

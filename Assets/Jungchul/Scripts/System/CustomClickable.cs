@@ -36,7 +36,7 @@ public class CustomClickable : MonoBehaviour
     private void OnMouseEnter()
     {
         isMouseOver = true;
-        print("마우스 롤오버!");
+        //print("마우스 롤오버!");
         if (hoverSprite != null)
         {           
             spriteRenderer.sprite = hoverSprite;
@@ -55,7 +55,7 @@ public class CustomClickable : MonoBehaviour
         if (!isMouseOver || !isInteractable) return;
 
 
-        Debug.Log("[CustomClickable] 클릭됨");
+        //Debug.Log("[CustomClickable] 클릭됨");
 
         if (interactionCondition != null && !interactionCondition.Invoke())
         {

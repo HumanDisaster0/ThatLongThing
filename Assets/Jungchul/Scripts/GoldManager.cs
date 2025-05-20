@@ -6,13 +6,15 @@ public class GoldManager : MonoBehaviour
 {
     public static GoldManager Instance { get; private set; }
 
-    public int gold = 0;
+    public int totalGold = 0;
 
     public int rewardGold = 0;
 
     public int findTrapCount = 0;
     public int deadCount = 0;
     public int ejectionCount = 0;
+
+    public int Tax = 0;
 
 
 
@@ -29,24 +31,44 @@ public class GoldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴 방지
     }
 
+    public int calRewardGold()
+    {
+        return findTrapCount * 100 - deadCount * 20 - ejectionCount * 200;
+    }
+
     public void getRewardGold(int amount)
     {
-        gold += amount;
-        Debug.Log($"Gold 증가: {gold}");
+        totalGold += amount;
+        Debug.Log($"Gold 증가: {amount}");
 
-        rewardGold = 0;
+        //rewardGold = 0;
     }
 
     public void MinusGold(int amount)
     {
-        if (gold >= amount)
+        totalGold -= amount;
+        
+        if (totalGold < 0)
         {
-            gold -= amount;
-            Debug.Log($"Gold 감소: {gold}");
+            Debug.Log("천강파산뢰!");
         }
-        else
-        {
-            Debug.Log("Gold 부족!");
-        }
+    }
+
+    public void SetReward()
+    {
+        GoldManager.Instance.findTrapCount = 5;
+        GoldManager.Instance.deadCount = 2;
+        GoldManager.Instance.ejectionCount = 1;
+        GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
+
+        //calRewardGold 임시값 : findTrapCount * 100 + deadCount * 20 + ejectionCount * 200;
+    }
+
+    public void ClearReward()
+    {
+        GoldManager.Instance.findTrapCount = 0;
+        GoldManager.Instance.deadCount = 0;
+        GoldManager.Instance.ejectionCount = 0;
+        GoldManager.Instance.rewardGold = 0;
     }
 }

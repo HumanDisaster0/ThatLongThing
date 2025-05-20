@@ -8,7 +8,7 @@ public class PostedMissionPanel : MonoBehaviour
 
     [Header("미션 프리팹 및 인스턴스")]
     public GameObject missionCardPrefab;
-   
+
     private List<GameObject> missionInstances = new List<GameObject>();
 
     public Sprite[] missionSprites;
@@ -32,6 +32,9 @@ public class PostedMissionPanel : MonoBehaviour
     public int mIdx = 0;
 
 
+    public int selCnt = 0;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -43,7 +46,7 @@ public class PostedMissionPanel : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        CreateMissions();        
+        CreateMissions();
 
         enabled = false;
 
@@ -52,33 +55,60 @@ public class PostedMissionPanel : MonoBehaviour
 
     private void Update()
     {
-        if(GuildRoomManager.Instance.IsIdle())
+        if (GuildRoomManager.Instance.IsIdle())
         {
             Destroy(currentPopup);
         }
     }
 
 
+    //public void InitPanel(List<int> codes)
+    //{
+    //    currentMissionCodes = codes;
+
+    //    Debug.Log(" currentMissionCodes 리스트 내용: " + string.Join(", ", currentMissionCodes));
+
+    //    while (selCnt < 3)
+    //    {
+    //        var instance = missionInstances[selCnt];
+
+    //        if(instance.)
+
+    //        ApplyCodeToMission(i, code);
+
+    //        int capturedIndex = i;
+    //        var clickable = instance.GetComponent<CustomClickable>();
+    //        if (clickable != null)
+    //        {
+    //            clickable.SetClickAction(() => ShowPopupCard(capturedIndex));
+    //        }
+    //    }
+
+    //}
+
     public void InitPanel(List<int> codes)
     {
         currentMissionCodes = codes;
-
-        Debug.Log(" currentMissionCodes 리스트 내용: " + string.Join(", ", currentMissionCodes));
+        Debug.Log("입력된 코드 리스트: " + string.Join(", ", currentMissionCodes));
+       
 
         for (int i = 0; i < 3; i++)
         {
             var instance = missionInstances[i];
             int code = (i < codes.Count) ? codes[i] : 0;
+
+            Debug.Log($"i , code: {i}  {code}");
             ApplyCodeToMission(i, code);
 
-            int capturedIndex = i;
+            int capturedIndex = code/1000;
+            int ci = i;
+
             var clickable = instance.GetComponent<CustomClickable>();
             if (clickable != null)
             {
-                clickable.SetClickAction(() => ShowPopupCard(capturedIndex));
+                clickable.SetClickAction(() => ShowPopupCard(capturedIndex, ci));
             }
         }
-
     }
 
     private void CreateMissions()
@@ -112,16 +142,17 @@ public class PostedMissionPanel : MonoBehaviour
             return;
         }
         else
-        {            
-            sprite = missionSprites[index];
-            hSprite = missionSpritesHover[index];
+        {
+            Debug.Log($"코드설정! {code}+ {code / 1000}");
+            sprite = missionSprites[code/1000];
+            hSprite = missionSpritesHover[code / 1000];
         }
 
         clickable.SetSprites(sprite, hSprite);
         clickable.AdjustColliderToSprite();
 
     }
-    
+
 
     private int ResolveCodeToIndex(int code)
     {
@@ -145,26 +176,26 @@ public class PostedMissionPanel : MonoBehaviour
         missionInstances[index].transform.position = newPosition;
     }
 
-    public void ShowPopupCard(int index)
+    public void ShowPopupCard(int index, int pidx)
     {
         for (int i = 0; i < 3; i++)
         {
             missionInstances[i].GetComponent<CustomClickable>().isInteractable = false;
         }
 
-        int code = currentMissionCodes[index];
+        int code = currentMissionCodes[pidx];
         int spriteIndex = index;
 
-        mIdx = code;
+        mIdx = currentMissionCodes[pidx];
 
         currentPopup = Instantiate(missionDetailPrefab, Vector3.zero, Quaternion.identity);
-        
+
         // SpriteRenderer 세팅
         var spriteRenderer = currentPopup.GetComponent<SpriteRenderer>();
         if (spriteRenderer != null && spriteIndex >= 0 && spriteIndex < missionDetailSprites.Length)
         {
             spriteRenderer.sprite = missionDetailSprites[spriteIndex];
-        }        
+        }
 
         // 버튼 처리
         var popupComp = currentPopup.GetComponent<MissionDetailPopup>();
@@ -195,9 +226,13 @@ public class PostedMissionPanel : MonoBehaviour
         GuildRoomManager.Instance.DoorOutOn();
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
         GuildRoomManager.Instance.SelectMission(mIdx);
+        for (int i = 0; i < 3; i++)
+        {
+            missionInstances[i].GetComponent<CustomClickable>().isInteractable = true;
+        }
         CardShowSet(false);
         Destroy(currentPopup);
-        
+
     }
 
     public void PopupBtnReject()
@@ -216,9 +251,9 @@ public class PostedMissionPanel : MonoBehaviour
     {
         foreach (var card in missionInstances)
         {
-            print("카드뿅  " + onoff);
+            //print("카드뿅  " + onoff);
             card.SetActive(onoff);
         }
-    }    
+    }
 
 }

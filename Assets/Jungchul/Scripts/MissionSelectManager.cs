@@ -5,16 +5,16 @@ public class MissionSelectManager : MonoBehaviour
 {
     public static MissionSelectManager Instance;
 
-    private List<int> allMissionCodes = new List<int>()
+    public List<int> allMissionCodes = new List<int>()
     {
-        104, 111, 203,
-        212, 207, 314, 
-        209, 202, 301, 
-        306, 313, 315, 
-        305, 308, 310,    
+        104, 1111, 2203,
+        3212, 4207, 5314,
+        6209, 7202, 8301,
+        9306, 10313, 11315,
+        12305, 13308, 14310,
     };
 
-    private Dictionary<int, bool> missionClearDict = new Dictionary<int, bool>();
+    public Dictionary<int, bool> missionClearDict = new Dictionary<int, bool>();
 
     private void Awake()
     {
@@ -40,7 +40,11 @@ public class MissionSelectManager : MonoBehaviour
     public void SetMissionCleared(int code)
     {
         if (missionClearDict.ContainsKey(code))
+        {
             missionClearDict[code] = true;
+            Debug.Log($"missionClearDict[code]: { missionClearDict[code]}");
+        }
+
     }
 
     /// <summary>
