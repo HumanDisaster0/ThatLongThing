@@ -80,6 +80,7 @@ public class DestroyerForPlayer : MonoBehaviour
 
         if (m_moveAmount > shakeRate)
         {
+            SoundManager.instance.PlayNewSound("Trex_Land", gameObject);
             m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z);
             m_moveAmount = 0;
         }
