@@ -60,13 +60,18 @@ public class TutorialCameraController : MonoBehaviour
     public Transform focusTarget;
     public float zoomedOrthographicSize = 3f;
     public float zoomDuration = 1f;
-    
+
     [Header("Letterbox Timing")]
     public float letterboxEnterDuration = 1.0f; // 등장 속도
     public float letterboxExitDuration = 0.5f;  // 사라짐 속도
 
     private float originalOrthographicSize;
     private bool isZoomed = false;
+
+    private bool isLetterboxOpen = false;
+    public bool IsLetterboxOpen => isLetterboxOpen;
+    public bool IsZoomFullyReady => IsZoomed && IsLetterboxOpen;
+
 
     public void ZoomToTarget(Transform target)
     {
@@ -149,6 +154,8 @@ public class TutorialCameraController : MonoBehaviour
 
     IEnumerator LetterboxSlide(bool enable)
     {
+        isLetterboxOpen = false; // 슬라이드 시작할 때 false
+
         RectTransform topRect = topBar.GetComponent<RectTransform>();
         RectTransform bottomRect = bottomBar.GetComponent<RectTransform>();
 
@@ -174,7 +181,10 @@ public class TutorialCameraController : MonoBehaviour
 
         topRect.anchoredPosition = topTarget;
         bottomRect.anchoredPosition = bottomTarget;
+
+        isLetterboxOpen = enable; // 애니메이션 끝나고 상태 반영
     }
+
 
 
 

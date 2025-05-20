@@ -46,7 +46,7 @@ public class TutorialManager : MonoBehaviour
     IEnumerator TutorialSequence(List<string> lines)
     {
         // 줌인 완료까지 대기
-        yield return new WaitUntil(() => cameraController.IsZoomed);
+        yield return new WaitUntil(() => cameraController.IsZoomFullyReady);
 
         // 말풍선 출력
         yield return dialogue.ShowSequence(lines);
@@ -55,7 +55,7 @@ public class TutorialManager : MonoBehaviour
         cameraController.ResetZoom();
 
         // 줌아웃 완료까지 대기
-        yield return new WaitUntil(() => !cameraController.IsZoomed);
+        yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
         // 입력 다시 허용
         player.SkipInput = false;
