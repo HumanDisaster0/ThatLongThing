@@ -41,7 +41,6 @@ public class DialogueManager : MonoBehaviour
 
     public IEnumerator ShowSequence(List<string> lines, int styleIndex = 0, Action onCompleteCallback = null)
     {
-        SetBubbleStyle(styleIndex);
         panel.SetActive(true);
         isPlaying = true;
         onComplete = onCompleteCallback;

@@ -8,10 +8,26 @@ public static class TextTyper
     {
         target.text = "";
 
-        foreach (char c in message)
+        int i = 0;
+        while (i < message.Length)
         {
-            target.text += c;
+            // 리치 텍스트 태그 시작
+            if (message[i] == '<')
+            {
+                int tagCloseIndex = message.IndexOf('>', i);
+                if (tagCloseIndex != -1)
+                {
+                    string tag = message.Substring(i, tagCloseIndex - i + 1);
+                    target.text += tag;
+                    i = tagCloseIndex + 1;
+                    continue;
+                }
+            }
+
+            target.text += message[i];
+            i++;
             yield return new WaitForSeconds(speed);
         }
     }
 }
+

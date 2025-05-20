@@ -117,7 +117,6 @@ public class NPCController : MonoBehaviour
         m_jumpInput = true;
     }
 
-
     /// <summary>
     /// -1 ~ 1사이의 값 입력
     /// </summary>
