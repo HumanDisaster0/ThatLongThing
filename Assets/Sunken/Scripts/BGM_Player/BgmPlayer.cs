@@ -17,16 +17,22 @@ public class BgmPlayer : MonoBehaviour
 
         if (sceneName.StartsWith("Stage1"))
         {
-            defaultSrc = SoundManager.instance?.PlayLoopSound("Stage1_BGM", Camera.main.gameObject);
+            defaultSrc = SoundManager.instance?.PlayLoopBackSound("Stage1_BGM");
         }
         else if (sceneName.StartsWith("Stage2"))
         {
-            defaultSrc = SoundManager.instance?.PlayLoopSound("Stage2_BGM", Camera.main.gameObject);
+            defaultSrc = SoundManager.instance?.PlayLoopBackSound("Stage2_BGM");
         }
         else if (sceneName.StartsWith("Stage3"))
-            defaultSrc = SoundManager.instance?.PlayLoopSound("Stage3_BGM", Camera.main.gameObject);
+            defaultSrc = SoundManager.instance?.PlayLoopBackSound("Stage3_BGM");
 
-        defaultSrc.GetComponent<DefaultSourceData>().isVolCon = false;
+        //defaultSrc.GetComponent<DefaultSourceData>().isVolCon = false;
         defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
+    }
+
+    private void OnDestroy()
+    {
+        if (defaultSrc != null)
+            SoundManager.instance.StopSound(defaultSrc);
     }
 }
