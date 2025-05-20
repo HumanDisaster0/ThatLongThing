@@ -10519,6 +10519,7 @@ MonoBehaviour:
   player: {fileID: 1244023932}
   focusTarget1: {fileID: 905332243}
   focusTarget2: {fileID: 2128702059}
+  mapPin: {fileID: 0}
 --- !u!1 &112599232820352219
 GameObject:
   m_ObjectHideFlags: 0
@@ -12842,15 +12843,15 @@ PrefabInstance:
     - target: {fileID: 419506237780468926, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: setter
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2455506874299824042}
     - target: {fileID: 419506237780468926, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: refRect
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6712833925727224478}
     - target: {fileID: 419506237780468926, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: tilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1237157869726871168}
     - target: {fileID: 2592921929951702410, guid: 2d2f9814353fa7540b06be4f3159b55b, type: 3}
       propertyPath: m_Name
       value: MapPinChecker
