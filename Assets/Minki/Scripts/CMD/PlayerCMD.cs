@@ -28,7 +28,6 @@ public static class PlayerCMD
     static Camera m_mainCam;
     static PlayerController m_pc;
 
-
     public static ConsoleCommand cmd_player_gotomouse = new ConsoleCommand(
         "cmd_player_gotomouse",
         () =>
@@ -38,6 +37,14 @@ public static class PlayerCMD
             pc.SetVelocity(Vector2.zero);
         },
         "/플레이어를 마우스 포인터 위치로 옮깁니다.", ExecFlag.CHEAT);
+
+    public static ConsoleCommand cmd_player_invicible = new ConsoleCommand(
+        "cmd_player_invicible",
+        (bool mode) =>
+        {
+            pc.Invincibility = mode;
+        },
+        "플레이어를 무적상태로 만듭니다.\n cmd_player_invicible <bool>", ExecFlag.CHEAT).SetTrackingValue(() => pc.Invincibility.ToString());
 
     public static ConsoleCommand cmd_player_magiclevel = new ConsoleCommand(
        "cmd_player_magiclevel",
