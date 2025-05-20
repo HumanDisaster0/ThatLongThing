@@ -1415,6 +1415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackGround3
       objectReference: {fileID: 0}
+    - target: {fileID: 6952151848149891745, guid: 79b3d65b4a770af4a9484af06f2df6d1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a78c59570943c6e468c3b0f0b0a55421, type: 2}
     - target: {fileID: 7780876246678378377, guid: 79b3d65b4a770af4a9484af06f2df6d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.75

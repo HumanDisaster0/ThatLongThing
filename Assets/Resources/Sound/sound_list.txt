@@ -73,3 +73,19 @@
                 Trex_Attack1.mp3
                 Trex_Attack2.mp3
                 Trex_Attack3.mp3
+
+UI
+  - Album_Click.mp3
+  - Album_Onmouse.mp3
+  - Button_Default.mp3
+  - Button_Start.mp3
+  - Map_Button.mp3
+  - Map_Check.mp3
+  - Quest_Click.mp3
+  - Quest_Onmouse.mp3
+  - Quest_Received.mp3
+  - Quest_Refuse.mp3
+  - Skill_Upgrade.mp3
+  - Text_Clear.mp3
+  - Text_Stamp.mp3
+  - Text_Write.mp3
