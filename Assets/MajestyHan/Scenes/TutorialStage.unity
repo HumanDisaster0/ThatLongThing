@@ -4854,6 +4854,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &1140718112 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2523941404371572733, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
+  m_PrefabInstance: {fileID: 1730699094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1146593395
 GameObject:
   m_ObjectHideFlags: 0
@@ -8423,6 +8428,10 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6993104955438663496, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
+      propertyPath: npcAnimator
+      value: 
+      objectReference: {fileID: 1140718112}
     - target: {fileID: 7324838521926188376, guid: 6bfe95c7c02c4784a9ec5f85499ccd8b, type: 3}
       propertyPath: m_Layer
       value: 0
