@@ -92,6 +92,8 @@ public class Destroyer : MonoBehaviour
     // 파괴된 타일 연출용 프리팹을 소환해 튕겨냄
     void SpawnFlyingTile(Tilemap tilemap, Vector3Int cellPos)
     {
+        SoundManager.instance.PlayNewSound("Tile_Break", gameObject);
+
         Vector3 worldPos = tilemap.GetCellCenterWorld(cellPos);
         GameObject flyingTile = Instantiate(flyingTilePrefab, worldPos, Quaternion.identity);
 
@@ -119,6 +121,8 @@ public class Destroyer : MonoBehaviour
     // 적을 튕겨내는 연출 (타일처럼)
     public void SpawnFlyingEnemy(Vector3 position, Sprite originalSprite)
     {
+        SoundManager.instance.PlayNewSound("Mole_Die2", gameObject);
+
         GameObject flyingObj = Instantiate(flyingTilePrefab, position, Quaternion.identity);
 
         var sr = flyingObj.GetComponent<SpriteRenderer>();
