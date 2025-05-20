@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -10,9 +12,23 @@ public class TutorialManager : MonoBehaviour
     public Transform focusTarget1;
     public Transform focusTarget2;
 
+    public MapPinMatchChecker mapPin;
 
-    public void Start()
+    private bool needPressedMapKey = false;
+    private bool needPressedMagicKey = false;
+    private bool needPressedCheckMapOkay = false;
+    private bool needPressedCheckMapNope = false;
+
+
+
+    private void Awake()
     {
+        mapPin = FindObjectOfType<MapPinMatchChecker>();
+    }
+
+    private void Start()
+    {
+        clearFlag();
         var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         if (mappinSetter == null)
@@ -20,6 +36,67 @@ public class TutorialManager : MonoBehaviour
 
         foreach (var com in mappinSetter)
             com.maxPinCount = 3;
+    }
+
+    private void Update()
+    {
+        if (needPressedCheckMapOkay)
+        {
+            foreach (var pin in mapPin.setter.pins)
+            {
+                var pinInfo = pin.GetComponent<MapPin>();
+                var s = pinInfo?.GetMapPinState;
+                if (s == MapPinState.Danger) // Danger = O표시
+                {
+                    player.SkipInput = false;
+                    needPressedCheckMapOkay = false;
+                    break;
+                }
+            }
+        }
+
+        if (needPressedCheckMapNope)
+        {
+            foreach (var pin in mapPin.setter.pins)
+            {
+                var pinInfo = pin.GetComponent<MapPin>();
+                var s = pinInfo?.GetMapPinState;
+                if (s == MapPinState.Fine) // Fine = X표시
+                {
+                    player.SkipInput = false;
+                    needPressedCheckMapNope = false;
+                    break;
+                }
+            }
+        }
+
+        if (needPressedMapKey)
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                player.SkipInput = false;
+                needPressedMapKey = false;
+            }
+        }
+
+        if (needPressedMagicKey)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                player.magic.UseMagic();
+                player.SkipInput = false;
+                needPressedMagicKey = false;
+            }
+        }
+    }
+
+
+    public void clearFlag()
+    {
+        needPressedMapKey = false;
+        needPressedMagicKey = false;
+        needPressedCheckMapOkay = false;
+        needPressedCheckMapNope = false;
     }
 
     public void TriggerPointA()
@@ -129,7 +206,7 @@ public class TutorialManager : MonoBehaviour
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
         "<color=#3f3f3f>환영해! 던전은 처음이지?",
-        "<color=#3f3f3f>데비 넌 지금부터 모험가 길드 소속의 탐사원으로서 근무하게 되었어.",
+        "<color=#3f3f3f>데비, 넌 지금부터 모험가 길드 소속의 탐사원으로서 근무하게 되었어.",
         "<color=#3f3f3f>첫날은 내가 자세히 설명을 해줄 테니까 잘 듣도록 해!"
     });
 
@@ -144,14 +221,14 @@ public class TutorialManager : MonoBehaviour
         DialogueManager.Instance.SetBubbleStyle(0);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
-        "<color=#3f3f3f>우선 지도를 열어볼래? [M]키를 누르면 돼."
+        "<color=#3f3f3f>우선 지도를 열어볼래? <color=red>[M]키<color=#3f3f3f>를 누르면 돼."
     });
 
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
-        player.SkipInput = false;
+        needPressedMapKey = true; // 맵 눌러야 풀림
     }
 
     //=====================================================================================================================
@@ -170,13 +247,13 @@ public class TutorialManager : MonoBehaviour
         "<color=#3f3f3f>어디에 위치해 있는지, 어떻게 작동하는지 쓰여 있는 거야.",
         "<color=#3f3f3f>예를 들어 우리 바로 앞에 있는 함정의 경우, \n아래로 화살표가 있으니 이 위에 올라가면 바닥이 아래로 꺼진다는 거지.",
         "<color=#3f3f3f>마법을 사용하면 마법 범위 내에서 함정을 탐지할 수 있어. \n한 번 해볼래?",
-        "<color=#3f3f3f>마법은 [Q]키를 누르면 사용할 수 있어.",
+        "<color=#3f3f3f>마법은 <color=red>[Q]키<color=#3f3f3f>키를 누르면 사용할 수 있어.",
     });
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
-        player.SkipInput = false;
+        needPressedMagicKey = true; //마법 사용해야 풀림
     }
 
     //=====================================================================================================================
@@ -225,15 +302,14 @@ public class TutorialManager : MonoBehaviour
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
         "<color=#3f3f3f>잘했어! \n그럼 이 함정은 제대로 작동하고 있는 거야.",
-        "<color=#3f3f3f>하지만 가끔 지도와 다르게 작동하고 있는 함정이 있는데, \n그건 지도에 따로 마우스 왼쪽클릭으로 표기를 해줘야 해.",
-        "<color=#3f3f3f>한번 클릭하면 함정이 제대로 발동하는 거고, \n두번 클릭하면 함정이 오작동을 하고 있다는 표시야.",
-        "<color=#3f3f3f>그럼 다음 함정을 확인해 보자."
+        "<color=#3f3f3f>하지만 가끔 지도와 다르게 작동하고 있는 함정이 있는데, \n그건 지도에 따로 마우스 <color=red>왼쪽 클릭<color=#3f3f3f>으로 표기를 해줘야 해.",
+        "<color=orange>한번 클릭<color=#3f3f3f>하면 함정이 <color=blue>정상작동<color=#3f3f3f>하는 거고, \n<color=brown>두번 클릭<color=#3f3f3f>하면 함정이 <color=red>오작동<color=#3f3f3f>을 하고 있다는 표시야."
     });
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
-        player.SkipInput = false;
+        needPressedCheckMapOkay = true;
     }
     //=====================================================================================================================
     //대화 E
@@ -247,6 +323,7 @@ public class TutorialManager : MonoBehaviour
         DialogueManager.Instance.SetBubbleStyle(0);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
+        "<color=#3f3f3f>그럼 다음 함정을 확인해 보자.", //흐름이 부자연스러워 임의로 옮겼음
         "<color=#3f3f3f>이번엔 저 함정 위로 올라가 볼래?"
     });
 
@@ -271,14 +348,14 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>이 함정의 경우는 지도에는 위로 올라간다고 되어 있는데, \n작동을 안 하네.",
         "<color=#3f3f3f>그런 경우에는 오류로 판단해서 지도에 표기를 해야 해.",
-        "<color=#3f3f3f>지도를 펼쳐서 오작동한 함정 위를 클릭해 봐."
+        "<color=#3f3f3f>지도를 펼쳐서 <color=red>오작동<color=#3f3f3f>한 함정 위를 <color=red>클릭<color=#3f3f3f>해 봐."
     });
 
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
-        player.SkipInput = false;
+        needPressedCheckMapNope = true;
     }
     //=====================================================================================================================
     //대화 G

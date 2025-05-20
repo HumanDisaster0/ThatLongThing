@@ -37,7 +37,7 @@ namespace SPTr.CMD
             },"/타임스케일을 4번의 모드로 나누어 변경합니다.");
 
         public static ConsoleCommand sys_timescale = new ConsoleCommand("sys_timescale", (float value) => { Time.timeScale = value; }, "타임스케일을 변경합니다.").SetTrackingValue(() => Time.timeScale.ToString());
-        public static ConsoleCommand sys_timescale_printmsg = new ConsoleCommand("sys_timescale_printmsg", (bool value) => { _printDebugMSG = value; }).SetTrackingValue(() => _printDebugMSG.ToString());
+        public static ConsoleCommand sys_timescale_printmsg = new ConsoleCommand("sys_timescale_printmsg", (bool value) => { _printDebugMSG = value; }, "타임스케일을 변경할 때 로그메시지의 출력 여부를 설정합니다.").SetTrackingValue(() => _printDebugMSG.ToString());
 
         private static int _timescaleMode = 0;
         private static bool _printDebugMSG = true;
