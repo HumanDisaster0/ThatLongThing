@@ -55,6 +55,7 @@ public class BgmPlayer : MonoBehaviour
     {
         SoundManager.instance.StopSound(defaultSrc);
         defaultSrc = SoundManager.instance?.PlayLoopBackSound("Danger_BGM");
+        defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
     }
 
     private void OnDestroy()

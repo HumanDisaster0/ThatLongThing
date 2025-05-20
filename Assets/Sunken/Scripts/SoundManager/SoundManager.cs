@@ -27,23 +27,18 @@ public class SoundManager : MonoBehaviour
     [Range(0f, 1f)]
     public float bgVol = 1f; // BGM
 
-    [SerializeField] float maxDistance = 10f; // 들리는 최대 거리
-
     Camera cam;
 
-#if UNITY_EDITOR
     private void OnValidate()
     {
         while (sources.Count < sourceSize)
         {
-            GameObject loaded = Resources.Load<GameObject>("Sound/DefaultSource");
+            GameObject loaded = Resources.Load<GameObject>("Sound/Prefab/DefaultSource");
             GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(loaded);
-            obj.transform.SetParent(transform, false);
+            obj.transform.SetParent(transform);
             sources.Add(obj.GetComponent<AudioSource>());
         }
-        sources = GetComponentsInChildren<AudioSource>().ToList();
     }
-#endif
 
     private void Awake()
     {
@@ -51,6 +46,8 @@ public class SoundManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
+        sources = GetComponentsInChildren<AudioSource>().ToList();
 
         cam = Camera.main;
         LoadAllSound();
@@ -84,6 +81,41 @@ public class SoundManager : MonoBehaviour
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                 sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
+                audioSource = sources[0];
+
+                sources[0].gameObject.transform.SetParent(caller.transform);
+
+                activeSources.Add(sources[0]);
+                sources.Remove(sources[0]);
+
+            }
+            else
+                Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+        }
+        else
+            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+
+    public AudioSource PlayNewSound(string soundName, GameObject caller, float maxDistance)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있을경우 실행
+        {
+            if (sources.Count != 0)
+            {
+                sources[0].clip = _clip;
+                sources[0].gameObject.transform.position =
+                    new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
+                sources[0].loop = false;
+                sources[0].volume = 1f;
+                sources[0].Play();
+                sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                    StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
+                sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance *= maxDistance;
                 audioSource = sources[0];
 
                 sources[0].gameObject.transform.SetParent(caller.transform);
@@ -187,6 +219,56 @@ public class SoundManager : MonoBehaviour
 
         return audioSource;
     }
+
+    public AudioSource PlaySound(string soundName, GameObject caller, float maxDistance)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있을경우 실행
+        {
+            // 자식 오브젝트에서 모든 AudioSource 가져오기
+            AudioSource[] objSources = caller.GetComponentsInChildren<AudioSource>();
+            bool isExist = false;
+
+            foreach (AudioSource source in objSources)
+            {
+                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist)
+            {
+                if (sources.Count != 0)
+                {
+                    sources[0].clip = _clip;
+                    sources[0].gameObject.transform.position =
+                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
+                    sources[0].loop = false;
+                    sources[0].volume = 1f;
+                    sources[0].Play();
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                        StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance *= maxDistance;
+                    audioSource = sources[0];
+                    sources[0].gameObject.transform.SetParent(caller.transform);
+
+                    activeSources.Add(sources[0]);
+                    sources.Remove(sources[0]);
+                }
+                else
+                    Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+            }
+        }
+        else
+            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+
     public AudioSource PlayBackSound(string soundName)
     {
         AudioSource audioSource = null;
@@ -264,9 +346,57 @@ public class SoundManager : MonoBehaviour
                     sources[0].loop = true;
                     sources[0].volume = 1f;
                     sources[0].Play();
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
                     audioSource = sources[0];
                     sources[0].gameObject.transform.SetParent(caller.transform);
 
+                    activeSources.Add(sources[0]);
+                    sources.Remove(sources[0]);
+                }
+                else
+                    Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+            }
+        }
+        else
+            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+
+        return audioSource;
+    }
+
+    public AudioSource PlayLoopSound(string soundName, GameObject caller, float maxDistance)
+    {
+        AudioSource audioSource = null;
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있는 경우 실행
+        {
+            // 자식 오브젝트에서 모든 AudioSource 가져오기
+            AudioSource[] objSources = caller.GetComponentsInChildren<AudioSource>();
+            bool isExist = false;
+
+            foreach (AudioSource source in objSources)
+            {
+                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist)
+            {
+                if (sources.Count != 0)
+                {
+                    sources[0].clip = _clip;
+                    sources[0].gameObject.transform.position =
+                        new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
+                    sources[0].loop = true;
+                    sources[0].volume = 1f;
+                    sources[0].Play();
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance *= maxDistance;
+                    audioSource = sources[0];
+                    sources[0].gameObject.transform.SetParent(caller.transform);
+                    
                     activeSources.Add(sources[0]);
                     sources.Remove(sources[0]);
                 }
@@ -309,6 +439,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].loop = true;
                     sources[0].volume = 1f;
                     sources[0].Play();
+                    sources[0].GetComponent<DefaultSourceData>().isVolCon = false;
                     audioSource = sources[0];
                     sources[0].gameObject.transform.SetParent(cam.transform);
 
@@ -344,6 +475,7 @@ public class SoundManager : MonoBehaviour
 
                     obj = source.gameObject;
                     DefaultSourceData data = obj.GetComponent<DefaultSourceData>();
+                    data.maxDistance = 10f;
                     obj.transform.SetParent(transform);
                     if (data.myCoroutine != null)
                         StopCoroutine(data.myCoroutine);
@@ -367,6 +499,7 @@ public class SoundManager : MonoBehaviour
             activeSources.Remove(_audio); // 활성화된 사운드 목록에서 제거
 
             DefaultSourceData data = _audio.gameObject.GetComponent<DefaultSourceData>();
+            data.maxDistance = 10f;
             _audio.transform.SetParent(transform);
             if (data.myCoroutine != null)
                 StopCoroutine(data.myCoroutine);
@@ -442,7 +575,7 @@ public class SoundManager : MonoBehaviour
                     // 거리 기반으로 볼륨 조절
                     float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
 
-                    float result = distanceFromCenter / maxDistance;
+                    float result = distanceFromCenter / data.maxDistance;
 
                     // 볼륨 조절
                     //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
