@@ -34,7 +34,7 @@ public class PlayerPortalInteract : MonoBehaviour
             //상호작용 키
             if(m_pc.IsGrounded && Input.GetKey(KeyCode.UpArrow))
             {
-                SoundManager.instance.PlaySound("Portal_Exe",gameObject);
+                SoundManager.instance.PlayBackSound("Portal_Exe");
                 m_portal = collision.transform;
                 m_isEntering = true;
                 
