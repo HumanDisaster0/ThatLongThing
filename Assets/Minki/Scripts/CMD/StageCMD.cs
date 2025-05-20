@@ -9,6 +9,15 @@ public static class StageCMD
 {
     public const string COLOR_ERROR = "#F78181";
 
+    public static ConsoleCommand cmd_check_anomalyname = new ConsoleCommand("cmd_check_anomalyname",
+            (int number) =>
+            {
+
+                Debug.Log(StageManager.instance.GetAnomalyName(number));
+
+            }, "이상현상의 이름을 출력합니다. \n- cmd_changestage <이상현상 번호 (1~15)>", ExecFlag.CHEAT);
+
+
     public static ConsoleCommand cmd_changestage = new ConsoleCommand("cmd_changestage",
             (string arguments) =>
             {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -25,8 +26,33 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public string GetAnomalyName(int anomalyIdx)
+    {
+        if (anomalyIdx >= m_anomalyName.Count
+            || anomalyIdx < 1)
+            return "No?. ???";
+
+        return m_anomalyName[anomalyIdx - 1];
+    }
+
+    private List<string> m_anomalyName;
+
     void LoadStage(Scene scene, LoadSceneMode mode)
     {
+        if(m_anomalyName == null)
+        {
+            TextAsset csv = Resources.Load<TextAsset>("missionCheckText");
+            string[] lines = csv.text.Split('\n');
+
+            m_anomalyName = new List<string>();
+
+            for (int i = 1; i< lines.Length; i += 3)
+            {
+                string[] cols = lines[i].Split(',');
+                m_anomalyName.Add(cols[0].Trim());
+            }
+        }
+
         //이름으로 피하기
         //if (!scene.name.Contains("Stage"))
         //    return;

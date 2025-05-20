@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
                 m_jumpCount++;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        if (Input.GetKeyDown(KeyCode.Q))
             magic.UseMagic();
     }
 
