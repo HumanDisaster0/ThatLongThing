@@ -102,12 +102,12 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 193
-  moveSpeed: 2.5
+  moveSpeed: 3
   moveSharpness: 12
-  airAcceleration: 2
+  airAcceleration: 2.4
   airDrag: 0.1
-  jumpForce: 8
-  gravityForce: 15
+  jumpForce: 10.5
+  gravityForce: 23
   maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -246,10 +247,7 @@ public class StageManager : MonoBehaviour
 
                     var monsters = GameObject.Find("Monsters").transform;
 
-                    for (int i = 0; i < monsters.childCount - 1; i++)
-                    {
-                        monsters.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                    }
+                    MonsterManager.instance.ChangeAllScale(1.01f);
 
                     break;
 
@@ -375,4 +373,8 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    //static KeyValuePair<string,string> GetCurrentStageInfo()
+    //{
+
+    //}
 }
