@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public enum MapPinState
 {
-    Fine = 0,
-    Danger,
+    Danger = 0,
+    Fine,
     Strange
 }
 
@@ -19,9 +19,13 @@ public class MapPin : MonoBehaviour, IPointerClickHandler
 
     public MapPinState GetMapPinState => m_mapPinState;
 
+    public Sprite DangerSprite;
+    public Sprite FineSprite;
+    public Sprite StrangeSprite;
+
     Image m_image;
 
-    MapPinState m_mapPinState = MapPinState.Fine;
+    MapPinState m_mapPinState = MapPinState.Danger;
 
     Color m_fineColor = Color.green;
     Color m_dangerColor = Color.red;
@@ -30,7 +34,8 @@ public class MapPin : MonoBehaviour, IPointerClickHandler
     private void Start()
     {
         m_image = GetComponent<Image>();
-        m_image.color = m_fineColor;
+        m_image.sprite = DangerSprite;
+        //m_image.color = m_fineColor;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -39,24 +44,28 @@ public class MapPin : MonoBehaviour, IPointerClickHandler
             && eventData.button == PointerEventData.InputButton.Left)
         {
             m_mapPinState = (MapPinState)((int)m_mapPinState + 1);
-
-            if((int)m_mapPinState > Enum.GetValues(typeof(MapPinState)).Length - 2)
+         
+            if ((int)m_mapPinState > Enum.GetValues(typeof(MapPinState)).Length - 2)
             {
                 pinSetter.DeletePin(gameObject.GetHashCode());
-               
                 return;
             }
 
+          
+
             switch(m_mapPinState)
             {
-                case MapPinState.Fine:
-                    m_image.color = m_fineColor;
-                    break;
                 case MapPinState.Danger:
-                    m_image.color = m_dangerColor;
+                    m_image.sprite = DangerSprite;
+                    //m_image.color = m_dangerColor;
+                    break;
+                case MapPinState.Fine:
+                    m_image.sprite = FineSprite;
+                    //m_image.color = m_fineColor;
                     break;
                 case MapPinState.Strange:
-                    m_image.color = m_strangeColor;
+                    m_image.sprite = StrangeSprite;
+                    //m_image.color = m_strangeColor;
                     break;
             }
         }

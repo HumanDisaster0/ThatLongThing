@@ -236,7 +236,7 @@ public class StageManager : MonoBehaviour
                     if(minimapPlayerPos != null)
                     {
                         var rect = minimapPlayerPos[0].GetComponent<RectTransform>();
-                        rect.sizeDelta = new Vector2(100, 200);
+                        rect.sizeDelta *= 4;
                     }
 
                     var monsters = GameObject.Find("Monsters").transform;

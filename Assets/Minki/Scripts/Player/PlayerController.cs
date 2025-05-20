@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         m_rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         ApplyScale();
 
-        minimap = GameObject.FindWithTag("Minimap")?.transform?.Find("Panel")?.Find("Minimap")?.GetComponent<RectTransform>();
+        minimap = GameObject.FindWithTag("Minimap")?.transform?.Find("Panel")?.Find("MapRect")?.GetComponent<RectTransform>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)

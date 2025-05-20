@@ -215,7 +215,7 @@ public class DestroyerForPlayer : MonoBehaviour
 
         destroyedTileMapData.Clear(); // 복구 기록 초기화
     }
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1f, 0.3f, 0.3f, 0.5f); // 반투명 빨강
@@ -223,4 +223,5 @@ public class DestroyerForPlayer : MonoBehaviour
         // 플레이어의 현재 위치 기준으로 감지 범위 표시
         Gizmos.DrawCube(transform.position, detectionHalfExtend * 2f);
     }
+#endif
 }
