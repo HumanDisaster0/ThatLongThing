@@ -82,6 +82,7 @@ public class CometController : MonoBehaviour
         m_pc = FindObjectOfType<PlayerController>();
 
         m_maskMat = m_pc.transform.Find("ShadowMask").GetComponent<SpriteRenderer>().material;
+
     }
 
     // Update is called once per frame
