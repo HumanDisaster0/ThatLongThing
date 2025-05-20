@@ -27,6 +27,11 @@ public class PlatformMove : MonoBehaviour
     private Vector2 initPos = Vector2.zero;
     private PlatformStatus initStat;
 
+    private void Awake()
+    {
+        initStat = currStat;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,7 +76,7 @@ public class PlatformMove : MonoBehaviour
                 rb.velocity = Vector2.Lerp(rb.velocity, moveDir * adjustedSpeed, moveSharpness * Time.deltaTime);
                 break;
         case PlatformStatus.stop:
-                rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, moveSharpness * Time.deltaTime);               
+                rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, moveSharpness * Time.deltaTime);
                 break;
         default:
                 currStat = PlatformStatus.stop;
@@ -87,9 +92,9 @@ public class PlatformMove : MonoBehaviour
 
     private bool CloseEnough(Transform target)
     {
-        if (Vector2.Distance(transform.position, target.position) < 0.01f)
+        if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
-            transform.position = target.position;
+            transform.position = Vector2.Lerp(transform.position, target.position, moveSharpness * Time.deltaTime);
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             currStat = PlatformStatus.stop;
             return true;
@@ -100,10 +105,13 @@ public class PlatformMove : MonoBehaviour
 
     public void ResetPos()
     {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
         StopAllCoroutines();
         currIdx = 0;
         transform.position = initPos;
         currStat = initStat;
+        rb.velocity = Vector2.zero;
         isReversal = false;
     }
 
