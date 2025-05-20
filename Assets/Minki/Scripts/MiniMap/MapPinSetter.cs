@@ -12,7 +12,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     public GameObject pinPrefab;
     public Text pinCountText;
 
-    public bool UseTilemapScale = false;
+    public bool UseTilemapScale = true;
 
     public IEnumerable<Transform> pins => m_pins.Values;
     public int maxPinCount = 5;

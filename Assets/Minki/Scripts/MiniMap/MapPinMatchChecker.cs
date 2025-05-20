@@ -105,6 +105,7 @@ public class MapPinMatchChecker : MonoBehaviour
     void ApplyTileInfo()
     {
         //월드 좌표 계산을 위한 사전 정보 수집
+        tilemap.CompressBounds();
         BoundsInt bounds = tilemap.cellBounds;
         int texWidth = bounds.size.x * MinimapTileInfo.tileSize;
         int texHeight = bounds.size.y * MinimapTileInfo.tileSize;
@@ -127,7 +128,6 @@ public class MapPinMatchChecker : MonoBehaviour
         //hitcount가 하나라도 있는지 확인
         if (overlapCount > 0)
         {
-            Debug.Log($"{overlapCount}") ;
             //가장 가까운 콜라이더 찾기
             Collider2D nearestCol = null;
             var nearestDist = Mathf.Infinity;
@@ -137,14 +137,12 @@ public class MapPinMatchChecker : MonoBehaviour
 
                 if (currentCol == null)
                 {
-                    Debug.Log($"{currentCol} : 콜라이더 없음");
                     continue;
                 }
                    
 
                 if (!currentCol.CompareTag(checkTag))
                 {
-                    Debug.Log($"{currentCol.tag} : 태그가 아님");
                     continue;
                 }
                    
@@ -153,7 +151,6 @@ public class MapPinMatchChecker : MonoBehaviour
 
                 if (Vector3.Distance(currentCol.transform.position , point) < nearestDist)
                 {
-                    Debug.Log($"{currentCol.name} : 기록함");
                     nearestDist = Vector3.Distance(currentCol.transform.position, point);
                     nearestCol = currentCol;
                 }
@@ -168,6 +165,17 @@ public class MapPinMatchChecker : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+        if (!setter)
+            return;
+        //tilemap.CompressBounds();
+        //var b = tilemap.cellBounds;
+
+        //Gizmos.DrawSphere(b.max, 0.5f);
+        //Gizmos.DrawSphere(b.min, 0.5f);
+
+        //Debug.Log(b.max);
+        //Debug.Log(b.min);
+
         foreach (var pin in setter.pins)
         {
             var rect = pin.GetComponent<RectTransform>();

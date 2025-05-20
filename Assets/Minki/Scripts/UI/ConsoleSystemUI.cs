@@ -135,6 +135,9 @@ namespace SPTr.UI
         {
             if(!TextField.isFocused)
                 BindCMD.InvokeBinding();
+
+            if(Input.GetKey(KeyCode.K))
+            Debug.Log("ㅁㅁㅇㅁㄴㅇ먼이만ㅇ미낭머ㅏ니어ㅑㄷㄹ빚아먼얌니엄닝ㅁㄴ러댕머니ㅏ얄넝미ㅏㅇ 냐머안밍 ㅑㅇ ㅓㄴ먀ㅣ ㅑㅇ ㅓ냐밍 ㅑ님야빚ㅇ");
         }
 
         public void AddToSuggestionTree(ConsoleCommand cmd)
@@ -149,9 +152,33 @@ namespace SPTr.UI
 
         public void HandleLog(string logText, string stackTrace, LogType type)
         {
+            string newText = logText;
             if (instance.ConsoleLog.text != "")
-                instance.ConsoleLog.text += "\n";
-            instance.ConsoleLog.text += logText;
+                newText = "\n" + newText;
+
+            // 현재 콘솔 로그 텍스트와 새로 추가할 텍스트의 길이 합계
+            int totalLength = instance.ConsoleLog.text.Length + newText.Length;
+
+            // 최대 제한인 15000자를 초과하는 경우
+            if (totalLength > 15000)
+            {
+                // 제거해야 할 문자 수 계산
+                int charsToRemove = totalLength - 15000;
+
+                // 현재 텍스트에서 앞부분을 잘라내기
+                if (charsToRemove < instance.ConsoleLog.text.Length)
+                {
+                    instance.ConsoleLog.text = instance.ConsoleLog.text.Substring(charsToRemove);
+                }
+                else
+                {
+                    // 현재 텍스트보다 제거할 양이 많은 경우 텍스트를 비움
+                    instance.ConsoleLog.text = "";
+                }
+            }
+
+            // 새 로그 추가
+            instance.ConsoleLog.text += newText;
         }
 
         public void SelectSuggestionFromIndex(int idx)

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 8968510565193850932}
   - component: {fileID: 9041721918396192628}
   - component: {fileID: 9169502309803756339}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,15 +98,16 @@ MonoBehaviour:
   playerSprite: {fileID: 3383517809638756659}
   playerAnimator: {fileID: 3600912065508381684}
   spriteRoot: {fileID: 8560393258800881193}
+  magic: {fileID: 6626655283768768172}
   groundMask:
     serializedVersion: 2
     m_Bits: 193
-  moveSpeed: 2.5
+  moveSpeed: 3
   moveSharpness: 12
-  airAcceleration: 1.8
+  airAcceleration: 2.4
   airDrag: 0.1
-  jumpForce: 8
-  gravityForce: 15
+  jumpForce: 10.5
+  gravityForce: 23
   maxJumpCount: 1
   coyoteJumpTime: 0.08
   jumpBufferTime: 0.15
@@ -373,30 +374,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: MidLevelSpr
-      value: 
-      objectReference: {fileID: 21300000, guid: 1a79a9d7e0882674d835f0b406a97182, type: 3}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: lowLevelSpr
-      value: 
-      objectReference: {fileID: 21300000, guid: 301692f0e78d0324984efcc94a423a62, type: 3}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: HighLevelSpr
-      value: 
-      objectReference: {fileID: 21300000, guid: 6260aac07895a664babdd93627a61d3d, type: 3}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: BGSpriteRender
-      value: 
-      objectReference: {fileID: 7029066961958917782}
-    - target: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-      propertyPath: magicSpriteRender
-      value: 
-      objectReference: {fileID: 8708628115065600107}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -407,13 +384,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5022512373818666496, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
   m_PrefabInstance: {fileID: 944720318475198147}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &7029066961958917782 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 7822771480045815893, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
+--- !u!114 &6626655283768768172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6263040063329691759, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
   m_PrefabInstance: {fileID: 944720318475198147}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &8708628115065600107 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8486770983166289576, guid: 4770ed27a577a6748b3a2ea833b5b14f, type: 3}
-  m_PrefabInstance: {fileID: 944720318475198147}
-  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ea469b24be32f4d8217539c1d42cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

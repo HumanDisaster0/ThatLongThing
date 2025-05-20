@@ -41,8 +41,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlackY: -17.5
-    - _Cutoff: -17
+    - _BlackY: -17
+    - _Cutoff: -16.5
     - _Softness: 0.2
     - _dirReverse: 1
     - _isVertical: 0

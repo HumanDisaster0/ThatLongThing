@@ -125,6 +125,15 @@ public class TrapTrigger : MonoBehaviour
         }
     }
 
+    public void ForceActiveTrigger(GameObject other)
+    {
+        if (m_isActiveObstacle)
+            return;
+
+        m_isActiveObstacle = true;
+        StartCoroutine(ActiveTrap(other));
+    }
+
     // 함정 켜지기 이전 상태로 만들기위한 함수
     public void ResetTrigger()
     {

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 [System.Serializable]
 public class SpriteTile
 {
     public Sprite sprite;
-    public Vector2 scale = Vector2.one;
+    public Vector2 localScale = Vector2.one;
     public float rotationZ = 0f;
 }
+
 
 [CreateAssetMenu(menuName = "UI/ChatBubbleStyle")]
 public class ChatBubbleStyle : ScriptableObject
@@ -24,8 +25,6 @@ public class ChatBubbleStyle : ScriptableObject
     public SpriteTile edgeRight;
 
     public SpriteTile centerTile;
-    public SpriteTile decorationTileA;
-    public SpriteTile decorationTileB;
 }
 
 public class ChatBubbleBuilder : MonoBehaviour
@@ -39,7 +38,6 @@ public class ChatBubbleBuilder : MonoBehaviour
     [Header("¼³Á¤°ª")]
     public int width = 10;
     public int height = 4;
-    public int decorationCount = 2;
 
     private List<GameObject> pooledTiles = new();
     private List<GameObject> pooledRows = new();
@@ -56,7 +54,7 @@ public class ChatBubbleBuilder : MonoBehaviour
         }
 
         GameObject newRow = new GameObject("Row", typeof(RectTransform));
-        newRow.transform.SetParent(holder);
+        newRow.transform.SetParent(holder, false);
         HorizontalLayoutGroup layout = newRow.AddComponent<HorizontalLayoutGroup>();
         layout.spacing = 0;
         layout.childControlWidth = true;
@@ -70,29 +68,30 @@ public class ChatBubbleBuilder : MonoBehaviour
 
     private GameObject GetTile(SpriteTile tileData)
     {
-        foreach (var tile in pooledTiles)
+        foreach (var tile1 in pooledTiles)
         {
-            if (!tile.activeSelf && tile.name.StartsWith(tileData.sprite.name))
+            if (!tile1.activeSelf && tile1.name == tileData.sprite.name)
             {
-                tile.SetActive(true);
-                SetImage(tile, tileData);
-                return tile;
+                tile1.SetActive(true);
+                return tile1;
             }
         }
 
-        GameObject newTile = new GameObject(tileData.sprite.name + "_Clone", typeof(RectTransform), typeof(Image));
-        newTile.transform.SetParent(holder);
-        SetImage(newTile, tileData);
-        pooledTiles.Add(newTile);
-        return newTile;
+        GameObject tile = new GameObject(tileData.sprite.name, typeof(RectTransform), typeof(Image));
+        tile.transform.localScale = new Vector3(tileData.localScale.x, tileData.localScale.y, 1f);
+        tile.transform.rotation = Quaternion.Euler(0, 0, tileData.rotationZ);
+
+        Image image = tile.GetComponent<Image>();
+        image.sprite = tileData.sprite;
+        image.SetNativeSize();
+
+        pooledTiles.Add(tile);
+        return tile;
     }
 
-    private void SetImage(GameObject go, SpriteTile tileData)
+    void Start()
     {
-        Image img = go.GetComponent<Image>();
-        img.sprite = tileData.sprite;
-        go.transform.localScale = new Vector3(tileData.scale.x, tileData.scale.y, 1f);
-        go.transform.rotation = Quaternion.Euler(0f, 0f, tileData.rotationZ);
+        BuildBubble();
     }
 
     public void ApplyStyle(ChatBubbleStyle newStyle)
@@ -117,46 +116,23 @@ public class ChatBubbleBuilder : MonoBehaviour
 
         for (int y = 1; y < height - 1; y++)
         {
-            CreateRow(style.edgeLeft, style.centerTile, style.edgeRight, y == height - 2);
+            CreateRow(style.edgeLeft, style.centerTile, style.edgeRight);
         }
-
         CreateRow(style.cornerBottomLeft, style.edgeBottom, style.cornerBottomRight);
     }
 
-    private void CreateRow(SpriteTile left, SpriteTile middle, SpriteTile right, bool allowDecoration = false)
+    private void CreateRow(SpriteTile left, SpriteTile middle, SpriteTile right)
     {
         GameObject row = GetRow();
-        row.transform.SetParent(holder);
+        row.transform.SetParent(holder, false);
 
-        HorizontalLayoutGroup layout = row.GetComponent<HorizontalLayoutGroup>();
-        if (layout == null)
-        {
-            layout = row.AddComponent<HorizontalLayoutGroup>();
-            layout.spacing = 0;
-            layout.childControlWidth = true;
-            layout.childControlHeight = true;
-            layout.childForceExpandWidth = false;
-            layout.childForceExpandHeight = false;
-        }
-
-        GetTile(left).transform.SetParent(row.transform);
-
-        int remainingDecorations = decorationCount;
+        GetTile(left).transform.SetParent(row.transform, false);
 
         for (int i = 1; i < width - 1; i++)
         {
-            if (allowDecoration && remainingDecorations > 0 && Random.value < 0.3f)
-            {
-                SpriteTile deco = Random.value < 0.5f ? style.decorationTileA : style.decorationTileB;
-                GetTile(deco).transform.SetParent(row.transform);
-                remainingDecorations--;
-            }
-            else
-            {
-                GetTile(middle).transform.SetParent(row.transform);
-            }
+            GetTile(middle).transform.SetParent(row.transform, false);
         }
 
-        GetTile(right).transform.SetParent(row.transform);
+        GetTile(right).transform.SetParent(row.transform, false);
     }
 }
