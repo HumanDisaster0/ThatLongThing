@@ -126,6 +126,8 @@ public class MagicAbility : MonoBehaviour
                     //fx활성화 - 풀에서 가져오기
                     if (!m_foundTrap.Contains(m_colliders[i].GetHashCode()))
                     {
+                        SoundManager.instance.PlayNewSound("Trap_Discover", m_colliders[i].gameObject);
+
                         m_foundTrap.Add(m_colliders[i].GetHashCode());
 
                         MagicFX fx;
