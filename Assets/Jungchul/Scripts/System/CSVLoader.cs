@@ -12,7 +12,7 @@ public static class CSVLoader
 
         for (int i = 1; i < lines.Length; i++)
         {
-            string[] cols = lines[i].Split(',');
+            string[] cols = lines[i].Split('/');
 
             if (cols.Length < 5) continue;
 
