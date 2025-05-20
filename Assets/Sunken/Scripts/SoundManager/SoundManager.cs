@@ -115,7 +115,7 @@ public class SoundManager : MonoBehaviour
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                 sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
-                sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance *= maxDistance;
+                sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance = maxDistance;
                 audioSource = sources[0];
 
                 sources[0].gameObject.transform.SetParent(caller.transform);
@@ -252,7 +252,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                     sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
-                    sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance *= maxDistance;
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance = maxDistance;
                     audioSource = sources[0];
                     sources[0].gameObject.transform.SetParent(caller.transform);
 
@@ -393,7 +393,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].volume = 1f;
                     sources[0].Play();
                     sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
-                    sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance *= maxDistance;
+                    sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance = maxDistance;
                     audioSource = sources[0];
                     sources[0].gameObject.transform.SetParent(caller.transform);
                     
@@ -475,7 +475,7 @@ public class SoundManager : MonoBehaviour
 
                     obj = source.gameObject;
                     DefaultSourceData data = obj.GetComponent<DefaultSourceData>();
-                    data.maxDistance = 10f;
+                    data.maxDistance = 20f;
                     obj.transform.SetParent(transform);
                     if (data.myCoroutine != null)
                         StopCoroutine(data.myCoroutine);
@@ -499,7 +499,7 @@ public class SoundManager : MonoBehaviour
             activeSources.Remove(_audio); // 활성화된 사운드 목록에서 제거
 
             DefaultSourceData data = _audio.gameObject.GetComponent<DefaultSourceData>();
-            data.maxDistance = 10f;
+            data.maxDistance = 20f;
             _audio.transform.SetParent(transform);
             if (data.myCoroutine != null)
                 StopCoroutine(data.myCoroutine);
