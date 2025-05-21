@@ -36,12 +36,14 @@ public class MapKeyboardControl : MonoBehaviour
 
     public void HideMinimap()
     {
+        SoundManager.instance.PlayNewBackSound("Map_Button");
         miniMapUIRect.gameObject.SetActive(false);
         miniMapOpenRect.gameObject.SetActive(true);
     }
 
     public void ShowMinimap()
     {
+        SoundManager.instance.PlayNewBackSound("Map_Button");
         miniMapUIRect.gameObject.SetActive(true);
         miniMapOpenRect.gameObject.SetActive(false);
     }
