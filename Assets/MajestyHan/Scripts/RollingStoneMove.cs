@@ -56,6 +56,8 @@ public class RollingStoneMove : MonoBehaviour
         irregularShakeTimer += Time.deltaTime;
         if (irregularShakeTimer >= nextShakeTime)
         {
+            SoundManager.instance?.PlayNewBackSound("Trex_Land");
+
             cam?.ShakeCamera(50f, 0.5f, 0.8f); // 강한 흔들림 한 번            
             irregularShakeTimer = 0f;
             nextShakeTime = Random.Range(2f, 5f); // 다음 타이밍 설정

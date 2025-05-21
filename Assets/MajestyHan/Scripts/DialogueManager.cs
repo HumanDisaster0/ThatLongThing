@@ -68,6 +68,8 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowCurrentLine()
     {
+        SoundManager.instance?.PlayNewBackSound("Album_Onmouse");
+
         if (currentIndex >= currentLines.Count)
         {
             isPlaying = false;

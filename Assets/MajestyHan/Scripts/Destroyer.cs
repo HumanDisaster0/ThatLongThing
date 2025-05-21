@@ -92,10 +92,12 @@ public class Destroyer : MonoBehaviour
     // 파괴된 타일 연출용 프리팹을 소환해 튕겨냄
     void SpawnFlyingTile(Tilemap tilemap, Vector3Int cellPos)
     {
-        SoundManager.instance.PlayNewSound("Tile_Break", gameObject);
-
         Vector3 worldPos = tilemap.GetCellCenterWorld(cellPos);
         GameObject flyingTile = Instantiate(flyingTilePrefab, worldPos, Quaternion.identity);
+
+        // 사운드 플레이
+        AudioSource ausrc = SoundManager.instance.PlayNewBackSound("Tile_Break");
+        ausrc.volume = 0.5f;
 
         // 타일맵의 원래 타일 이미지 복사
         var sr = flyingTile.GetComponent<SpriteRenderer>();

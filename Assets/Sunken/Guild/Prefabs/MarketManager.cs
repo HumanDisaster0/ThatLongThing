@@ -137,6 +137,8 @@ public class MarketManager : MonoBehaviour
         return false;
     }
 
+    int GetShieldLevel() { return shieldLevel; }
+
     int GetDoubleJumpLevel()
     {
         return doubleJumpLevel;

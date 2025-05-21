@@ -72,7 +72,11 @@ public class CutSceneManager : MonoBehaviour
             // 예외 처리 추가 가능 (태그 등)
             if (obj.activeInHierarchy)
             {
-                obj.SetActive(false);
+                if(obj.name == "SoundManager" || obj.name == "DefaultSource")
+                    continue;
+                else
+                    obj.SetActive(false);
+
                 objectsToDisable.Add(obj);
             }
         }
@@ -124,6 +128,9 @@ public class CutSceneManager : MonoBehaviour
                     continue;
                 }
             }
+
+            SoundManager.instance?.PlayNewBackSound("Text_Write");
+
             builder.Append(message[i]);
             target.text = builder.ToString();
             i++;

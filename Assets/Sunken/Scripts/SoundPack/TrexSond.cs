@@ -26,16 +26,16 @@ public class TrexSond : MonoBehaviour
                 switch (trex.state)
                 {
                     case TrexMove.MonsterState.Idle:
-                        SoundManager.instance?.PlayLoopSound("Trex_Idle", trex.gameObject, 2f);
+                        SoundManager.instance?.PlayLoopSound("Trex_Idle", trex.gameObject);
                         break;
                     case TrexMove.MonsterState.Chase:
-                        SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject, 2f);
+                        SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject);
                         break;
                     case TrexMove.MonsterState.Patrol:
-                        SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject, 2f);
+                        SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject);
                         break;
                     case TrexMove.MonsterState.Jumping:
-                        SoundManager.instance?.PlayNewSound("Trex_Attack2", trex.gameObject, 2f);
+                        SoundManager.instance?.PlayNewSound("Trex_Attack2", trex.gameObject);
                         break;
                 }
 

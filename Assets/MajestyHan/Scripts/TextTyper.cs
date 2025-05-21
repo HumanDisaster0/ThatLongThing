@@ -32,6 +32,8 @@ public static class TextTyper
                 }
             }
 
+            SoundManager.instance?.PlayNewBackSound("Text_Write");
+
             builder.Append(message[i]);
             target.text = builder.ToString();
             i++;
