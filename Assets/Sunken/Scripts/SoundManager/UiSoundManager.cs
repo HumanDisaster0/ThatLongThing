@@ -35,7 +35,10 @@ public class UiSoundManager : MonoBehaviour
     {
         foreach (UiSoundData data in soundDatas) {
             if (data.soundTag == _tag && data.uiSfx == _status)
-                SoundManager.instance?.PlayNewBackSound(data.soundName);
+            {
+                AudioSource audSrc = SoundManager.instance?.PlayNewBackSound(data.soundName);
+                audSrc.volume = SoundManager.instance.seVol;
+            }
         }
     }
 }

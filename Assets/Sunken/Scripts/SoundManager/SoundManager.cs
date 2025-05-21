@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
 
 
 #if UNITY_EDITOR
@@ -521,5 +523,17 @@ public class SoundManager : MonoBehaviour
         {
             BgmPlayer.instance.StartBgmPlayer();
         }
+    }
+
+    public void SetBgVolume(Slider slider)
+    {
+        if(instance)
+            bgVol = slider.value;
+    }
+
+    public void SetSeVolume(Slider slider)
+    {
+        if (instance)
+            seVol = slider.value;
     }
 }
