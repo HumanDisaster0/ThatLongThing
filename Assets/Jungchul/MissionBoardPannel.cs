@@ -16,7 +16,7 @@ public class MissionBoardPannel : MonoBehaviour
         CloseBtn.SetClickAction(() =>
         {            
             //PostedMissionPanel.Instance.CardShowSet(false);
-            PauseManager.Instance.pauseButtonInstance.SetActive(true);
+            //PauseManager.Instance.pauseButtonInstance.SetActive(true);
             GuildRoomManager.Instance.missionBoardPanel.SetActive(false);            
             GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
         });

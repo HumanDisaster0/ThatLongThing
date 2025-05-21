@@ -10,8 +10,8 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseOverlay;
     //public GameObject pausePanel;
 
-    public GameObject pauseButtonPrefab;
-    public GameObject pauseButtonInstance;
+    //public GameObject pauseButtonPrefab;
+    //public GameObject pauseButtonInstance;
 
     public GameObject pausePanelPrefab;
     private GameObject pausePanelInstance;
@@ -43,6 +43,16 @@ public class PauseManager : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+            pauseOverlay?.SetActive(true);
+            pausePanelInstance?.SetActive(true);
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         string name = scene.name;
@@ -51,47 +61,23 @@ public class PauseManager : MonoBehaviour
         bool shouldShowPause = !(name == "Title" || name == "Prologue");
 
         if (shouldShowPause)
-        {
-            if (pauseButtonInstance == null)
-                CreatePauseButton();
-
+        {       
             if(pausePanelInstance == null)
                 CreatePausePanel();
 
-            pausePanelInstance.SetActive(false);
-            pauseButtonInstance.SetActive(true);  
+            pausePanelInstance.SetActive(false);        
 
         }
         else
-        {
-            if (pauseButtonInstance != null)
-                pauseButtonInstance.SetActive(false);
-
-            if (pauseButtonInstance != null)
+        {   
+            if (pausePanelInstance != null)
                 pausePanelInstance.SetActive(false);
         }
 
         //pausePanel?.SetActive(false);
         pauseOverlay?.SetActive(false);
     }
-
-    private void CreatePauseButton()
-    {
-        if (pauseButtonPrefab == null)
-        {
-            Debug.LogError("PauseButtonPrefab이 인스펙터에서 설정되지 않았습니다.");
-            return;
-        }
-
-        pauseButtonInstance = Instantiate(pauseButtonPrefab);
-        pauseButtonInstance.name = "PauseButton";
-        pauseButtonInstance.transform.position = new Vector3(8.5f, 4.5f, 0);
-        print("일시정지버튼 생성!");
-
-        var btn = pauseButtonInstance.GetComponent<CustomClickable>();
-        if (btn != null)
-            btn.onClick += Pause;
-    }
+   
 
     public void Pause()
     {

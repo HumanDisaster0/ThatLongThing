@@ -221,7 +221,7 @@ public class PostedMissionPanel : MonoBehaviour
     public void PopupBtnAccept()
     {
         print("½´¶ô");
-        PauseManager.Instance.pauseButtonInstance.SetActive(true);
+        //PauseManager.Instance.pauseButtonInstance.SetActive(true);
         GuildRoomManager.Instance.missionBoardPanel.SetActive(false);
         GuildRoomManager.Instance.DoorOutOn();
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);

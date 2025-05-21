@@ -317,7 +317,7 @@ public class GuildRoomManager : MonoBehaviour
                     //
                     Debug.Log($"{name}:" + selectedMission + "º±≈√µ ");
                     PostedMissionPanel.Instance.CardShowSet(false);
-                    PauseManager.Instance.pauseButtonInstance.SetActive(true);
+                    //PauseManager.Instance.pauseButtonInstance.SetActive(true);
                     GoldManager.Instance.ClearReward();
                 }
                 avatar.isMovable = true;
@@ -433,7 +433,7 @@ public class GuildRoomManager : MonoBehaviour
                 break;
 
             case viewState.MISSIONBOARD:
-                PauseManager.Instance.pauseButtonInstance.SetActive(false);
+                //PauseManager.Instance.pauseButtonInstance.SetActive(false);
                 avatar.isMovable = false;
                 if (!missionBoardPanel.gameObject.activeSelf)
                 {
