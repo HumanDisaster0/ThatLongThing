@@ -54,6 +54,8 @@ public class EndingSceneManager : MonoBehaviour
 
     public string mainMenuSceneName = "MainMenu"; // 엔딩 후 메인메뉴 씬 이름
 
+    private AudioSource bgmSrc; // BGM 소스
+
     private void Awake()
     {
         // 색수차(Chromatic Aberration) 효과 캐싱
@@ -66,7 +68,7 @@ public class EndingSceneManager : MonoBehaviour
     private void Start()
     {
         autoPlayMode = true;
-        autoPlayDelay = 1.0f;
+        autoPlayDelay = 2.0f;
 
         // 모든 UI/연출 기본 비활성화
         choicePanel.SetActive(false);
@@ -75,6 +77,9 @@ public class EndingSceneManager : MonoBehaviour
 
         // 엔딩 컷씬 재생 시작!
         StartCoroutine(PlayCutScenes());
+
+        // BGM 재생
+        bgmSrc = BgmPlayer.instance?.ChangeBgm("Ending_BGM");
     }
 
     /// <summary>
@@ -94,12 +99,20 @@ public class EndingSceneManager : MonoBehaviour
                 yield return ShowChoice();
             }
 
+            if (i == (choiceCutIndex + 1))
+            {
+                yield return new WaitForSeconds(1.0f);  // 자동 대기
+            }
 
             if (i == shakeCutIndex)
             {
                 EndingSceneCamera camShake = Camera.main.GetComponent<EndingSceneCamera>();
                 if (camShake != null)
-                    StartCoroutine(camShake.LerpShake(1.5f, 0.5f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
+                {
+                    SoundManager.instance?.PlayNewBackSound("Trex_Land");
+                    StartCoroutine(camShake.LerpShake(1.5f, 0.5f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기  
+                }
+                      
             }
 
             if (i == (shakeCutIndex + 1))
@@ -156,7 +169,12 @@ public class EndingSceneManager : MonoBehaviour
         bool fakeTriggered = false;
 
         // "예" 클릭 이벤트
-        realChoiceBtn.onClick.AddListener(() => { realChosen = true; });
+        realChoiceBtn.onClick.AddListener(() => 
+        { 
+            if(!bgmSrc.isPlaying)
+                bgmSrc.UnPause();
+
+            realChosen = true; });
 
         // "아니요" 클릭 이벤트(깨짐 컷신 연출)
         fakeChoiceBtn.onClick.AddListener(() =>
@@ -192,6 +210,9 @@ public class EndingSceneManager : MonoBehaviour
     /// </summary>
     private IEnumerator FakeChoiceBrokenCutScenes(System.Action onBrokenComplete)
     {
+        // 0. BGM 일시정지
+        bgmSrc.Pause();
+
         // 1. 아니요 버튼 비활성화(숨김)
         fakeChoiceBtn.interactable = false;
         fakeChoiceBtn.gameObject.SetActive(false);
@@ -202,10 +223,15 @@ public class EndingSceneManager : MonoBehaviour
             postProcessVolume.gameObject.SetActive(true);
 
         EndingSceneCamera camShake = Camera.main.GetComponent<EndingSceneCamera>();
+
+        // 흔들리는 사운드 출력
+        SoundManager.instance?.PlayNewBackSound("Trex_Land");
+
         if (camShake != null)
             yield return StartCoroutine(camShake.LerpShake(0.7f, 1.0f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
         // 3. 금감 이미지 + 색수차 효과(Chromatic Aberration) ON
         yield return new WaitForSeconds(0.3f);
+        SoundManager.instance?.PlayNewBackSound("Glass_Crack");
         cutSceneImage.sprite = brokenGlass1;
         if (chromaticAberration != null) chromaticAberration.intensity.value = 0.3f;
         if (cutSceneText != null) cutSceneText.text = ""; // 텍스트 숨김
@@ -214,6 +240,8 @@ public class EndingSceneManager : MonoBehaviour
         if (camShake != null)
             yield return StartCoroutine(camShake.LerpShake(1.2f, 2.0f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
 
+        SoundManager.instance?.PlayNewBackSound("Trex_Land");
+        SoundManager.instance?.PlayNewBackSound("Glass_Crack");
         cutSceneImage.sprite = brokenGlass2;
         if (chromaticAberration != null) chromaticAberration.intensity.value = 1.0f;
 

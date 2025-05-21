@@ -76,11 +76,13 @@ public class BgmPlayer : MonoBehaviour
         defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
     }
 
-    public void ChangeBgm(string _soundName)
+    public AudioSource ChangeBgm(string _soundName)
     {
         SoundManager.instance?.StopSound(defaultSrc);
         defaultSrc = SoundManager.instance?.PlayLoopBackSound(_soundName);
         defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
+
+        return defaultSrc;
     }
 
     public void UpdateVolume()
