@@ -32,9 +32,16 @@ public class FallingRock : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        m_col.isTrigger = true;
         if (((1 <<collision.gameObject.layer) & groundMask.value) != 0)
         {
-            m_col.isTrigger = true;
+            tag = "Untagged";
+        }
+        else
+        {
+            var randDir = System.Math.Sign(Random.Range(-1, 2));
+            m_rb.velocity = Vector2.zero;
+            m_rb.AddForce(new Vector2(randDir * Random.Range(18f, 32f), 55f), ForceMode2D.Impulse);
         }
     }
 
@@ -58,6 +65,7 @@ public class FallingRock : MonoBehaviour
         transform.SetPositionAndRotation(m_defaultPos, m_defaultRot);
         sprite.enabled = false;
         m_rb.bodyType = RigidbodyType2D.Static;
+        tag = "RedZone";
     }
 
     public void TrapOn()
