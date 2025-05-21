@@ -159,7 +159,7 @@ public class GuildCounter : MonoBehaviour
         answerText.text = q.characterComment[choiceIndex];
         answerBox.SetActive(true);
         isAnswerRevealed = true;
-
+        
         totalSolvedCount++;
 
         for (int i = Mathf.Max(GuildRoomManager.Instance.quizResults.Count - 3, 0); i < GuildRoomManager.Instance.quizResults.Count; i++)

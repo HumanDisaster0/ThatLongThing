@@ -80,8 +80,8 @@ public class TitleSceneManager : MonoBehaviour
         print("Prologue·Î!");
         DeactivateUI();
 
-        Invoke("LoadTutorialScene", 1f);
-        //Invoke("LoadGuildMain", 0.1f);
+        //Invoke("LoadTutorialScene", 1f);
+        Invoke("LoadGuildMain", 0.1f);
     }
 
     void LoadTutorialScene()

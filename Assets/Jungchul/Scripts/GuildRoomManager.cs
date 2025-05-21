@@ -322,7 +322,7 @@ public class GuildRoomManager : MonoBehaviour
 
             case viewState.COUNTER:
                 
-                if (cState != preCState || cState==counterState.TROLL_P)
+                if (cState != preCState || cState==counterState.TROLL_P || cState==counterState.QUIZ_P)
                 {
                     var gcp = guildCounterPanel.GetComponent<GuildCounter>();
                     
