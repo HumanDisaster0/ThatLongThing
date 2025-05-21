@@ -18,14 +18,14 @@ public class brrrrrr : MonoBehaviour
     {
         while (true)
         {
-            // 방향에 따라 위치 이동
+           
             Vector3 currentPos = br.transform.position;
             br.transform.position = new Vector3(currentPos.x + moveDistance * direction, currentPos.y, currentPos.z);
 
-            // 방향 반전
+           
             direction *= -1;
 
-            // 0.5초 대기
+           
             yield return new WaitForSeconds(moveInterval);
         }
     }
