@@ -65,6 +65,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);
         //家府掺扁
+        SoundManager.instance.SetMute(true);
         yield return null;
 
         float timer = 0.0f;
@@ -77,7 +78,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_graphicRaycaster.enabled = false;
         timer = 0.0f;
         //家府犁积
-
+        SoundManager.instance.SetMute(false);
         Time.timeScale = 1.0f;
 
         while (timer < fadeTime)
@@ -108,7 +109,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_playerController.SetVelocity(Vector2.zero);
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);
-        //家府掺扁
+        SoundManager.instance.SetMute(true);
         yield return null;
 
         timer = 0.0f;
@@ -140,7 +141,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_camCon.TrackPositionImediate();
         m_graphicRaycaster.enabled = false;
         timer = 0.0f;
-        //家府犁积
+        SoundManager.instance.SetMute(false);
 
         Time.timeScale = 1.0f;
 

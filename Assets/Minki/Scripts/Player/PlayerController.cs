@@ -93,8 +93,6 @@ public class PlayerController : MonoBehaviour
     bool m_freeze;
     bool m_invincibility;
 
-    int m_debugDeathCount;
-
     //플레이어 상태
     PlayerState m_currentState = PlayerState.Idle;
 
@@ -523,7 +521,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //PlayerSpawnManager.instance.Respawn();
                     Freeze = true;
-                    preLifeIndicator.PlayRespawnAnimation(++m_debugDeathCount);
+                    preLifeIndicator.PlayRespawnAnimation(++StageManager.instance.deathCount);
                 }
                 break;
         }
