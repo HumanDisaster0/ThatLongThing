@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEngine.CullingGroup;
 
 public enum PlayerState
@@ -53,6 +54,9 @@ public class PlayerController : MonoBehaviour
 
     public Action<PlayerState> OnStateChanged;
     public Action OnLand;
+
+    public bool ForceInput;
+    public int Dir;
 
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
     public bool Invincibility { get { return m_invincibility; } set { m_invincibility = value; } }

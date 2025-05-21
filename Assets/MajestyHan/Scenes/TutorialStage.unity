@@ -11588,7 +11588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f3dea686ecdbd4686e20b5ce32d77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: stage2
+  nextSceneName: GuildMain
   cutSceneImages:
   - {fileID: 21300000, guid: af9ceb3b41f072c4e9978a3db868ac06, type: 3}
   - {fileID: 21300000, guid: f4a2845ad60f78f4183709b476bb0713, type: 3}
