@@ -11,6 +11,8 @@ public class StageManager : MonoBehaviour
     public static StageManager instance;
 
     public int anomalyIdx = 0;
+    public int deathCount = 0;
+    public MapMatchData matchData;
 
     private void Awake()
     {
@@ -39,7 +41,9 @@ public class StageManager : MonoBehaviour
 
     void LoadStage(Scene scene, LoadSceneMode mode)
     {
-        if(m_anomalyName == null)
+        deathCount = 0;
+
+        if (m_anomalyName == null)
         {
             TextAsset csv = Resources.Load<TextAsset>("missionCheckText");
             string[] lines = csv.text.Split('\n');
