@@ -14,7 +14,7 @@ public class GuildRoomManager : MonoBehaviour
 
     public GameObject GuildRoomManagerPrefab;
 
-    private bool hideObjectActivated = false;  
+    private bool hideObjectActivated = false;
     private bool isFirstTime = true;
     private bool isReturned = false;
     public bool isGetRewardYet = true;
@@ -72,7 +72,7 @@ public class GuildRoomManager : MonoBehaviour
     public GameObject checkResult;
 
     public TextDrawer textDrawer;
-   
+
 
 
     private void Awake()
@@ -153,7 +153,7 @@ public class GuildRoomManager : MonoBehaviour
             guildCounterPanel = GameObject.Find("GuildCounter");
             albumPanel = GameObject.Find("MissionBoardPanel");
             checkResult = GameObject.Find("d_CheckResult");
-            
+
 
             settlementPanel = GameObject.Find("SettlementPanel");
             if (settlementPanel == null)
@@ -273,7 +273,7 @@ public class GuildRoomManager : MonoBehaviour
         {
             case viewState.IDLE:
 
-                if(GoldManager.Instance.totalGold < 0)
+                if (GoldManager.Instance.totalGold < 0)
                 {
                     Debug.Log("Ãµ°­ÆÄ»ê·Ú!");
                     Debug.Log("À¯ºê°«°³ÅÐ");
@@ -302,8 +302,14 @@ public class GuildRoomManager : MonoBehaviour
                 }
                 if (!isGetRewardYet && isReportYet && !trollCheck)
                 {
-                    
+
                     checkResult.gameObject.SetActive(true);
+
+                    gcp.closeButton.enabled = false;
+                    gcp.cAlbum.isInteractable = false;                    
+                    gcp.cMissionBoard.isInteractable = false;
+                    gcp.cTalk.isInteractable = false;
+
                     if (checkResult)
                     {
                         Debug.Log("checkResultÈ°¼ºÈ­");
@@ -312,7 +318,7 @@ public class GuildRoomManager : MonoBehaviour
                     }
 
                     gcp.StartQuiz();
-                    
+
                     isReportYet = false;
                 }
 

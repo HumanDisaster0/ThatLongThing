@@ -58,13 +58,13 @@ public class GoldManager : MonoBehaviour
 
     public void SetReward(int ftc, int dc, int ec)
     {
-        GoldManager.Instance.findTrapCount = ftc;
-        GoldManager.Instance.deadCount = dc;
-        GoldManager.Instance.rdc = dc > 5 ? 5 : dc;
-        GoldManager.Instance.ejectionCount = ec;
-        GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
-        GoldManager.Instance.Tax = -60;
-        //calRewardGold 임시값 : findTrapCount * 100 + deadCount * 20 + ejectionCount * 200;
+        //GoldManager.Instance.findTrapCount = ftc;
+        //GoldManager.Instance.deadCount = dc;
+        //GoldManager.Instance.rdc = dc > 5 ? 5 : dc;
+        //GoldManager.Instance.ejectionCount = ec;
+        //GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
+        //GoldManager.Instance.Tax = -60;
+        ////calRewardGold 임시값 : findTrapCount * 100 + deadCount * 20 + ejectionCount * 200;
     }
 
     public void ClearReward()
