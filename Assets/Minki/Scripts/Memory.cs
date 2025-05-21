@@ -76,6 +76,15 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     private void OnDisable()
     {
         selected = null;
+        if(m_isSelected)
+        {
+            m_isSelected = false;
+            m_animated = false;
+
+            m_rectTransform.SetSiblingIndex(m_savedIdx);
+            m_rectTransform.localPosition = m_savedPos;
+            m_rectTransform.sizeDelta = m_savedSize;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -144,6 +153,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     IEnumerator AnimateToOrigin()
     {
+        m_animated = true;
         Vector2 targetSize = m_savedSize;
         Vector3 targetPos = m_savedPos;
 
@@ -163,8 +173,11 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         }
 
         m_rectTransform.SetSiblingIndex(m_savedIdx);
+        m_rectTransform.localPosition = targetPos;
+        m_rectTransform.sizeDelta = targetSize;
 
         selected = null;
         m_isSelected = false;
+        m_animated = false;
     }
 }
