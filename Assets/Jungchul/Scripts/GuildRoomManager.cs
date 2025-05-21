@@ -223,7 +223,7 @@ public class GuildRoomManager : MonoBehaviour
                 }
                 worldLeftLimit = -8.6f;
                 worldRightLimit = 8.6f;
-                avatar.SetLimits(worldLeftLimit, worldRightLimit);
+                //avatar.SetLimits(worldLeftLimit, worldRightLimit);
 
                 foreach (var obj in guildObjects)
                 {
@@ -273,12 +273,16 @@ public class GuildRoomManager : MonoBehaviour
 
     void Update()
     {
+        if (!avatar)
+            return;
+
         if (isReturned)
         {
             ForceMoveOnRetrun();
             return;
         }
         Vector3 avatarPos = avatar.transform.position;
+
         //if (avatar != null)
         //{          
         //    avatarPos = avatar.transform.position;            
