@@ -472,6 +472,8 @@ public class TutorialManager : MonoBehaviour
 
     void BlackOutOnce()
     {
+        SoundManager.instance?.PlayNewBackSound("Mole_Die2");
+
         CutSceneManager.Instance.blackOutImage.gameObject.SetActive(true);
         Invoke("nextSceneGOGO", 1f);
     }
