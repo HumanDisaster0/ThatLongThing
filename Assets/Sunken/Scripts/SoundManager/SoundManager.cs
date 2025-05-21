@@ -14,9 +14,9 @@ using UnityEditor.Rendering;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+    public bool isLowResource = false;
 
     [SerializeField] Dictionary<string, AudioClip> soundClips = new Dictionary<string, AudioClip>();
-
     [SerializeField] int sourceSize = 10;
     [SerializeField] List<AudioSource> sources;
     [SerializeField] List<AudioSource> activeSources;
@@ -67,8 +67,7 @@ public class SoundManager : MonoBehaviour
     private void OnLevelWasLoaded(int level)
     {
         cam = Camera.main;
-        if (!cam)
-            Debug.LogError("카메라가 없다고? 진짜?");
+        sources = GetComponentsInChildren<AudioSource>().ToList();
     }
 
     /// <summary>
@@ -154,8 +153,6 @@ public class SoundManager : MonoBehaviour
             if (sources.Count != 0)
             {
                 sources[0].clip = _clip;
-                sources[0].gameObject.transform.position =
-                    new Vector3(cam.transform.position.x, cam.transform.position.y, sources[0].transform.position.z);
                 sources[0].loop = false;
                 sources[0].volume = 1f;
                 sources[0].Play();
@@ -163,8 +160,6 @@ public class SoundManager : MonoBehaviour
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                 sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = false;
                 audioSource = sources[0];
-
-                sources[0].gameObject.transform.SetParent(cam.transform);
 
                 activeSources.Add(sources[0]);
                 sources.Remove(sources[0]);
@@ -174,7 +169,7 @@ public class SoundManager : MonoBehaviour
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
         }
         else
-            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!!");
+            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -289,13 +284,11 @@ public class SoundManager : MonoBehaviour
 
         if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있을경우 실행
         {
-            // 자식 오브젝트에서 모든 AudioSource 가져오기
-            AudioSource[] objSources = cam.GetComponentsInChildren<AudioSource>();
             bool isExist = false;
 
-            foreach (AudioSource source in objSources)
+            foreach (AudioSource source in activeSources)
             {
-                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                if (!source.GetComponent<DefaultSourceData>().isVolCon && source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
                     audioSource = source;
@@ -308,8 +301,6 @@ public class SoundManager : MonoBehaviour
                 if (sources.Count != 0)
                 {
                     sources[0].clip = _clip;
-                    sources[0].gameObject.transform.position =
-                        new Vector3(cam.transform.position.x, cam.transform.position.y, sources[0].transform.position.z);
                     sources[0].loop = false;
                     sources[0].volume = 1f;
                     sources[0].Play();
@@ -317,7 +308,6 @@ public class SoundManager : MonoBehaviour
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
                     sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = false;
                     audioSource = sources[0];
-                    sources[0].gameObject.transform.SetParent(cam.transform);
 
                     activeSources.Add(sources[0]);
                     sources.Remove(sources[0]);
@@ -327,7 +317,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!! : " + soundName);
+            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!! : " + soundName);
 
         return audioSource;
     }
@@ -433,13 +423,11 @@ public class SoundManager : MonoBehaviour
 
         if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있는 경우 실행
         {
-            // 자식 오브젝트에서 모든 AudioSource 가져오기
-            AudioSource[] objSources = cam.GetComponentsInChildren<AudioSource>();
             bool isExist = false;
 
-            foreach (AudioSource source in objSources)
+            foreach (AudioSource source in activeSources)
             {
-                if (source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
+                if (!source.GetComponent<DefaultSourceData>().isVolCon && source.clip == _clip) // 현재 오디오가 soundName과 같은 경우
                 {
                     isExist = true;
                     audioSource = source;
@@ -452,14 +440,11 @@ public class SoundManager : MonoBehaviour
                 if (sources.Count != 0)
                 {
                     sources[0].clip = _clip;
-                    sources[0].gameObject.transform.position =
-                        new Vector3(cam.transform.position.x, cam.transform.position.y, sources[0].transform.position.z);
                     sources[0].loop = true;
                     sources[0].volume = 1f;
                     sources[0].Play();
                     sources[0].GetComponent<DefaultSourceData>().isVolCon = false;
                     audioSource = sources[0];
-                    sources[0].gameObject.transform.SetParent(cam.transform);
 
                     activeSources.Add(sources[0]);
                     sources.Remove(sources[0]);
@@ -469,7 +454,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError(cam + " 이 잘못된 사운드를 요청하였음!!");
+            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -586,19 +571,27 @@ public class SoundManager : MonoBehaviour
                 {
                     // 화면안에 없으면 무시
                     if (!data.isVisible)
+                    {
+                        source.volume = 0f;
                         continue;
+                    }
                     else
                     {
-                        Vector2 pos = source.transform.position;
+                        if (isLowResource)  // 저사양모드 설정시
+                            source.volume = seVol;
+                        else
+                        {
+                            Vector2 pos = source.transform.position;
 
-                        // 거리 기반으로 볼륨 조절
-                        float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
+                            // 거리 기반으로 볼륨 조절
+                            float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
 
-                        float result = distanceFromCenter / data.maxDistance;
+                            float result = distanceFromCenter / data.maxDistance;
 
-                        // 볼륨 조절
-                        //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
-                        source.volume = (1 - result) * seVol;
+                            // 볼륨 조절
+                            //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                            source.volume = (1 - result) * seVol;
+                        }
                     }
                 }
             }
