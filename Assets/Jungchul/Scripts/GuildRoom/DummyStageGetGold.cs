@@ -19,9 +19,8 @@ public class DummyStageGetGold : MonoBehaviour
 
             if (panel != null)
             {
-                panel.gameObject.SetActive(false);
-                                               
-                GoldManager.Instance.getRewardGold(GoldManager.Instance.rewardGold);
+                panel.gameObject.SetActive(false);                                  
+                
 
                 NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
                                 
@@ -29,7 +28,7 @@ public class DummyStageGetGold : MonoBehaviour
 
                 SceneManager.LoadScene("GuildMain");
 
-                Debug.Log($"rewardGold:{GoldManager.Instance.rewardGold}");
+                
 
             }
         });

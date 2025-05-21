@@ -7,7 +7,7 @@ public class StdRenderer : MonoBehaviour
     public Sprite[] StdSprites;
     public Image displayImage;       // 보여질 Image 컴포넌트
 
-    private int currentIndex = 0;
+    //private int currentIndex = 0;
 
     void Start()
     {
