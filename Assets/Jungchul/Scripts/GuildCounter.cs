@@ -11,15 +11,16 @@ public class GuildCounter : MonoBehaviour
     public GameObject answerBox;
     public TextMeshPro answerText;
 
+
     public CustomClickable closeButton;
     public CustomClickable cMissionBoard;
     public CustomClickable cAlbum;
     public CustomClickable cTalk;
 
     [Header("중간 결과 발표용")]
-    public GameObject resultPanel;            // 중간 결과 발표용 패널 (비활성 상태로 시작)
-    public TextMeshPro resultText;            // 결과 요약 텍스트
-    public Sprite resultImage;  // 이미지 등 효과
+    public GameObject trollPanel;            // 중간 결과 발표용 패널 (비활성 상태로 시작)
+    public TextMeshPro trollText;            // 결과 요약 텍스트
+    public GameObject trollImage;  // 이미지 등 효과
 
     private List<QuestionData> questions;
     private int currentQuestionIndex = 0;
@@ -39,12 +40,6 @@ public class GuildCounter : MonoBehaviour
     void Awake()
     {
         //guildRoomManager = FindObjectOfType<GuildRoomManager>();
-       
-
-    }
-
-    void OnEnable()
-    {
         Transform closeBtnTransform = transform.Find("Counter_exit");
         if (closeBtnTransform != null)
         {
@@ -73,21 +68,27 @@ public class GuildCounter : MonoBehaviour
             cTalk.SetClickAction(OnCloseButtonClicked);
         }
 
+
+    }
+
+    public void Start()
+    {
+
         // 문제번호 계산
         int missionCode = GuildRoomManager.Instance.selectedMission;
         qIdx = missionCode / 1000;
 
         //Debug.Log($"문제번호: {qIdx}  {missionCode}");
 
-        // 중간결과 확인
-        if ((totalSolvedCount + 1) % 3 == 0)
-        {
-            ShowMidResult();
-            return;
-        }
+        // 중간결과 확인       
         isEnd = false;
 
-        StartQuiz();
+    }
+
+    void OnEnable()
+    {
+
+
     }
 
     public void StartQuiz()
@@ -104,10 +105,9 @@ public class GuildCounter : MonoBehaviour
 
     void InitUI()
     {
-
         whatDidYouText.text = "이번 의뢰 수고 많으셨습니다.\n의뢰의 대상은 결국 무엇이었나요?";
         answerBox.SetActive(false);
-        resultPanel.SetActive(false);
+        trollPanel.SetActive(false);
         answerBox.SetActive(false);
 
         foreach (var c in choices)
@@ -132,8 +132,6 @@ public class GuildCounter : MonoBehaviour
         {
             choiceTexts[i].text = q.choices[i];
         }
-
-        
     }
 
     void OnChoiceSelected(int choiceIndex)
@@ -156,6 +154,8 @@ public class GuildCounter : MonoBehaviour
         isAnswerRevealed = true;
         totalSolvedCount++;
 
+        GoldManager.Instance.PlusGold(30);
+
         // 문제 번호 초기화        
     }
 
@@ -164,44 +164,17 @@ public class GuildCounter : MonoBehaviour
 
         if (isAnswerRevealed && Input.GetMouseButtonDown(0))
         {
-            //Debug.Log($"문제인덱스 {currentQuestionIndex}");
-            //Debug.Log($"문제와 답변 {questions[currentQuestionIndex].npcReplies[questions[currentQuestionIndex].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[0].npcReplies[questions[0].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[1].npcReplies[questions[1].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[2].npcReplies[questions[2].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[3].npcReplies[questions[3].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[4].npcReplies[questions[4].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[5].npcReplies[questions[5].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[6].npcReplies[questions[6].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[7].npcReplies[questions[7].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[8].npcReplies[questions[8].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[9].npcReplies[questions[9].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[10].npcReplies[questions[10].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[11].npcReplies[questions[11].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[12].npcReplies[questions[12].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[13].npcReplies[questions[13].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[14].npcReplies[questions[14].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[15].npcReplies[questions[15].correctIndex]}");
-
             whatDidYouText.text = questions[currentQuestionIndex].npcReplies[sIndex];
             isAnswerRevealed = false;
             isEnd = true;
         }
     }
 
-    void ShowMidResult()
+    public void ShowMidResult(int wrong)
     {
-        resultPanel.SetActive(true);
+        trollPanel.SetActive(true);      
 
-        int last3Start = Mathf.Max(quizResults.Count - 3, 0);
-        int correctCount = 0;
-        for (int i = last3Start; i < quizResults.Count; i++)
-        {
-            if (quizResults[i].isCorrect)
-                correctCount++;
-        }
-
-        resultText.text = $"최근 3문제 중 {correctCount}개 정답!";
+        trollText.text = $"데비씨. 당신이 보고한 이상현상 중 {wrong}개가 잘못 보고되어 보지 못하는 사람들의 피해가 있따라 발생했습니다. 길드의 규칙에 따라 벌금 40x(틀린횟수) 부과하겠습니다.";
         // resultImage.sprite = ...; // 이미지 변경도 가능
 
         // 퀴즈 시작은 외부에서 resultPanel 종료 이후 StartQuiz() 수동 호출
@@ -209,8 +182,28 @@ public class GuildCounter : MonoBehaviour
 
     private void OnCloseButtonClicked()
     {
-        gameObject.SetActive(false); 
+        gameObject.SetActive(false);
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
 
+    }
+
+    public void btnOnOff(bool onoff)
+    {
+        if (onoff)
+        {
+            Debug.Log("버튼 켜기");
+            closeButton.isInteractable = true;
+            cMissionBoard.isInteractable = true;
+            cAlbum.isInteractable = true;
+            cTalk.isInteractable = true;
+        }
+        else
+        {
+            Debug.Log("버튼 끄기");
+            closeButton.isInteractable = false;
+            cMissionBoard.isInteractable = false;
+            cAlbum.isInteractable = false;
+            cTalk.isInteractable = false;
+        }
     }
 }

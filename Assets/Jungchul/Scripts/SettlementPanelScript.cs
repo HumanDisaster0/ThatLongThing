@@ -19,7 +19,7 @@ public class SettlementPanelScript : MonoBehaviour
     private GameObject settlementBg;
     private GameObject taxBg;
 
-    public GameManager gc;
+    public GameObject gc;
 
     void Awake()
     {
@@ -76,33 +76,26 @@ public class SettlementPanelScript : MonoBehaviour
 
     public void RefreshTexts()
     {
+        
         if (GoldManager.Instance != null)
         {
+            GoldManager.Instance.calRewardGold();
+            GoldManager.Instance.getRewardGold();
+
             text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
             text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
-            text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
-
-            GoldManager.Instance.calRewardGold();
+            text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";            
 
             text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
-            textTax.text = GoldManager.Instance.Tax.ToString();
+            textTax.text = $"-({GoldManager.Instance.Tax} )";
             textWeek.text = GuildRoomManager.Instance.day.ToString();
         }
     }
 
-    private void OnCloseButtonClicked()
-    {
-        var tgc = gc.GetComponent<GuildCounter>();
-
-        tgc.cTalk.isInteractable = true;
-        tgc.cAlbum.isInteractable = true;
-        tgc.cMissionBoard.isInteractable = true;
-        tgc.closeButton.enabled = true;
-
-        gameObject.SetActive(false);
-
-        GoldManager.Instance.getRewardGold(GoldManager.Instance.rewardGold);
-        Debug.Log($"rewardGold: {GoldManager.Instance.rewardGold}");
+    public void OnCloseButtonClicked()
+    {      
+        
+        gameObject.SetActive(false);       
 
         GuildRoomManager.Instance.isGetRewardYet = false;
     }

@@ -9,9 +9,9 @@ public class CutSceneManager : MonoBehaviour
 {
     private void Start()
     {
-        //PlayRegisteredCutScene();
+        PlayRegisteredCutScene();
         //Å×½ºÆ®¿ë
-        blackOutImage.gameObject.SetActive(false);
+        //blackOutImage.gameObject.SetActive(false);
     }
 
     public static CutSceneManager Instance { get; private set; }
@@ -22,6 +22,7 @@ public class CutSceneManager : MonoBehaviour
 
     [Header("ÄÆ¾À µ¥ÀÌÅÍ")]
     public List<Sprite> cutSceneImages;
+    [TextArea]
     public List<string> cutSceneTexts;
     public float autoDelay = 1.0f;
     public Image blackOutImage;

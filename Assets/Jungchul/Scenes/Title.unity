@@ -188,8 +188,8 @@ MonoBehaviour:
   missionDetailSprites:
   - {fileID: 21300000, guid: 48d668b0730d839418c7ab1eb5ea6106, type: 3}
   - {fileID: 21300000, guid: 0f1d4547c1157a54f992b3f25d043480, type: 3}
+  - {fileID: 21300000, guid: 9b7dcade14497ff4caaaf2c7ec244ce6, type: 3}
   - {fileID: 21300000, guid: b74af2c0d3fe87743a11fc8ed04f26ca, type: 3}
-  - {fileID: 21300000, guid: bfa5f9dd462230b4d91b24595c9ef171, type: 3}
   - {fileID: 21300000, guid: 970eb3ae1e2bf0847b91d91799aad38a, type: 3}
   - {fileID: 21300000, guid: 17e07717770b9f641965f6586e09f2eb, type: 3}
   - {fileID: 21300000, guid: 757ce5c516811214c8680d0776286669, type: 3}
