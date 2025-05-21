@@ -39,6 +39,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_minimapControl = GameObject.FindGameObjectWithTag("Minimap").GetComponent<MapKeyboardControl>();
         m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         title.text = StageManager.instance.GetAnomalyName(StageManager.instance.anomalyIdx);
+        SoundManager.instance?.SetMute(true);
         StartCoroutine(StartAnim());
     }
 
@@ -76,7 +77,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_graphicRaycaster.enabled = false;
         timer = 0.0f;
         //소리재생
-        SoundManager.instance.SetMute(false);
+        SoundManager.instance?.SetMute(false);
         Time.timeScale = 1.0f;
 
         while (timer < fadeTime)
@@ -141,7 +142,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_graphicRaycaster.enabled = false;
         StageManager.instance.deathCount++;
         timer = 0.0f;
-        SoundManager.instance.SetMute(false);
+        SoundManager.instance?.SetMute(false);
 
         Time.timeScale = 1.0f;
 

@@ -86,7 +86,7 @@ public class DialogueManager : MonoBehaviour
     {
         skipRequested = false;
         currentTypingLine = line;
-        yield return StartCoroutine(TextTyper.TypeText(dialogueText, line, 0.04f, () => skipRequested));
+        yield return StartCoroutine(TextTyper.TypeText(dialogueText, line, 0.04f,  () => skipRequested));
         waitingForInput = true;
 
         if (AutoPlayMode)

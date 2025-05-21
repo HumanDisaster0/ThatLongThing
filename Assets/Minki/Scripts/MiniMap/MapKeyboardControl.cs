@@ -23,15 +23,6 @@ public class MapKeyboardControl : MonoBehaviour
             }
             return;
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            HideMinimap();
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            ShowMinimap();
-        }
     }
 
     public void HideMinimap()
