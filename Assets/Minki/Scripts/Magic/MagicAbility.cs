@@ -31,6 +31,8 @@ public class MagicAbility : MonoBehaviour
 
     public Color BGSpriteColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
 
+    public bool IsUsedAbility => m_useAbility;
+
     Dictionary<int, MagicFX> m_allocatedFX = new Dictionary<int, MagicFX>();
     HashSet<int> m_foundTrap = new HashSet<int>();
     HashSet<int> m_currentTrap = new HashSet<int>();

@@ -11,7 +11,7 @@ public class ButtonOnCursor : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     Image m_image;
 
-    void Start()
+    void Awake()
     {
         m_image = GetComponent<Image>();
     }

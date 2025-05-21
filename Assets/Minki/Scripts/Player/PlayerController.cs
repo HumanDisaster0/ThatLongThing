@@ -522,7 +522,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //PlayerSpawnManager.instance.Respawn();
                     Freeze = true;
-                    preLifeIndicator.PlayRespawnAnimation(++StageManager.instance.deathCount);
+                    preLifeIndicator.PlayRespawnAnimation(StageManager.instance.deathCount + 1);
                 }
                 break;
         }

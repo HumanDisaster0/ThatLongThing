@@ -139,6 +139,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_playerController.Freeze = false;
         m_camCon.TrackPositionImediate();
         m_graphicRaycaster.enabled = false;
+        StageManager.instance.deathCount++;
         timer = 0.0f;
         SoundManager.instance.SetMute(false);
 

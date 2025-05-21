@@ -64,7 +64,7 @@ MonoBehaviour:
   FXLayer:
     serializedVersion: 2
     m_Bits: 32
-  BGSpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  BGSpriteColor: {r: 0, g: 0, b: 0, a: 0.43137255}
 --- !u!212 &8486770983166289576
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 180, y: 60, z: 1}
+  m_LocalScale: {x: 1200, y: 1200, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5022512373818666496}
