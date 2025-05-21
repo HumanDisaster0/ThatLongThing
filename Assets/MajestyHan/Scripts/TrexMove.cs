@@ -36,6 +36,7 @@ public class TrexMove : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private BoxCollider2D col;
+    private TrexThink think;
 
     private float pauseTimer = 0f;
     private float thinkTimer = 0f;
@@ -49,6 +50,7 @@ public class TrexMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         col = GetComponent<BoxCollider2D>();
+        think = GetComponent<TrexThink>();
     }
 
     void Update()
@@ -284,6 +286,11 @@ public class TrexMove : MonoBehaviour
     }
     public void PrepareJump(Vector3 target)
     {
+        if (state == MonsterState.Chase)
+        {
+            preJumpTargetPosition = think.player.position; //
+        }
+
         prevState = state;
         targetPosition = target;
         ChangeState(MonsterState.ReadyToJump); // ← 준비 후 점프
@@ -293,6 +300,11 @@ public class TrexMove : MonoBehaviour
     {
         if (state == MonsterState.ReadyToJump || state == MonsterState.Jumping)
             return;
+
+        if (state == MonsterState.Chase)
+        {
+            preJumpTargetPosition = think.player.position;
+        }
 
         prevState = state;
         targetPosition = target;

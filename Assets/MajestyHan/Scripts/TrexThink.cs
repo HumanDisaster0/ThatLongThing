@@ -36,6 +36,10 @@ public class TrexThink : MonoBehaviour
 
     private Vector2 spawnPoint;
 
+    private float stuckSampleInterval = 0.5f; // 측정 간격
+    private float stuckSampleTimer = 0f;
+    private Vector2 lastSampledPosition;
+
     private bool isWallAhead = false;
     private bool isGrounded = false;
     private bool isCliffAhead = false;
@@ -90,30 +94,37 @@ public class TrexThink : MonoBehaviour
 
     private void LateUpdate()
     {
-        Vector2 currentPosition = transform.position;
-        float velocityX = rb.velocity.x;
-        float movedX = Mathf.Abs(currentPosition.x - prevPosition.x);
+        stuckSampleTimer += Time.deltaTime;
 
-        if (move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase)
+        if (stuckSampleTimer >= stuckSampleInterval)
         {
-            if (Mathf.Abs(velocityX) > 0.1f && movedX < stuckMovementThreshold)
+            Vector2 currentPosition = transform.position;
+            float velocityX = rb.velocity.x;
+            float movedX = Mathf.Abs(currentPosition.x - lastSampledPosition.x);
+
+            if (move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase)
             {
-                stuckTimer += Time.deltaTime;
-                if (stuckTimer >= stuckCheckDuration)
+                if (Mathf.Abs(velocityX) > 0.1f && movedX < stuckMovementThreshold)
                 {
-                    Debug.Log("[TrexThink] 끼인 것 같음 → 가장 가까운 점프노드로 탈출 시도");
-                    ForceRespawn(move.state);
+                    stuckTimer += stuckSampleTimer; // 누적 시간 추가
+                    if (stuckTimer >= stuckCheckDuration)
+                    {
+                        Debug.Log("[TrexThink] 끼인 것 같음 → 점프 탈출 시도");
+                        ForceRespawn(move.state);
+                        stuckTimer = 0f;
+                    }
+                }
+                else
+                {
                     stuckTimer = 0f;
                 }
             }
-        }
-        else
-        {
-            stuckTimer = 0f;
-        }
 
-        prevPosition = currentPosition;
+            lastSampledPosition = currentPosition;
+            stuckSampleTimer = 0f;
+        }
     }
+
 
     void ForceRespawn(MonsterState returnState)
     {
@@ -248,12 +259,23 @@ public class TrexThink : MonoBehaviour
         // 7. 착지 후보 중 가장 플레이어와 높이(y)가 비슷한 지점을 선택
         if (candidates.Count > 0)
         {
-
             Vector2 best;
 
             if (move.state == TrexMove.MonsterState.Chase)
             {
-                // 플레이어와 가장 가까운 후보 선택 (X+Y 거리 기준)
+                float playerDir = Mathf.Sign(player.position.x - transform.position.x);
+                List<Vector2> directionalCandidates = new();
+
+                foreach (var point in candidates)
+                {
+                    float pointDir = Mathf.Sign(point.x - transform.position.x);
+                    if (Mathf.Approximately(pointDir, playerDir))
+                        directionalCandidates.Add(point);
+                }
+
+                if (directionalCandidates.Count > 0)
+                    candidates = directionalCandidates;
+
                 float bestScore = float.MaxValue;
                 best = candidates[0];
 
@@ -270,16 +292,12 @@ public class TrexThink : MonoBehaviour
                     }
                 }
             }
-            else // Patrol 상태 등
+            else
             {
-                // 랜덤하게 하나 선택
                 best = candidates[Random.Range(0, candidates.Count)];
             }
 
-
-
-            // 최적의 착지 지점으로 점프 실행
-            move.PrepareJump(best); // ← 준비 상태부터 점프
+            move.PrepareJump(best);
             Debug.Log($"[TrexThink] 수직 스텝 스캔 점프 실행 → 착지점: {best}");
         }
         else
