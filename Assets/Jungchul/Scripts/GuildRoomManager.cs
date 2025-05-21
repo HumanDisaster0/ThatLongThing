@@ -17,7 +17,7 @@ public class GuildRoomManager : MonoBehaviour
     private bool hideObjectActivated = false;
     private bool isFirstTime = true;
     private bool isReturned = false;
-    public bool isGetRewardYet = true;
+    public bool isGetRewardYet = false;
     public bool isReportYet = true;
     //private bool isMissionSelected = false;
 
@@ -92,6 +92,8 @@ public class GuildRoomManager : MonoBehaviour
         isFirstTime = true;
         isReturned = false;
 
+
+        isGetRewardYet = false;
         trollCheck = false;
 
         isPasan = false;
@@ -304,13 +306,14 @@ public class GuildRoomManager : MonoBehaviour
                     guildCounterPanel.gameObject.SetActive(true);
 
                     
-                    gcp.btnOnOff(false);
+                    
                 }
 
                 if (isGetRewardYet && isReportYet && !trollCheck)
                 {                    
                     settlementPanel.gameObject.SetActive(true);
-                    
+                    gcp.btnOnOff(false);
+
                     checkResult.gameObject.SetActive(true);
                     if (checkResult)
                     {
