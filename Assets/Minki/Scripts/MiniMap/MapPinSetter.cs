@@ -32,6 +32,8 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
             if (m_pins.Count == maxPinCount)
                 return;
 
+            SoundManager.instance.PlayNewBackSound("Map_Check");
+
             var pinGO = Instantiate(pinPrefab);
             pinGO.transform.SetParent(mapContent, false);
             var pinRect = pinGO.GetComponent<RectTransform>();
