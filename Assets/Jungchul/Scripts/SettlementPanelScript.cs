@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SettlementPanelScript : MonoBehaviour
 {
@@ -18,12 +19,15 @@ public class SettlementPanelScript : MonoBehaviour
     private GameObject settlementBg;
     private GameObject taxBg;
 
+    public GameManager gc;
+
     void Awake()
     {
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
-        }
+        }       
+
 
         settlementBg = transform.Find("settlment_Bg")?.gameObject;
         taxBg = transform.Find("tax_bg")?.gameObject;
@@ -88,6 +92,13 @@ public class SettlementPanelScript : MonoBehaviour
 
     private void OnCloseButtonClicked()
     {
+        var tgc = gc.GetComponent<GuildCounter>();
+
+        tgc.cTalk.isInteractable = true;
+        tgc.cAlbum.isInteractable = true;
+        tgc.cMissionBoard.isInteractable = true;
+        tgc.closeButton.enabled = true;
+
         gameObject.SetActive(false);
 
         GoldManager.Instance.getRewardGold(GoldManager.Instance.rewardGold);
