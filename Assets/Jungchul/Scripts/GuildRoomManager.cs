@@ -463,7 +463,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 int reCode = selectedMission % 1000;
 
-                //StageManager.instance.LoadStage(reCode);
+                StageManager.instance.LoadStage(reCode);
 
                 reCode = selectedMission % 1000;
 
@@ -474,7 +474,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 //StageManager.instance.anomalyIdx = ano;
 
-                SceneManager.LoadScene("DummyMission");
+                //SceneManager.LoadScene("DummyMission");
 
                 break;
 
