@@ -71,7 +71,7 @@ public class SoundManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         CheckVolume();
     }
@@ -397,7 +397,7 @@ public class SoundManager : MonoBehaviour
 
     IEnumerator StopTime(float time, GameObject obj)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
         sources.Add(obj.GetComponent<AudioSource>());
         activeSources.Remove(obj.GetComponent<AudioSource>()); // 활성화된 사운드 목록에서 제거
         obj.transform.SetParent(transform);
@@ -516,7 +516,7 @@ public class SoundManager : MonoBehaviour
 
     IEnumerator StopAllSound(bool _value, float _timer)
     {
-        yield return new WaitForSeconds(_timer);
+        yield return new WaitForSecondsRealtime(_timer);
         isAllStop = _value;
 
         if (!isAllStop)

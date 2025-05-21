@@ -119,6 +119,7 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
+        SoundManager.instance?.GetComponent<SettingCanvasController>().SetSettingCanvas(false);
         Time.timeScale = 1f;
         if (pauseCanvasInstance != null)
             pauseCanvasInstance.SetActive(false);
@@ -135,11 +136,12 @@ public class PauseManager : MonoBehaviour
 
     public void ExitGame()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        SoundManager.instance?.GetComponent<SettingCanvasController>().SetSettingCanvas(true);
+//#if UNITY_EDITOR
+//        UnityEditor.EditorApplication.isPlaying = false;
+//#else
+//        Application.Quit();
+//#endif
     }
 
     private void LateUpdate()

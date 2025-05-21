@@ -1514,7 +1514,7 @@ PrefabInstance:
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 688963543}
+      objectReference: {fileID: 0}
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
@@ -1526,7 +1526,7 @@ PrefabInstance:
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 688963543}
+      objectReference: {fileID: 0}
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -6743,86 +6743,6 @@ Transform:
   - {fileID: 1785651789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &688963542
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248910666042299228, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5927969796960157575, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: m_Name
-      value: BGM_Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 9065771714225188525, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-      propertyPath: volume
-      value: 70
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
---- !u!114 &688963543 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9065771714225188525, guid: 0d7e6b08b2a31b34a82e8512f0071668, type: 3}
-  m_PrefabInstance: {fileID: 688963542}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5218754f76fa8594e8668d72cb3a73f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &704133614
 GameObject:
   m_ObjectHideFlags: 0
@@ -8178,10 +8098,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.03541667
+    y: 0.16018519
+    width: 0.16666667
+    height: 0.16666666
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -12978,7 +12898,7 @@ PrefabInstance:
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 688963543}
+      objectReference: {fileID: 0}
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -12986,7 +12906,7 @@ PrefabInstance:
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 688963543}
+      objectReference: {fileID: 0}
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: ChangeBgmDanger
@@ -14481,6 +14401,5 @@ SceneRoots:
   - {fileID: 262228585}
   - {fileID: 620276782}
   - {fileID: 1540564969}
-  - {fileID: 688963542}
   - {fileID: 2124739213}
   - {fileID: 1339780995}

@@ -37,8 +37,12 @@ public class UiSoundManager : MonoBehaviour
             if (data.soundTag == _tag && data.uiSfx == _status)
             {
                 AudioSource audSrc = SoundManager.instance?.PlayNewBackSound(data.soundName);
-                audSrc.volume = SoundManager.instance.seVol;
+                
+                if(audSrc != null)
+                    audSrc.volume = SoundManager.instance.seVol;
             }
+            else
+                continue;
         }
     }
 }
