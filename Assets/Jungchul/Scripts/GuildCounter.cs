@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GuildCounter : MonoBehaviour
 {
+    //public static GuildCounter Instance;
+
     [Header("UI 오브젝트")]
     public TextMeshPro whatDidYouText;
     public CustomClickable[] choices;
@@ -35,10 +38,11 @@ public class GuildCounter : MonoBehaviour
 
     //private GuildRoomManager guildRoomManager;
 
-    public List<QuestionResult> quizResults = new List<QuestionResult>();
+   
 
     void Awake()
     {
+       
         //guildRoomManager = FindObjectOfType<GuildRoomManager>();
         Transform closeBtnTransform = transform.Find("Counter_exit");
         if (closeBtnTransform != null)
@@ -91,14 +95,15 @@ public class GuildCounter : MonoBehaviour
 
     }
 
-    public void StartQuiz()
+    public void StartQuiz(int pIdx)
     {
+        Debug.Log($"pIdx = {pIdx}");
         InitUI();
 
         if (questions == null)
             questions = CSVLoader.LoadQuestions();
 
-        currentQuestionIndex = qIdx;
+        currentQuestionIndex = pIdx;
         ShowQuestion(currentQuestionIndex);
         SetupClickEvents();
     }
@@ -140,11 +145,13 @@ public class GuildCounter : MonoBehaviour
         sIndex = choiceIndex;
         var q = questions[currentQuestionIndex];
 
-        quizResults.Add(new QuestionResult
-        {
+        GuildRoomManager.Instance.quizResults.Add(new QuestionResult
+        {  
             questionIndex = currentQuestionIndex,
             isCorrect = choiceIndex == q.correctIndex
         });
+
+        Debug.Log($"답안지 길이 {GuildRoomManager.Instance.quizResults.Count}");
 
         foreach (var btn in choices)
             btn.gameObject.SetActive(false);
@@ -152,7 +159,14 @@ public class GuildCounter : MonoBehaviour
         answerText.text = q.characterComment[choiceIndex];
         answerBox.SetActive(true);
         isAnswerRevealed = true;
+
         totalSolvedCount++;
+
+        for (int i = Mathf.Max(GuildRoomManager.Instance.quizResults.Count - 3, 0); i < GuildRoomManager.Instance.quizResults.Count; i++)
+        {
+            Debug.Log($"{i + 1}번째 {GuildRoomManager.Instance.quizResults[i].isCorrect}");
+
+        }
 
         GoldManager.Instance.PlusGold(30);
 
@@ -172,7 +186,7 @@ public class GuildCounter : MonoBehaviour
 
     public void ShowMidResult(int wrong)
     {
-        trollPanel.SetActive(true);      
+        trollPanel.SetActive(true);
 
         trollText.text = $"데비씨. 당신이 보고한 이상현상 중 {wrong}개가 잘못 보고되어 보지 못하는 사람들의 피해가 있따라 발생했습니다. 길드의 규칙에 따라 벌금 40x(틀린횟수) 부과하겠습니다.";
         // resultImage.sprite = ...; // 이미지 변경도 가능
@@ -185,6 +199,8 @@ public class GuildCounter : MonoBehaviour
         gameObject.SetActive(false);
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
 
+        GuildRoomManager.Instance.cState = GuildRoomManager.counterState.NONE;
+        GuildRoomManager.Instance.preCState = GuildRoomManager.counterState.NONE;
     }
 
     public void btnOnOff(bool onoff)

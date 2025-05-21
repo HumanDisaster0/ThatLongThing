@@ -81,12 +81,18 @@ public class TitleSceneManager : MonoBehaviour
         DeactivateUI();
 
         Invoke("LoadTutorialScene", 1f);
+        //Invoke("LoadGuildMain", 0.1f);
     }
 
     void LoadTutorialScene()
     {
         SceneManager.LoadScene("TutorialStage");
     }
+    void LoadGuildMain()
+    {
+        SceneManager.LoadScene("GuildMain");
+    }
+
 
     public void EnterOption()
     {

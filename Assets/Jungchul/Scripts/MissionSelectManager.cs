@@ -13,6 +13,7 @@ public class MissionSelectManager : MonoBehaviour
         9314, 10306, 11308, 
         12310, 13313, 14315,        
     };
+        
 
     public Dictionary<int, bool> missionClearDict = new Dictionary<int, bool>();
 

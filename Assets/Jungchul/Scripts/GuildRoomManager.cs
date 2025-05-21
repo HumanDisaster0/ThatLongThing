@@ -30,9 +30,11 @@ public class GuildRoomManager : MonoBehaviour
 
     public bool tempChecker = true;
 
-    private bool trollCheck = false;
+    public bool trollCheck = false;
 
-    private bool isPasan = false;
+    public bool isPasan = false;
+
+    public int wrongCnt = 0;
 
 
     public enum viewState
@@ -46,6 +48,21 @@ public class GuildRoomManager : MonoBehaviour
         DOOROUT,
     }
     public viewState curVstate;
+
+
+    public enum counterState
+    {
+        SETTlE,
+        TROLL,
+        TROLL_P,
+        QUIZ,
+        QUIZ_P,
+        C_IDLE,
+        NONE,
+    }
+    public counterState cState;
+    public counterState preCState;
+    public counterState tState;
 
 
     [SerializeField] AvatarController avatar;
@@ -73,6 +90,13 @@ public class GuildRoomManager : MonoBehaviour
 
     public TextDrawer textDrawer;
 
+    public List<QuestionResult> quizResults = new List<QuestionResult>();
+
+    //    104, 1111, 2202, 
+    //    3203, 4209, 5212, 
+    //    6207, 7301, 8305, 
+    //    9314, 10306, 11308, 
+    //    12310, 13313, 14315, 
 
 
     private void Awake()
@@ -99,6 +123,10 @@ public class GuildRoomManager : MonoBehaviour
         isPasan = false;
 
         curVstate = viewState.IDLE;
+
+        cState = counterState.C_IDLE;
+        preCState = counterState.NONE;
+
 
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -227,7 +255,6 @@ public class GuildRoomManager : MonoBehaviour
                 print("카드 초기화 잘 됐어!");
             }
 
-
             DoorOutOff();
         }
     }
@@ -241,7 +268,6 @@ public class GuildRoomManager : MonoBehaviour
 
     void Start()
     {
-
 
     }
 
@@ -295,95 +321,111 @@ public class GuildRoomManager : MonoBehaviour
                 break;
 
             case viewState.COUNTER:
-
-                avatar.isMovable = false;
-
-                var gcp = guildCounterPanel.GetComponent<GuildCounter>();
-
-                if (!guildCounterPanel.gameObject.activeSelf)
+                
+                if (cState != preCState || cState==counterState.TROLL_P)
                 {
-                    textDrawer.TextRefresh();
-                    guildCounterPanel.gameObject.SetActive(true);
-                    gcp.trollPanel.SetActive(false);
+                    var gcp = guildCounterPanel.GetComponent<GuildCounter>();
+                    
+                    preCState = cState;
 
-                }
 
-                if (isGetRewardYet && isReportYet)
-                {
-                    int wrongCnt = 0;
-                    day++;
-                    if (day == 4)
+                    switch (cState)
                     {
-                        int last3Start = Mathf.Max(gcp.quizResults.Count - 3, 0);
+                        case counterState.SETTlE:
+                            avatar.isMovable = false;
+                            
+                            day++;
+                            gcp.btnOnOff(false);
+                            guildCounterPanel.gameObject.SetActive(true);
+                            settlementPanel.gameObject.SetActive(true);
+                            gcp.trollPanel.SetActive(false);
 
-                        for (int i = last3Start; i < gcp.quizResults.Count; i++)
-                        {
-                            if (!gcp.quizResults[i].isCorrect)
+                            if (day == 4)
                             {
-                                wrongCnt++;
+                                int last3Start = Mathf.Max(quizResults.Count - 3, 0);
+
+                                for (int i = last3Start; i < quizResults.Count; i++)
+                                {
+                                    if (!quizResults[i].isCorrect)
+                                    {
+                                        wrongCnt++;
+                                    }
+                                }
+
+                                if (wrongCnt > 0)
+                                {
+                                    trollCheck = true;
+                                }
+                                else
+                                {
+                                    cState = counterState.SETTlE;
+                                }
+
+                                    day = 1;
+                                week++;
                             }
-                        }
 
-                        if (wrongCnt > 0)
-                        {
-                            trollCheck = true;
-                        }
+                            break;
 
-                        day = 1;
-                        week++;
-                    }
-                   
-                    settlementPanel.gameObject.SetActive(true);
-                    gcp.btnOnOff(false);
+                        case counterState.TROLL:
+                            
+                            gcp.ShowMidResult(wrongCnt);
+                            cState = counterState.TROLL_P;
 
-                    if(trollCheck)
-                    {
-                        gcp.ShowMidResult(wrongCnt);
 
-                        if (Input.GetMouseButtonDown(0))
-                            trollCheck = false;
 
-                        break;
-                    }
+                            break;
+                        case counterState.TROLL_P:
+                            if (Input.GetMouseButtonDown(0))
+                                cState = counterState.QUIZ;
 
-                    if (!trollCheck)
-                    {
-                        checkResult.gameObject.SetActive(true);
-                        if (checkResult)
-                        {
-                            Debug.Log("checkResult활성화");
-                            //정산 패널에서 x버튼 누르는 순간 골드 정산 진행됨
-                        }
 
-                        gcp.StartQuiz();
+                            break;
 
-                        isReportYet = false;
-                    }
+                        case counterState.QUIZ:
+                            checkResult.gameObject.SetActive(true);
+                            gcp.StartQuiz(selectedMission / 1000);
+                            cState = counterState.QUIZ_P;
+
+                            break;
+
+                        case counterState.QUIZ_P:
+                            Debug.Log($"QUIZ_P{ cState}  {preCState}");
+                            //preCState = counterState.NONE;
+                            if (Input.GetMouseButtonDown(0) && gcp.isEnd)
+                            {
+                                Debug.Log("isEnd");
+                                checkResult.gameObject.SetActive(false);
+
+                                textDrawer.TextRefresh();
+                               
+                                selectedMission = 0;
+
+                                cState = counterState.C_IDLE;
+                            }
+                            break;
+
+                        case counterState.C_IDLE:
+                            avatar.isMovable = false;
+
+                            textDrawer.TextRefresh();
+                            guildCounterPanel.gameObject.SetActive(true);
+                            gcp.trollPanel.SetActive(false);
+
+
+                            gcp.btnOnOff(true);
+                            break;
+                    }                   
                 }
-
-                if (!isReportYet)
-                {
-                    selectedMission = 0;
-                }
-
-
-                if (Input.GetMouseButtonDown(0) && gcp.isEnd)
-                {
-                    Debug.Log($"isEnd! {gcp.isEnd}");
-                    checkResult.gameObject.SetActive(false);
-                    gcp.btnOnOff(true);
-
-                    textDrawer.TextRefresh();
-
-                    gcp.isEnd = false;
-                }
-
 
                 break;
 
 
             case viewState.SETTLEMENT:
                 curVstate = viewState.COUNTER;
+                Debug.Log($"v스테이트{curVstate}");
+                cState = counterState.C_IDLE;
+                Debug.Log($"c스테이트{cState}");
                 break;
 
             case viewState.MISSIONBOARD:
@@ -417,7 +459,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 int reCode = selectedMission % 1000;
 
-                StageManager.instance.LoadStage(reCode);
+                //StageManager.instance.LoadStage(reCode);
 
                 reCode = selectedMission % 1000;
 
@@ -428,7 +470,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 //StageManager.instance.anomalyIdx = ano;
 
-                //SceneManager.LoadScene("DummyMission");
+                SceneManager.LoadScene("DummyMission");
 
                 break;
 
@@ -460,6 +502,7 @@ public class GuildRoomManager : MonoBehaviour
         if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
         {
             curVstate = viewState.COUNTER;
+            cState = counterState.SETTlE;
 
             isReturned = false;
 
@@ -478,8 +521,8 @@ public class GuildRoomManager : MonoBehaviour
     {
         print("내가돌아왔다!");
         isReturned = true;
-        isGetRewardYet = true;
-        isReportYet = true;
+        //isGetRewardYet = true;
+        //isReportYet = true;
     }
 
     public void DoorOutOn()
