@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public bool AutoPlayMode { get; set; } = false;
+    public float AutoPlayDelay { get; set; } = 1.0f; // 자동 대사 전환 딜레이(초)
+
     public static DialogueManager Instance { get; private set; }
 
     [Header("Bubble Style")]
@@ -83,7 +86,16 @@ public class DialogueManager : MonoBehaviour
         currentTypingLine = line;
         yield return StartCoroutine(TextTyper.TypeText(dialogueText, line, 0.04f, () => skipRequested));
         waitingForInput = true;
+
+        if (AutoPlayMode)
+        {
+            yield return new WaitForSeconds(AutoPlayDelay);
+            waitingForInput = false; // <-- 이걸 false로 만들어줘야 다음 대사로 넘어감
+            currentIndex++;
+            ShowCurrentLine();
+        }
     }
+
 
     public void NextDialogue()
     {
@@ -108,27 +120,25 @@ public class DialogueManager : MonoBehaviour
         bubbleBackground.localScale = scale;
     }
 
-void Update()
-{
-    if (!isPlaying || !allowInput) return;
-
-    bool inputDetected = Input.anyKeyDown || Input.GetMouseButtonDown(0);
-
-    if (inputDetected)
+    void Update()
     {
-        if (waitingForInput)
+        if (!isPlaying || !allowInput || AutoPlayMode) return;
+
+        bool inputDetected = Input.anyKeyDown || Input.GetMouseButtonDown(0);
+
+        if (inputDetected)
         {
-            // 타이핑 끝난 후 다음 대사로 넘김 (무조건 허용)
-            NextDialogue();
+            if (waitingForInput)
+            {
+                NextDialogue();
+            }
+            else if (AllowTextSkipping)
+            {
+                NextDialogue(); // skipRequested = true 설정
+            }
         }
-        else if (AllowTextSkipping)
-        {
-            // 타이핑 중간인데 스킵이 허용된 경우만 스킵
-            NextDialogue(); // skipRequested = true 설정
-        }
-        // 스킵이 비허용 상태면 아무 동작도 안함 (중간 입력 무시)
     }
-}
+
 
 
     public void SetBubbleStyle(int index)

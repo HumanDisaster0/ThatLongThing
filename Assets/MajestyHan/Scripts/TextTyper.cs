@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class TextTyper
 {
+
+
     public static IEnumerator TypeText(TextMeshProUGUI target, string message, float speed, System.Func<bool> isSkipRequested)
     {
         System.Text.StringBuilder builder = new System.Text.StringBuilder();
