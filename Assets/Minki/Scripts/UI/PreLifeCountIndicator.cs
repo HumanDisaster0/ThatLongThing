@@ -64,8 +64,6 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_graphicRaycaster.enabled = true;
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);
-        //소리끄기
-        SoundManager.instance.SetMute(true);
         yield return null;
 
         float timer = 0.0f;
@@ -97,6 +95,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         next.text = nextCount.ToString();
         prev.text = (nextCount - 1).ToString();
 
+        //fade out
         float timer = 0.0f;
         while(timer < fadeTime)
         {
@@ -109,7 +108,6 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_playerController.SetVelocity(Vector2.zero);
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);
-        SoundManager.instance.SetMute(true);
         yield return null;
 
         timer = 0.0f;
@@ -117,7 +115,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         var nextY = nextRect.anchoredPosition.y;
         var prevY = prevRect.anchoredPosition.y;
 
-
+        //카운트 애니메션
         while (timer < nextNumAnimation[nextNumAnimation.length - 1].time)
         {
             timer += Time.unscaledDeltaTime;
@@ -129,6 +127,7 @@ public class PreLifeCountIndicator : MonoBehaviour
             yield return null;
         }
 
+        //대기
         timer = 0.0f;
         while (timer < showTime)
         {
@@ -145,6 +144,7 @@ public class PreLifeCountIndicator : MonoBehaviour
 
         Time.timeScale = 1.0f;
 
+        //fade in
         while (timer < fadeTime)
         {
             timer += Time.unscaledDeltaTime;

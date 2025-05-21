@@ -15,7 +15,6 @@ public class StageManager : MonoBehaviour
 
     public int anomalyIdx = 0;
     public int deathCount = 0;
-    public MapMatchData matchData;
 
     private void Awake()
     {
@@ -46,8 +45,11 @@ public class StageManager : MonoBehaviour
 
     void SetStage(Scene scene, LoadSceneMode mode)
     {
+        //스테이지 씬이 아니면 건너뛰기
+        if (!scene.name.Contains("Stage"))
+            return;
+
         deathCount = 0;
-        matchData = new MapMatchData();
 
         if (m_anomalyName == null)
         {
@@ -435,6 +437,17 @@ public class StageManager : MonoBehaviour
                 SceneManager.LoadScene("Stage3");
                 break;
         }
+    }
+
+    public void EndStage()
+    {
+        var mapPinMatchData = GameObject.FindWithTag("MapPinChecker").GetComponent<MapPinMatchChecker>().CreateMatchData();
+        GoldManager.Instance.findTrapCount = mapPinMatchData.correct;
+        GoldManager.Instance.deadCount = deathCount;
+
+        NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
+        GuildRoomManager.Instance.SetReturned();
+        SceneManager.LoadScene("GuildMain");
     }
 
     //static KeyValuePair<string,string> GetCurrentStageInfo()

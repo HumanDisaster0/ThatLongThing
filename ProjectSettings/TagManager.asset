@@ -14,6 +14,7 @@ TagManager:
   - Zone
   - GreenZone
   - NPC
+  - MapPinChecker
   layers:
   - Default
   - TransparentFX
