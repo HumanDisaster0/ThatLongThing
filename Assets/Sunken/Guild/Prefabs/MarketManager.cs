@@ -62,7 +62,7 @@ public class MarketManager : MonoBehaviour
 
             doubleJumpItem.onClick = () =>
             {
-                Debug.Log("더블 점프 아이템 구매");
+                //Debug.Log("더블 점프 아이템 구매");
                 PlaySound();
                 GoldManager.Instance.totalGold -= doubleJumpPrice;
                 doubleJumpLevel++;
@@ -71,7 +71,7 @@ public class MarketManager : MonoBehaviour
             };
             shieldItem.onClick = () =>
             {
-                Debug.Log("방패 아이템 구매");
+                //Debug.Log("방패 아이템 구매");
                 PlaySound();
                 GoldManager.Instance.totalGold -= shieldPrice;
                 shieldLevel++;
@@ -79,7 +79,7 @@ public class MarketManager : MonoBehaviour
             };
             magicSizeItem.onClick = () =>
             {
-                Debug.Log("마법 크기 아이템 구매");
+                //Debug.Log("마법 크기 아이템 구매");
                 PlaySound();
                 GoldManager.Instance.totalGold -= magicSizePrice;
                 magicSizeLevel++;
@@ -99,7 +99,8 @@ public class MarketManager : MonoBehaviour
 
             // 버튼 활성화 컨트롤
             doubleJumpItem.isInteractable = doubleJumpLevel < 1 && GoldManager.Instance.totalGold >= doubleJumpPrice;
-            shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
+            //shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
+            shieldItem.isInteractable = false;
             magicSizeItem.isInteractable = magicSizeLevel < 2 && GoldManager.Instance.totalGold >= magicSizePrice;
 
             // 레벨표시 컨트롤
@@ -119,6 +120,11 @@ public class MarketManager : MonoBehaviour
             shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = shieldItem.isInteractable ? activeColor : deactiveColor;
             magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (magicSizePrice + "G");
             magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = magicSizeItem.isInteractable ? activeColor : deactiveColor;
+
+            // 솔드아웃 컨트롤
+            doubleJumpItem.transform.GetChild(2).gameObject.SetActive(doubleJumpLevel >= 1 ? true : false);
+            shieldItem.transform.GetChild(2).gameObject.SetActive(shieldLevel >= 0 ? true : false);
+            magicSizeItem.transform.GetChild(2).gameObject.SetActive(magicSizeLevel >= 2 ? true : false);
         }
     }
 
