@@ -206,7 +206,7 @@ public class GuildRoomManager : MonoBehaviour
             textDrawer = FindObjectOfType<TextDrawer>();
 
 
-
+            //1 - 미션 보고 2 미션 보고 3 미션 보고 4
             avatar = FindObjectOfType<AvatarController>();
 
             if (avatar != null)
@@ -340,8 +340,7 @@ public class GuildRoomManager : MonoBehaviour
                             preCState = cState;
 
                             avatar.isMovable = false;
-                            
-                            day++;
+
                             gcp.btnOnOff(false);
                             guildCounterPanel.gameObject.SetActive(true);
                             settlementPanel.gameObject.SetActive(true);
@@ -422,12 +421,15 @@ public class GuildRoomManager : MonoBehaviour
                                
                                 selectedMission = 0;
 
-                                preCState = cState;
+                                day++;
+                                Debug.Log($"데이쁠쁠 {day}");
+                                                                
                                 cState = counterState.C_IDLE;
                             }
                             break;
 
                         case counterState.C_IDLE:
+                            preCState = cState;
                             avatar.isMovable = false;
 
                             textDrawer.TextRefresh();
