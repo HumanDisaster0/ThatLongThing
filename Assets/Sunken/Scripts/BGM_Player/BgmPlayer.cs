@@ -33,7 +33,11 @@ public class BgmPlayer : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (StageManager.instance?.anomalyIdx == 3)
+        if(SceneManager.GetActiveScene().name.StartsWith("Title"))
+        {
+            defaultSrc = SoundManager.instance?.PlayLoopBackSound("Title_BGM");
+        }
+        else if (StageManager.instance?.anomalyIdx == 3)
         {
             defaultSrc = SoundManager.instance?.PlayLoopBackSound("Rabbit_BGM");
         }

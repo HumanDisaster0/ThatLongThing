@@ -31,16 +31,16 @@ public class SoundManager : MonoBehaviour
     bool isAllStop = false;
 
 #if UNITY_EDITOR
-    private void OnValidate()
-    {
-        while (sources.Count < sourceSize)
-        {
-            GameObject loaded = Resources.Load<GameObject>("Sound/Prefab/DefaultSource");
-            GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(loaded);
-            obj.transform.SetParent(transform);
-            sources.Add(obj.GetComponent<AudioSource>());
-        }
-    }
+    //private void OnValidate()
+    //{
+    //    while (sources.Count < sourceSize)
+    //    {
+    //        GameObject loaded = Resources.Load<GameObject>("Sound/Prefab/DefaultSource");
+    //        GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(loaded);
+    //        obj.transform.SetParent(transform);
+    //        sources.Add(obj.GetComponent<AudioSource>());
+    //    }
+    //}
 #endif
 
     private void Awake()
@@ -51,12 +51,6 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
 
         LoadAllSound();
-    }
-
-    private void Start()
-    {
-        cam = Camera.main;
-        sources = GetComponentsInChildren<AudioSource>().ToList();
 
         while (sources.Count < sourceSize)
         {
@@ -65,6 +59,12 @@ public class SoundManager : MonoBehaviour
             obj.transform.SetParent(transform);
             sources.Add(obj.GetComponent<AudioSource>());
         }
+    }
+
+    private void Start()
+    {
+        cam = Camera.main;
+        sources = GetComponentsInChildren<AudioSource>().ToList();
     }
 
     // Update is called once per frame

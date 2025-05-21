@@ -8412,14 +8412,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2407404356067810832, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2407404356067810832, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ce7c6792bd75ba14f9eabdaab7a793cf, type: 3}
     - target: {fileID: 2663830927474098239, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8496,17 +8488,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8490425902661083552, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2436217799094980706, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 779083831}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
 --- !u!1 &607698377
 GameObject:
@@ -8998,25 +8983,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &779083826 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2436217799094980706, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
-  m_PrefabInstance: {fileID: 605529852}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &779083831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 779083826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb5a00030f1a84741952282bf31c3cd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnterSprite: {fileID: 21300000, guid: ce7c6792bd75ba14f9eabdaab7a793cf, type: 3}
-  ExitSprite: {fileID: 21300000, guid: 2155fa59e17e8de4c8a012728832f139, type: 3}
 --- !u!1001 &782422188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11399,7 +11365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5012796797161817747, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9069015133658946259, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
       propertyPath: m_Pivot.x
