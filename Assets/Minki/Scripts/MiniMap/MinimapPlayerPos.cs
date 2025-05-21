@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 using System;
+using UnityEditor.Rendering;
 
 public class MinimapPlayerPos : MonoBehaviour
 {
@@ -11,16 +13,23 @@ public class MinimapPlayerPos : MonoBehaviour
     public int xOffset = 0;
     public int yOffset = 0;
 
-    public Transform Player;
+    public bool flickering = true;
 
+    public Transform Player;
+    public float flickeringRate = 0.8f;
     public float playerHeightOffset = 0.0f;
 
     RectTransform m_rect;
+    Image m_image;
+
+    bool m_AlphaColIsZero;
 
     int m_pivotX;
     int m_pivotY;
 
     int m_maxY;
+
+    float m_flickeringTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +44,8 @@ public class MinimapPlayerPos : MonoBehaviour
 
         m_rect.anchoredPosition = new Vector2(m_pivotX + (Mathf.Abs(Player.position.x + xOffset)) * MinimapTileInfo.tileSize - (m_rect.sizeDelta.x * 0.5f), 
             m_pivotY * -1f - (m_maxY * MinimapTileInfo.tileSize) + (Player.position.y + yOffset) * MinimapTileInfo.tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
+
+        m_image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -42,6 +53,24 @@ public class MinimapPlayerPos : MonoBehaviour
     {
         m_rect.anchoredPosition = new Vector2(m_pivotX + (Mathf.Abs(Player.position.x + xOffset)) * MinimapTileInfo.tileSize - (m_rect.sizeDelta.x * 0.5f), 
             m_pivotY * -1f - (m_maxY * MinimapTileInfo.tileSize) + (Player.position.y + yOffset) * MinimapTileInfo.tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
+
+        if(flickering)
+        {
+            m_flickeringTimer += Time.deltaTime;
+
+            if (m_flickeringTimer > flickeringRate)
+            {
+                m_flickeringTimer -= flickeringRate;
+                m_AlphaColIsZero = !m_AlphaColIsZero;
+            }
+        }
+        else
+        {
+            m_AlphaColIsZero = false;
+        }
+
+        m_image.color = new Color(1.0f, 1.0f, 1.0f, m_AlphaColIsZero ? 0.0f : 1.0f);
+
     }
 
     private void OnDestroy()
