@@ -17,7 +17,7 @@ public class BgmPlayer : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(this);
+            Destroy(this.gameObject);
     }
 
     // Start is called before the first frame update
@@ -63,7 +63,10 @@ public class BgmPlayer : MonoBehaviour
         }
 
         //defaultSrc.GetComponent<DefaultSourceData>().isVolCon = false;
-        defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
+        if (defaultSrc)
+        {
+            defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
+        }
     }
 
     public void ChangeBgmDanger()
