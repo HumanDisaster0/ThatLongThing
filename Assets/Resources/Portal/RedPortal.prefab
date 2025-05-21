@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2194201741530858576}
   - component: {fileID: 5915238299106192471}
   - component: {fileID: 577514677911282910}
+  - component: {fileID: 3014356244347388639}
   m_Layer: 0
   m_Name: RedPortal
   m_TagString: Portal
@@ -167,4 +168,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnEnterPortal:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3014356244347388639}
+        m_TargetAssemblyTypeName: RedPortalInteraction, Assembly-CSharp
+        m_MethodName: EnterPortal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3014356244347388639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545311560251167655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a506f439dfddc5840a9b68c70ba8548e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
