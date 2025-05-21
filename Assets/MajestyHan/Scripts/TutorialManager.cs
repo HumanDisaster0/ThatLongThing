@@ -86,16 +86,22 @@ public class TutorialManager : MonoBehaviour
 
         if (needPressedMapKey)
         {
-            if (Input.GetKeyDown(KeyCode.M)) // 미니맵 여는 버튼으로 열었을 때 처리해야함!@#$
+            foreach (GameObject obj in FindObjectsOfType<GameObject>())
             {
-                if (!needPressedCheckMapNope && !needPressedCheckMapOkay)
+                if (obj == null) continue;
+                if (obj.name == "MapRect" && obj.activeInHierarchy)
                 {
-                    HideGuidance();
-                    player.SkipInput = false;
-                }
+                    if (!needPressedCheckMapNope && !needPressedCheckMapOkay)
+                    {
+                        HideGuidance();
+                        player.SkipInput = false;
+                    }
 
-                needPressedMapKey = false;
+                    needPressedMapKey = false;
+                    break;
+                }
             }
+
         }
 
         if (needPressedMagicKey)
