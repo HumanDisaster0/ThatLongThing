@@ -78,12 +78,9 @@ public class SettlementPanelScript : MonoBehaviour
     {
 
         if (GoldManager.Instance != null)
-        {
-            GoldManager.Instance.calRewardGold();
-            GoldManager.Instance.getRewardGold();
-
+        {  
             text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
-            text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
+            text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 2})";
             text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
 
             text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
@@ -94,7 +91,7 @@ public class SettlementPanelScript : MonoBehaviour
 
     public void OnCloseButtonClicked()
     {
-
+        
         gameObject.SetActive(false);
 
         if (GuildRoomManager.Instance.trollCheck)
@@ -116,6 +113,7 @@ public class SettlementPanelScript : MonoBehaviour
         {
             taxBg.SetActive(true);
             textTax.gameObject.SetActive(true);
+            GoldManager.Instance.MinusGold(60);
         }
         else
         {

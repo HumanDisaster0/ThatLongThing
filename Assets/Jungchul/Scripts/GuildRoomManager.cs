@@ -343,6 +343,10 @@ public class GuildRoomManager : MonoBehaviour
 
                             gcp.btnOnOff(false);
                             guildCounterPanel.gameObject.SetActive(true);
+                                                        
+                            GoldManager.Instance.calRewardGold();
+                            GoldManager.Instance.getRewardGold();
+
                             settlementPanel.gameObject.SetActive(true);
                             gcp.trollPanel.SetActive(false);
                             
