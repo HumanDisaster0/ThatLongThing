@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += LoadStage;
+            SceneManager.sceneLoaded += SetStage;
         }
         else
         {
@@ -44,7 +44,7 @@ public class StageManager : MonoBehaviour
 
     private List<string> m_colsLinq = new List<string>();
 
-    void LoadStage(Scene scene, LoadSceneMode mode)
+    void SetStage(Scene scene, LoadSceneMode mode)
     {
         deathCount = 0;
         matchData = new MapMatchData();
@@ -68,9 +68,8 @@ public class StageManager : MonoBehaviour
             }).ToList();
         }
 
-        //이름으로 피하기
-        //if (!scene.name.Contains("Stage"))
-        //    return;
+        //플레이어 설정
+
 
         var result = FindObjectsByType<TrapSetter>(FindObjectsSortMode.None);
         if (result == null)
@@ -410,6 +409,30 @@ public class StageManager : MonoBehaviour
                     break;
                 }
             default:
+                break;
+        }
+    }
+
+    public void LoadStage(int stageData)
+    {
+        if (stageData > 400)
+            return;
+
+        int stageNum = stageData / 100;
+        int anomalyNum = stageData % 100;
+
+        anomalyIdx = anomalyNum;
+
+        switch (stageNum)
+        {
+            case 1:
+                SceneManager.LoadScene("Stage1");
+                break;
+            case 2:
+                SceneManager.LoadScene("Stage2");
+                break;
+            case 3:
+                SceneManager.LoadScene("Stage3");
                 break;
         }
     }
