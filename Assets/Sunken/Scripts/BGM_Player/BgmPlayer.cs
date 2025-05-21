@@ -33,9 +33,13 @@ public class BgmPlayer : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if(SceneManager.GetActiveScene().name.StartsWith("Title"))
+        if (SceneManager.GetActiveScene().name.StartsWith("Title"))
         {
             defaultSrc = SoundManager.instance?.PlayLoopBackSound("Title_BGM");
+        }
+        else if (SceneManager.GetActiveScene().name.StartsWith("GuildMain"))
+        {
+            defaultSrc = SoundManager.instance?.PlayLoopBackSound("Guild_BGM");
         }
         else if (StageManager.instance?.anomalyIdx == 3)
         {
@@ -54,7 +58,9 @@ public class BgmPlayer : MonoBehaviour
             defaultSrc = SoundManager.instance?.PlayLoopBackSound("Stage2_BGM");
         }
         else if (sceneName.StartsWith("Stage3"))
+        {
             defaultSrc = SoundManager.instance?.PlayLoopBackSound("Stage3_BGM");
+        }
 
         //defaultSrc.GetComponent<DefaultSourceData>().isVolCon = false;
         defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
@@ -62,7 +68,7 @@ public class BgmPlayer : MonoBehaviour
 
     public void ChangeBgmDanger()
     {
-        SoundManager.instance.StopSound(defaultSrc);
+        SoundManager.instance?.StopSound(defaultSrc);
         defaultSrc = SoundManager.instance?.PlayLoopBackSound("Danger_BGM");
         defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
     }
