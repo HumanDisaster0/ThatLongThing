@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using TMPro.Examples;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -15,9 +15,13 @@ public class TutorialManager : MonoBehaviour
     private Transform focusNpc;
     public Transform focusEventSpace;
 
-    private MoveSenpaiMove moveSenpai;
+    private MoveSenpaiMove moveSenpai;    
 
     public MapPinMatchChecker mapPin;
+
+    [Header("UI 안내 텍스트")]
+    public TextMeshProUGUI guidanceText; // 플레이스홀더 UI
+
 
     private bool needPressedMapKey = false;
     private bool needPressedMagicKey = false;
@@ -35,6 +39,7 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
+        HideGuidance();
         clearFlag();
         var mappinSetter = FindObjectsByType<MapPinSetter>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
@@ -55,6 +60,7 @@ public class TutorialManager : MonoBehaviour
                 var s = pinInfo?.GetMapPinState;
                 if (s == MapPinState.Danger) // Danger = O표시
                 {
+                    HideGuidance();
                     player.SkipInput = false;
                     needPressedCheckMapOkay = false;
                     break;
@@ -70,6 +76,7 @@ public class TutorialManager : MonoBehaviour
                 var s = pinInfo?.GetMapPinState;
                 if (s == MapPinState.Fine) // Fine = X표시
                 {
+                    HideGuidance();
                     player.SkipInput = false;
                     needPressedCheckMapNope = false;
                     break;
@@ -82,7 +89,10 @@ public class TutorialManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.M))
             {
                 if (!needPressedCheckMapNope && !needPressedCheckMapOkay)
+                {
+                    HideGuidance();
                     player.SkipInput = false;
+                }
 
                 needPressedMapKey = false;
             }
@@ -92,13 +102,23 @@ public class TutorialManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                HideGuidance();
                 player.magic.UseMagic();
                 player.SkipInput = false;
                 needPressedMagicKey = false;
             }
         }
     }
+    void ShowGuidance(string message)
+    {
+        guidanceText.text = message;
+        guidanceText.gameObject.SetActive(true);
+    }
 
+    void HideGuidance()
+    {
+        guidanceText.gameObject.SetActive(false);
+    }
 
     public void clearFlag()
     {
@@ -249,7 +269,7 @@ public class TutorialManager : MonoBehaviour
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
-
+        ShowGuidance("<color=red>[M]키<color=white>를 눌러, 미니맵 열기");
         needPressedMapKey = true; // 맵 눌러야 풀림
     }
 
@@ -274,7 +294,7 @@ public class TutorialManager : MonoBehaviour
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
-
+        ShowGuidance("<color=red>[Q]키<color=white>를 눌러, 탐지마법 사용");
         needPressedMagicKey = true; //마법 사용해야 풀림
     }
 
@@ -332,6 +352,7 @@ public class TutorialManager : MonoBehaviour
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
+        ShowGuidance("미니맵<color=red>[M]<color=white>을 열고, 좌클릭 한번으로 함정 <color=#3da807>정상작동<color=white> 표시");
         needPressedCheckMapOkay = true;
         needPressedMapKey = true;
     }
@@ -378,7 +399,7 @@ public class TutorialManager : MonoBehaviour
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
-
+        ShowGuidance("미니맵<color=red>[M]<color=white>을 열고, 좌클릭 두번으로 함정 <color=red>오작동<color=white> 표시");
         needPressedCheckMapNope = true;
         needPressedMapKey = true;
     }
@@ -409,6 +430,7 @@ public class TutorialManager : MonoBehaviour
         //(앞으로 먼저 나아가는 선배)!@#$
 
         // 데비 대사
+        DialogueManager.Instance.AllowTextSkipping = false;
         DialogueManager.Instance.SetBubbleStyle(1);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
@@ -420,9 +442,8 @@ public class TutorialManager : MonoBehaviour
         "<color=#3f3f3f>뭐? 그럴 리가. 내 마법 탐지 결과에는 이미 작동한 함정이라는데."
     });
         cameraController.ShakeCamera(30, 0.5f, 2f);
-        
-        //(심하게 흔들리는 천장!@#$)
 
+        //(심하게 흔들리는 천장!@#$)        
         DialogueManager.Instance.SetBubbleStyle(1);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
@@ -434,7 +455,7 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>응?"
     });
-
+        DialogueManager.Instance.AllowTextSkipping = true;
         //씬 전환         
     }
 

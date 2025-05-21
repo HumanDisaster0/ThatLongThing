@@ -21,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     
     public void SetInputEnabled(bool enabled) => allowInput = enabled;
     private bool allowInput = true;
+    public bool AllowTextSkipping { get; set; } = true;
 
     private List<string> currentLines;
     private int currentIndex;
@@ -107,23 +108,28 @@ public class DialogueManager : MonoBehaviour
         bubbleBackground.localScale = scale;
     }
 
-    void Update()
+void Update()
+{
+    if (!isPlaying || !allowInput) return;
+
+    bool inputDetected = Input.anyKeyDown || Input.GetMouseButtonDown(0);
+
+    if (inputDetected)
     {
-        if (!isPlaying || !allowInput) return;
-
-        // 타이핑 도중 스킵 처리
-        if (!waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
+        if (waitingForInput)
         {
-            NextDialogue(); // -> skipRequested = true 가 됨
-            return;
-        }
-
-        // 타이핑 끝난 후 다음 대사 넘김
-        if (waitingForInput && (Input.anyKeyDown || Input.GetMouseButtonDown(0)))
-        {
+            // 타이핑 끝난 후 다음 대사로 넘김 (무조건 허용)
             NextDialogue();
         }
+        else if (AllowTextSkipping)
+        {
+            // 타이핑 중간인데 스킵이 허용된 경우만 스킵
+            NextDialogue(); // skipRequested = true 설정
+        }
+        // 스킵이 비허용 상태면 아무 동작도 안함 (중간 입력 무시)
     }
+}
+
 
     public void SetBubbleStyle(int index)
     {
