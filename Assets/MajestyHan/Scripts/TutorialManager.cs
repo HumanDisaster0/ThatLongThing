@@ -48,6 +48,9 @@ public class TutorialManager : MonoBehaviour
 
         foreach (var com in mappinSetter)
             com.maxPinCount = 3;
+
+        AudioSource audSrc = SoundManager.instance.PlayLoopBackSound("Tutorial_BGM");
+        audSrc.volume = 0.5f;
     }
 
     private void Update()
@@ -475,7 +478,8 @@ public class TutorialManager : MonoBehaviour
         SoundManager.instance?.PlayNewBackSound("Mole_Die2");
 
         CutSceneManager.Instance.blackOutImage.gameObject.SetActive(true);
-        Invoke("nextSceneGOGO", 1f);
+        SoundManager.instance.StopSound("Tutorial_BGM", SoundManager.instance.gameObject);
+        Invoke("nextSceneGOGO", 2f);
     }
     void nextSceneGOGO()
     {

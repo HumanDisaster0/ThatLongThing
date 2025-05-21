@@ -108,6 +108,8 @@ public class CutSceneManager : MonoBehaviour
 
     public void PlayRegisteredCutScene()
     {
+        AudioSource audsrc = SoundManager.instance.PlayLoopBackSound("CutScene_BGM");
+        audsrc.volume = 0.5f;
         PlayCutScene(cutSceneImages, cutSceneTexts, autoDelay);
     }
     private IEnumerator TypeTextAuto(TextMeshProUGUI target, string message, float typingSpeed, float waitAfter = 1f)
