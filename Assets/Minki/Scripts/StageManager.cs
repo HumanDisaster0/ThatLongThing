@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
@@ -15,6 +16,8 @@ public class StageManager : MonoBehaviour
 
     public int anomalyIdx = 0;
     public int deathCount = 0;
+
+    public bool IsClearedAnomaly(int idx) => m_clearedAnomaly.Contains(idx);
 
     private void Awake()
     {
@@ -43,7 +46,8 @@ public class StageManager : MonoBehaviour
 
     private List<string> m_colsLinq = new List<string>();
 
-    private int m_enteredStageCount;
+    private HashSet<int> m_clearedAnomaly = new HashSet<int>();
+
     //private bool m_stageSetDirty = false;
 
     void SetStage(Scene scene, LoadSceneMode mode)
@@ -58,8 +62,6 @@ public class StageManager : MonoBehaviour
         //m_stageSetDirty = false;
 
         deathCount = 0;
-
-        m_enteredStageCount++;
 
         if (m_anomalyName == null)
         {
@@ -430,11 +432,6 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    public void DebugStageCountCorretion()
-    {
-        m_enteredStageCount--;
-    }
-
     public void LoadStage(int stageData)
     {
         //m_stageSetDirty = true;
@@ -470,5 +467,7 @@ public class StageManager : MonoBehaviour
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
         GuildRoomManager.Instance.SetReturned();
         SceneManager.LoadScene("GuildMain");
+
+        m_clearedAnomaly.Add(anomalyIdx);
     }
 }

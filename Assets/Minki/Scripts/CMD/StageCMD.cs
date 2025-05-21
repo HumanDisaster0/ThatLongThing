@@ -70,7 +70,5 @@ public static class StageCMD
                 SceneManager.LoadScene("Stage3");
                 break;
         }
-
-        StageManager.instance.DebugStageCountCorretion();
     }
 }
