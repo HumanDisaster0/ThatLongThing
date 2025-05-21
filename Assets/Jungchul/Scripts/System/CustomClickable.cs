@@ -149,7 +149,7 @@ public class CustomClickable : MonoBehaviour
             col.offset = sr.sprite.bounds.center;
         }
 
-        if (sr != null && ir.sprite != null && col != null)
+        if (ir != null && ir.sprite != null && col != null)
         {
             col.size = ir.sprite.bounds.size;
             col.offset = ir.sprite.bounds.center;
