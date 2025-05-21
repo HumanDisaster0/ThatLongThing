@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using Unity.VisualScripting;
 
-[RequireComponent(typeof(SpriteRenderer))]
+//[RequireComponent(typeof(SpriteRenderer))]
 public class CustomClickable : MonoBehaviour
 {
     // 클릭 이벤트 외부 지정
@@ -15,7 +16,11 @@ public class CustomClickable : MonoBehaviour
     public Sprite normalSprite;
     public Sprite hoverSprite;
 
+    // 사운드태그
+    public string soundTag = "Default";
+
     private SpriteRenderer spriteRenderer;
+    private Image imageRenderer;
     
     private bool isMouseOver = false;
 
@@ -29,26 +34,64 @@ public class CustomClickable : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-            Debug.LogWarning("SpriteRenderer가 없습니다.");
-        spriteRenderer.sprite = normalSprite;
+        imageRenderer = GetComponent<Image>();
+        if (!spriteRenderer && !imageRenderer)
+            Debug.LogWarning("SpriteRenderer나 ImageRenderer가 없습니다.");
+            
+        if(spriteRenderer)
+            spriteRenderer.sprite = normalSprite;
+        if(imageRenderer)
+            imageRenderer.sprite = normalSprite;
+
+        soundTag.NullIfEmpty();
     }
 
     private void OnMouseEnter()
     {
         isMouseOver = true;
         //print("마우스 롤오버!");
-        if (hoverSprite != null && isInteractable)
-        {           
-            spriteRenderer.sprite = hoverSprite;
+
+        if(soundTag != null)
+        {
+            UiSoundManager.instance?.PlaySound(soundTag, UISFX.Hover);
+        }
+
+        if(spriteRenderer)
+        {
+            if (hoverSprite != null && isInteractable)
+            {
+                spriteRenderer.sprite = hoverSprite;
+            }
+        }
+
+        if (imageRenderer)
+        {
+            if (hoverSprite != null && isInteractable)
+            {
+                imageRenderer.sprite = hoverSprite;
+            }
         }
     }
 
     private void OnMouseExit()
     {
+        if (soundTag != null)
+        {
+            UiSoundManager.instance?.PlaySound(soundTag, UISFX.Exit);
+        }
+
         isMouseOver = false;
-        if (normalSprite != null)
-            spriteRenderer.sprite = normalSprite;
+        if (spriteRenderer)
+        {
+            if (normalSprite != null)
+                spriteRenderer.sprite = normalSprite;
+        }
+
+        if (imageRenderer)
+        {
+            if (normalSprite != null)
+                imageRenderer.sprite = normalSprite;
+        }
     }
 
     private void OnMouseUpAsButton()
@@ -57,6 +100,11 @@ public class CustomClickable : MonoBehaviour
 
 
         //Debug.Log("[CustomClickable] 클릭됨");
+
+        if (soundTag != null)
+        {
+            UiSoundManager.instance?.PlaySound(soundTag, UISFX.Click);
+        }
 
         if (interactionCondition != null && !interactionCondition.Invoke())
         {
@@ -92,12 +140,19 @@ public class CustomClickable : MonoBehaviour
     public void AdjustColliderToSprite()
     {
         var sr = GetComponent<SpriteRenderer>();
+        var ir = GetComponent<Image>();
         var col = GetComponent<BoxCollider2D>();
 
         if (sr != null && sr.sprite != null && col != null)
         {
             col.size = sr.sprite.bounds.size;
             col.offset = sr.sprite.bounds.center;
+        }
+
+        if (sr != null && ir.sprite != null && col != null)
+        {
+            col.size = ir.sprite.bounds.size;
+            col.offset = ir.sprite.bounds.center;
         }
     }
 
@@ -112,13 +167,28 @@ public class CustomClickable : MonoBehaviour
 
     private void UpdateSprite()
     {
-        if (!isInteractable && normalSprite)
+        if(spriteRenderer)
         {
-            GetComponent<SpriteRenderer>().color = Color.gray;
+            if (!isInteractable && normalSprite)
+            {
+                GetComponent<SpriteRenderer>().color = Color.gray;
+            }
+            else if (normalSprite)
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
         }
-        else if (normalSprite)
+        
+        if(imageRenderer)
         {
-            GetComponent<SpriteRenderer>().color = Color.white;
+            if (!isInteractable && normalSprite)
+            {
+                GetComponent<Image>().color = Color.gray;
+            }
+            else if (normalSprite)
+            {
+                GetComponent<Image>().color = Color.white;
+            }
         }
     }
 }

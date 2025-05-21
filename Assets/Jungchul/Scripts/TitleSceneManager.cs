@@ -20,7 +20,7 @@ public class TitleSceneManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // 선택사항
+        //DontDestroyOnLoad(gameObject); // 선택사항
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
