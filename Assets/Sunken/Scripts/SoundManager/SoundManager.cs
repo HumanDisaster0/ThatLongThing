@@ -59,12 +59,14 @@ public class SoundManager : MonoBehaviour
             obj.transform.SetParent(transform);
             sources.Add(obj.GetComponent<AudioSource>());
         }
+
+        sources = GetComponentsInChildren<AudioSource>().ToList();
     }
 
     private void Start()
     {
         cam = Camera.main;
-        sources = GetComponentsInChildren<AudioSource>().ToList();
+        
     }
 
     // Update is called once per frame
