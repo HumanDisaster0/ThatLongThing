@@ -77,6 +77,9 @@ public class SettlementPanelScript : MonoBehaviour
             text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
             text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
             text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
+
+            GoldManager.Instance.calRewardGold();
+
             text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
             textTax.text = GoldManager.Instance.Tax.ToString();
             textWeek.text = GuildRoomManager.Instance.day.ToString();

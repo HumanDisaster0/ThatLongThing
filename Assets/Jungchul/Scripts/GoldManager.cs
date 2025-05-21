@@ -34,9 +34,10 @@ public class GoldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴 방지
     }
 
-    public int calRewardGold()
+    public void calRewardGold()
     {
-        return findTrapCount * 5 - rdc * 2 - ejectionCount * 10;
+        rdc = deadCount > 5 ? 5 : deadCount;
+        rewardGold =  findTrapCount * 5 - rdc * 2 - ejectionCount * 10;
     }
 
     public void getRewardGold(int amount)
@@ -62,7 +63,7 @@ public class GoldManager : MonoBehaviour
         GoldManager.Instance.rdc = dc > 5 ? 5 : dc;
         GoldManager.Instance.ejectionCount = ec;
         GoldManager.Instance.rewardGold = GoldManager.Instance.calRewardGold();
-        GoldManager.Instance.Tax = 60;
+        GoldManager.Instance.Tax = -60;
         //calRewardGold 임시값 : findTrapCount * 100 + deadCount * 20 + ejectionCount * 200;
     }
 
