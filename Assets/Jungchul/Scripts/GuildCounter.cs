@@ -18,9 +18,9 @@ public class GuildCounter : MonoBehaviour
     public CustomClickable cTalk;
 
     [Header("중간 결과 발표용")]
-    public GameObject resultPanel;            // 중간 결과 발표용 패널 (비활성 상태로 시작)
-    public TextMeshPro resultText;            // 결과 요약 텍스트
-    public Sprite resultImage;  // 이미지 등 효과
+    public GameObject trollPanel;            // 중간 결과 발표용 패널 (비활성 상태로 시작)
+    public TextMeshPro trollText;            // 결과 요약 텍스트
+    public GameObject trollImage;  // 이미지 등 효과
 
     private List<QuestionData> questions;
     private int currentQuestionIndex = 0;
@@ -80,12 +80,7 @@ public class GuildCounter : MonoBehaviour
 
         //Debug.Log($"문제번호: {qIdx}  {missionCode}");
 
-        // 중간결과 확인
-        if ((totalSolvedCount + 1) % 3 == 0)
-        {
-            ShowMidResult();
-            return;
-        }
+        // 중간결과 확인       
         isEnd = false;
 
     }
@@ -112,7 +107,7 @@ public class GuildCounter : MonoBehaviour
     {
         whatDidYouText.text = "이번 의뢰 수고 많으셨습니다.\n의뢰의 대상은 결국 무엇이었나요?";
         answerBox.SetActive(false);
-        resultPanel.SetActive(false);
+        trollPanel.SetActive(false);
         answerBox.SetActive(false);
 
         foreach (var c in choices)
@@ -175,19 +170,11 @@ public class GuildCounter : MonoBehaviour
         }
     }
 
-    void ShowMidResult()
+    public void ShowMidResult(int wrong)
     {
-        resultPanel.SetActive(true);
+        trollPanel.SetActive(true);      
 
-        int last3Start = Mathf.Max(quizResults.Count - 3, 0);
-        int correctCount = 0;
-        for (int i = last3Start; i < quizResults.Count; i++)
-        {
-            if (quizResults[i].isCorrect)
-                correctCount++;
-        }
-
-        resultText.text = $"최근 3문제 중 {correctCount}개 정답!";
+        trollText.text = $"데비씨. 당신이 보고한 이상현상 중 {wrong}개가 잘못 보고되어 보지 못하는 사람들의 피해가 있따라 발생했습니다. 길드의 규칙에 따라 벌금 40x(틀린횟수) 부과하겠습니다.";
         // resultImage.sprite = ...; // 이미지 변경도 가능
 
         // 퀴즈 시작은 외부에서 resultPanel 종료 이후 StartQuiz() 수동 호출

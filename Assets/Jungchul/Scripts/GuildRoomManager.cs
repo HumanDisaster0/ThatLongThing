@@ -271,7 +271,7 @@ public class GuildRoomManager : MonoBehaviour
             curObj = null;
         }
 
-        
+
         switch (curVstate)
         {
             case viewState.IDLE:
@@ -301,29 +301,64 @@ public class GuildRoomManager : MonoBehaviour
                 var gcp = guildCounterPanel.GetComponent<GuildCounter>();
 
                 if (!guildCounterPanel.gameObject.activeSelf)
-                {                                        
+                {
                     textDrawer.TextRefresh();
                     guildCounterPanel.gameObject.SetActive(true);
+                    gcp.trollPanel.SetActive(false);
 
-                    
-                    
                 }
 
-                if (isGetRewardYet && isReportYet && !trollCheck)
-                {                    
+                if (isGetRewardYet && isReportYet)
+                {
+                    int wrongCnt = 0;
+                    day++;
+                    if (day == 4)
+                    {
+                        int last3Start = Mathf.Max(gcp.quizResults.Count - 3, 0);
+
+                        for (int i = last3Start; i < gcp.quizResults.Count; i++)
+                        {
+                            if (!gcp.quizResults[i].isCorrect)
+                            {
+                                wrongCnt++;
+                            }
+                        }
+
+                        if (wrongCnt > 0)
+                        {
+                            trollCheck = true;
+                        }
+
+                        day = 1;
+                        week++;
+                    }
+                   
                     settlementPanel.gameObject.SetActive(true);
                     gcp.btnOnOff(false);
 
-                    checkResult.gameObject.SetActive(true);
-                    if (checkResult)
+                    if(trollCheck)
                     {
-                        Debug.Log("checkResult활성화");
-                        //정산 패널에서 x버튼 누르는 순간 골드 정산 진행됨
-                    }
-                    
-                    gcp.StartQuiz();
+                        gcp.ShowMidResult(wrongCnt);
 
-                    isReportYet = false;
+                        if (Input.GetMouseButtonDown(0))
+                            trollCheck = false;
+
+                        break;
+                    }
+
+                    if (!trollCheck)
+                    {
+                        checkResult.gameObject.SetActive(true);
+                        if (checkResult)
+                        {
+                            Debug.Log("checkResult활성화");
+                            //정산 패널에서 x버튼 누르는 순간 골드 정산 진행됨
+                        }
+
+                        gcp.StartQuiz();
+
+                        isReportYet = false;
+                    }
                 }
 
                 if (!isReportYet)
@@ -331,19 +366,12 @@ public class GuildRoomManager : MonoBehaviour
                     selectedMission = 0;
                 }
 
-                
+
                 if (Input.GetMouseButtonDown(0) && gcp.isEnd)
                 {
                     Debug.Log($"isEnd! {gcp.isEnd}");
                     checkResult.gameObject.SetActive(false);
                     gcp.btnOnOff(true);
-
-                    day++;
-                    if (day == 4)
-                    {
-                        day = 1;
-                        week++;
-                    }
 
                     textDrawer.TextRefresh();
 
@@ -355,7 +383,7 @@ public class GuildRoomManager : MonoBehaviour
 
 
             case viewState.SETTLEMENT:
-                curVstate = viewState.COUNTER; 
+                curVstate = viewState.COUNTER;
                 break;
 
             case viewState.MISSIONBOARD:
@@ -431,7 +459,7 @@ public class GuildRoomManager : MonoBehaviour
 
         if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
         {
-            curVstate = viewState.COUNTER;           
+            curVstate = viewState.COUNTER;
 
             isReturned = false;
 
