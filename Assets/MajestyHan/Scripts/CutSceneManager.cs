@@ -2,16 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CutSceneManager : MonoBehaviour
 {
+    private void Start()
+    {
+        //PlayRegisteredCutScene();
+        //테스트용
+        blackOutImage.gameObject.SetActive(false);
+    }
+
     public static CutSceneManager Instance { get; private set; }
+
+
+    [Header("컷씬 종료 후 이동할 씬")]
+    public string nextSceneName;   // 에디터에서 직접 입력
 
     [Header("컷씬 데이터")]
     public List<Sprite> cutSceneImages;
     public List<string> cutSceneTexts;
     public float autoDelay = 1.0f;
+    public Image blackOutImage;
 
     [Header("UI 참조")]
     public Image cutSceneImage;
@@ -35,7 +48,7 @@ public class CutSceneManager : MonoBehaviour
 
     // 외부에서 호출할 메서드
     public void PlayCutScene(List<Sprite> images, List<string> texts, float? delay = null)
-    {
+    {        
         if (runningCutscene != null)
         {
             StopCoroutine(runningCutscene);
@@ -80,10 +93,18 @@ public class CutSceneManager : MonoBehaviour
         }
         objectsToDisable.Clear();
 
-        // 마지막 컷씬 후 (여기서 씬 전환)
-        // UnityEngine.SceneManagement.SceneManager.LoadScene("다음씬이름");
+        blackOutImage.gameObject.SetActive(true);
+
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
 
+    public void PlayRegisteredCutScene()
+    {
+        PlayCutScene(cutSceneImages, cutSceneTexts, autoDelay);
+    }
     private IEnumerator TypeTextAuto(TextMeshProUGUI target, string message, float typingSpeed, float waitAfter = 1f)
     {
         target.text = "";

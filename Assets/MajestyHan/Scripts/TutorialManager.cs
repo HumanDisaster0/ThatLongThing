@@ -15,7 +15,7 @@ public class TutorialManager : MonoBehaviour
     private Transform focusNpc;
     public Transform focusEventSpace;
 
-    private MoveSenpaiMove moveSenpai;    
+    private MoveSenpaiMove moveSenpai;
 
     public MapPinMatchChecker mapPin;
 
@@ -86,7 +86,7 @@ public class TutorialManager : MonoBehaviour
 
         if (needPressedMapKey)
         {
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.M)) // 미니맵 여는 버튼으로 열었을 때 처리해야함!@#$
             {
                 if (!needPressedCheckMapNope && !needPressedCheckMapOkay)
                 {
@@ -413,10 +413,12 @@ public class TutorialManager : MonoBehaviour
 
         // 선배 대사
         DialogueManager.Instance.SetBubbleStyle(0);
+        DialogueManager.Instance.AllowTextSkipping = false;
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
         "<color=#3f3f3f>좋아, 거의 다 왔어. 마지막으로 여기엔 돌이 있으니 이렇게!"
         });
+        DialogueManager.Instance.AllowTextSkipping = true;
 
         //(무빙으로 돌을 피하는 선배!@#$)    
         DialogueManager.Instance.SetBubbleStyle(0);
@@ -449,6 +451,7 @@ public class TutorialManager : MonoBehaviour
     {
         "<color=#3f3f3f>안돼, 선배님!"
     });
+        Invoke("BlackOutOnce", 1.7f);
         moveSenpai.senpaiNowGoRight();
         DialogueManager.Instance.SetBubbleStyle(0);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
@@ -456,7 +459,20 @@ public class TutorialManager : MonoBehaviour
         "<color=#3f3f3f>응?"
     });
         DialogueManager.Instance.AllowTextSkipping = true;
+ 
         //씬 전환         
+    }
+
+
+    void BlackOutOnce()
+    {
+        CutSceneManager.Instance.blackOutImage.gameObject.SetActive(true);
+        Invoke("nextSceneGOGO", 1f);
+    }
+    void nextSceneGOGO()
+    {
+        CutSceneManager.Instance.blackOutImage.gameObject.SetActive(false);
+        CutSceneManager.Instance.PlayRegisteredCutScene();
     }
 
     //=====================================================================================================================
