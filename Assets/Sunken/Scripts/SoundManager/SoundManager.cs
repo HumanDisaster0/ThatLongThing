@@ -50,6 +50,7 @@ public class SoundManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        cam = Camera.main;
         sources = GetComponentsInChildren<AudioSource>().ToList();
 
         LoadAllSound();
