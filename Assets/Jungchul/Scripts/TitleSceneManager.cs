@@ -6,6 +6,8 @@ public class TitleSceneManager : MonoBehaviour
 {
     public static TitleSceneManager Instance;
 
+    [SerializeField] bool isGoGuildMain = false; // GuildMain으로 바로 가기
+
     // 버튼 3개와 배경
     public GameObject startButton;
     public GameObject optionButton;
@@ -80,8 +82,13 @@ public class TitleSceneManager : MonoBehaviour
         print("Prologue로!");
         DeactivateUI();
 
-        Invoke("LoadTutorialScene", 1f);
-        //Invoke("LoadGuildMain", 0.1f);
+        if(isGoGuildMain)
+        {
+            Invoke("LoadGuildMain", 0.1f); ;
+            return;
+        }
+        else
+            Invoke("LoadTutorialScene", 1f);
     }
 
     void LoadTutorialScene()
