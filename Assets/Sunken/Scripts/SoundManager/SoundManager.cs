@@ -50,12 +50,22 @@ public class SoundManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        LoadAllSound();
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
         cam = Camera.main;
         sources = GetComponentsInChildren<AudioSource>().ToList();
 
-        LoadAllSound();
-
-        DontDestroyOnLoad(gameObject);
+        while (sources.Count < sourceSize)
+        {
+            GameObject loaded = Resources.Load<GameObject>("Sound/Prefab/DefaultSource");
+            GameObject obj = Instantiate(loaded);
+            obj.transform.SetParent(transform);
+            sources.Add(obj.GetComponent<AudioSource>());
+        }
     }
 
     // Update is called once per frame
