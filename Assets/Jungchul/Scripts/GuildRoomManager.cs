@@ -213,12 +213,12 @@ public class GuildRoomManager : MonoBehaviour
                 if (isFirstTime && avatar)
                 {
                     print("신병받아라!");
-                    avatar.transform.position = new Vector3(7.5f, -1.65f, 0);
+                    //avatar.transform.position = new Vector3(7.5f, -1.65f, 0);
                 }
                 else if (!isFirstTime && isReturned)
                 {
                     tempChecker = true;
-                    avatar.transform.position = new Vector3(8.5f, -1.65f, 0);
+                    //avatar.transform.position = new Vector3(8.5f, -1.65f, 0);
                     print("돌아와썹");
                 }
                 worldLeftLimit = -8.6f;
