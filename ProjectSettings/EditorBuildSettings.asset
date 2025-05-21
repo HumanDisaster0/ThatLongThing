@@ -18,8 +18,8 @@ EditorBuildSettings:
     path: Assets/Jungchul/Scenes/Title.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Jungchul/Scenes/Prologue.unity
-    guid: 9b363b75d15cffa4f901e9bbfbc99c6d
+    path: Assets/MajestyHan/Scenes/TutorialStage.unity
+    guid: 41c61f5049061dc4b9bcdb0a93b7cd99
   - enabled: 1
     path: Assets/Jungchul/Scenes/GuildMain.unity
     guid: 3425cb610067e154fa42282a196a5efc
