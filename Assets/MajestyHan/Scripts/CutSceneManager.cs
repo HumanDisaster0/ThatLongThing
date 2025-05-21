@@ -9,9 +9,9 @@ public class CutSceneManager : MonoBehaviour
 {
     private void Start()
     {
-        PlayRegisteredCutScene();
+        //PlayRegisteredCutScene();
         //테스트용
-        //blackOutImage.gameObject.SetActive(false);
+        blackOutImage.gameObject.SetActive(false);
     }
 
     public static CutSceneManager Instance { get; private set; }
@@ -73,7 +73,7 @@ public class CutSceneManager : MonoBehaviour
             // 예외 처리 추가 가능 (태그 등)
             if (obj.activeInHierarchy)
             {
-                if(obj.name == "SoundManager" || obj.name == "DefaultSource")
+                if(obj.name == "SoundManager" || obj.name.StartsWith("DefaultSource"))
                     continue;
                 else
                     obj.SetActive(false);

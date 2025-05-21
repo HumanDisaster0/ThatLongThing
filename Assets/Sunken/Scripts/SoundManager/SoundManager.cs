@@ -66,7 +66,6 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-        
     }
 
     // Update is called once per frame

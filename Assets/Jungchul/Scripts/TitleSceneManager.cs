@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static NonePlaySceneManager;
 
 public class TitleSceneManager : MonoBehaviour
 {
@@ -32,13 +33,13 @@ public class TitleSceneManager : MonoBehaviour
         var exit = exitButton?.GetComponent<CustomClickable>();
 
         if (start != null)
-            start.SetClickAction(() => NonePlaySceneManager.Instance.StartGame()); // 게임 시작
+            start.SetClickAction(() => StartGame()); // 게임 시작
 
         if (opt != null)
             opt.SetClickAction(() => Debug.Log("옵션 열기")); // 옵션 열기
 
         if (exit != null)
-            exit.SetClickAction(() => NonePlaySceneManager.Instance.ExitGame()); // 종료
+            exit.SetClickAction(() => ExitGame()); // 종료
     }
 
     private void OnDestroy()
@@ -72,5 +73,33 @@ public class TitleSceneManager : MonoBehaviour
         if (optionButton != null) optionButton.SetActive(false);
         if (exitButton != null) exitButton.SetActive(false);
         if (background != null) background.SetActive(false);
+    }
+
+    public void StartGame()
+    {
+        print("Prologue로!");
+        DeactivateUI();
+
+        Invoke("LoadTutorialScene", 1f);
+    }
+
+    void LoadTutorialScene()
+    {
+        SceneManager.LoadScene("TutorialStage");
+    }
+
+    public void EnterOption()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void ExitGame()
+    {
+        DeactivateUI();
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 테스트 시 종료
+#endif
     }
 }

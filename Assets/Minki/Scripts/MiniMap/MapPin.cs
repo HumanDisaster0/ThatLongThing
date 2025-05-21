@@ -43,13 +43,16 @@ public class MapPin : MonoBehaviour, IPointerClickHandler
         if (eventData.pointerCurrentRaycast.gameObject == gameObject
             && eventData.button == PointerEventData.InputButton.Left)
         {
+
             m_mapPinState = (MapPinState)((int)m_mapPinState + 1);
-         
+
+            SoundManager.instance?.PlayNewBackSound("Map_Check2");
             if ((int)m_mapPinState > Enum.GetValues(typeof(MapPinState)).Length - 2)
             {
                 pinSetter.DeletePin(gameObject.GetHashCode());
                 return;
             }
+
 
           
 
