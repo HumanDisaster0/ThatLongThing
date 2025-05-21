@@ -6,9 +6,9 @@ public class MarketManager : MonoBehaviour
     public static MarketManager Instance { get; private set; }
 
     [Header("아이템 가격")]
-    public int doubleJumpPrice = 30;
-    public int shieldPrice = 10;
-    public int magicSizePrice = 20;
+    public int doubleJumpPrice = 60;
+    public int shieldPrice = 20;
+    public int magicSizePrice = 40;
 
     [SerializeField] private CustomClickable doubleJumpItem;
     [SerializeField] private CustomClickable shieldItem;
@@ -93,13 +93,32 @@ public class MarketManager : MonoBehaviour
     {
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
+            // 아이템 가격컨트롤
+            if (magicSizeLevel == 1)
+                magicSizePrice = 80;
+
+            // 버튼 활성화 컨트롤
             doubleJumpItem.isInteractable = doubleJumpLevel < 1 && GoldManager.Instance.totalGold >= doubleJumpPrice;
             shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
             magicSizeItem.isInteractable = magicSizeLevel < 2 && GoldManager.Instance.totalGold >= magicSizePrice;
 
+            // 레벨표시 컨트롤
             doubleJumpItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + doubleJumpLevel);
             shieldItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + shieldLevel);
             magicSizeItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + magicSizeLevel);
+
+            // 가격표시 컨트롤
+            Color activeColor = Color.white;
+            Color deactiveColor = Color.white;
+            ColorUtility.TryParseHtmlString("#FFBF00", out activeColor);
+            ColorUtility.TryParseHtmlString("#806000", out deactiveColor);
+
+            doubleJumpItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (doubleJumpPrice + "G");
+            doubleJumpItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = doubleJumpItem.isInteractable ? activeColor : deactiveColor;
+            shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (shieldPrice + "G");
+            shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = shieldItem.isInteractable ? activeColor : deactiveColor;
+            magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (magicSizePrice + "G");
+            magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = magicSizeItem.isInteractable ? activeColor : deactiveColor;
         }
     }
 

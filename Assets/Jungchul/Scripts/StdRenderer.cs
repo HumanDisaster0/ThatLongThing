@@ -11,7 +11,7 @@ public class StdRenderer : MonoBehaviour
 
     void Start()
     {
-        currentIndex = 0;
+        //currentIndex = 0;
         if (StdSprites.Length > 0)
             displayImage.sprite = StdSprites[0];
     }

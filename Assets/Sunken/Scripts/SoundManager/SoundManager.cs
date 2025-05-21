@@ -633,11 +633,17 @@ public class SoundManager : MonoBehaviour
         //}
     }
 
-    public void SetMute(bool _value)
+    public void SetMute(bool _value, float _timer = 0f)
     {
+        StartCoroutine(StopAllSound(_value, _timer));
+    }
+
+    IEnumerator StopAllSound(bool _value, float _timer)
+    {
+        yield return new WaitForSeconds(_timer);
         isAllStop = _value;
 
-        if(!isAllStop)
+        if (!isAllStop)
         {
             BgmPlayer.instance.StartBgmPlayer();
         }

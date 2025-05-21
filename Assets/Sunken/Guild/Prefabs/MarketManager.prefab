@@ -44,4 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7634f9c23141b4645839a8722c631677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemsOnSale: []
+  doubleJumpPrice: 60
+  shieldPrice: 20
+  magicSizePrice: 40
+  doubleJumpItem: {fileID: 0}
+  shieldItem: {fileID: 0}
+  magicSizeItem: {fileID: 0}
