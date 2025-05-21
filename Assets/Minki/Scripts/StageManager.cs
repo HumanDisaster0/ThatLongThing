@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
+using UnityEngine.Windows;
 
 public class StageManager : MonoBehaviour
 {
@@ -39,22 +42,30 @@ public class StageManager : MonoBehaviour
 
     private List<string> m_anomalyName;
 
+    private List<string> m_colsLinq = new List<string>();
+
     void LoadStage(Scene scene, LoadSceneMode mode)
     {
         deathCount = 0;
+        matchData = new MapMatchData();
 
         if (m_anomalyName == null)
         {
+            m_colsLinq.Clear();
             TextAsset csv = Resources.Load<TextAsset>("missionCheckText");
             string[] lines = csv.text.Split('\n');
 
-            m_anomalyName = new List<string>();
-
             for (int i = 1; i< lines.Length; i += 3)
             {
-                string[] cols = lines[i].Split(',');
-                m_anomalyName.Add(cols[0].Trim());
+                string[] cols = lines[i].Split('/');
+                m_colsLinq.Add(cols[0]);
             }
+
+            m_anomalyName = m_colsLinq.OrderBy(s => 
+            {
+                var match = Regex.Match(s, @"\d+");
+                return match.Success ? int.Parse(match.Value) : int.MaxValue;
+            }).ToList();
         }
 
         //이름으로 피하기
