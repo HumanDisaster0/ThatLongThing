@@ -12,6 +12,10 @@ using UnityEditor.Rendering.LookDev;
 /// </summary>
 public class EndingSceneManager : MonoBehaviour
 {
+    [Header("오토모드 설정")]
+    public bool autoPlayMode = false;
+    public float autoPlayDelay = 1.0f;  // 한 컷당 대기 시간
+
     // ===== 컷씬 데이터 (정규 루트) =====
     public List<Sprite> cutSceneImages;           // 컷씬 이미지
     [TextArea]
@@ -19,6 +23,7 @@ public class EndingSceneManager : MonoBehaviour
 
     // ===== 선택지 등장 위치 =====
     public int choiceCutIndex = 3;                // 선택지 등장 인덱스
+    public int shakeCutIndex = 5;                // 선택지 등장 인덱스
 
     // ===== 분기(정규루트) 컷씬 데이터 =====
     public List<Sprite> branchImages;             // 선택 후 이어지는 컷씬 이미지
@@ -60,6 +65,9 @@ public class EndingSceneManager : MonoBehaviour
 
     private void Start()
     {
+        autoPlayMode = true;
+        autoPlayDelay = 1.0f;
+
         // 모든 UI/연출 기본 비활성화
         choicePanel.SetActive(false);
         if (realChoiceHighlight != null) realChoiceHighlight.SetActive(false);
@@ -78,12 +86,25 @@ public class EndingSceneManager : MonoBehaviour
         for (int i = 0; i < cutSceneImages.Count && i < cutSceneTexts.Count; i++)
         {
             cutSceneImage.sprite = cutSceneImages[i];
-            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, cutSceneTexts[i], 0.04f));
+            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, cutSceneTexts[i], 0.04f, accelerateInsteadOfSkip: true));
 
             if (i == choiceCutIndex)
             {
                 // 2. 선택지 등장(분기)
                 yield return ShowChoice();
+            }
+
+
+            if (i == shakeCutIndex)
+            {
+                EndingSceneCamera camShake = Camera.main.GetComponent<EndingSceneCamera>();
+                if (camShake != null)
+                    StartCoroutine(camShake.LerpShake(1.5f, 0.5f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
+            }
+
+            if (i == (shakeCutIndex + 1))
+            {
+                yield return new WaitForSeconds(1.0f);  // 자동 대기
             }
         }
 
@@ -91,7 +112,7 @@ public class EndingSceneManager : MonoBehaviour
         for (int i = 0; i < branchImages.Count && i < branchTexts.Count; i++)
         {
             cutSceneImage.sprite = branchImages[i];
-            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, branchTexts[i], 0.04f));
+            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, branchTexts[i], 0.04f, accelerateInsteadOfSkip: true));
         }
 
         // 4. 엔딩 크레딧
@@ -104,19 +125,22 @@ public class EndingSceneManager : MonoBehaviour
     /// <summary>
     /// 타이핑 + 입력시 즉시완료(입력 대기)
     /// </summary>
-    private IEnumerator WaitForTextInputTyper(TextMeshProUGUI textUI, string text, float speed)
+    private IEnumerator WaitForTextInputTyper(TextMeshProUGUI textUI, string text, float baseSpeed, bool accelerateInsteadOfSkip = false)
     {
-        bool done = false;
-        StartCoroutine(TextTyper.TypeText(textUI, text, speed, () => done));
-        while (!done)
+        yield return StartCoroutine(TextTyper.TypeText(textUI, text, baseSpeed, accelerateInsteadOfSkip));
+
+        if (autoPlayMode)
         {
-            if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
-            {
-                done = true;
-            }
-            yield return null;
+            yield return new WaitForSeconds(autoPlayDelay);  // 자동 대기
+        }
+        else
+        {
+            // 수동 입력 대기
+            yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0));
         }
     }
+
+
 
     /// <summary>
     /// 선택지 패널 + 분기 연출
@@ -171,6 +195,7 @@ public class EndingSceneManager : MonoBehaviour
         // 1. 아니요 버튼 비활성화(숨김)
         fakeChoiceBtn.interactable = false;
         fakeChoiceBtn.gameObject.SetActive(false);
+        realChoiceBtn.interactable = false;
 
         // 2. 볼륨 오브젝트 ON
         if (postProcessVolume != null)
@@ -178,26 +203,30 @@ public class EndingSceneManager : MonoBehaviour
 
         EndingSceneCamera camShake = Camera.main.GetComponent<EndingSceneCamera>();
         if (camShake != null)
-            yield return StartCoroutine(camShake.Shake(0.2f, 0.3f)); // (지속시간, 세기)
-
+            yield return StartCoroutine(camShake.LerpShake(0.7f, 1.0f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
         // 3. 금감 이미지 + 색수차 효과(Chromatic Aberration) ON
+        yield return new WaitForSeconds(0.3f);
         cutSceneImage.sprite = brokenGlass1;
         if (chromaticAberration != null) chromaticAberration.intensity.value = 0.3f;
         if (cutSceneText != null) cutSceneText.text = ""; // 텍스트 숨김
 
-        yield return new WaitForSeconds(0.7f);
-
         // 4. 조각남 이미지로 변경 (색수차 유지)
         if (camShake != null)
-            yield return StartCoroutine(camShake.Shake(0.7f, 0.5f)); // (지속시간, 세기)
+            yield return StartCoroutine(camShake.LerpShake(1.2f, 2.0f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
+
         cutSceneImage.sprite = brokenGlass2;
         if (chromaticAberration != null) chromaticAberration.intensity.value = 1.0f;
+
+        if (camShake != null)
+            yield return StartCoroutine(camShake.LerpShake(0.3f, 0.7f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
         yield return new WaitForSeconds(0.7f);
+
 
         // 5. 예 버튼 강조(Glow 등) ON
         if (realChoiceHighlight != null) realChoiceHighlight.SetActive(true);
 
         // 7. 연출 완료 콜백
+        realChoiceBtn.interactable = true;
         onBrokenComplete?.Invoke();
     }
 
@@ -206,7 +235,32 @@ public class EndingSceneManager : MonoBehaviour
     /// </summary>
     private IEnumerator ShowCredits()
     {
+        // 1. 크레딧 패널 아래로 배치
+        RectTransform creditRect = creditsPanel.GetComponent<RectTransform>();
+        Vector2 targetPos = creditRect.anchoredPosition;
+        Vector2 startPos = new Vector2(targetPos.x, -Screen.height); // 아래로 보냄
+        creditRect.anchoredPosition = startPos;
+
+        Transform creditTextObj = creditsScroll.content.GetChild(0);
+        creditTextObj.gameObject.SetActive(false);
+        // 2. 활성화
         creditsPanel.SetActive(true);
+
+        // 3. 위로 이동 트윈
+        float duration = 3.0f;
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float lerpT = Mathf.SmoothStep(0f, 1f, t / duration); // 부드럽게
+            creditRect.anchoredPosition = Vector2.Lerp(startPos, targetPos, lerpT);
+            yield return null;
+        }
+
+        // 4. 정확히 도착 위치 고정
+        creditRect.anchoredPosition = targetPos;
+        creditTextObj.gameObject.SetActive(true);
+        // 5. 스크롤 크레딧 시작
         float y = 0f;
         creditsScroll.verticalNormalizedPosition = 1f;
         bool finished = false;
@@ -219,6 +273,7 @@ public class EndingSceneManager : MonoBehaviour
             if (y >= 1f) finished = true;
             yield return null;
         }
+
         yield return new WaitForSeconds(1.5f);
         creditsPanel.SetActive(false);
     }
