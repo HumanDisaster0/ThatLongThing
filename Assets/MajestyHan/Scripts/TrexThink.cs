@@ -21,7 +21,7 @@ public class TrexThink : MonoBehaviour
 
     [Header("끼임 감지")]
     public float stuckCheckDuration = 2f;
-    public float stuckMovementThreshold = 0.05f;
+    public float stuckMovementThreshold = 0.02f;
 
     [Header("Y임계지점")]
     public float deathYThreshold = -10f; // 여기보다 아래로 떨어지면 리스폰
@@ -94,15 +94,17 @@ public class TrexThink : MonoBehaviour
         float velocityX = rb.velocity.x;
         float movedX = Mathf.Abs(currentPosition.x - prevPosition.x);
 
-        if ((move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase)
-            && Mathf.Abs(velocityX) > 0.1f && movedX < stuckMovementThreshold)
+        if (move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase)
         {
-            stuckTimer += Time.deltaTime;
-            if (stuckTimer >= stuckCheckDuration)
+            if (Mathf.Abs(velocityX) > 0.1f && movedX < stuckMovementThreshold)
             {
-                Debug.Log("[TrexThink] 끼인 것 같음 → 가장 가까운 점프노드로 탈출 시도");
-                ForceRespawn();
-                stuckTimer = 0f;
+                stuckTimer += Time.deltaTime;
+                if (stuckTimer >= stuckCheckDuration)
+                {
+                    Debug.Log("[TrexThink] 끼인 것 같음 → 가장 가까운 점프노드로 탈출 시도");
+                    ForceRespawn(move.state);
+                    stuckTimer = 0f;
+                }
             }
         }
         else
@@ -113,21 +115,13 @@ public class TrexThink : MonoBehaviour
         prevPosition = currentPosition;
     }
 
-    private void FixedUpdate()
+    void ForceRespawn(MonsterState returnState)
     {
-        if (transform.position.y < deathYThreshold)
-        {
-            Debug.LogWarning("[TrexThink] 낙사 감지 → 스폰 지점으로 강제 점프");
-            ForceRespawn();
-        }
-    }
-
-    void ForceRespawn()
-    {
-        if (move.state == TrexMove.MonsterState.Jumping)
+        if (move.state == MonsterState.Jumping)
             return;
 
-        move.JumpNow(spawnPoint); //스폰포인트로 폴짝
+        move.prevState = returnState;
+        move.JumpNow(spawnPoint);
     }
 
 
