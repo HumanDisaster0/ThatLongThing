@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 424067083}
+    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: stuckMovementThreshold
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 8940283926650466649, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_Name
       value: SuperTrex
