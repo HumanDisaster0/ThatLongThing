@@ -1,21 +1,22 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class SettlementPanelScript : MonoBehaviour
 {
-    public GameObject Panel; // 외부에서 연결 가능한 패널 객체
+    public GameObject Panel;
 
     private TextMeshPro text1;
     private TextMeshPro text2;
     private TextMeshPro text3;
     private TextMeshPro text4;
     private TextMeshPro textTax;
+    private TextMeshPro textWeek;
 
     private CustomClickable closeButton;
 
-    public GameObject taxBg;
+    private GameObject settlementBg;
+    private GameObject taxBg;
 
     void Awake()
     {
@@ -23,25 +24,40 @@ public class SettlementPanelScript : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
-        // 자식 오브젝트에서 TextMeshPro 컴포넌트를 찾음
-        text1 = transform.GetChild(2).GetComponent<TextMeshPro>();
-        text2 = transform.GetChild(3).GetComponent<TextMeshPro>();
-        text3 = transform.GetChild(4).GetComponent<TextMeshPro>();
-        text4 = transform.GetChild(5).GetComponent<TextMeshPro>();
-        textTax = transform.GetChild(6).GetComponent<TextMeshPro>();
+
+        settlementBg = transform.Find("settlment_Bg")?.gameObject;
+        taxBg = transform.Find("tax_bg")?.gameObject;
+
+        if (settlementBg != null)
+        {
+            text1 = settlementBg.transform.Find("text1").GetComponent<TextMeshPro>();
+            text2 = settlementBg.transform.Find("text2").GetComponent<TextMeshPro>();
+            text3 = settlementBg.transform.Find("text3").GetComponent<TextMeshPro>();
+            text4 = settlementBg.transform.Find("text4").GetComponent<TextMeshPro>();
+        }
+        else
+        {
+            Debug.LogError("settlment_Bg를 찾을 수 없습니다.");
+        }
+
+        if (taxBg != null)
+        {
+            textTax = taxBg.transform.Find("textTax").GetComponent<TextMeshPro>();
+            textWeek = taxBg.transform.Find("textWeek").GetComponent<TextMeshPro>();
+        }
+        else
+        {
+            Debug.LogError("tax_bg를 찾을 수 없습니다.");
+        }
 
         Transform closeBtnTransform = transform.Find("CloseBtn");
         if (closeBtnTransform != null)
         {
             closeButton = closeBtnTransform.GetComponent<CustomClickable>();
             if (closeButton != null)
-            {
                 closeButton.SetClickAction(OnCloseButtonClicked);
-            }
             else
-            {
                 Debug.LogWarning("CloseBtn에 CustomClickable 컴포넌트가 없습니다.");
-            }
         }
         else
         {
@@ -51,52 +67,61 @@ public class SettlementPanelScript : MonoBehaviour
 
     void Start()
     {
+        RefreshTexts();
+    }
+
+    public void RefreshTexts()
+    {
         if (GoldManager.Instance != null)
         {
             text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
             text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
-            text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount *10})";
+            text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
             text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} 획득)";
             textTax.text = GoldManager.Instance.Tax.ToString();
-
-            //text1.text = GoldManager.Instance.findTrapCount.ToString();
-            //text2.text = GoldManager.Instance.deadCount.ToString();
-            //text3.text = GoldManager.Instance.ejectionCount.ToString();
-            //text4.text = GoldManager.Instance.rewardGold.ToString();
+            textWeek.text = GuildRoomManager.Instance.day.ToString();
         }
     }
 
     private void OnCloseButtonClicked()
     {
-        gameObject.SetActive(false); // 현재 SettlementPanel 비활성화
-        GuildRoomManager.Instance.isGetRewardYet = false;
-        //GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
+        gameObject.SetActive(false);
 
+        GoldManager.Instance.getRewardGold(GoldManager.Instance.rewardGold);
+        Debug.Log($"rewardGold: {GoldManager.Instance.rewardGold}");
+
+        GuildRoomManager.Instance.isGetRewardYet = false;
     }
 
     void OnEnable()
     {
-        if(GuildRoomManager.Instance.day == 3)
+        if (GuildRoomManager.Instance.day == 3)
         {
-            taxBg.gameObject.SetActive(true);
+            taxBg.SetActive(true);
             textTax.gameObject.SetActive(true);
         }
         else
         {
-            taxBg.gameObject.SetActive(false);
+            taxBg.SetActive(false);
             textTax.gameObject.SetActive(false);
         }
 
         if (SceneManager.GetActiveScene().name == "GuildMain")
         {
-            if (GoldManager.Instance != null)
-            {
-                text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
-                text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 3})";
-                text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
-                text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} 획득)";
-                textTax.text = GoldManager.Instance.Tax.ToString();
-            }
+            RefreshTexts();
         }
+    }
+
+    // 
+    public void MoveSettlementBg(Vector3 newPosition)
+    {
+        if (settlementBg != null)
+            settlementBg.transform.localPosition = newPosition;
+    }
+
+    public void MoveTaxBg(Vector3 newPosition)
+    {
+        if (taxBg != null)
+            taxBg.transform.localPosition = newPosition;
     }
 }

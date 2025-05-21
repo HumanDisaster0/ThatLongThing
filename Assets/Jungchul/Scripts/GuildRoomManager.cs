@@ -19,7 +19,7 @@ public class GuildRoomManager : MonoBehaviour
     private bool isReturned = false;
     public bool isGetRewardYet = true;
     public bool isReportYet = true;
-    private bool isMissionSelected = false;
+    //private bool isMissionSelected = false;
 
 
     public int selectedMission = 0;
@@ -31,6 +31,8 @@ public class GuildRoomManager : MonoBehaviour
     public bool tempChecker = true;
 
     private bool trollCheck = false;
+
+    private bool isPasan = false;
 
 
     public enum viewState
@@ -91,6 +93,8 @@ public class GuildRoomManager : MonoBehaviour
         isReturned = false;
 
         trollCheck = false;
+
+        isPasan = false;
 
         curVstate = viewState.IDLE;
 
@@ -268,6 +272,13 @@ public class GuildRoomManager : MonoBehaviour
         switch (curVstate)
         {
             case viewState.IDLE:
+
+                if(GoldManager.Instance.totalGold < 0)
+                {
+                    Debug.Log("천강파산뢰!");
+                    Debug.Log("유브갓개털");
+                }
+
                 if (!avatar.isMovable)
                 {
                     //
@@ -296,10 +307,12 @@ public class GuildRoomManager : MonoBehaviour
                     if (checkResult)
                     {
                         Debug.Log("checkResult활성화");
+
+                        //정산 패널에서 x버튼 누르는 순간 골드 정산 진행됨
                     }
 
                     gcp.StartQuiz();
-
+                    
                     isReportYet = false;
                 }
 
@@ -361,10 +374,11 @@ public class GuildRoomManager : MonoBehaviour
 
                 this.enabled = false;
 
-                //LoadStage(selectedMission);
-
-
                 int reCode = selectedMission % 1000;
+
+                StageManager.instance.LoadStage(reCode);
+
+                reCode = selectedMission % 1000;
                 int stg = reCode / 100;
                 int ano = reCode % 100;
                 Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
@@ -455,7 +469,7 @@ public class GuildRoomManager : MonoBehaviour
 
         guildObjects[0].HLforceOff();
         guildObjects[0].isInteractable = false;
-        isMissionSelected = true;
+        //isMissionSelected = true;
     }
 
     public bool IsIdle()
@@ -466,27 +480,5 @@ public class GuildRoomManager : MonoBehaviour
         return false;
     }
 
-    public void LoadStage(int code)
-    {
-        int reCode = code / 1000;
-        int stg = reCode / 100;
-        int ano = reCode % 100;
-        Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
 
-        if (stg == 1)
-        {
-
-            SceneManager.LoadScene("Stage1");
-        }
-        else if (stg == 2)
-        {
-            SceneManager.LoadScene("Stage2");
-        }
-        else if (stg == 3)
-        {
-            SceneManager.LoadScene("Stage3");
-        }
-
-        StageManager.instance.anomalyIdx = ano;
-    }
 }

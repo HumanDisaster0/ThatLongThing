@@ -17,7 +17,7 @@ public class GoldManager : MonoBehaviour
     public int ejectionCount = 0;
     public int rdc = 0;
 
-    public int Tax = 60;
+    public int Tax = -60;
 
 
 
@@ -29,13 +29,13 @@ public class GoldManager : MonoBehaviour
             Destroy(gameObject); // 중복 제거
             return;
         }
-        Tax = 60;
+        Tax = -60;
         Instance = this;
         DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴 방지
     }
 
     public int calRewardGold()
-    {        
+    {
         return findTrapCount * 5 - rdc * 2 - ejectionCount * 10;
     }
 
@@ -50,12 +50,10 @@ public class GoldManager : MonoBehaviour
     public void MinusGold(int amount)
     {
         totalGold -= amount;
-        
-        if (totalGold < 0)
-        {
-            Debug.Log("천강파산뢰!");
-        }
     }
+
+
+   
 
     public void SetReward(int ftc, int dc, int ec)
     {
