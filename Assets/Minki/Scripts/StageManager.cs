@@ -43,13 +43,23 @@ public class StageManager : MonoBehaviour
 
     private List<string> m_colsLinq = new List<string>();
 
+    private int m_enteredStageCount;
+    //private bool m_stageSetDirty = false;
+
     void SetStage(Scene scene, LoadSceneMode mode)
     {
         //스테이지 씬이 아니면 건너뛰기
         if (!scene.name.Contains("Stage"))
             return;
 
+        //if (!m_stageSetDirty)
+        //    return;
+
+        //m_stageSetDirty = false;
+
         deathCount = 0;
+
+        m_enteredStageCount++;
 
         if (m_anomalyName == null)
         {
@@ -71,7 +81,13 @@ public class StageManager : MonoBehaviour
         }
 
         //플레이어 설정
-
+        var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        var magicAblity = pc.transform.GetComponentInChildren<MagicAbility>();
+        if (MarketManager.Instance != null)
+        {
+            pc.maxJumpCount = MarketManager.Instance.GetDoubleJumpLevel() + 1;
+            magicAblity.magicLevel = MarketManager.Instance.GetMagicSizeLevel() + 1;
+        }
 
         var result = FindObjectsByType<TrapSetter>(FindObjectsSortMode.None);
         if (result == null)
@@ -237,14 +253,13 @@ public class StageManager : MonoBehaviour
             //todo - 플레이어 무적
             case 9:
                 {
-                    var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
                     pc.Invincibility = true;
                     pc.playerScale = 4.0f;
                     pc.jumpForce = 8;
                     pc.gravityForce = 15;
                     pc.ApplyScale();
 
-                    pc.transform.GetComponentInChildren<MagicAbility>().scale = 4.0f;
+                    magicAblity.scale = 4.0f;
 
                     var destroyer = pc.gameObject.AddComponent<DestroyerForPlayer>();
                     destroyer.destructibleTilemaps = new UnityEngine.Tilemaps.Tilemap[6];
@@ -415,8 +430,15 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public void DebugStageCountCorretion()
+    {
+        m_enteredStageCount--;
+    }
+
     public void LoadStage(int stageData)
     {
+        //m_stageSetDirty = true;
+
         if (stageData > 400)
             return;
 
@@ -449,9 +471,4 @@ public class StageManager : MonoBehaviour
         GuildRoomManager.Instance.SetReturned();
         SceneManager.LoadScene("GuildMain");
     }
-
-    //static KeyValuePair<string,string> GetCurrentStageInfo()
-    //{
-
-    //}
 }

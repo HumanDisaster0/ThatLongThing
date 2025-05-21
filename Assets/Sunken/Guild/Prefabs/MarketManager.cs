@@ -139,12 +139,12 @@ public class MarketManager : MonoBehaviour
 
     int GetShieldLevel() { return shieldLevel; }
 
-    int GetDoubleJumpLevel()
+    public int GetDoubleJumpLevel()
     {
         return doubleJumpLevel;
     }
 
-    int GetMagicSizeLevel()
+    public int GetMagicSizeLevel()
     {
         return magicSizeLevel;
     }
