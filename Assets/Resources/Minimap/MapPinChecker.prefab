@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 419506237780468926}
   m_Layer: 0
   m_Name: MapPinChecker
-  m_TagString: Untagged
+  m_TagString: MapPinChecker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,5 +48,4 @@ MonoBehaviour:
   refRect: {fileID: 0}
   tilemap: {fileID: 0}
   checkTag: TrapInfo
-  tileSize: 50
   pinCheckRadius: 0.5

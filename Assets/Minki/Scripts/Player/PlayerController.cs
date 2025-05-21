@@ -495,6 +495,7 @@ public class PlayerController : MonoBehaviour
                 return;
             case PlayerState.Die:
                 SoundManager.instance.PlayBackSound("Die1");
+                SoundManager.instance.SetMute(true, 1.0f);
                 playerAnimator.Play(m_hash_dieAnim);
                 return;
         }

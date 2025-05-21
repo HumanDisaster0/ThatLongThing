@@ -6564,34 +6564,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[2].value
-      value: 42
-      objectReference: {fileID: 0}
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[2].inSlope
-      value: -8.695343
-      objectReference: {fileID: 0}
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[3].inSlope
-      value: -167.66417
-      objectReference: {fileID: 0}
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[2].outSlope
-      value: -8.695343
-      objectReference: {fileID: 0}
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[3].inWeight
-      value: 0.2655774
-      objectReference: {fileID: 0}
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[3].outSlope
-      value: -167.66417
-      objectReference: {fileID: 0}
-    - target: {fileID: 194681585943672458, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
-      propertyPath: nextNumAnimation.m_Curve.Array.data[2].outWeight
-      value: 0.57507634
-      objectReference: {fileID: 0}
     - target: {fileID: 5012796797161817747, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
       propertyPath: m_Name
       value: PreLifeCountIndicator
