@@ -175,12 +175,14 @@ public class GuildCounter : MonoBehaviour
 
     void Update()
     {
-
-        if (isAnswerRevealed && Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            whatDidYouText.text = questions[currentQuestionIndex].npcReplies[sIndex];
-            isAnswerRevealed = false;
-            isEnd = true;
+            if (isAnswerRevealed)
+            {
+                whatDidYouText.text = questions[currentQuestionIndex].npcReplies[sIndex];
+                isAnswerRevealed = false;
+                isEnd = true;
+            }
         }
     }
 

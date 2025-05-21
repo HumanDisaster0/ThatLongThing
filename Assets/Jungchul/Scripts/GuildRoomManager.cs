@@ -57,6 +57,7 @@ public class GuildRoomManager : MonoBehaviour
         TROLL_P,
         QUIZ,
         QUIZ_P,
+        QUIZ_PP,
         C_IDLE,
         NONE,
     }
@@ -330,12 +331,14 @@ public class GuildRoomManager : MonoBehaviour
                 {
                     var gcp = guildCounterPanel.GetComponent<GuildCounter>();
                     
-                    preCState = cState;
+                    //preCState = cState;
 
 
                     switch (cState)
                     {
                         case counterState.SETTlE:
+                            preCState = cState;
+
                             avatar.isMovable = false;
                             
                             day++;
@@ -343,7 +346,7 @@ public class GuildRoomManager : MonoBehaviour
                             guildCounterPanel.gameObject.SetActive(true);
                             settlementPanel.gameObject.SetActive(true);
                             gcp.trollPanel.SetActive(false);
-
+                            
                             if (day == 4)
                             {
                                 int last3Start = Mathf.Max(quizResults.Count - 3, 0);
@@ -361,7 +364,7 @@ public class GuildRoomManager : MonoBehaviour
                                     trollCheck = true;
                                 }
                                 else
-                                {
+                                {                                    
                                     cState = counterState.SETTlE;
                                 }
 
@@ -374,14 +377,18 @@ public class GuildRoomManager : MonoBehaviour
                         case counterState.TROLL:
                             
                             gcp.ShowMidResult(wrongCnt);
+                            preCState = cState;
                             cState = counterState.TROLL_P;
 
-
-
                             break;
+
+
                         case counterState.TROLL_P:
                             if (Input.GetMouseButtonDown(0))
+                            {
+                                preCState = cState;
                                 cState = counterState.QUIZ;
+                            }
 
 
                             break;
@@ -389,22 +396,33 @@ public class GuildRoomManager : MonoBehaviour
                         case counterState.QUIZ:
                             checkResult.gameObject.SetActive(true);
                             gcp.StartQuiz(selectedMission / 1000);
+                            
+                            
                             cState = counterState.QUIZ_P;
-
                             break;
 
                         case counterState.QUIZ_P:
-                            Debug.Log($"QUIZ_P{ cState}  {preCState}");
-                            //preCState = counterState.NONE;
-                            if (Input.GetMouseButtonDown(0) && gcp.isEnd)
+
+                            if (gcp.isEnd)
                             {
                                 Debug.Log("isEnd");
+                                preCState = cState;
+                                cState = counterState.QUIZ_PP;
+                            }
+                            break;
+
+
+                        case counterState.QUIZ_PP:
+
+                            if (Input.GetMouseButtonDown(0))
+                            {                                
                                 checkResult.gameObject.SetActive(false);
 
                                 textDrawer.TextRefresh();
                                
                                 selectedMission = 0;
 
+                                preCState = cState;
                                 cState = counterState.C_IDLE;
                             }
                             break;
@@ -465,15 +483,6 @@ public class GuildRoomManager : MonoBehaviour
 
                 StageManager.instance.LoadStage(reCode);
 
-                reCode = selectedMission % 1000;
-
-
-                int stg = reCode / 100;
-                int ano = reCode % 100;
-                Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
-
-                //StageManager.instance.anomalyIdx = ano;
-
                 //SceneManager.LoadScene("DummyMission");
 
                 break;
@@ -523,7 +532,7 @@ public class GuildRoomManager : MonoBehaviour
 
     public void SetReturned()
     {
-        print("내가돌아왔다!");
+        
         isReturned = true;
         //isGetRewardYet = true;
         //isReportYet = true;
