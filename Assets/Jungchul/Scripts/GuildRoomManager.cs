@@ -269,6 +269,7 @@ public class GuildRoomManager : MonoBehaviour
             curObj = null;
         }
 
+        
         switch (curVstate)
         {
             case viewState.IDLE:
@@ -294,29 +295,29 @@ public class GuildRoomManager : MonoBehaviour
             case viewState.COUNTER:
 
                 avatar.isMovable = false;
+
                 var gcp = guildCounterPanel.GetComponent<GuildCounter>();
+
                 if (!guildCounterPanel.gameObject.activeSelf)
-                {
+                {                                        
+                    textDrawer.TextRefresh();
                     guildCounterPanel.gameObject.SetActive(true);
 
+                    
+                    gcp.btnOnOff(false);
                 }
-                if (!isGetRewardYet && isReportYet && !trollCheck)
-                {
 
+                if (isGetRewardYet && isReportYet && !trollCheck)
+                {                    
+                    settlementPanel.gameObject.SetActive(true);
+                    
                     checkResult.gameObject.SetActive(true);
-
-                    gcp.closeButton.enabled = false;
-                    gcp.cAlbum.isInteractable = false;                    
-                    gcp.cMissionBoard.isInteractable = false;
-                    gcp.cTalk.isInteractable = false;
-
                     if (checkResult)
                     {
                         Debug.Log("checkResult활성화");
-
                         //정산 패널에서 x버튼 누르는 순간 골드 정산 진행됨
                     }
-
+                    
                     gcp.StartQuiz();
 
                     isReportYet = false;
@@ -327,11 +328,12 @@ public class GuildRoomManager : MonoBehaviour
                     selectedMission = 0;
                 }
 
+                
                 if (Input.GetMouseButtonDown(0) && gcp.isEnd)
                 {
                     Debug.Log($"isEnd! {gcp.isEnd}");
-
                     checkResult.gameObject.SetActive(false);
+                    gcp.btnOnOff(true);
 
                     day++;
                     if (day == 4)
@@ -343,12 +345,14 @@ public class GuildRoomManager : MonoBehaviour
                     textDrawer.TextRefresh();
 
                     gcp.isEnd = false;
-
                 }
+
+
                 break;
 
 
             case viewState.SETTLEMENT:
+                curVstate = viewState.COUNTER; 
                 break;
 
             case viewState.MISSIONBOARD:
@@ -385,13 +389,15 @@ public class GuildRoomManager : MonoBehaviour
                 StageManager.instance.LoadStage(reCode);
 
                 reCode = selectedMission % 1000;
+
+
                 int stg = reCode / 100;
                 int ano = reCode % 100;
                 Debug.Log($"{name} 로드 스테이지: " + stg + "  / 이상현상: " + ano);
 
                 //StageManager.instance.anomalyIdx = ano;
 
-                SceneManager.LoadScene("DummyMission");
+                //SceneManager.LoadScene("DummyMission");
 
                 break;
 
@@ -422,9 +428,7 @@ public class GuildRoomManager : MonoBehaviour
 
         if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
         {
-            curVstate = viewState.COUNTER;
-
-            settlementPanel.gameObject.SetActive(true);
+            curVstate = viewState.COUNTER;           
 
             isReturned = false;
 
@@ -445,8 +449,6 @@ public class GuildRoomManager : MonoBehaviour
         isReturned = true;
         isGetRewardYet = true;
         isReportYet = true;
-
-
     }
 
     public void DoorOutOn()

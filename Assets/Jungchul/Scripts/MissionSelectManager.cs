@@ -7,11 +7,11 @@ public class MissionSelectManager : MonoBehaviour
 
     public List<int> allMissionCodes = new List<int>()
     {
-        104, 1111, 2203,
-        3212, 4207, 5314,
-        6209, 7202, 8301,
-        9306, 10313, 11315,
-        12305, 13308, 14310,
+        104, 1111, 2202, 
+        3203, 4209, 5212, 
+        6207, 7301, 8305, 
+        9314, 10306, 11308, 
+        12310, 13313, 14315,        
     };
 
     public Dictionary<int, bool> missionClearDict = new Dictionary<int, bool>();

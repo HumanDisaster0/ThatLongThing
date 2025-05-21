@@ -11,6 +11,7 @@ public class GuildCounter : MonoBehaviour
     public GameObject answerBox;
     public TextMeshPro answerText;
 
+
     public CustomClickable closeButton;
     public CustomClickable cMissionBoard;
     public CustomClickable cAlbum;
@@ -39,12 +40,6 @@ public class GuildCounter : MonoBehaviour
     void Awake()
     {
         //guildRoomManager = FindObjectOfType<GuildRoomManager>();
-       
-
-    }
-
-    void OnEnable()
-    {
         Transform closeBtnTransform = transform.Find("Counter_exit");
         if (closeBtnTransform != null)
         {
@@ -73,6 +68,12 @@ public class GuildCounter : MonoBehaviour
             cTalk.SetClickAction(OnCloseButtonClicked);
         }
 
+
+    }
+
+    public void Start()
+    {
+
         // 문제번호 계산
         int missionCode = GuildRoomManager.Instance.selectedMission;
         qIdx = missionCode / 1000;
@@ -87,7 +88,12 @@ public class GuildCounter : MonoBehaviour
         }
         isEnd = false;
 
-        StartQuiz();
+    }
+
+    void OnEnable()
+    {
+
+
     }
 
     public void StartQuiz()
@@ -104,7 +110,6 @@ public class GuildCounter : MonoBehaviour
 
     void InitUI()
     {
-
         whatDidYouText.text = "이번 의뢰 수고 많으셨습니다.\n의뢰의 대상은 결국 무엇이었나요?";
         answerBox.SetActive(false);
         resultPanel.SetActive(false);
@@ -132,8 +137,6 @@ public class GuildCounter : MonoBehaviour
         {
             choiceTexts[i].text = q.choices[i];
         }
-
-        
     }
 
     void OnChoiceSelected(int choiceIndex)
@@ -156,6 +159,8 @@ public class GuildCounter : MonoBehaviour
         isAnswerRevealed = true;
         totalSolvedCount++;
 
+        GoldManager.Instance.PlusGold(30);
+
         // 문제 번호 초기화        
     }
 
@@ -164,25 +169,6 @@ public class GuildCounter : MonoBehaviour
 
         if (isAnswerRevealed && Input.GetMouseButtonDown(0))
         {
-            //Debug.Log($"문제인덱스 {currentQuestionIndex}");
-            //Debug.Log($"문제와 답변 {questions[currentQuestionIndex].npcReplies[questions[currentQuestionIndex].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[0].npcReplies[questions[0].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[1].npcReplies[questions[1].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[2].npcReplies[questions[2].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[3].npcReplies[questions[3].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[4].npcReplies[questions[4].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[5].npcReplies[questions[5].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[6].npcReplies[questions[6].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[7].npcReplies[questions[7].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[8].npcReplies[questions[8].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[9].npcReplies[questions[9].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[10].npcReplies[questions[10].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[11].npcReplies[questions[11].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[12].npcReplies[questions[12].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[13].npcReplies[questions[13].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[14].npcReplies[questions[14].correctIndex]}");
-            //Debug.Log($"문제와 답변 {questions[15].npcReplies[questions[15].correctIndex]}");
-
             whatDidYouText.text = questions[currentQuestionIndex].npcReplies[sIndex];
             isAnswerRevealed = false;
             isEnd = true;
@@ -209,8 +195,28 @@ public class GuildCounter : MonoBehaviour
 
     private void OnCloseButtonClicked()
     {
-        gameObject.SetActive(false); 
+        gameObject.SetActive(false);
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
 
+    }
+
+    public void btnOnOff(bool onoff)
+    {
+        if (onoff)
+        {
+            Debug.Log("버튼 켜기");
+            closeButton.isInteractable = true;
+            cMissionBoard.isInteractable = true;
+            cAlbum.isInteractable = true;
+            cTalk.isInteractable = true;
+        }
+        else
+        {
+            Debug.Log("버튼 끄기");
+            closeButton.isInteractable = false;
+            cMissionBoard.isInteractable = false;
+            cAlbum.isInteractable = false;
+            cTalk.isInteractable = false;
+        }
     }
 }
