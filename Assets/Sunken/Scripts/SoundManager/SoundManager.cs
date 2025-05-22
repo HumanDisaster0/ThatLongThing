@@ -5,9 +5,6 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
-
-
 
 
 #if UNITY_EDITOR
@@ -532,7 +529,7 @@ public class SoundManager : MonoBehaviour
                         //continue;
                     }
 
-                    Debug.Log($"[Sound] name: {source.clip?.name}, cam: {cam.transform.position}, maxDist: {data.maxDistance}, seVol: {seVol}, volume: {source.volume}, isAllStop: {isAllStop}");
+                    //Debug.Log($"[Sound] name: {source.clip?.name}, cam: {cam.transform.position}, maxDist: {data.maxDistance}, seVol: {seVol}, volume: {source.volume}, isAllStop: {isAllStop}");
                 }
                 else
                 {
