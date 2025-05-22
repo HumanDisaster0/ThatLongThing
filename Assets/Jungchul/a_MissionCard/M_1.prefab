@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 0}
   hoverSprite: {fileID: 0}
+  soundTag: Quest
   isInteractable: 1
 --- !u!61 &-4553975672083136526
 BoxCollider2D:

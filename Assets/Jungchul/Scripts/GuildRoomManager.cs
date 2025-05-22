@@ -327,7 +327,6 @@ public class GuildRoomManager : MonoBehaviour
                 break;
 
             case viewState.COUNTER:
-                
                 if (cState != preCState || cState==counterState.TROLL_P || cState==counterState.QUIZ_P)
                 {
                     var gcp = guildCounterPanel.GetComponent<GuildCounter>();
@@ -435,6 +434,9 @@ public class GuildRoomManager : MonoBehaviour
                             break;
 
                         case counterState.C_IDLE:
+                            // 효과음 재생
+                            SoundManager.instance?.PlayNewBackSound("Map_Check2");
+
                             preCState = cState;
                             avatar.isMovable = false;
 
@@ -452,6 +454,7 @@ public class GuildRoomManager : MonoBehaviour
 
 
             case viewState.SETTLEMENT:
+
                 curVstate = viewState.COUNTER;
                 Debug.Log($"v스테이트{curVstate}");
                 cState = counterState.C_IDLE;
@@ -463,6 +466,9 @@ public class GuildRoomManager : MonoBehaviour
                 avatar.isMovable = false;
                 if (!missionBoardPanel.gameObject.activeSelf)
                 {
+                    // 효과음 재생
+                    SoundManager.instance?.PlayNewBackSound("Map_Check2");
+
                     missionBoardPanel.gameObject.SetActive(true);
                     PostedMissionPanel.Instance.CardShowSet(true);
                 }
@@ -470,10 +476,12 @@ public class GuildRoomManager : MonoBehaviour
                 break;
 
             case viewState.POKEDEX:
-
                 avatar.isMovable = false;
                 if (!albumPanel.gameObject.activeSelf)
                 {
+                    // 효과음 재생
+                    SoundManager.instance?.PlayNewBackSound("Album_Click");
+
                     albumPanel.gameObject.SetActive(true);
                     var ap = albumPanel.GetComponent<MemoryCanvas>();
                     ap.UnlockMemories();
