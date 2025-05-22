@@ -48,6 +48,16 @@ public class MarketManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "Title")
+        {
+            doubleJumpLevel = 0;
+            shieldLevel = 0;
+            magicSizeLevel = 0;
+
+            int doubleJumpPrice = 60;
+            int shieldPrice = 20;
+            int magicSizePrice = 40;
+        }
         // 레벨이 로드될 때마다 아이템을 초기화합니다.
         doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
         shieldItem = GameObject.Find("Item_b")?.GetComponent<CustomClickable>();
@@ -165,4 +175,14 @@ public class MarketManager : MonoBehaviour
             magicSizeItem.isInteractable = _value;
         }
     }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }    
 }
