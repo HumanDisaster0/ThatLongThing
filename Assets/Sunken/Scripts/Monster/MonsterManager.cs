@@ -33,8 +33,6 @@ public class MonsterManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        InitMonster();
     }
 
     public void SetType(MonsterType type)
@@ -70,6 +68,7 @@ public class MonsterManager : MonoBehaviour
                 var data = monsterDatas[i];
                 data.startType = type;
                 data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
+                data.startActive = type == MonsterType.None ? false : true;
                 monsterDatas[i] = data;
                 return;
             }
@@ -81,7 +80,7 @@ public class MonsterManager : MonoBehaviour
         for (int i = 0; i < monsterDatas.Count; i++)
         {
             var data = monsterDatas[i];
-            data.monster.transform.GetComponentInChildren<MMove>().SetType(data.startType);
+            data.monster.transform.GetComponentInChildren<MMove>()?.SetType(data.startType);
 
             data.startActive = data.monster.activeSelf;
             data.startPos = data.monster.transform.GetChild(0).position;
@@ -94,6 +93,8 @@ public class MonsterManager : MonoBehaviour
     {
         for (int i = 0; i < monsterDatas.Count; i++)
         {
+            if (monsterDatas[i].monster == null)
+                continue;
             if(monsterDatas[i].startActive)
             {
                 monsterDatas[i].monster.transform.GetChild(0).gameObject.SetActive(true);
