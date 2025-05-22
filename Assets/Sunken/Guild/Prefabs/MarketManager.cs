@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MarketManager : MonoBehaviour
 {
@@ -28,34 +29,30 @@ public class MarketManager : MonoBehaviour
             return;
         }
 
+        // 레벨이 로드될 때마다 아이템을 초기화합니다.
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        // 레벨이 로드될 때마다 아이템을 초기화합니다.
-        OnLevelWasLoaded(0);
     }
 
     void Update()
     {
         // 아이템 상태를 업데이트합니다.
-        //if (GoldManager.Instance.totalGold != prevGold)
-        //{
-        //    prevGold = GoldManager.Instance.totalGold;
-        //    UpdateItemStatus();
-        //}
-        UpdateItemStatus();
+        if (GoldManager.Instance.totalGold != prevGold)
+        {
+            prevGold = GoldManager.Instance.totalGold;
+            UpdateItemStatus();
+        }
     }
 
-    private void OnLevelWasLoaded(int level)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 레벨이 로드될 때마다 아이템을 초기화합니다.
         doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
         shieldItem = GameObject.Find("Item_b")?.GetComponent<CustomClickable>();
         magicSizeItem = GameObject.Find("Item_c")?.GetComponent<CustomClickable>();
-        prevGold = 999999;
+        prevGold = GoldManager.Instance.totalGold;
 
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
@@ -90,7 +87,7 @@ public class MarketManager : MonoBehaviour
         }
     }
 
-    void UpdateItemStatus()
+    public void UpdateItemStatus()
     {
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
