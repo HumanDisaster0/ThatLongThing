@@ -469,12 +469,29 @@ public class StageManager : MonoBehaviour
 
     public void EndStage()
     {
+        if(anomalyIdx > 0 && anomalyIdx < 16)
+        m_clearedAnomaly.Add(anomalyIdx);
+
+        if(m_clearedAnomaly.Count >= 15)
+        {
+            //엔딩
+            if (FadeInOut.instance)
+            {
+                FadeInOut.instance.sceneName = "EndingScene";
+                FadeInOut.instance.ExeFadeIn(); // 씬 전환효과 시작
+            }
+            else
+                SceneManager.LoadScene("EndingScene");
+            return;
+        }
+
         var mapPinMatchData = GameObject.FindWithTag("MapPinChecker").GetComponent<MapPinMatchChecker>().CreateMatchData();
         GoldManager.Instance.findTrapCount = mapPinMatchData.correct;
         GoldManager.Instance.deadCount = deathCount;
 
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
         GuildRoomManager.Instance.SetReturned();
+
         if(FadeInOut.instance)
         {
             FadeInOut.instance.sceneName = "GuildMain";
@@ -483,6 +500,5 @@ public class StageManager : MonoBehaviour
         else
             SceneManager.LoadScene("GuildMain");
 
-        m_clearedAnomaly.Add(anomalyIdx);
     }
 }

@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Minki/Scenes/Stage3.unity
     guid: 4ad175d081bc91940b6cb37b1b545fa8
+  - enabled: 1
+    path: Assets/MajestyHan/Scenes/EndingScene.unity
+    guid: 991af94ea455c4c4baa3543ff0c5f2c2
   m_configObjects: {}
