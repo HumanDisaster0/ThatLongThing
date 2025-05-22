@@ -18,7 +18,7 @@ public class MarketManager : MonoBehaviour
     int shieldLevel = 0;
     int magicSizeLevel = 0;
 
-    int prevGold;
+    int prevGold = 100;
 
     private void Awake()
     {
