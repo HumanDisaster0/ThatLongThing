@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 928c066fd061e7b48a7fe96bdab6a9c6, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: b27938653aa65084aa4440aebf649c16, type: 3}
   torqueStrength: 200
@@ -181,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: da270aec4768bfd49a29387e63a29780, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 7c35dea5581247d46be997a90d39933a, type: 3}
   torqueStrength: 200
@@ -274,11 +276,87 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: a702c1a352bb26e41bde9a9a35ed6afc, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 3bc0b038a6f2dd04c96b7efd8d5cd3b2, type: 3}
   torqueStrength: 200
   damping: 3
   inertia: 0.16
+--- !u!1 &961820652676317362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 750532146744063938}
+  - component: {fileID: 737037518942472146}
+  - component: {fileID: 4028722187407891107}
+  m_Layer: 5
+  m_Name: Misstouch Prevent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &750532146744063938
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961820652676317362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7576690839575656269}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 847.2075, y: 459.30182}
+  m_SizeDelta: {x: -1694.415, y: -918.6036}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &737037518942472146
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961820652676317362}
+  m_CullTransparentMesh: 1
+--- !u!114 &4028722187407891107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961820652676317362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1096405483720241559
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 64f4e25994be6e645bb17deb0d6a445b, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 8fce8fca74a9c9d40a7625520ea46328, type: 3}
   torqueStrength: 200
@@ -544,6 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 1310e1f2aaef23140935e6a84208832f, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: c1c553bdedbc895459d5b152e767bf9d, type: 3}
   torqueStrength: 200
@@ -637,6 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: c96e834019bcb4a49837049ddcdf205a, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 2036214ff5ede254e854c7823c22d305, type: 3}
   torqueStrength: 200
@@ -730,6 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 90be28a61f2c91c458d9968f7a0f1f29, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 96968848bf9ffae49b2831b00280a202, type: 3}
   torqueStrength: 200
@@ -823,6 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 74f5927c82fd3614b875eab5c4d4b132, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: abfb65c4c48de634c8440008cf240727, type: 3}
   torqueStrength: 200
@@ -1049,6 +1132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 052e8f6f9571ec94ba645245a3d02e1b, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 7585517bfbc20f347ad2fd76800206f0, type: 3}
   torqueStrength: 200
@@ -1276,6 +1360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 351fb4b036f85934b9744c7a69ed7cdc, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: b505a1abe5808ac4ab5d9d6313fca5e7, type: 3}
   torqueStrength: 200
@@ -1369,6 +1454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 3f582a010e8d16b43b3af5772c1589c6, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 248960ad6b75a7f40b45701a43b9a4a0, type: 3}
   torqueStrength: 200
@@ -1406,6 +1492,7 @@ RectTransform:
   m_Children:
   - {fileID: 5734979770596857999}
   - {fileID: 3778183465178859778}
+  - {fileID: 750532146744063938}
   m_Father: {fileID: 8104362449363329708}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1539,6 +1626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 1aea8911ac5d4014e9e3b93db2446a35, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 86c409d9359d7024c9fc5ab709c248d5, type: 3}
   torqueStrength: 200
@@ -1748,6 +1836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: b088d58fa5babff48a56240a21d17bf3, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 1093584b2fb81d84884e632ff5a46f02, type: 3}
   torqueStrength: 200
@@ -1841,6 +1930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 20acce3a9d5ec174ba286e90bfc65614, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: 656d849fb8beb3e41892a3481388a770, type: 3}
   torqueStrength: 200
@@ -1934,6 +2024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a40db1baaca4dd46bafe7235e511183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TouchPreventRect: {fileID: 750532146744063938}
   cursorExitSpr: {fileID: 21300000, guid: 61ad6e1788b105841af3f237223b3820, type: 3}
   cursorOnSpr: {fileID: 21300000, guid: cee7697cf278bea4585debbefb9beb31, type: 3}
   torqueStrength: 200

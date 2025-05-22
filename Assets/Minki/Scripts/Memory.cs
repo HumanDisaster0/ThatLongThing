@@ -9,6 +9,7 @@ using Image = UnityEngine.UI.Image;
 public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public static Memory selected = null;
+    public RectTransform TouchPreventRect;
 
     public Sprite cursorExitSpr;
     public Sprite cursorOnSpr;
@@ -78,7 +79,12 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         selected = null;
         if(m_isSelected)
         {
-            StartCoroutine(DeferredResetTransform());
+            m_isSelected = false;
+            m_animated = false;
+            
+            m_rectTransform.localPosition = m_savedPos;
+            m_rectTransform.sizeDelta = m_savedSize;
+            m_rectTransform.SetSiblingIndex(m_savedIdx);
         }
     }
 
@@ -117,6 +123,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     IEnumerator AnimateToCenter()
     {
         m_animated = true;
+        TouchPreventRect.gameObject.SetActive(true);
 
         Vector2 targetSize = m_savedSize * 2f;
         Vector3 targetPos = Vector3.zero;
@@ -174,18 +181,6 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         selected = null;
         m_isSelected = false;
         m_animated = false;
-    }
-
-
-    private IEnumerator DeferredResetTransform()
-    {
-        yield return null; // 한 프레임 대기 (레이아웃 안정화)
-
-        m_isSelected = false;
-        m_animated = false;
-
-        m_rectTransform.SetSiblingIndex(m_savedIdx);
-        m_rectTransform.localPosition = m_savedPos;
-        m_rectTransform.sizeDelta = m_savedSize;
+        TouchPreventRect.gameObject.SetActive(false);
     }
 }

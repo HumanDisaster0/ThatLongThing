@@ -330,6 +330,7 @@ public class GuildRoomManager : MonoBehaviour
                 if (cState != preCState || cState==counterState.TROLL_P || cState==counterState.QUIZ_P)
                 {
                     var gcp = guildCounterPanel.GetComponent<GuildCounter>();
+                    var sp = settlementPanel.GetComponent<SettlementPanelScript>();
                     
                     //preCState = cState;
 
@@ -346,7 +347,9 @@ public class GuildRoomManager : MonoBehaviour
 
                             //gcp.btnOnOff(false);
                             guildCounterPanel.gameObject.SetActive(true);
-                                                        
+                            //sp.RefreshTexts();
+
+
                             GoldManager.Instance.calRewardGold();
                             GoldManager.Instance.getRewardGold();
 
@@ -394,6 +397,7 @@ public class GuildRoomManager : MonoBehaviour
                             if (Input.GetMouseButtonDown(0))
                             {
                                 preCState = cState;
+                                GoldManager.Instance.MinusGold(wrongCnt * 40);
                                 wrongCnt = 0;
                                 cState = counterState.QUIZ;
                             }

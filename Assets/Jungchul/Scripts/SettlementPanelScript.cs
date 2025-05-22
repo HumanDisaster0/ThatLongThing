@@ -91,7 +91,7 @@ public class SettlementPanelScript : MonoBehaviour
 
     void Start()
     {
-        RefreshTexts();
+        //RefreshTexts();
     }
 
     public void RefreshTexts()
@@ -100,6 +100,8 @@ public class SettlementPanelScript : MonoBehaviour
 
         if (GoldManager.Instance != null)
         {
+            Debug.Log($"DAY : {GuildRoomManager.Instance.day}");
+
             text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
             text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 2})";
             text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
@@ -125,7 +127,17 @@ public class SettlementPanelScript : MonoBehaviour
                 grade = 5;
             }
 
-            text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
+            //text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ - ¼¼±Ý {GoldManager.Instance.Tax})";
+
+            if (GuildRoomManager.Instance.day == 4)
+            {
+                text4.text = $"{GoldManager.Instance.totalGold - GoldManager.Instance.Tax} ({GoldManager.Instance.rewardGold} È¹µæ - ¼¼±Ý {GoldManager.Instance.Tax})";
+            }
+            else
+            {
+                text4.text = $"{GoldManager.Instance.totalGold} ({GoldManager.Instance.rewardGold} È¹µæ)";
+            }
+
             textTax.text = $"-({GoldManager.Instance.Tax} )";
             textWeek.text = GuildRoomManager.Instance.week.ToString();
 
@@ -186,7 +198,7 @@ public class SettlementPanelScript : MonoBehaviour
 
     void OnEnable()
     {
-        if (GuildRoomManager.Instance.day == 3)
+        if (GuildRoomManager.Instance.day == 4)
         {
             Vector3 tPosition = new Vector3(-3.52f, gameObject.transform.position.y, 0f);
             MoveSettlementBg(tPosition);
