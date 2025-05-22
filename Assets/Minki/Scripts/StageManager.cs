@@ -454,13 +454,13 @@ public class StageManager : MonoBehaviour
                 break;
             case 2:
                 if (FadeInOut.instance)
-                    FadeInOut.instance.sceneName = "Stage1";
+                    FadeInOut.instance.sceneName = "Stage2";
                 else
                     SceneManager.LoadScene("Stage2");
                 break;
             case 3:
                 if (FadeInOut.instance)
-                    FadeInOut.instance.sceneName = "Stage1";
+                    FadeInOut.instance.sceneName = "Stage3";
                 else
                     SceneManager.LoadScene("Stage3");
                 break;
@@ -476,7 +476,10 @@ public class StageManager : MonoBehaviour
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
         GuildRoomManager.Instance.SetReturned();
         if(FadeInOut.instance)
+        {
+            FadeInOut.instance.sceneName = "GuildMain";
             FadeInOut.instance.ExeFadeIn(); // 씬 전환효과 시작
+        }
         else
             SceneManager.LoadScene("GuildMain");
 
