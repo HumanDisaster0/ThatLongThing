@@ -16,7 +16,7 @@ using UnityEditor.Rendering;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    public bool isLowResource = false;
+    public bool isLowResource = true;
 
     [SerializeField] Dictionary<string, AudioClip> soundClips = new Dictionary<string, AudioClip>();
     [SerializeField] int sourceSize = 10;
