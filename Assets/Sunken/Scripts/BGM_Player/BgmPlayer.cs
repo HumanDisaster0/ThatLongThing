@@ -87,7 +87,12 @@ public class BgmPlayer : MonoBehaviour
 
     public void UpdateVolume()
     {
-        if(defaultSrc)
+        // º¼·ı ÀúÀå
+        PlayerPrefs.SetFloat("bgVol", SoundManager.instance.bgVol);
+        PlayerPrefs.SetFloat("seVol", SoundManager.instance.seVol);
+        PlayerPrefs.Save();
+
+        if (defaultSrc)
             defaultSrc.GetComponent<AudioSource>().volume = SoundManager.instance.bgVol * ((float)volume / 100);
     }
 

@@ -67,6 +67,9 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        bgVol = PlayerPrefs.GetFloat("bgVol", 1.0f);
+        seVol = PlayerPrefs.GetFloat("seVol", 1.0f);
+
         cam = Camera.main;
     }
 
@@ -151,6 +154,32 @@ public class SoundManager : MonoBehaviour
             Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
+    }
+
+    public void PlayNewBtnSound(string soundName)
+    {
+
+        if (soundClips.TryGetValue(soundName, out AudioClip _clip)) // 사운드가 있을경우 실행
+        {
+            if (sources.Count != 0)
+            {
+                sources[0].clip = _clip;
+                sources[0].loop = false;
+                sources[0].volume = 1f;
+                sources[0].Play();
+                sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
+                    StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
+                sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = false;
+
+                activeSources.Add(sources[0]);
+                sources.Remove(sources[0]);
+
+            }
+            else
+                Debug.LogWarning("사운드 매니저의 스피커 부족!!");
+        }
+        else
+            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
     }
 
     /// <summary>
@@ -513,6 +542,18 @@ public class SoundManager : MonoBehaviour
     {
         StartCoroutine(StopAllSound(_value, _timer));
     }
+
+    public void ForceSetMute(bool _value)
+    {
+        isAllStop = _value;
+
+        if (isAllStop)
+        {
+            foreach (AudioSource source in activeSources)
+                source.volume = 0.0f;
+        }
+    }
+
 
     IEnumerator StopAllSound(bool _value, float _timer)
     {
