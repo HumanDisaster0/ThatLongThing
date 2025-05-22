@@ -41,11 +41,12 @@ public class MarketManager : MonoBehaviour
     void Update()
     {
         // 아이템 상태를 업데이트합니다.
-        if (GoldManager.Instance.totalGold != prevGold)
-        {
-            prevGold = GoldManager.Instance.totalGold;
-            UpdateItemStatus();
-        }
+        //if (GoldManager.Instance.totalGold != prevGold)
+        //{
+        //    prevGold = GoldManager.Instance.totalGold;
+        //    UpdateItemStatus();
+        //}
+        UpdateItemStatus();
     }
 
     private void OnLevelWasLoaded(int level)
@@ -54,7 +55,7 @@ public class MarketManager : MonoBehaviour
         doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
         shieldItem = GameObject.Find("Item_b")?.GetComponent<CustomClickable>();
         magicSizeItem = GameObject.Find("Item_c")?.GetComponent<CustomClickable>();
-        prevGold = GoldManager.Instance.totalGold;
+        prevGold = 999999;
 
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {

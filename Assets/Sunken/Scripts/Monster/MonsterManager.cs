@@ -103,7 +103,7 @@ public class MonsterManager : MonoBehaviour
                 data.startActive = true;
             else
                 data.startActive = false;
-            data.startPos = data.monster.transform.GetChild(0).position;
+            data.startPos = data.monster.transform.GetChild(0).localPosition;
 
             monsterDatas[i] = data; // Update the list with the modified struct
         }
@@ -136,7 +136,7 @@ public class MonsterManager : MonoBehaviour
 
             data.startPos += new Vector3(0, scaleChange / 2, 0);
             data.monster.transform.localScale = new Vector2(targetScale, targetScale);
-            data.monster.transform.position = data.startPos; 
+            data.monster.transform.GetChild(0).localPosition = data.startPos; 
 
             monsterDatas[i] = data; // Update the list with the modified struct
         }
