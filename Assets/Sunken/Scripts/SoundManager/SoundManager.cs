@@ -105,7 +105,7 @@ public class SoundManager : MonoBehaviour
                 sources[0].gameObject.transform.position =
                     new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
                 sources[0].loop = false;
-                sources[0].volume = 1f;
+                sources[0].volume = seVol;
                 sources[0].Play();
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
@@ -139,7 +139,7 @@ public class SoundManager : MonoBehaviour
             {
                 sources[0].clip = _clip;
                 sources[0].loop = false;
-                sources[0].volume = 1f;
+                sources[0].volume = seVol;
                 sources[0].Play();
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
@@ -168,7 +168,7 @@ public class SoundManager : MonoBehaviour
             {
                 sources[0].clip = _clip;
                 sources[0].loop = false;
-                sources[0].volume = 1f;
+                sources[0].volume = seVol;
                 sources[0].Play();
                 sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                     StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
@@ -218,7 +218,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].gameObject.transform.position =
                         new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
                     sources[0].loop = false;
-                    sources[0].volume = 1f;
+                    sources[0].volume = seVol;
                     sources[0].Play();
                     sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
@@ -265,7 +265,7 @@ public class SoundManager : MonoBehaviour
                 {
                     sources[0].clip = _clip;
                     sources[0].loop = false;
-                    sources[0].volume = 1f;
+                    sources[0].volume = seVol;
                     sources[0].Play();
                     sources[0].gameObject.GetComponent<DefaultSourceData>().myCoroutine =
                         StartCoroutine(StopTime(_clip.length, sources[0].gameObject));
@@ -313,7 +313,7 @@ public class SoundManager : MonoBehaviour
                     sources[0].gameObject.transform.position =
                         new Vector3(caller.transform.position.x, caller.transform.position.y, sources[0].transform.position.z);
                     sources[0].loop = true;
-                    sources[0].volume = 1f;
+                    sources[0].volume = seVol;
                     sources[0].Play();
                     sources[0].gameObject.GetComponent<DefaultSourceData>().isVolCon = true;
                     sources[0].gameObject.GetComponent<DefaultSourceData>().maxDistance = maxDistance;
@@ -358,7 +358,7 @@ public class SoundManager : MonoBehaviour
                 {
                     sources[0].clip = _clip;
                     sources[0].loop = true;
-                    sources[0].volume = 1f;
+                    sources[0].volume = seVol;
                     sources[0].Play();
                     sources[0].GetComponent<DefaultSourceData>().isVolCon = false;
                     audioSource = sources[0];
