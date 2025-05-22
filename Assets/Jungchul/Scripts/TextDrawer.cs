@@ -20,15 +20,18 @@ public class TextDrawer : MonoBehaviour
     }
     void Start()
     {
+        string temp = GuildRoomManager.Instance.day.ToString();
         GoldText.text = GoldManager.Instance.totalGold.ToString();
-        DayText.text = GuildRoomManager.Instance.day.ToString();
+        DayText.text = $"D-{4-GuildRoomManager.Instance.day}";
         TaxText.text = GoldManager.Instance.Tax.ToString();        
     }
 
     public void TextRefresh()
     {
+        string temp = GuildRoomManager.Instance.day.ToString();
         GoldText.text = GoldManager.Instance.totalGold.ToString();
-        DayText.text = GuildRoomManager.Instance.day.ToString();
+        //DayText.text = GuildRoomManager.Instance.day.ToString();
+        DayText.text = $"D-{4 - GuildRoomManager.Instance.day}";
         TaxText.text = GoldManager.Instance.Tax.ToString();
     }
 

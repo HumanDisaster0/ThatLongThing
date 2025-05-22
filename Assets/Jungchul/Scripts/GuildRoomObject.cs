@@ -49,6 +49,7 @@ public class GuildRoomObject : MonoBehaviour
             {
                 //spriteRenderer.material = outlineMaterial;
                 spriteRenderer.sprite = selSpr;
+                spriteRenderer.sortingOrder = 4;
                 isHighlighted = true;
                 
 
@@ -65,6 +66,7 @@ public class GuildRoomObject : MonoBehaviour
             {
                 //spriteRenderer.material = normalMaterial;
                 spriteRenderer.sprite = stdSpr;
+                spriteRenderer.sortingOrder = 3;
                 print(gameObject.name + " ²¨Áü");
                 isHighlighted = false;
 
@@ -118,6 +120,7 @@ public class GuildRoomObject : MonoBehaviour
     {
         //spriteRenderer.material = normalMaterial;
         spriteRenderer.sprite = stdSpr;
+        spriteRenderer.sortingOrder = 3;
         print(gameObject.name + " ²¨Áü");
         isHighlighted = false;
 
