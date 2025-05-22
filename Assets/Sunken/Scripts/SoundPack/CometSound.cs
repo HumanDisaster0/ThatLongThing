@@ -11,6 +11,7 @@ public class CometSound : MonoBehaviour
     [SerializeField] AnimationCurve volumeCurve;
 
     AudioSource audsrc = null;
+    bool m_isPlaying = false;
     float timer;
     [Range(0f, 1f)]
     float volume;
@@ -21,7 +22,7 @@ public class CometSound : MonoBehaviour
         timer = 0f;
         volume = 0f;
 
-        if (comet)
+        if (comet != null)
         {
             volumeCurve = new AnimationCurve();
             foreach(var key in comet.GetComponent<CometController>().TMaskAnimation.keys)
@@ -33,21 +34,27 @@ public class CometSound : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!comet)
+        if (comet == null)
             Destroy(gameObject);
 
-        if (!audsrc)
+        if (audsrc == null)
+        {
+            print("오디오 소스 null");
             audsrc = SoundManager.instance.PlayLoopBackSound("Meteor_Run");
+            //m_isPlaying = true;
+        }    
+            
 
         timer += Time.deltaTime;
 
         volume = volumeCurve.Evaluate(timer);
 
-        if(audsrc)
+        if(audsrc != null)
             audsrc.volume = volume;
 
-        if(comet?.GetComponent<CometController>().HitTime < timer)
+        if(!m_isPlaying && comet?.GetComponent<CometController>().HitTime < timer)
         {
+            m_isPlaying = true;
             SoundManager.instance.StopSound(audsrc);
             SoundManager.instance.PlayBackSound("Meteor_Explosion");
         }
@@ -55,8 +62,9 @@ public class CometSound : MonoBehaviour
 
     public void ResetCometSound()
     {
+        m_isPlaying = false;
         timer = 0f;
-        if(audsrc)
+        if(audsrc != null)
             audsrc.volume = 0f;
 
         audsrc = null;
