@@ -60,14 +60,14 @@ public class TitleSceneManager : MonoBehaviour
         }
     }
 
-    private void ActivateUI()
+    public void ActivateUI()
     {
         if (startButton != null) startButton.isInteractable = true;
         if (optionButton != null) optionButton.isInteractable = true;
         if (exitButton != null) exitButton.isInteractable = true;
     }
 
-    private void DeactivateUI()
+    public void DeactivateUI()
     {
         if (startButton != null) startButton.isInteractable = false;
         if (optionButton != null) optionButton.isInteractable = false;

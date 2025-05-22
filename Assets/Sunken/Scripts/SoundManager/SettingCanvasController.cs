@@ -17,5 +17,10 @@ public class SettingCanvasController : MonoBehaviour
     public void SetSettingCanvas(bool _value)
     {
         settingCanvas?.SetActive(_value);
+
+        if (_value)
+            TitleSceneManager.Instance?.DeactivateUI();
+        else
+            TitleSceneManager.Instance?.ActivateUI();
     }
 }
