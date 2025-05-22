@@ -91,9 +91,9 @@ public class MinimapPreRenderer : MonoBehaviour
                 {
                     Texture2D sourceTex = sprite.texture;
                     Rect rect = sprite.rect;
-
+                    
                     int fullSize = Mathf.Max((int)rect.width, (int)rect.height);
-                    int hash = HashCode.Combine(MinimapTileInfo.tileSize, sourceTex.GetHashCode());
+                    int hash = HashCode.Combine(MinimapTileInfo.tileSize, sourceTex.name);
 
                     if (!m_resizedTexture.ContainsKey(hash))
                     {
