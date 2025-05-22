@@ -13136,7 +13136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549668909183498578, guid: 450da296b7fff954e9c87e5ad0c787fd, type: 3}
       propertyPath: anomalyIdx
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14486,6 +14486,10 @@ PrefabInstance:
     - target: {fileID: 5545311560251167655, guid: a13faaa3e9a86d946a4a5516d6e3e21b, type: 3}
       propertyPath: m_Name
       value: RedPortal
+      objectReference: {fileID: 0}
+    - target: {fileID: 5545311560251167655, guid: a13faaa3e9a86d946a4a5516d6e3e21b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7295789420195512505, guid: a13faaa3e9a86d946a4a5516d6e3e21b, type: 3}
       propertyPath: m_SortingOrder
