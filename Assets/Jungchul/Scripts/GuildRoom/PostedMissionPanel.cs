@@ -49,8 +49,7 @@ public class PostedMissionPanel : MonoBehaviour
         CreateMissions();
 
         enabled = false;
-
-        print("미션보드 꺼짐");
+        
     }
 
     private void Update()
@@ -62,35 +61,9 @@ public class PostedMissionPanel : MonoBehaviour
     }
 
 
-    //public void InitPanel(List<int> codes)
-    //{
-    //    currentMissionCodes = codes;
-
-    //    Debug.Log(" currentMissionCodes 리스트 내용: " + string.Join(", ", currentMissionCodes));
-
-    //    while (selCnt < 3)
-    //    {
-    //        var instance = missionInstances[selCnt];
-
-    //        if(instance.)
-
-    //        ApplyCodeToMission(i, code);
-
-    //        int capturedIndex = i;
-    //        var clickable = instance.GetComponent<CustomClickable>();
-    //        if (clickable != null)
-    //        {
-    //            clickable.SetClickAction(() => ShowPopupCard(capturedIndex));
-    //        }
-    //    }
-
-    //}
-
     public void InitPanel(List<int> codes)
     {
         currentMissionCodes = codes;
-        Debug.Log("입력된 코드 리스트: " + string.Join(", ", currentMissionCodes));
-       
 
         for (int i = 0; i < 3; i++)
         {
@@ -145,8 +118,7 @@ public class PostedMissionPanel : MonoBehaviour
             return;
         }
         else
-        {
-            Debug.Log($"코드설정! {code}+ {code / 1000}");
+        {            
             sprite = missionSprites[code/1000];
             hSprite = missionSpritesHover[code / 1000];
         }

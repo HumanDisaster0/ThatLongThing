@@ -143,7 +143,7 @@ public class GuildRoomManager : MonoBehaviour
         //SceneManager.sceneLoaded += OnSceneLoaded;
 
         DontDestroyOnLoad(this.gameObject);
-        print("부수지마");
+        
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -219,14 +219,14 @@ public class GuildRoomManager : MonoBehaviour
             {
                 if (isFirstTime && avatar)
                 {
-                    print("신병받아라!");
+                   
                     //avatar.transform.position = new Vector3(7.5f, -1.65f, 0);
                 }
                 else if (!isFirstTime && isReturned)
                 {
                     tempChecker = true;
                     //avatar.transform.position = new Vector3(8.5f, -1.65f, 0);
-                    print("돌아와썹");
+                  
                 }
                 worldLeftLimit = -8.6f;
                 worldRightLimit = 8.6f;
@@ -259,7 +259,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 PostedMissionPanel.Instance.CardShowSet(false);
 
-                print("카드 초기화 잘 됐어!");
+                
             }
 
             DoorOutOff();
@@ -294,7 +294,7 @@ public class GuildRoomManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        print("폭파!");
+       
     }
 
     void Update()
@@ -332,11 +332,7 @@ public class GuildRoomManager : MonoBehaviour
         {
             case viewState.IDLE:
 
-                if (GoldManager.Instance.totalGold < 0)
-                {
-                    Debug.Log("천강파산뢰!");
-                    Debug.Log("유브갓개털");
-                }
+              
 
                 if (!avatar.isMovable)
                 {
@@ -369,7 +365,7 @@ public class GuildRoomManager : MonoBehaviour
                             gcp.btnOnOff(false);
 
                             day++;
-                            Debug.Log($"데이쁠쁠 {day}");
+                            
 
                             //gcp.btnOnOff(false);
                             guildCounterPanel.gameObject.SetActive(true);
@@ -451,7 +447,7 @@ public class GuildRoomManager : MonoBehaviour
 
                             if (gcp.isEnd)
                             {
-                                Debug.Log("isEnd");
+                               
                                 preCState = cState;
                                 gcp.btnOnOff(false);
                                 cState = counterState.QUIZ_PP;
@@ -498,9 +494,9 @@ public class GuildRoomManager : MonoBehaviour
             case viewState.SETTLEMENT:
 
                 curVstate = viewState.COUNTER;
-                Debug.Log($"v스테이트{curVstate}");
+              
                 cState = counterState.C_IDLE;
-                Debug.Log($"c스테이트{cState}");
+              
                 break;
 
             case viewState.MISSIONBOARD:
@@ -560,14 +556,14 @@ public class GuildRoomManager : MonoBehaviour
     public void SetRoomState(viewState vState)
     {
         curVstate = vState;
-        Debug.Log($"GuildRoomManager: 상태 변경됨 → {vState}");
+       
     }
 
     public void ForceMoveOnRetrun()
     {
         if (tempChecker)
         {
-            print("복귀신고!");
+           
             avatar.isMovable = false;
 
             foreach (var obj in guildObjects)

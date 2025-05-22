@@ -126,8 +126,7 @@ public class NonePlaySceneManager : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    prologueCnt++;
-                    print("하나둘셋");
+                    prologueCnt++;                    
                 }
 
                 if (Input.GetKeyDown(KeyCode.Space) || prologueCnt == 3)
@@ -153,8 +152,7 @@ public class NonePlaySceneManager : MonoBehaviour
 
     public void StartGame()
     {
-        state = npSceneState.PROLOGUE;
-        print("Prologue로!");
+        state = npSceneState.PROLOGUE;      
         SceneManager.LoadScene("Prologue");
     }
 

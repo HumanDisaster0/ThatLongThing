@@ -184,8 +184,7 @@ public class GuildCounter : MonoBehaviour
             isCorrect = choiceIndex == q.correctIndex
         });
 
-        Debug.Log($"답안지 길이 {GuildRoomManager.Instance.quizResults.Count}");
-
+       
         foreach (var btn in choices)
             btn.gameObject.SetActive(false);
 
