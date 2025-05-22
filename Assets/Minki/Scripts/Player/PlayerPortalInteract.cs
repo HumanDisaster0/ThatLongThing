@@ -32,7 +32,7 @@ public class PlayerPortalInteract : MonoBehaviour
         if(collision.CompareTag("Portal"))
         {
             //상호작용 키
-            if(m_pc.IsGrounded && Input.GetKey(KeyCode.UpArrow))
+            if(m_pc.IsGrounded && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)))
             {
                 SoundManager.instance.PlayBackSound("Portal_Exe");
                 m_portal = collision.transform;
