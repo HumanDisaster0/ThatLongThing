@@ -2026,6 +2026,10 @@ PrefabInstance:
       propertyPath: playerScale
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3698259169579013767, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
+      propertyPath: DontUseMagic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4786468656053203589, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
       propertyPath: m_Size.x
       value: 0.75
@@ -2084,6 +2088,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5165078544398503445, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6626655283768768172, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8560393258800881193, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}

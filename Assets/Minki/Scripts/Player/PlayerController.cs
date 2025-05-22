@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using static UnityEngine.CullingGroup;
 
 public enum PlayerState
@@ -59,6 +60,8 @@ public class PlayerController : MonoBehaviour
     public int Dir;
 
     public bool DontJump;
+
+    public bool DontUseMagic;
 
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
 
@@ -265,7 +268,7 @@ public class PlayerController : MonoBehaviour
                 m_jumpCount++;
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (!DontUseMagic && Input.GetKeyDown(KeyCode.Q))
             magic?.UseMagic();
     }
 
