@@ -54,9 +54,9 @@ public class MarketManager : MonoBehaviour
             shieldLevel = 0;
             magicSizeLevel = 0;
 
-            int doubleJumpPrice = 60;
-            int shieldPrice = 20;
-            int magicSizePrice = 40;
+            doubleJumpPrice = 60;
+            shieldPrice = 20;
+            magicSizePrice = 40;
         }
         // 레벨이 로드될 때마다 아이템을 초기화합니다.
         doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
