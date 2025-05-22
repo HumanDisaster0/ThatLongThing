@@ -262,6 +262,9 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("BluePortal").SetActive(false);
                     GameObject.Find("Zone").transform.Find("RedPortal").gameObject.SetActive(true);
 
+                    GameObject.Find("TrapInfo (6)").GetComponent<TrapSetter>().SpecifiedSet(true);
+
+
                     break;
                 }
 
