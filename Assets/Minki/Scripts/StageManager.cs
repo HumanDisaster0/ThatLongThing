@@ -447,13 +447,22 @@ public class StageManager : MonoBehaviour
         switch (stageNum)
         {
             case 1:
-                SceneManager.LoadScene("Stage1");
+                if (FadeInOut.instance)
+                    FadeInOut.instance.sceneName = "Stage1";
+                else
+                    SceneManager.LoadScene("Stage1");
                 break;
             case 2:
-                SceneManager.LoadScene("Stage2");
+                if (FadeInOut.instance)
+                    FadeInOut.instance.sceneName = "Stage1";
+                else
+                    SceneManager.LoadScene("Stage2");
                 break;
             case 3:
-                SceneManager.LoadScene("Stage3");
+                if (FadeInOut.instance)
+                    FadeInOut.instance.sceneName = "Stage1";
+                else
+                    SceneManager.LoadScene("Stage3");
                 break;
         }
     }

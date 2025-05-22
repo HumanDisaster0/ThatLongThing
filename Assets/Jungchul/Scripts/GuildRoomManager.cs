@@ -273,11 +273,6 @@ public class GuildRoomManager : MonoBehaviour
         print("ÆøÆÄ!");
     }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if (!avatar)
@@ -498,7 +493,10 @@ public class GuildRoomManager : MonoBehaviour
                 int reCode = selectedMission % 1000;
 
                 if (FadeInOut.instance)
+                {
+                    StageManager.instance.LoadStage(reCode);
                     FadeInOut.instance.ExeFadeIn();
+                }
                 else
                     StageManager.instance.LoadStage(reCode);
                     //SceneManager.LoadScene("DummyMission");
