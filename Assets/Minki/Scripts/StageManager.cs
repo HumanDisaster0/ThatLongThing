@@ -476,7 +476,10 @@ public class StageManager : MonoBehaviour
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
         GuildRoomManager.Instance.SetReturned();
         if(FadeInOut.instance)
+        {
+            FadeInOut.instance.sceneName = "GuildMain";
             FadeInOut.instance.ExeFadeIn(); // 씬 전환효과 시작
+        }
         else
             SceneManager.LoadScene("GuildMain");
 
