@@ -20,6 +20,9 @@ public class GoldManager : MonoBehaviour
 
     public int Tax = 60;
 
+    public bool isChanged = false;
+
+    public GameObject GoldText;
 
 
     private void Awake()
@@ -51,6 +54,21 @@ public class GoldManager : MonoBehaviour
         {
             ResetAllExceptTax();
         }
+    }
+
+    private void Update()
+    {
+        if(isChanged)
+        {
+            GoldText = GameObject.Find("TextDrawer");
+            if (GoldText != null)
+            {
+                var gt = GoldText.GetComponent<TextDrawer>();
+                gt.TextRefresh();
+            }
+            isChanged = false;
+        }
+
     }
 
 
