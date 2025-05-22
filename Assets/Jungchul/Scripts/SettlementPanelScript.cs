@@ -186,13 +186,13 @@ public class SettlementPanelScript : MonoBehaviour
 
     void OnEnable()
     {
-        if (GuildRoomManager.Instance.day == 4)
+        if (GuildRoomManager.Instance.day == 3)
         {
             Vector3 tPosition = new Vector3(-3.52f, gameObject.transform.position.y, 0f);
             MoveSettlementBg(tPosition);
             taxBg.SetActive(true);
             textTax.gameObject.SetActive(true);
-            GoldManager.Instance.MinusGold(60);
+            
         }
         else
         {

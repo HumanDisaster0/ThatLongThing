@@ -341,6 +341,9 @@ public class GuildRoomManager : MonoBehaviour
 
                             avatar.isMovable = false;
 
+                            day++;
+                            Debug.Log($"µ•¿Ãª‹ª‹ {day}");
+
                             //gcp.btnOnOff(false);
                             guildCounterPanel.gameObject.SetActive(true);
                                                         
@@ -352,6 +355,7 @@ public class GuildRoomManager : MonoBehaviour
                             
                             if (day == 4)
                             {
+                                
                                 int last3Start = Mathf.Max(quizResults.Count - 3, 0);
 
                                 for (int i = last3Start; i < quizResults.Count; i++)
@@ -370,8 +374,8 @@ public class GuildRoomManager : MonoBehaviour
                                 {                                    
                                     cState = counterState.SETTlE;
                                 }
-
-                                    day = 1;
+                                GoldManager.Instance.MinusGold(60);
+                                day = 1;
                                 week++;
                             }
 
@@ -425,9 +429,6 @@ public class GuildRoomManager : MonoBehaviour
                                 textDrawer.TextRefresh();
                                
                                 selectedMission = 0;
-
-                                day++;
-                                Debug.Log($"µ•¿Ãª‹ª‹ {day}");
                                                                 
                                 cState = counterState.C_IDLE;
                             }
