@@ -61,7 +61,7 @@ public class SoundManager : MonoBehaviour
             obj.transform.SetParent(transform);
             sources.Add(obj.GetComponent<AudioSource>());
         }
-
+        cam = Camera.main;
         sources = GetComponentsInChildren<AudioSource>().ToList();
     }
 
@@ -72,8 +72,6 @@ public class SoundManager : MonoBehaviour
         isLowResource = PlayerPrefs.GetInt("isLowRes", 1) == 0 ? false : true;
 
         BgmPlayer.instance?.UpdateVolume();
-
-        cam = Camera.main;
     }
 
     // Update is called once per frame
@@ -82,11 +80,11 @@ public class SoundManager : MonoBehaviour
         CheckVolume();
     }
 
-    private void OnLevelWasLoaded(int level)
-    {
-        cam = Camera.main;
-        sources = GetComponentsInChildren<AudioSource>().ToList();
-    }
+    //private void OnLevelWasLoaded(int level)
+    //{
+    //    cam = Camera.main;
+        
+    //}
 
     /// <summary>
     /// 중복 상관없이 재생

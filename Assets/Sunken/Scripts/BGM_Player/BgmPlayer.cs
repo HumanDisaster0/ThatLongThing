@@ -33,11 +33,11 @@ public class BgmPlayer : MonoBehaviour
 
         string sceneName = SceneManager.GetActiveScene().name;
 
-        if (SceneManager.GetActiveScene().name.StartsWith("Title"))
+        if (sceneName.StartsWith("Title"))
         {
             defaultSrc = SoundManager.instance?.PlayLoopBackSound("Title_BGM");
         }
-        else if (SceneManager.GetActiveScene().name.StartsWith("GuildMain"))
+        else if (sceneName.StartsWith("GuildMain"))
         {
             defaultSrc = SoundManager.instance?.PlayLoopBackSound("Guild_BGM");
         }

@@ -473,7 +473,7 @@ public class TutorialManager : MonoBehaviour
     }
 
 
-    void BlackOutOnce()
+    public void BlackOutOnce()
     {
         SoundManager.instance?.PlayNewBackSound("Mole_Die2");
 

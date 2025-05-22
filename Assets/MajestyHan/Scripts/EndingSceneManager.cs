@@ -62,6 +62,10 @@ public class EndingSceneManager : MonoBehaviour
             postProcessVolume.profile.TryGet(out chromaticAberration);
 
         postProcessVolume.gameObject.SetActive(false);
+
+        // BGM 재생
+        //bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending_BGM");
+        //bgmSrc = BgmPlayer.instance.ChangeBgm("Ending_BGM");
     }
 
     private void Start()
@@ -78,7 +82,9 @@ public class EndingSceneManager : MonoBehaviour
         StartCoroutine(PlayCutScenes());
 
         // BGM 재생
-        bgmSrc = BgmPlayer.instance?.ChangeBgm("Ending_BGM");
+        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending_BGM");
+        bgmSrc.volume = SoundManager.instance.bgVol * 0.5f;
+        //bgmSrc = BgmPlayer.instance.ChangeBgm("Ending_BGM");
     }
 
     /// <summary>
