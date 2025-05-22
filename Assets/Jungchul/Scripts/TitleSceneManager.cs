@@ -9,10 +9,9 @@ public class TitleSceneManager : MonoBehaviour
     [SerializeField] bool isGoGuildMain = false; // GuildMain으로 바로 가기
 
     // 버튼 3개와 배경
-    public GameObject startButton;
-    public GameObject optionButton;
-    public GameObject exitButton;
-    public GameObject background;
+    public CustomClickable startButton;
+    public CustomClickable optionButton;
+    public CustomClickable exitButton;
 
     private void Awake()
     {
@@ -30,9 +29,9 @@ public class TitleSceneManager : MonoBehaviour
 
     private void Start()
     {
-        var start = startButton?.GetComponent<CustomClickable>();
-        var opt = optionButton?.GetComponent<CustomClickable>();
-        var exit = exitButton?.GetComponent<CustomClickable>();
+        var start = startButton;
+        var opt = optionButton;
+        var exit = exitButton;
 
         if (start != null)
             start.SetClickAction(() => StartGame()); // 게임 시작
@@ -63,18 +62,16 @@ public class TitleSceneManager : MonoBehaviour
 
     private void ActivateUI()
     {
-        if (startButton != null) startButton.SetActive(true);
-        if (optionButton != null) optionButton.SetActive(true);
-        if (exitButton != null) exitButton.SetActive(true);
-        if (background != null) background.SetActive(true);
+        if (startButton != null) startButton.isInteractable = true;
+        if (optionButton != null) optionButton.isInteractable = true;
+        if (exitButton != null) exitButton.isInteractable = true;
     }
 
     private void DeactivateUI()
     {
-        if (startButton != null) startButton.SetActive(false);
-        if (optionButton != null) optionButton.SetActive(false);
-        if (exitButton != null) exitButton.SetActive(false);
-        if (background != null) background.SetActive(false);
+        if (startButton != null) startButton.isInteractable = false;
+        if (optionButton != null) optionButton.isInteractable = false;
+        if (exitButton != null) exitButton.isInteractable = false;
     }
 
     public void StartGame()
@@ -84,11 +81,18 @@ public class TitleSceneManager : MonoBehaviour
 
         if(isGoGuildMain)
         {
-            Invoke("LoadGuildMain", 0.1f); ;
+            //Invoke("LoadGuildMain", 0.1f);
+            FadeInOut.instance.sceneName = "GuildMain";
+            FadeInOut.instance.ExeFadeIn();
             return;
         }
         else
-            Invoke("LoadTutorialScene", 1f);
+        {
+            //Invoke("LoadTutorialScene", 1f);
+            FadeInOut.instance.sceneName = "TutorialScene";
+            FadeInOut.instance.ExeFadeIn();
+        }
+            
     }
 
     void LoadTutorialScene()
