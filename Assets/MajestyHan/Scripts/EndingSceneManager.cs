@@ -82,8 +82,10 @@ public class EndingSceneManager : MonoBehaviour
         StartCoroutine(PlayCutScenes());
 
         // BGM 재생
-        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending_BGM");
-        bgmSrc.volume = SoundManager.instance.bgVol * 0.5f;
+        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending2_BGM");
+        DefaultSourceData data = bgmSrc.GetComponent<DefaultSourceData>();
+        data.soundType = SoundType.Bg;
+        data.volOverride = 0.5f;
         //bgmSrc = BgmPlayer.instance.ChangeBgm("Ending_BGM");
     }
 
@@ -114,7 +116,7 @@ public class EndingSceneManager : MonoBehaviour
                 EndingSceneCamera camShake = Camera.main.GetComponent<EndingSceneCamera>();
                 if (camShake != null)
                 {
-                    SoundManager.instance?.PlayNewBackSound("Trex_Land");
+                    AudioSource src = SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
                     StartCoroutine(camShake.LerpShake(1.5f, 0.5f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기  
                 }
                       
@@ -123,6 +125,14 @@ public class EndingSceneManager : MonoBehaviour
             if (i == (shakeCutIndex + 1))
             {
                 yield return new WaitForSeconds(1.0f);  // 자동 대기
+                SoundManager.instance.StopSound(bgmSrc);    // BGM 정지
+            }
+
+            if (i == shakeCutIndex + 2)
+            {
+                // 2번째 BGM 재생
+                bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending_BGM");
+                bgmSrc.GetComponent<DefaultSourceData>().soundType = SoundType.Bg;
             }
         }
 
@@ -179,6 +189,7 @@ public class EndingSceneManager : MonoBehaviour
             if(!bgmSrc.isPlaying)
                 bgmSrc.UnPause();
 
+            SoundManager.instance.PlayNewBackSound("Glass_Break", SoundType.Se);
             realChosen = true; });
 
         // "아니요" 클릭 이벤트(깨짐 컷신 연출)
@@ -230,13 +241,13 @@ public class EndingSceneManager : MonoBehaviour
         EndingSceneCamera camShake = Camera.main.GetComponent<EndingSceneCamera>();
 
         // 흔들리는 사운드 출력
-        SoundManager.instance?.PlayNewBackSound("Trex_Land");
+        SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
 
         if (camShake != null)
             yield return StartCoroutine(camShake.LerpShake(0.7f, 1.0f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
         // 3. 금감 이미지 + 색수차 효과(Chromatic Aberration) ON
         yield return new WaitForSeconds(0.3f);
-        SoundManager.instance?.PlayNewBackSound("Glass_Crack");
+        SoundManager.instance?.PlayNewBackSound("Glass_Crack", SoundType.Se);
         cutSceneImage.sprite = brokenGlass1;
         if (chromaticAberration != null) chromaticAberration.intensity.value = 0.3f;
         if (cutSceneText != null) cutSceneText.text = ""; // 텍스트 숨김
@@ -245,8 +256,8 @@ public class EndingSceneManager : MonoBehaviour
         if (camShake != null)
             yield return StartCoroutine(camShake.LerpShake(1.2f, 2.0f, 0.0f)); // 전체 지속시간, 시작세기, 종료세기    
 
-        SoundManager.instance?.PlayNewBackSound("Trex_Land");
-        SoundManager.instance?.PlayNewBackSound("Glass_Crack");
+        SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+        SoundManager.instance?.PlayNewBackSound("Glass_Crack", SoundType.Se);
         cutSceneImage.sprite = brokenGlass2;
         if (chromaticAberration != null) chromaticAberration.intensity.value = 1.0f;
 

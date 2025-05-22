@@ -127,7 +127,7 @@ public class SoundManager : MonoBehaviour
         return audioSource;
     }
 
-    public AudioSource PlayNewBackSound(string soundName)
+    public AudioSource PlayNewBackSound(string soundName, SoundType type = SoundType.No)
     {
         AudioSource audioSource = null;
 
@@ -332,7 +332,7 @@ public class SoundManager : MonoBehaviour
         return audioSource;
     }
 
-    public AudioSource PlayLoopBackSound(string soundName)
+    public AudioSource PlayLoopBackSound(string soundName, SoundType type = SoundType.No)
     {
         AudioSource audioSource = null;
 
