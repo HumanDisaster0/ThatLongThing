@@ -9,7 +9,7 @@ public static class PlayerCMD
     {
         get
         {
-            m_pc = GameObject.Find("Player").GetComponent<PlayerController>();
+            m_pc = GameObject.Find("Player")?.GetComponent<PlayerController>();
 
             return m_pc;
         }
@@ -57,7 +57,7 @@ public static class PlayerCMD
         {
             pc.Invincibility = mode;
         },
-        "플레이어를 무적상태로 만듭니다.\n cmd_player_invicible <bool>", ExecFlag.CHEAT).SetTrackingValue(() => pc.Invincibility.ToString());
+        "플레이어를 무적상태로 만듭니다.\n cmd_player_invicible <bool>", ExecFlag.CHEAT).SetTrackingValue(() => (pc?.Invincibility ?? false).ToString());
 
     public static ConsoleCommand cmd_player_maxjumpcount = new ConsoleCommand(
        "cmd_player_maxjumpcount",

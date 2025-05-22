@@ -241,8 +241,14 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("MonsterManager").GetComponent<MonsterManager>().SetType(MonsterType.None);
                     foreach (var setter in result)
                     {
+                        if(setter.name == "MovingInfo")
+                        {
+                            setter.GetComponent<TrapInfo>().staticType = false;
+                        }
+
                         setter.SpecifiedSet(false);
                     }
+
 
 
                     break;

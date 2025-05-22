@@ -30,8 +30,8 @@ namespace Assets.Minki.Scripts.CMD
             "cmd_matcher_checkmappin",
             () =>
             {
-                var data = matcher.CreateMatchData();
-                Debug.Log($"{data.correct} : {data.wrong}");
+                var data = (matcher?.CreateMatchData()) ?? null;
+                Debug.Log($"{data?.correct} : {data?.wrong}");
             },
             "/지도 핀의 판정을 확인합니다.", ExecFlag.CHEAT);
     }

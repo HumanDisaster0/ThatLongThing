@@ -16,7 +16,14 @@ namespace Assets.Minki.Scripts.CMD
         {
             get
             {
-                return Camera.main.GetComponent<CameraController>();
+                var cam = Camera.main;
+                if (cam == null)
+                {
+                    Debug.LogWarning("Camera.main이 null입니다. 'MainCamera' 태그가 지정된 카메라가 존재하는지 확인하세요.");
+                    return null;
+                }
+
+                return cam.GetComponent<CameraController>();
             }
         }
 
@@ -62,18 +69,18 @@ namespace Assets.Minki.Scripts.CMD
             {
                 SetShakeTrauma(arguments);
             },
-            "카메라 흔들림의 지속여부입니다.", ExecFlag.CHEAT).SetTrackingValue(() => (!camCon.IsNonTrauma()).ToString());
+            "카메라 흔들림의 지속여부입니다.", ExecFlag.CHEAT).SetTrackingValue(() =>  (!camCon?.IsNonTrauma() ?? false).ToString());
 
         static bool m_lastTrauma = false;
         
         public static void ShakeCamera(float speed, float amount, float recovery)
         {
-            camCon.ShakeCamera(speed, amount, recovery);
+            camCon?.ShakeCamera(speed, amount, recovery);
         }
 
         public static void SetShakeTrauma(bool trauma)
         {
-            camCon.SetShakeTrauma(trauma);
+            camCon?.SetShakeTrauma(trauma);
         }
     }
 }
