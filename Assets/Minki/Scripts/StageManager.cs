@@ -52,6 +52,12 @@ public class StageManager : MonoBehaviour
 
     void SetStage(Scene scene, LoadSceneMode mode)
     {
+        if(!scene.name.Contains("Title"))
+        {
+            if(m_clearedAnomaly != null)
+                m_clearedAnomaly.Clear();
+        }
+
         //스테이지 씬이 아니면 건너뛰기
         if (!scene.name.Contains("Stage"))
             return;
