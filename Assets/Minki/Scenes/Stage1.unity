@@ -174,7 +174,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 20aca9457435e0449aee4fbc6132011a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2835,9 +2835,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.055555556
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -8252,7 +8252,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 20aca9457435e0449aee4fbc6132011a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11734,7 +11734,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 20aca9457435e0449aee4fbc6132011a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12774,6 +12774,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.6176469
       objectReference: {fileID: 0}
+    - target: {fileID: 2383445091956317436, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20aca9457435e0449aee4fbc6132011a, type: 2}
     - target: {fileID: 2544033690667171804, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.411764
@@ -12782,6 +12786,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.6470587
       objectReference: {fileID: 0}
+    - target: {fileID: 2607875692708111450, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20aca9457435e0449aee4fbc6132011a, type: 2}
+    - target: {fileID: 2963549685675720769, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 20aca9457435e0449aee4fbc6132011a, type: 2}
     - target: {fileID: 3965296052963731040, guid: 35e0809cfea5bd64ea4c21ae2d482a48, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.235293
