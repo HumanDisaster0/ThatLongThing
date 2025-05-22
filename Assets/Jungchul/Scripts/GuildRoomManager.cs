@@ -182,7 +182,7 @@ public class GuildRoomManager : MonoBehaviour
 
 
             guildCounterPanel = GameObject.Find("GuildCounter");
-            
+
             checkResult = GameObject.Find("d_CheckResult");
 
 
@@ -264,6 +264,30 @@ public class GuildRoomManager : MonoBehaviour
 
             DoorOutOff();
         }
+
+
+        //타이틀 진입시 리셋
+        if (scene.name == "Title")
+        {
+            hideObjectActivated = false;
+            isFirstTime = true;
+            isReturned = false;
+            isGetRewardYet = false;
+            isReportYet = true;
+            selectedMission = 0;
+            trollCheck = false;
+            isPasan = false;
+
+            curVstate = viewState.IDLE;
+            cState = counterState.C_IDLE;
+            preCState = counterState.NONE;
+
+            day = 1;
+            week = 1;
+            tempChecker = true;
+            wrongCnt = 0;
+            quizResults.Clear();
+        }
     }
 
 
@@ -327,11 +351,11 @@ public class GuildRoomManager : MonoBehaviour
                 break;
 
             case viewState.COUNTER:
-                if (cState != preCState || cState==counterState.TROLL_P || cState==counterState.QUIZ_P)
+                if (cState != preCState || cState == counterState.TROLL_P || cState == counterState.QUIZ_P)
                 {
                     var gcp = guildCounterPanel.GetComponent<GuildCounter>();
-                    var sp = settlementPanel.GetComponent<SettlementPanelScript>();
-                    
+
+
                     //preCState = cState;
 
 
@@ -341,6 +365,8 @@ public class GuildRoomManager : MonoBehaviour
                             preCState = cState;
 
                             avatar.isMovable = false;
+
+                            gcp.btnOnOff(false);
 
                             day++;
                             Debug.Log($"데이쁠쁠 {day}");
@@ -355,10 +381,10 @@ public class GuildRoomManager : MonoBehaviour
 
                             settlementPanel.gameObject.SetActive(true);
                             gcp.trollPanel.SetActive(false);
-                            
+
                             if (day == 4)
                             {
-                                
+
                                 int last3Start = Mathf.Max(quizResults.Count - 3, 0);
 
                                 for (int i = last3Start; i < quizResults.Count; i++)
@@ -374,7 +400,7 @@ public class GuildRoomManager : MonoBehaviour
                                     trollCheck = true;
                                 }
                                 else
-                                {                                    
+                                {
                                     cState = counterState.SETTlE;
                                 }
                                 GoldManager.Instance.MinusGold(60);
@@ -385,9 +411,11 @@ public class GuildRoomManager : MonoBehaviour
                             break;
 
                         case counterState.TROLL:
-                            
+
                             gcp.ShowMidResult(wrongCnt);
                             preCState = cState;
+                            gcp.btnOnOff(false);
+
                             cState = counterState.TROLL_P;
 
                             break;
@@ -397,6 +425,9 @@ public class GuildRoomManager : MonoBehaviour
                             if (Input.GetMouseButtonDown(0))
                             {
                                 preCState = cState;
+
+                                gcp.btnOnOff(false);
+
                                 GoldManager.Instance.MinusGold(wrongCnt * 40);
                                 wrongCnt = 0;
                                 cState = counterState.QUIZ;
@@ -408,17 +439,21 @@ public class GuildRoomManager : MonoBehaviour
                         case counterState.QUIZ:
                             checkResult.gameObject.SetActive(true);
                             gcp.StartQuiz(selectedMission / 1000);
-                            
-                            
+
+                            gcp.btnOnOff(false);
+
                             cState = counterState.QUIZ_P;
                             break;
 
                         case counterState.QUIZ_P:
 
+                            gcp.btnOnOff(false);
+
                             if (gcp.isEnd)
                             {
                                 Debug.Log("isEnd");
                                 preCState = cState;
+                                gcp.btnOnOff(false);
                                 cState = counterState.QUIZ_PP;
                             }
                             break;
@@ -427,13 +462,13 @@ public class GuildRoomManager : MonoBehaviour
                         case counterState.QUIZ_PP:
 
                             if (Input.GetMouseButtonDown(0))
-                            {                                
+                            {
                                 checkResult.gameObject.SetActive(false);
 
                                 textDrawer.TextRefresh();
-                               
+
                                 selectedMission = 0;
-                                                                
+
                                 cState = counterState.C_IDLE;
                             }
                             break;
@@ -445,6 +480,8 @@ public class GuildRoomManager : MonoBehaviour
                             preCState = cState;
                             avatar.isMovable = false;
 
+                            gcp.btnOnOff(true);
+
                             textDrawer.TextRefresh();
                             guildCounterPanel.gameObject.SetActive(true);
                             gcp.trollPanel.SetActive(false);
@@ -452,7 +489,7 @@ public class GuildRoomManager : MonoBehaviour
 
                             //gcp.btnOnOff(true);
                             break;
-                    }                   
+                    }
                 }
 
                 break;
@@ -569,7 +606,7 @@ public class GuildRoomManager : MonoBehaviour
 
     public void SetReturned()
     {
-        
+
         isReturned = true;
         //isGetRewardYet = true;
         //isReportYet = true;

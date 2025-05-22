@@ -122,7 +122,7 @@ public class SoundManager : MonoBehaviour
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
         }
         else
-            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+            Debug.LogWarning(caller + " 이 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -152,7 +152,7 @@ public class SoundManager : MonoBehaviour
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
         }
         else
-            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
+            Debug.LogWarning("전역사운드가 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -180,7 +180,7 @@ public class SoundManager : MonoBehaviour
                 Debug.LogWarning("사운드 매니저의 스피커 부족!!");
         }
         else
-            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
+            Debug.LogWarning("전역사운드가 잘못된 사운드를 요청하였음!!");
     }
 
     /// <summary>
@@ -234,7 +234,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+            Debug.LogWarning(caller + " 이 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -278,7 +278,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!! : " + soundName);
+            Debug.LogWarning("전역사운드가 잘못된 사운드를 요청하였음!! : " + soundName);
 
         return audioSource;
     }
@@ -327,7 +327,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError(caller + " 이 잘못된 사운드를 요청하였음!!");
+            Debug.LogWarning(caller + " 이 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -369,7 +369,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError("전역사운드가 잘못된 사운드를 요청하였음!!");
+            Debug.LogWarning("전역사운드가 잘못된 사운드를 요청하였음!!");
 
         return audioSource;
     }
@@ -404,7 +404,7 @@ public class SoundManager : MonoBehaviour
             }
         }
         else
-            Debug.LogError(caller + " 이 잘못된 사운드를 정지하였음!!");
+            Debug.LogWarning(caller + " 이 잘못된 사운드를 정지하였음!!");
     }
 
     public void StopSound(AudioSource _audio)

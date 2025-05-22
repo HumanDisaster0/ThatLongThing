@@ -175,13 +175,13 @@ public class MMove : MonoBehaviour
                     {
                         case MonsterType.Mole:
                             if (isBig)
-                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                                SoundManager.instance?.StopSound("Trex_Footstep", this.gameObject);
                             else
                                 SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                             break;
                         case MonsterType.Rabbit:
                             if (isBig)
-                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                                SoundManager.instance?.StopSound("Trex_Footstep", this.gameObject);
                             else
                                 SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
                             break;
@@ -198,13 +198,13 @@ public class MMove : MonoBehaviour
                     {
                         case MonsterType.Mole:
                             if(isBig)
-                                SoundManager.instance?.PlayLoopSound("Trex_FootStep", this.gameObject);
+                                SoundManager.instance?.PlayLoopSound("Trex_Footstep", this.gameObject);
                             else
                                 SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
                             break;
                         case MonsterType.Rabbit:
                             if (isBig)
-                                SoundManager.instance?.PlayLoopSound("Trex_FootStep", this.gameObject);
+                                SoundManager.instance?.PlayLoopSound("Trex_Footstep", this.gameObject);
                             else
                                 SoundManager.instance?.PlayLoopSound("Rabbit_Footstep", this.gameObject);
                             break;
@@ -244,13 +244,13 @@ public class MMove : MonoBehaviour
                     {
                         case MonsterType.Mole:
                             if (isBig)
-                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                                SoundManager.instance?.StopSound("Trex_Footstep", this.gameObject);
                             else
                                 SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                             break;
                         case MonsterType.Rabbit:
                             if (isBig)
-                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                                SoundManager.instance?.StopSound("Trex_Footstep", this.gameObject);
                             else
                                 SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
                             break;
@@ -264,7 +264,7 @@ public class MMove : MonoBehaviour
                 case MStatus.attack:
                     animCon.SetBool("isAttack", true);
                     if (isBig)
-                        SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                        SoundManager.instance?.StopSound("Trex_Footstep", this.gameObject);
                     else
                         SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                     SoundManager.instance?.PlaySound("Mole_Attack", this.gameObject);
