@@ -102,7 +102,13 @@ public class CutSceneManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            SceneManager.LoadScene(nextSceneName);
+            if(FadeInOut.instance)
+            {
+                FadeInOut.instance.sceneName = nextSceneName;
+                FadeInOut.instance.ExeFadeIn();
+            }
+            else
+                SceneManager.LoadScene(nextSceneName);
         }
     }
 

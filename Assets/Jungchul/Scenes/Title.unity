@@ -202,6 +202,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f7ae44fb352164b44a481cd42199d2db, type: 3}
   - {fileID: 21300000, guid: af3eed859214b374fbb4fd9bbd7d44b9, type: 3}
   missionDetailPrefab: {fileID: 2345454996512592591, guid: c945f3b21b7a9ba44b3c95b5dd67353e, type: 3}
+  currentPopup: {fileID: 0}
   mIdx: 0
   selCnt: 0
 --- !u!4 &62534050

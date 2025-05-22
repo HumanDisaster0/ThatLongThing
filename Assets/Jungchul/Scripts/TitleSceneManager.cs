@@ -89,7 +89,7 @@ public class TitleSceneManager : MonoBehaviour
         else
         {
             //Invoke("LoadTutorialScene", 1f);
-            FadeInOut.instance.sceneName = "TutorialScene";
+            FadeInOut.instance.sceneName = "TutorialStage";
             FadeInOut.instance.ExeFadeIn();
         }
             
