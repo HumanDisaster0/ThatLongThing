@@ -483,6 +483,8 @@ public class GuildRoomManager : MonoBehaviour
                 break;
 
             case viewState.DOOROUT:
+                // 巩 凯府绰 家府 犁积
+                SoundManager.instance?.PlayNewBackSound("Door_Open");
 
                 avatar.isMovable = false;
 
@@ -499,7 +501,7 @@ public class GuildRoomManager : MonoBehaviour
                 }
                 else
                     StageManager.instance.LoadStage(reCode);
-                //SceneManager.LoadScene("DummyMission");
+                    //SceneManager.LoadScene("DummyMission");
 
                 break;
 

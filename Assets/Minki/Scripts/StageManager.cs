@@ -454,13 +454,13 @@ public class StageManager : MonoBehaviour
                 break;
             case 2:
                 if (FadeInOut.instance)
-                    FadeInOut.instance.sceneName = "Stage1";
+                    FadeInOut.instance.sceneName = "Stage2";
                 else
                     SceneManager.LoadScene("Stage2");
                 break;
             case 3:
                 if (FadeInOut.instance)
-                    FadeInOut.instance.sceneName = "Stage1";
+                    FadeInOut.instance.sceneName = "Stage3";
                 else
                     SceneManager.LoadScene("Stage3");
                 break;
