@@ -4,12 +4,22 @@ using UnityEngine.SceneManagement;
 
 public class FadeInOut : MonoBehaviour
 {
+    public static FadeInOut instance;
+
     public bool exeFadeOut = true;  // 시작 시 페이드 아웃 여부
     public float fadeTime = 1.0f;   // 페이드 지속 시간
     public float delay = 1.0f;      // 씬 변경 전 대기 시간
     public string sceneName;        // 로드할 씬 이름
 
     [SerializeField] RectTransform fadeObjTrans;
+
+    private void Awake()
+    {
+        if(instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {

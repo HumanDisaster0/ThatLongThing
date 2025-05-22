@@ -466,7 +466,10 @@ public class StageManager : MonoBehaviour
 
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
         GuildRoomManager.Instance.SetReturned();
-        SceneManager.LoadScene("GuildMain");
+        if(FadeInOut.instance)
+            FadeInOut.instance.ExeFadeIn(); // 씬 전환효과 시작
+        else
+            SceneManager.LoadScene("GuildMain");
 
         m_clearedAnomaly.Add(anomalyIdx);
     }
