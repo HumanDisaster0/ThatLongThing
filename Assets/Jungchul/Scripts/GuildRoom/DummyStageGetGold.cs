@@ -15,12 +15,13 @@ public class DummyStageGetGold : MonoBehaviour
 
         clickable.SetClickAction(() =>
         {
-            GoldManager.Instance.SetReward(5, 2, 1);
+            GoldManager.Instance.rewardGold += 100;
 
             if (panel != null)
             {
                 panel.gameObject.SetActive(false);                                  
                 
+
 
                 NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
                                 

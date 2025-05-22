@@ -347,7 +347,7 @@ public class GuildRoomManager : MonoBehaviour
 
                             avatar.isMovable = false;
 
-                            gcp.btnOnOff(false);
+                            //gcp.btnOnOff(false);
                             guildCounterPanel.gameObject.SetActive(true);
                                                         
                             GoldManager.Instance.calRewardGold();
@@ -396,6 +396,7 @@ public class GuildRoomManager : MonoBehaviour
                             if (Input.GetMouseButtonDown(0))
                             {
                                 preCState = cState;
+                                wrongCnt = 0;
                                 cState = counterState.QUIZ;
                             }
 
@@ -447,7 +448,7 @@ public class GuildRoomManager : MonoBehaviour
                             gcp.trollPanel.SetActive(false);
 
 
-                            gcp.btnOnOff(true);
+                            //gcp.btnOnOff(true);
                             break;
                     }                   
                 }
@@ -496,9 +497,9 @@ public class GuildRoomManager : MonoBehaviour
 
                 int reCode = selectedMission % 1000;
 
-                StageManager.instance.LoadStage(reCode);
+                //StageManager.instance.LoadStage(reCode);
 
-                //SceneManager.LoadScene("DummyMission");
+                SceneManager.LoadScene("DummyMission");
 
                 break;
 
