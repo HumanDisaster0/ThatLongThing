@@ -499,7 +499,7 @@ public class GuildRoomManager : MonoBehaviour
                 }
                 else
                     StageManager.instance.LoadStage(reCode);
-                    //SceneManager.LoadScene("DummyMission");
+                //SceneManager.LoadScene("DummyMission");
 
                 break;
 

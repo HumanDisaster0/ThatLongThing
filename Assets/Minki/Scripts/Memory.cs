@@ -78,12 +78,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         selected = null;
         if(m_isSelected)
         {
-            m_isSelected = false;
-            m_animated = false;
-
-            m_rectTransform.SetSiblingIndex(m_savedIdx);
-            m_rectTransform.localPosition = m_savedPos;
-            m_rectTransform.sizeDelta = m_savedSize;
+            StartCoroutine(DeferredResetTransform());
         }
     }
 
@@ -179,5 +174,18 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         selected = null;
         m_isSelected = false;
         m_animated = false;
+    }
+
+
+    private IEnumerator DeferredResetTransform()
+    {
+        yield return null; // 한 프레임 대기 (레이아웃 안정화)
+
+        m_isSelected = false;
+        m_animated = false;
+
+        m_rectTransform.SetSiblingIndex(m_savedIdx);
+        m_rectTransform.localPosition = m_savedPos;
+        m_rectTransform.sizeDelta = m_savedSize;
     }
 }
