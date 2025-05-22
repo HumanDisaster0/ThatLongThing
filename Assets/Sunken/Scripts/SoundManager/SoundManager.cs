@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
+
 
 
 
@@ -75,7 +77,7 @@ public class SoundManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         CheckVolume();
     }
@@ -427,7 +429,7 @@ public class SoundManager : MonoBehaviour
 
     IEnumerator StopTime(float time, GameObject obj)
     {
-        yield return new WaitForSecondsRealtime(time);
+        yield return new WaitForSecondsRealtime(time * 1.5f);
         sources.Add(obj.GetComponent<AudioSource>());
         activeSources.Remove(obj.GetComponent<AudioSource>()); // 활성화된 사운드 목록에서 제거
         obj.transform.SetParent(transform);
@@ -482,6 +484,9 @@ public class SoundManager : MonoBehaviour
             DefaultSourceData data = source.GetComponent<DefaultSourceData>();
             if(!isAllStop)
             {
+                if(isLowResource)
+                    data.RefreshVisibility();
+
                 if (data.isVolCon)
                 {
                     if (!isLowResource)  // 저사양모드 설정 아닐시
@@ -504,14 +509,9 @@ public class SoundManager : MonoBehaviour
                             default:
                                 source.volume = (1 - result) * seVol; break;
                         }
+                        //Debug.Log($"[Sound] name: {source.clip?.name}, pos: {pos}, cam: {cam.transform.position}, dist: {distanceFromCenter}, maxDist: {data.maxDistance}, seVol: {seVol}, volume: {source.volume}, isAllStop: {isAllStop}");
                     }
-                    else if (!data.isVisible && data.isVolCon)
-                    {
-                        // 화면안에 없으며 백사운드 아니면 무시
-                        source.volume = 0f;
-                        continue;
-                    }
-                    else
+                    else if(data.isVisible && isLowResource)
                     {
                         switch (data.soundType)
                         {
@@ -525,6 +525,14 @@ public class SoundManager : MonoBehaviour
                                 break;
                         }
                     }
+                    else
+                    {
+                        // 화면안에 없으며 백사운드 아니면 무시
+                        source.volume = 0f;
+                        //continue;
+                    }
+
+                    Debug.Log($"[Sound] name: {source.clip?.name}, cam: {cam.transform.position}, maxDist: {data.maxDistance}, seVol: {seVol}, volume: {source.volume}, isAllStop: {isAllStop}");
                 }
                 else
                 {

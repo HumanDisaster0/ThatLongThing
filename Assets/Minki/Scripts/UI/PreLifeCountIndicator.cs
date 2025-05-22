@@ -63,6 +63,7 @@ public class PreLifeCountIndicator : MonoBehaviour
     IEnumerator StartAnim()
     {
         SoundManager.instance.ForceSetMute(true);
+        //SoundManager.instance.SetMute(true);
         m_graphicRaycaster.enabled = true;
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);

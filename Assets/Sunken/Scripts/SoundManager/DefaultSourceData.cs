@@ -30,12 +30,11 @@ public class DefaultSourceData : MonoBehaviour
             mainCamera = Camera.main;
     }
 
-    private void Update()
+    public void RefreshVisibility()
     {
-        if (SoundManager.instance.isLowResource)
-        {
-            Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
-            isVisible = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && screenPoint.z > 0;
-        }
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+        Vector2 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
+        isVisible = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
     }
 }
