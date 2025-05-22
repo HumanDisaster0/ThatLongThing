@@ -66,6 +66,7 @@ public class MarketManager : MonoBehaviour
                 doubleJumpLevel++;
                 UpdateItemStatus();
                 doubleJumpItem.isInteractable = doubleJumpLevel < 1;
+                GoldManager.Instance.isChanged = true;
             };
             shieldItem.onClick = () =>
             {
@@ -74,6 +75,7 @@ public class MarketManager : MonoBehaviour
                 GoldManager.Instance.totalGold -= shieldPrice;
                 shieldLevel++;
                 UpdateItemStatus();
+                GoldManager.Instance.isChanged = true;
             };
             magicSizeItem.onClick = () =>
             {
@@ -83,6 +85,7 @@ public class MarketManager : MonoBehaviour
                 magicSizeLevel++;
                 UpdateItemStatus();
                 magicSizeItem.isInteractable = magicSizeLevel < 2;
+                GoldManager.Instance.isChanged = true;
             };
         }
     }
