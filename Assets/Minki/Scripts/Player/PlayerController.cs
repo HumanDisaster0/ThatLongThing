@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
-            magic.UseMagic();
+            magic?.UseMagic();
     }
 
     void GroundCheck()
