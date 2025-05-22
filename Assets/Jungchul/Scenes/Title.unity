@@ -1567,7 +1567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaef254acadf8114ba401355a08ca616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGoGuildMain: 0
+  isGoGuildMain: 1
   startButton: {fileID: 821509019}
   optionButton: {fileID: 581686064}
   exitButton: {fileID: 353861516}

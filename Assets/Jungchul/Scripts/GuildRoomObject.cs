@@ -8,6 +8,9 @@ public class GuildRoomObject : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
 
+    public Sprite stdSpr;
+    public Sprite selSpr;
+
     public GameObject EnterPopup;
 
     public Material normalMaterial;
@@ -44,14 +47,15 @@ public class GuildRoomObject : MonoBehaviour
         {
             if (isInteractable)
             {
-                spriteRenderer.material = outlineMaterial;
+                //spriteRenderer.material = outlineMaterial;
+                spriteRenderer.sprite = selSpr;
                 isHighlighted = true;
                 
 
                 if (activeButton == null && EnterPopup != null)
                 {
                     activeButton = Instantiate(EnterPopup, transform.position, Quaternion.identity);
-                    activeButton.transform.position = transform.position + new Vector3(0, 1.0f, 0);
+                    activeButton.transform.position = transform.position + new Vector3(0.2f, 1.0f, 0);
                 }
             }
         }
@@ -59,7 +63,8 @@ public class GuildRoomObject : MonoBehaviour
         {
             if (isHighlighted)
             {
-                spriteRenderer.material = normalMaterial;
+                //spriteRenderer.material = normalMaterial;
+                spriteRenderer.sprite = stdSpr;
                 print(gameObject.name + " ²¨Áü");
                 isHighlighted = false;
 
