@@ -35,13 +35,22 @@ public class MonsterManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        InitMonster();
+    }
+
     public void SetType(MonsterType type)
     {
         for (int i = 0; i < monsterDatas.Count; i++)
         {
             var data = monsterDatas[i];
             data.startType = type;
-            data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
+            data.monster.GetComponentInChildren<MMove>().SetType(type);
+            if (data.startType != MonsterType.None)
+                data.startActive = true;
+            else
+                data.startActive = false;
             monsterDatas[i] = data;
         }
     }
@@ -68,7 +77,10 @@ public class MonsterManager : MonoBehaviour
                 var data = monsterDatas[i];
                 data.startType = type;
                 data.monster.transform.GetComponentInChildren<MMove>().SetType(type);
-                data.startActive = type == MonsterType.None ? false : true;
+                if (data.startType != MonsterType.None)
+                    data.startActive = true;
+                else
+                    data.startActive = false;
                 monsterDatas[i] = data;
                 return;
             }
@@ -80,9 +92,17 @@ public class MonsterManager : MonoBehaviour
         for (int i = 0; i < monsterDatas.Count; i++)
         {
             var data = monsterDatas[i];
-            data.monster.transform.GetComponentInChildren<MMove>()?.SetType(data.startType);
 
-            data.startActive = data.monster.activeSelf;
+            if(!data.monster.transform.GetComponentInChildren<MMove>())
+            {
+                data.startActive = false;
+                continue;
+            }
+            data.monster.transform.GetComponentInChildren<MMove>().SetType(data.startType);
+            if (data.startType != MonsterType.None)
+                data.startActive = true;
+            else
+                data.startActive = false;
             data.startPos = data.monster.transform.GetChild(0).position;
 
             monsterDatas[i] = data; // Update the list with the modified struct
