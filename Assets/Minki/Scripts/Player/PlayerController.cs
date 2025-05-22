@@ -489,6 +489,9 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Walk:
                 SoundManager.instance.StopSound("Stone_Step", gameObject);
                 return;
+            case PlayerState.Die:
+                magic.ForceStop = false;
+                return;
         }
     }
 
@@ -514,6 +517,7 @@ public class PlayerController : MonoBehaviour
                 SoundManager.instance.PlayBackSound("Die1");
                 SoundManager.instance.SetMute(true, 1.0f);
                 playerAnimator.Play(m_hash_dieAnim);
+                magic.ForceStop = true;
                 return;
         }
     }
