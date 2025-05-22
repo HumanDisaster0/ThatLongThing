@@ -354,10 +354,10 @@ public class StageManager : MonoBehaviour
 
                     //반대쪽 활성화
                     GameObject.Find("Level").transform.Find("Mirrored").gameObject.SetActive(true);
-                    GameObject.Find("StartWall").SetActive(false);
-
+                    GameObject.Find("StartWall").SetActive(false);                    
                     //정방향 클리어존 끄기
                     GameObject.Find("NormalClearZone").SetActive(false);
+                    GameObject.Find("DeathTrigger").transform.Find("GreenZoneZone").gameObject.SetActive(true);
 
                     //함정 상태 동기화
                     offTraps = 0;
