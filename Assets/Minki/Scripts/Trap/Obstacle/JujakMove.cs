@@ -39,7 +39,7 @@ public class JujakMove : MonoBehaviour
         if (!gameObject.activeInHierarchy || m_active)
             return;
 
-        SoundManager.instance?.PlaySound("Phoenix_Appear", gameObject);
+        SoundManager.instance?.PlayNewBackSound("Phoenix_Appear");
         m_active = true;
         m_sprite.enabled = true;
     }
