@@ -25,7 +25,7 @@ public class AvatarController : MonoBehaviour
 
     void Update()
     {
-        if (isMovable)
+        if (isMovable || pc.ForceInput)
         {
             pc.SkipInput = false;
         }

@@ -515,7 +515,11 @@ public class GuildRoomManager : MonoBehaviour
             tempChecker = false;
         }
 
-        avatar.transform.position += Vector3.right * -5.0f * Time.deltaTime;
+        var pc = avatar.GetComponent<PlayerController>();
+        pc.ForceInput = true;
+        pc.Dir = -1;
+
+        //avatar.transform.position += Vector3.right * -5.0f * Time.deltaTime;
 
         if (avatar.transform.position.x - guildObjects[1].transform.position.x <= 0)
         {
@@ -528,6 +532,8 @@ public class GuildRoomManager : MonoBehaviour
             {
                 obj.isInteractable = true;
             }
+
+            pc.ForceInput = false;
 
             DoorOutOff();
 

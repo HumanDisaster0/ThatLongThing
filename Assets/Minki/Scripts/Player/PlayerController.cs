@@ -58,7 +58,10 @@ public class PlayerController : MonoBehaviour
     public bool ForceInput;
     public int Dir;
 
+    public bool DontJump;
+
     public bool SkipInput { get { return m_skipInput; } set { m_skipInput = value; } }
+
     public bool Invincibility { get { return m_invincibility; } set { m_invincibility = value; } }
     public bool Freeze { get { return m_freeze; } set { m_freeze = value; } }
     public bool IsGrounded => m_isGrounded;
@@ -213,8 +216,18 @@ public class PlayerController : MonoBehaviour
         //-- 방향키 입력
         var lastHInput = m_hInput;
 
-        m_hInput = (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) + (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
-        m_vInput = (Input.GetKey(KeyCode.DownArrow) ? -1 : 0) + (Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
+        if (!ForceInput)
+        {
+            m_hInput = (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0) + (Input.GetKey(KeyCode.RightArrow) ? 1 : 0);
+            m_vInput = (Input.GetKey(KeyCode.DownArrow) ? -1 : 0) + (Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
+        }
+        else
+        {
+            m_hInput = Dir;
+            m_vInput = 0;
+        }
+
+        
 
         //이전 입력 비교 후 방향이 다른 경우
         if (m_currentState != PlayerState.Die && m_hInput != lastHInput && Mathf.Abs(m_hInput) > 0)
@@ -225,7 +238,7 @@ public class PlayerController : MonoBehaviour
 
 
         //-- 점프 입력
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!DontJump && Input.GetKeyDown(KeyCode.Space))
         {
             m_jumpInput = true;
             m_jumpBufferTimer = jumpBufferTime; //점프 입력 버퍼 시간 갱신

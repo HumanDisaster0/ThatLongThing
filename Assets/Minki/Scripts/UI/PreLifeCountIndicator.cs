@@ -19,6 +19,7 @@ public class PreLifeCountIndicator : MonoBehaviour
     public RectTransform prevRect;
 
     public float showTime = 1.5f;
+    public float firstShowTime = 2.5f;
 
     public float fadeTime = 0.8f;
 
@@ -67,7 +68,7 @@ public class PreLifeCountIndicator : MonoBehaviour
         SetAlphaColorForOwnRect(1.0f);
         yield return null;
         float timer = 0.0f;
-        while (timer < showTime)
+        while (timer < firstShowTime)
         {
             timer += Time.unscaledDeltaTime;
             yield return null;
