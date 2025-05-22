@@ -647,6 +647,10 @@ PrefabInstance:
       propertyPath: spawnY
       value: 32
       objectReference: {fileID: 0}
+    - target: {fileID: 4576288537982700557, guid: f9d151853d8984f40889e0bd20d51b8a, type: 3}
+      propertyPath: fallDuration
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6745314599975329511, guid: f9d151853d8984f40889e0bd20d51b8a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.6105433
@@ -9849,10 +9853,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.095312506
-    y: 0.0712963
-    width: 0.16666667
-    height: 0.16666666
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -13117,7 +13121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549668909183498578, guid: 450da296b7fff954e9c87e5ad0c787fd, type: 3}
       propertyPath: anomalyIdx
-      value: 0
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
