@@ -76,7 +76,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
             pair.Value.localScale = new Vector3(trueScale, trueScale, 1);
         }
 
-        pinCountText.text = $"X {maxPinCount - m_pins.Count}";
+        pinCountText.text = $"{m_pins.Count} / {maxPinCount}";
     }
 
     public void DeletePin(int hash)
