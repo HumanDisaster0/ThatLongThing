@@ -485,6 +485,9 @@ public class GuildRoomManager : MonoBehaviour
 
                             //gcp.btnOnOff(true);
                             break;
+                        default:
+                            gcp.btnOnOff(true);
+                            break;
                     }
                 }
 

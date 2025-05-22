@@ -102,6 +102,8 @@ public class MarketManager : MonoBehaviour
 
     public void UpdateItemStatus()
     {
+        Debug.Log("UpdateItemStatus");
+
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
             // 아이템 가격컨트롤
