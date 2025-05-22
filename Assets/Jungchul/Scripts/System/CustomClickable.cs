@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 //[RequireComponent(typeof(SpriteRenderer))]
 public class CustomClickable : MonoBehaviour
@@ -46,6 +47,14 @@ public class CustomClickable : MonoBehaviour
         soundTag.NullIfEmpty();
         if(soundTag == null)
             soundTag = "Default";
+    }
+    private void OnEnable()
+    {
+        isMouseOver = false;
+        if (spriteRenderer)
+            spriteRenderer.sprite = normalSprite;
+        if (imageRenderer)
+            imageRenderer.sprite = normalSprite;
     }
 
     private void OnMouseEnter()
@@ -113,7 +122,7 @@ public class CustomClickable : MonoBehaviour
             Debug.Log($"{name}: 클릭 조건이 충족되지 않음.");
             return;
         }
-
+        
         onClick?.Invoke();
     }
 
