@@ -447,7 +447,7 @@ public class GuildRoomManager : MonoBehaviour
 
                             if (gcp.isEnd)
                             {
-                               
+                                //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
                                 preCState = cState;
                                 gcp.btnOnOff(false);
                                 cState = counterState.QUIZ_PP;
@@ -459,6 +459,8 @@ public class GuildRoomManager : MonoBehaviour
 
                             if (Input.GetMouseButtonDown(0))
                             {
+                                //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
+
                                 checkResult.gameObject.SetActive(false);
 
                                 textDrawer.TextRefresh();

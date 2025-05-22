@@ -158,7 +158,8 @@ public class GuildCounter : MonoBehaviour
         for (int i = 0; i < choices.Length; i++)
         {
             int index = i;
-            choices[i].SetClickAction(() => OnChoiceSelected(index));
+            choices[i].SetClickAction(() => { //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
+                OnChoiceSelected(index); }); 
         }
     }
 
@@ -211,6 +212,8 @@ public class GuildCounter : MonoBehaviour
         {
             if (isAnswerRevealed)
             {
+                SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
+
                 whatDidYouText.text = questions[currentQuestionIndex].npcReplies[sIndex];
                 isAnswerRevealed = false;
                 isEnd = true;
