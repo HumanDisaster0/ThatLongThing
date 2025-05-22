@@ -45,8 +45,11 @@ public class DestroyerForPlayer : MonoBehaviour
         m_camCon = Camera.main.GetComponent<CameraController>();
         m_pc = GetComponent<PlayerController>();
 
-        m_pc.OnStateChanged += (currentState) => { if (currentState == PlayerState.Jump) m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z); };
-        m_pc.OnLand += () => { m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z); };
+        m_pc.OnStateChanged += (currentState) => { if (currentState == PlayerState.Jump) { m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z); m_moveAmount = 0; } };
+        m_pc.OnLand += () => { 
+            m_camCon.ShakeCamera(shakeForce.x, shakeForce.y, shakeForce.z);
+            SoundManager.instance?.PlayNewBackSound("Trex_Land");
+        };
     }
 
     void Update()
@@ -72,10 +75,6 @@ public class DestroyerForPlayer : MonoBehaviour
         if (m_pc.GetCurrentState() == PlayerState.Walk)
         {
             m_moveAmount += Time.deltaTime;
-        }
-        else
-        {
-            m_moveAmount = 0;
         }
 
         if (m_moveAmount > shakeRate)
