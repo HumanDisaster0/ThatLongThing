@@ -11,7 +11,7 @@ public class MapKeyboardControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) || Input.GetKeyDown(KeyCode.Tab))
         {
             if (miniMapUIRect.gameObject.activeSelf)
             {
