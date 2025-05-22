@@ -8,7 +8,7 @@ public class RollingStoneSound : MonoBehaviour
     public void PlayRollSound()
     {
         m_AudioSource = SoundManager.instance.PlayLoopBackSound("Meteor_Run");
-        m_AudioSource.volume = 0.5f * SoundManager.instance.seVol;
+        m_AudioSource.GetComponent<DefaultSourceData>().soundType = SoundType.Se;
     }
 
     public void StopRollSound()

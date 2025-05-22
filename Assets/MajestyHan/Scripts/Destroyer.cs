@@ -97,7 +97,9 @@ public class Destroyer : MonoBehaviour
 
         // 사운드 플레이
         AudioSource ausrc = SoundManager.instance.PlayNewBackSound("Tile_Break");
-        ausrc.volume = 0.5f;
+        DefaultSourceData data = ausrc.GetComponent<DefaultSourceData>();
+        data.soundType = SoundType.Se;
+        data.volOverride = 0.5f; 
 
         // 타일맵의 원래 타일 이미지 복사
         var sr = flyingTile.GetComponent<SpriteRenderer>();

@@ -32,7 +32,7 @@ public class DefaultSourceData : MonoBehaviour
 
     private void Update()
     {
-        if (!SoundManager.instance.isLowResource)
+        if (SoundManager.instance.isLowResource)
         {
             Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
             isVisible = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1 && screenPoint.z > 0;

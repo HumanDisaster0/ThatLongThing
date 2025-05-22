@@ -50,7 +50,7 @@ public class TutorialManager : MonoBehaviour
             com.maxPinCount = 3;
 
         AudioSource audSrc = SoundManager.instance.PlayLoopBackSound("Tutorial_BGM");
-        audSrc.volume = 0.5f;
+        audSrc.GetComponent<DefaultSourceData>().soundType = SoundType.Bg;
     }
 
     private void Update()

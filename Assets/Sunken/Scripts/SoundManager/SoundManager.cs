@@ -91,7 +91,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="soundName"></param>
     /// <param name="caller"></param>
-    public AudioSource PlayNewSound(string soundName, GameObject caller, Vector2 offset = default, float maxDistance = 20f)
+    public AudioSource PlayNewSound(string soundName, GameObject caller, Vector2 offset = default, float maxDistance = 15f)
     {
         AudioSource audioSource = null;
 
@@ -188,7 +188,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="soundName"></param>
     /// <param name="caller"></param>
-    public AudioSource PlaySound(string soundName, GameObject caller, Vector2 offset = default, float maxDistance = 20f)
+    public AudioSource PlaySound(string soundName, GameObject caller, Vector2 offset = default, float maxDistance = 15f)
     {
         AudioSource audioSource = null;
 
@@ -283,7 +283,7 @@ public class SoundManager : MonoBehaviour
         return audioSource;
     }
 
-    public AudioSource PlayLoopSound(string soundName, GameObject caller, Vector2 offset = default, float maxDistance = 20f)
+    public AudioSource PlayLoopSound(string soundName, GameObject caller, Vector2 offset = default, float maxDistance = 15f)
     {
         AudioSource audioSource = null;
 
@@ -393,7 +393,7 @@ public class SoundManager : MonoBehaviour
 
                     obj = source.gameObject;
                     DefaultSourceData data = obj.GetComponent<DefaultSourceData>();
-                    data.maxDistance = 20f;
+                    data.maxDistance = 15f;
                     obj.transform.SetParent(transform);
                     if (data.myCoroutine != null)
                         StopCoroutine(data.myCoroutine);
@@ -417,7 +417,7 @@ public class SoundManager : MonoBehaviour
             activeSources.Remove(_audio); // 활성화된 사운드 목록에서 제거
 
             DefaultSourceData data = _audio.gameObject.GetComponent<DefaultSourceData>();
-            data.maxDistance = 20f;
+            data.maxDistance = 15f;
             _audio.transform.SetParent(transform);
             if (data.myCoroutine != null)
                 StopCoroutine(data.myCoroutine);
@@ -484,27 +484,60 @@ public class SoundManager : MonoBehaviour
             {
                 if (data.isVolCon)
                 {
-                    // 화면안에 없으면 무시
-                    if (!data.isVisible)
+                    if (!isLowResource)  // 저사양모드 설정 아닐시
                     {
+                        Vector2 pos = source.transform.position;
+
+                        // 거리 기반으로 볼륨 조절
+                        float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
+
+                        float result = distanceFromCenter / data.maxDistance;
+
+                        // 볼륨 조절
+                        //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
+                        switch (data.soundType)
+                        {
+                            case SoundType.Se:
+                                source.volume = (1 - result) * seVol; break;
+                            case SoundType.Bg:
+                                source.volume = bgVol; break;
+                            default:
+                                source.volume = (1 - result) * seVol; break;
+                        }
+                    }
+                    else if (!data.isVisible)
+                    {
+                        // 화면안에 없으면 무시
                         source.volume = 0f;
                         continue;
                     }
                     else
                     {
-                        if (!isLowResource)  // 저사양모드 설정 아닐시
+                        switch (data.soundType)
                         {
-                            Vector2 pos = source.transform.position;
-
-                            // 거리 기반으로 볼륨 조절
-                            float distanceFromCenter = Vector2.Distance(pos, cam.transform.position);
-
-                            float result = distanceFromCenter / data.maxDistance;
-
-                            // 볼륨 조절
-                            //source.volume = Mathf.Clamp01(1f - (distanceFromCenter / maxDistance));
-                            source.volume = (1 - result) * seVol;
+                            case SoundType.Se:
+                                source.volume = seVol * data.volOverride;
+                                break;
+                            case SoundType.Bg:
+                                source.volume = bgVol * data.volOverride;
+                                break;
+                            default:
+                                break;
                         }
+                    }
+                }
+                else
+                {
+                    switch (data.soundType)
+                    {
+                        case SoundType.Se:
+                            source.volume = seVol * data.volOverride;
+                            break;
+                        case SoundType.Bg:
+                            source.volume = bgVol * data.volOverride;
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
