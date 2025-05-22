@@ -5,7 +5,6 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEditor.Rendering.LookDev;
 
 /// <summary>
 /// 엔딩 씬 전용 매니저 - 정규 컷씬, 선택지(분기), 깨지는 컷신(스프라이트), 엔딩 크레딧까지 통합 관리
