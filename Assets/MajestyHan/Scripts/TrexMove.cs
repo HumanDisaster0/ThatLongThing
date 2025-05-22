@@ -24,6 +24,9 @@ public class TrexMove : MonoBehaviour
     public float minThinkTime = 5f;
     public float maxThinkTime = 10f;
 
+    [Header("최소 걷기 보장시간")]
+    public float minWalkAfterLanding = 0.5f; // 최소 걷기 시간 (ex. 0.5초)
+    public float walkAfterLandingTimer = 0f;
 
     private float thinkDuration;
     private Vector3 jumpStart;
@@ -99,6 +102,11 @@ public class TrexMove : MonoBehaviour
                 DoJump();
                 break;
         }
+
+        // 착지 직후라면 타이머 증가
+        if (walkAfterLandingTimer > 0)
+            walkAfterLandingTimer -= Time.deltaTime;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -208,6 +216,7 @@ public class TrexMove : MonoBehaviour
             }
 
             SoundManager.instance?.PlayNewBackSound("Trex_Land");
+            walkAfterLandingTimer = minWalkAfterLanding; // 착지 후 일정 시간은 점프 금지!
             ChangeState(prevState);
         }
     }
@@ -251,7 +260,11 @@ public class TrexMove : MonoBehaviour
         }
         else if (newState == MonsterState.Patrol)
         {
-            // DoThink(); // → 판단은 TrexThink에서 처리
+            thinkTimer = 0f;
+            thinkDuration = Random.Range(minThinkTime, maxThinkTime);
+            int dir = DoThink();
+            if (dir != 0)
+                rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
         }
         else if (newState == MonsterState.ReadyToJump)
         {

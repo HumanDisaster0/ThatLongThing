@@ -134,6 +134,14 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1004564136}
+    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: maxThinkTime
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 394170542804729940, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: readyDuration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2648827936350509471, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.569309
@@ -179,8 +187,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 424067083}
     - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: chaseRange
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: chaseJumpDistance
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
+      propertyPath: horizontalScanSteps
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4724530571978917447, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: stuckMovementThreshold
-      value: 0.02
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8940283926650466649, guid: 2914200f7ac9a4843888725271822bf9, type: 3}
       propertyPath: m_Name
@@ -8106,10 +8126,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.095312506
-    y: 0.0712963
-    width: 0.16666667
-    height: 0.16666666
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -11204,6 +11224,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerRepeatEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: OnTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 80088604}
@@ -11212,9 +11244,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 80088604}
     - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 80088604}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: OnTriggerRepeatEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 80088604}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DechasedTrex
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TrexThink, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7577179165470830549, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: m_Name
       value: SafetyZone
@@ -13702,6 +13754,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerRepeatEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: OnTriggerExitEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 80088604}
@@ -13710,9 +13774,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 80088604}
     - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 80088604}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: OnTriggerRepeatEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 80088604}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DechasedTrex
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TrexThink, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763114743780565806, guid: de7776104a449b94c97349bd2191251d, type: 3}
+      propertyPath: OnTriggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7577179165470830549, guid: de7776104a449b94c97349bd2191251d, type: 3}
       propertyPath: m_Name
       value: SafetyZone (1)

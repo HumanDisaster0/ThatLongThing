@@ -32,7 +32,7 @@ public class TrexSond : MonoBehaviour
                         SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject);
                         break;
                     case TrexMove.MonsterState.Patrol:
-                        SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject);
+                        //SoundManager.instance?.PlayLoopSound("Trex_Footstep", trex.gameObject);
                         break;
                     case TrexMove.MonsterState.Jumping:
                         SoundManager.instance?.PlayNewSound("Trex_Attack2", trex.gameObject);

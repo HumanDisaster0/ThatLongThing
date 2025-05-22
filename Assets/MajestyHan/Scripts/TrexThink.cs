@@ -59,7 +59,6 @@ public class TrexThink : MonoBehaviour
     {
         RayAll(); // 벽/바닥/절벽 갱신
 
-
         float dist = Vector2.Distance(transform.position, player.position);
 
         if (!isChaseSuppressed && move.state == TrexMove.MonsterState.Patrol && dist < chaseRange)
@@ -86,10 +85,10 @@ public class TrexThink : MonoBehaviour
 
         bool isThinking = move.state == TrexMove.MonsterState.Patrol || move.state == TrexMove.MonsterState.Chase;
 
-        if (isThinking && isGrounded && (isCliffAhead || isWallAhead))
-        {
-            ScanAndJump();
-        }
+    if (isThinking && isGrounded && (isCliffAhead || isWallAhead) && move.walkAfterLandingTimer <= 0)
+    {
+        ScanAndJump();
+    }
     }
 
     private void LateUpdate()
@@ -314,6 +313,8 @@ public class TrexThink : MonoBehaviour
 
             // 진행 방향 반대로 전환
             spriteRenderer.flipX = !spriteRenderer.flipX;
+            float dirNow = spriteRenderer.flipX ? 1 : -1;
+            rb.velocity = new Vector2(dirNow * move.moveSpeed, rb.velocity.y);
             Debug.Log("[TrexThink] 점프 실패 → 방향 반전");
         }
     }
