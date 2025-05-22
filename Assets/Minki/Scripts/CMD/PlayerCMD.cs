@@ -28,6 +28,11 @@ public static class PlayerCMD
     static Camera m_mainCam;
     static PlayerController m_pc;
 
+    public static void ForceDie()
+    {
+        pc.AnyState(PlayerState.Die, true);
+    }
+
     public static ConsoleCommand cmd_player_gotomouse = new ConsoleCommand(
         "cmd_player_gotomouse",
         () =>
@@ -37,6 +42,14 @@ public static class PlayerCMD
             pc.SetVelocity(Vector2.zero);
         },
         "/플레이어를 마우스 포인터 위치로 옮깁니다.", ExecFlag.CHEAT);
+
+    public static ConsoleCommand cmd_player_forcedie = new ConsoleCommand(
+    "cmd_player_forcedie",
+    () =>
+    {
+        ForceDie();
+    },
+    "/플레이어를 강제로 죽입니다.", ExecFlag.CHEAT);
 
     public static ConsoleCommand cmd_player_invicible = new ConsoleCommand(
         "cmd_player_invicible",
