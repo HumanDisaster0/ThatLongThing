@@ -215,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 9040600ddea73804fba2dc7563a26032, type: 3}
   hoverSprite: {fileID: 21300000, guid: 5887166f602e01641b9fbd883de0b62c, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!212 &28649146
 SpriteRenderer:
@@ -736,6 +737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 9b795f40015e6b5439fca7386d503301, type: 3}
   hoverSprite: {fileID: 21300000, guid: 86dd48487b4cdd44fa987e4a5f21d35a, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!212 &176027761
 SpriteRenderer:
@@ -922,6 +924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 862aa647ee2dba34abaa18cd8f13b482, type: 3}
   hoverSprite: {fileID: 21300000, guid: d8f4100db79fbaf48a64d3ef75e7f19d, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!61 &278767619
 BoxCollider2D:
@@ -1400,6 +1403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 92241d0f26d2fed4491b9d49be3656c1, type: 3}
   hoverSprite: {fileID: 21300000, guid: 79f434e298a720c40a2f1f828361ce61, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!212 &399103348
 SpriteRenderer:
@@ -1483,6 +1487,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1953136631}
+  stdSpr: {fileID: 0}
+  selSpr: {fileID: 0}
   EnterPopup: {fileID: 3662300731972707932, guid: 7a2bd2bcd810a2a468fdcdc33116dd3d, type: 3}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 3e65350e5d2180343b87fd326ce8b083, type: 2}
@@ -1569,13 +1575,13 @@ MonoBehaviour:
   - {fileID: 1173929920}
   answerBox: {fileID: 131941078}
   answerText: {fileID: 1320040528}
+  itemA: {fileID: 0}
+  itemB: {fileID: 0}
+  itemC: {fileID: 0}
   closeButton: {fileID: 0}
-  cMissionBoard: {fileID: 0}
-  cAlbum: {fileID: 0}
-  cTalk: {fileID: 0}
-  resultPanel: {fileID: 0}
-  resultText: {fileID: 0}
-  resultImage: {fileID: 0}
+  trollPanel: {fileID: 0}
+  trollText: {fileID: 0}
+  trollImage: {fileID: 0}
   isEnd: 0
   sIndex: 0
 --- !u!1 &670568000
@@ -1608,6 +1614,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 1238515236}
+  stdSpr: {fileID: 0}
+  selSpr: {fileID: 0}
   EnterPopup: {fileID: 3662300731972707932, guid: 7a2bd2bcd810a2a468fdcdc33116dd3d, type: 3}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 3e65350e5d2180343b87fd326ce8b083, type: 2}
@@ -1888,6 +1896,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2043066987}
+  stdSpr: {fileID: 0}
+  selSpr: {fileID: 0}
   EnterPopup: {fileID: 3662300731972707932, guid: 7a2bd2bcd810a2a468fdcdc33116dd3d, type: 3}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 3e65350e5d2180343b87fd326ce8b083, type: 2}
@@ -2577,7 +2587,7 @@ SpriteRenderer:
   m_Size: {x: 19.2, y: 10.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1131415851
@@ -2800,6 +2810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 862aa647ee2dba34abaa18cd8f13b482, type: 3}
   hoverSprite: {fileID: 21300000, guid: d8f4100db79fbaf48a64d3ef75e7f19d, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!61 &1140149159
 BoxCollider2D:
@@ -3220,6 +3231,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Panel: {fileID: 0}
   gc: {fileID: 0}
+  grade: 0
+  gradeBox: {fileID: 0}
+  faceBox: {fileID: 0}
+  grAP: {fileID: 0}
+  grA: {fileID: 0}
+  grB: {fileID: 0}
+  grC: {fileID: 0}
+  grF: {fileID: 0}
+  fAP: {fileID: 0}
+  fA: {fileID: 0}
+  fB: {fileID: 0}
+  fC: {fileID: 0}
+  fF: {fileID: 0}
 --- !u!1 &1194666558
 GameObject:
   m_ObjectHideFlags: 0
@@ -3269,6 +3293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 862aa647ee2dba34abaa18cd8f13b482, type: 3}
   hoverSprite: {fileID: 21300000, guid: d8f4100db79fbaf48a64d3ef75e7f19d, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!61 &1194666561
 BoxCollider2D:
@@ -4205,6 +4230,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2129727558}
+  stdSpr: {fileID: 0}
+  selSpr: {fileID: 0}
   EnterPopup: {fileID: 3662300731972707932, guid: 7a2bd2bcd810a2a468fdcdc33116dd3d, type: 3}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 3e65350e5d2180343b87fd326ce8b083, type: 2}
@@ -4605,6 +4632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 596ee8877b929a643ad51be0fa4c174f, type: 3}
   hoverSprite: {fileID: 21300000, guid: 6811758a8bf332d45bc7bcd57c3c2c15, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!212 &1630099486
 SpriteRenderer:
@@ -5366,6 +5394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 596ee8877b929a643ad51be0fa4c174f, type: 3}
   hoverSprite: {fileID: 21300000, guid: 6811758a8bf332d45bc7bcd57c3c2c15, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!212 &1942324349
 SpriteRenderer:
@@ -5485,7 +5514,7 @@ SpriteRenderer:
   m_Size: {x: 5.47, y: 1.39}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1953136632
@@ -5856,6 +5885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 87c515ce44a128042ae3e700e45b2ab9, type: 3}
   hoverSprite: {fileID: 21300000, guid: 6d32d1c9e01c32643a7d1f5ff6438d5f, type: 3}
+  soundTag: Default
   isInteractable: 1
 --- !u!212 &2057374794
 SpriteRenderer:
@@ -6189,6 +6219,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1629296815920202909, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+      propertyPath: guildCounter
+      value: 
+      objectReference: {fileID: 599764291}
     - target: {fileID: 4697693972671400815, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_Name
       value: MarketManager

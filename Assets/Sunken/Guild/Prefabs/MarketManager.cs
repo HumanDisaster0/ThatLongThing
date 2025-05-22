@@ -59,10 +59,12 @@ public class MarketManager : MonoBehaviour
             magicSizePrice = 40;
         }
         // 레벨이 로드될 때마다 아이템을 초기화합니다.
-        doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
-        shieldItem = GameObject.Find("Item_b")?.GetComponent<CustomClickable>();
-        magicSizeItem = GameObject.Find("Item_c")?.GetComponent<CustomClickable>();
-        prevGold = GoldManager.Instance.totalGold;
+        //doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
+        //shieldItem = GameObject.Find("Item_b")?.GetComponent<CustomClickable>();
+        //magicSizeItem = GameObject.Find("Item_c")?.GetComponent<CustomClickable>(); 
+        doubleJumpItem = GameObject.Find("MarketLoader")?.GetComponent<MarketLoader>().doubleJumpItem;
+        shieldItem = GameObject.Find("MarketLoader")?.GetComponent<MarketLoader>().shieldItem;
+        magicSizeItem = GameObject.Find("MarketLoader")?.GetComponent<MarketLoader>().magicSizeItem;
 
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
@@ -102,7 +104,7 @@ public class MarketManager : MonoBehaviour
 
     public void UpdateItemStatus()
     {
-        Debug.Log("UpdateItemStatus");
+        //Debug.Log("UpdateItemStatus");
 
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
