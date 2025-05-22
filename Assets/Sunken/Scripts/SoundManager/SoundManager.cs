@@ -492,9 +492,7 @@ public class SoundManager : MonoBehaviour
                     }
                     else
                     {
-                        if (isLowResource)  // 저사양모드 설정시
-                            source.volume = seVol;
-                        else
+                        if (!isLowResource)  // 저사양모드 설정 아닐시
                         {
                             Vector2 pos = source.transform.position;
 
