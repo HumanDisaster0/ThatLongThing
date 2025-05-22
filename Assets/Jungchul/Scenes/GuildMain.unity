@@ -1229,6 +1229,9 @@ MonoBehaviour:
   - {fileID: 1173929920}
   answerBox: {fileID: 131941078}
   answerText: {fileID: 1320040528}
+  itemA: {fileID: 1526025658}
+  itemB: {fileID: 1526025657}
+  itemC: {fileID: 1526025656}
   closeButton: {fileID: 0}
   trollPanel: {fileID: 1734346170}
   trollText: {fileID: 2055260048}
@@ -5096,6 +5099,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6237914406896301093, guid: f8957743de35f4d40b6ddfaf0391b092, type: 3}
   m_PrefabInstance: {fileID: 1526025654}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1526025656 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3277989511915430066, guid: f8957743de35f4d40b6ddfaf0391b092, type: 3}
+  m_PrefabInstance: {fileID: 1526025654}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9398d92cb8aab45873c4f5c9804261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1526025657 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4981988039268963710, guid: f8957743de35f4d40b6ddfaf0391b092, type: 3}
+  m_PrefabInstance: {fileID: 1526025654}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9398d92cb8aab45873c4f5c9804261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1526025658 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2935053286474942523, guid: f8957743de35f4d40b6ddfaf0391b092, type: 3}
+  m_PrefabInstance: {fileID: 1526025654}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9398d92cb8aab45873c4f5c9804261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1588560771
 GameObject:
   m_ObjectHideFlags: 0

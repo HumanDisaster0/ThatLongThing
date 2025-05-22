@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GoldManager : MonoBehaviour
 {
@@ -34,6 +35,26 @@ public class GoldManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); // 씬 전환 시 파괴 방지
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Title")
+        {
+            ResetAllExceptTax();
+        }
+    }
+
+
+
     public void calRewardGold()
     {
         rdc = deadCount > 5 ? 5 : deadCount;
@@ -57,9 +78,6 @@ public class GoldManager : MonoBehaviour
         totalGold += amount;
     }
 
-
-
-
     public void SetReward(int ftc, int dc, int ec)
     {
         GoldManager.Instance.findTrapCount = ftc;
@@ -79,4 +97,16 @@ public class GoldManager : MonoBehaviour
         GoldManager.Instance.rdc = 0;
         GoldManager.Instance.rewardGold = 0;
     }
+
+    private void ResetAllExceptTax()
+    {
+        totalGold = 0;
+        rewardGold = 0;
+        findTrapCount = 0;
+        deadCount = 0;
+        rdc = 0;
+        ejectionCount = 0;
+        // Tax는 유지
+    }
+
 }
