@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GuildCounter : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class GuildCounter : MonoBehaviour
     public TextMeshPro[] choiceTexts;
     public GameObject answerBox;
     public TextMeshPro answerText;
+
+    public CustomClickable itemA;
+    public CustomClickable itemB;
+    public CustomClickable itemC;
 
 
     public CustomClickable closeButton;
@@ -28,21 +33,23 @@ public class GuildCounter : MonoBehaviour
     private List<QuestionData> questions;
     private int currentQuestionIndex = 0;
     private bool isAnswerRevealed = false;
-    private int totalSolvedCount = 0;         // 전체 푼 문제 수
+
 
     private int qIdx = 0;
     public bool isEnd = false;
 
     public int sIndex = 0;
 
+    private int totalSolvedCount = 0;         // 전체 푼 문제 수
+
 
     //private GuildRoomManager guildRoomManager;
 
-   
+
 
     void Awake()
     {
-       
+
         //guildRoomManager = FindObjectOfType<GuildRoomManager>();
         Transform closeBtnTransform = transform.Find("Counter_exit");
         if (closeBtnTransform != null)
@@ -89,10 +96,36 @@ public class GuildCounter : MonoBehaviour
 
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Title")
+        {
+            ResetAll();
+        }
+    }
+
+    private void ResetAll()
+    {
+        questions = null;
+
+        currentQuestionIndex = 0;
+        isAnswerRevealed = false;
 
 
+        qIdx = 0;
+        isEnd = false;
+
+        sIndex = 0;
     }
 
     public void StartQuiz(int pIdx)
@@ -146,7 +179,7 @@ public class GuildCounter : MonoBehaviour
         var q = questions[currentQuestionIndex];
 
         GuildRoomManager.Instance.quizResults.Add(new QuestionResult
-        {  
+        {
             questionIndex = currentQuestionIndex,
             isCorrect = choiceIndex == q.correctIndex
         });
@@ -159,7 +192,7 @@ public class GuildCounter : MonoBehaviour
         answerText.text = q.characterComment[choiceIndex];
         answerBox.SetActive(true);
         isAnswerRevealed = true;
-        
+
         totalSolvedCount++;
 
         for (int i = Mathf.Max(GuildRoomManager.Instance.quizResults.Count - 3, 0); i < GuildRoomManager.Instance.quizResults.Count; i++)
@@ -205,23 +238,23 @@ public class GuildCounter : MonoBehaviour
         GuildRoomManager.Instance.preCState = GuildRoomManager.counterState.NONE;
     }
 
-    //public void btnOnOff(bool onoff)
-    //{
-    //    if (onoff)
-    //    {
-    //        Debug.Log("버튼 켜기");
-    //        closeButton.isInteractable = true;
-    //        cMissionBoard.isInteractable = true;
-    //        cAlbum.isInteractable = true;
-    //        cTalk.isInteractable = true;
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("버튼 끄기");
-    //        closeButton.isInteractable = false;
-    //        cMissionBoard.isInteractable = false;
-    //        cAlbum.isInteractable = false;
-    //        cTalk.isInteractable = false;
-    //    }
-    //}
+    public void btnOnOff(bool onoff)
+    {
+        if (onoff)
+        {
+            Debug.Log("버튼 켜기");
+            itemA.isInteractable = true;
+            itemB.isInteractable = true;
+            itemC.isInteractable = true;
+            closeButton.isInteractable = true;
+        }
+        else
+        {
+            Debug.Log("버튼 끄기");
+            itemA.isInteractable = false;
+            itemB.isInteractable = false;
+            itemC.isInteractable = false;
+            closeButton.isInteractable = false;
+        }
+    }
 }

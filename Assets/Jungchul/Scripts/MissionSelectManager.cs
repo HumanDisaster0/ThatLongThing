@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MissionSelectManager : MonoBehaviour
 {
@@ -34,6 +35,25 @@ public class MissionSelectManager : MonoBehaviour
             missionClearDict[code] = false;
         }
     }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Title")
+        {
+            ResetAllMissions();
+        }
+    }
+
+   
 
     /// <summary>
     /// 固记 努府绢 贸府
