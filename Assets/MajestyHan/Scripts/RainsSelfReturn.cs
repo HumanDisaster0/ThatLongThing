@@ -13,6 +13,7 @@ public class RainsSelfReturn : MonoBehaviour
         if (((1 << other.gameObject.layer) & playerLayer) != 0)
         {
             SoundManager.instance.PlayNewSound("Gold_Collect", GameObject.FindWithTag("Player"));
+            GoldManager.Instance.totalGold++;
             rainPool?.Return(gameObject);
         }
     }
