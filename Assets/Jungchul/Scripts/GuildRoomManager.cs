@@ -169,6 +169,7 @@ public class GuildRoomManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "GuildMain")
         {
             var temp = FindObjectsOfType<GuildRoomObject>();
+
             MissionBoard = temp.FirstOrDefault(p => p.code == "MB");
             Settlement = temp.FirstOrDefault(p => p.code == "SM");
             Pokedex = temp.FirstOrDefault(p => p.code == "PD");
@@ -181,7 +182,7 @@ public class GuildRoomManager : MonoBehaviour
 
 
             guildCounterPanel = GameObject.Find("GuildCounter");
-            albumPanel = GameObject.Find("MissionBoardPanel");
+            
             checkResult = GameObject.Find("d_CheckResult");
 
 
@@ -194,6 +195,12 @@ public class GuildRoomManager : MonoBehaviour
             if (missionBoardPanel == null)
             {
                 Debug.Log("missionBoardPanel is null");
+            }
+
+            albumPanel = GameObject.Find("MemoryCanvas");
+            if (albumPanel == null)
+            {
+                Debug.Log("albumPanel is null");
             }
 
             if (guildCounterPanel != null) guildCounterPanel.SetActive(false);
@@ -471,7 +478,10 @@ public class GuildRoomManager : MonoBehaviour
                 avatar.isMovable = false;
                 if (!albumPanel.gameObject.activeSelf)
                 {
-                    missionBoardPanel.gameObject.SetActive(true);
+                    albumPanel.gameObject.SetActive(true);
+                    var ap = albumPanel.GetComponent<MemoryCanvas>();
+                    ap.UnlockMemories();
+
                 }
 
                 break;

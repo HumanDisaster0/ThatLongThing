@@ -109,7 +109,8 @@ public class GuildRoomObject : MonoBehaviour
 
     public void HLforceOff()
     {
-        spriteRenderer.material = normalMaterial;
+        //spriteRenderer.material = normalMaterial;
+        spriteRenderer.sprite = stdSpr;
         print(gameObject.name + " ²¨Áü");
         isHighlighted = false;
 
