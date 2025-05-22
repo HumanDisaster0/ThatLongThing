@@ -501,7 +501,7 @@ public class GuildRoomManager : MonoBehaviour
                     FadeInOut.instance.ExeFadeIn();
                 else
                     StageManager.instance.LoadStage(reCode);
-                    //SceneManager.LoadScene("DummyMission");
+                //SceneManager.LoadScene("DummyMission");
 
                 break;
 
