@@ -223,7 +223,7 @@ public class GuildCounter : MonoBehaviour
     {
         trollPanel.SetActive(true);
 
-        trollText.text = $"데비씨... 당신이 보고한 이상 현상 중 {wrong}개가 잘못 보고되어, 대비하지 못한 모험가들의 피해가 속출하고 있습니다.\n길드의 규칙에 따라 벌금 {wrong * 40} 부과하겠습니다!";
+        trollText.text = $"데비씨... 당신이 보고한 이상 현상 중 {wrong}개가 잘못 보고되어, 대비하지 못한 모험가들의 피해가 속출하고 있습니다.\n길드의 규칙에 따라 벌금 {wrong * 40}골드 부과하겠습니다!";
         // resultImage.sprite = ...; // 이미지 변경도 가능
 
         // 퀴즈 시작은 외부에서 resultPanel 종료 이후 StartQuiz() 수동 호출
@@ -242,15 +242,12 @@ public class GuildCounter : MonoBehaviour
     {
         if (onoff)
         {
-            Debug.Log("버튼 켜기");
-            itemA.isInteractable = true;
-            itemB.isInteractable = true;
-            itemC.isInteractable = true;
+            MarketManager.Instance.UpdateItemStatus();
+
             closeButton.isInteractable = true;
         }
         else
-        {
-            Debug.Log("버튼 끄기");
+        {            
             itemA.isInteractable = false;
             itemB.isInteractable = false;
             itemC.isInteractable = false;

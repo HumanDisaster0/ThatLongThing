@@ -141,6 +141,7 @@ public class PostedMissionPanel : MonoBehaviour
             
             ResizeBoxColliderToSprite(gameObject);
             clickable.SetSprites(emptyMissionSprite, emptyMissionSprite);
+            clickable.isInteractable = false;
             return;
         }
         else
