@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.Windows;
@@ -438,6 +440,10 @@ public class StageManager : MonoBehaviour
                     {
                         setter.SpecifiedSet(false);
                     }
+
+                    var volume = FindObjectOfType<Volume>();
+                    volume.profile.TryGet(out ChromaticAberration chromatic);
+                    chromatic.intensity.value = 0.35f;
                     break;
                 }
             default:
