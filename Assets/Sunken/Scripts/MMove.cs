@@ -166,16 +166,24 @@ public class MMove : MonoBehaviour
     {
         if (currStatus != prevStatus)
         {
+            bool isBig = transform.parent.localScale.y > 2.0f;
+
             switch (currStatus)
             {
                 case MStatus.idle:
                     switch (MType)
                     {
                         case MonsterType.Mole:
-                            SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                            if (isBig)
+                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                            else
+                                SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                             break;
                         case MonsterType.Rabbit:
-                            SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
+                            if (isBig)
+                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                            else
+                                SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
                             break;
                     }
 
@@ -189,10 +197,16 @@ public class MMove : MonoBehaviour
                     switch(MType)
                     {
                         case MonsterType.Mole:
-                            SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
+                            if(isBig)
+                                SoundManager.instance?.PlayLoopSound("Trex_FootStep", this.gameObject);
+                            else
+                                SoundManager.instance?.PlayLoopSound("Mole_FootStep", this.gameObject);
                             break;
                         case MonsterType.Rabbit:
-                            SoundManager.instance?.PlayLoopSound("Rabbit_Footstep", this.gameObject);
+                            if (isBig)
+                                SoundManager.instance?.PlayLoopSound("Trex_FootStep", this.gameObject);
+                            else
+                                SoundManager.instance?.PlayLoopSound("Rabbit_Footstep", this.gameObject);
                             break;
                     }
 
@@ -229,10 +243,16 @@ public class MMove : MonoBehaviour
                     switch (MType)
                     {
                         case MonsterType.Mole:
-                            SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                            if (isBig)
+                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                            else
+                                SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                             break;
                         case MonsterType.Rabbit:
-                            SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
+                            if (isBig)
+                                SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                            else
+                                SoundManager.instance?.StopSound("Rabbit_Footstep", this.gameObject);
                             break;
                     }
                     SoundManager.instance?.PlaySound("Mole_Die", this.gameObject);
@@ -243,7 +263,10 @@ public class MMove : MonoBehaviour
                     break;
                 case MStatus.attack:
                     animCon.SetBool("isAttack", true);
-                    SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
+                    if (isBig)
+                        SoundManager.instance?.StopSound("Trex_FootStep", this.gameObject);
+                    else
+                        SoundManager.instance?.StopSound("Mole_FootStep", this.gameObject);
                     SoundManager.instance?.PlaySound("Mole_Attack", this.gameObject);
                     StartCoroutine(SetAttack(1.0f));
                     break;
