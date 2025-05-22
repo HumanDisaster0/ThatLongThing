@@ -26,7 +26,7 @@ public class PostedMissionPanel : MonoBehaviour
     };
 
     public GameObject missionDetailPrefab;
-    private GameObject currentPopup; // 현재 활성화된 팝업
+    public GameObject currentPopup; // 현재 활성화된 팝업
     private List<int> currentMissionCodes = new List<int>();
 
     public int mIdx = 0;
@@ -138,6 +138,8 @@ public class PostedMissionPanel : MonoBehaviour
 
         if (code == 0)
         {
+            
+            ResizeBoxColliderToSprite(gameObject);
             clickable.SetSprites(emptyMissionSprite, emptyMissionSprite);
             return;
         }
@@ -254,6 +256,31 @@ public class PostedMissionPanel : MonoBehaviour
             //print("카드뿅  " + onoff);
             card.SetActive(onoff);
         }
+    }
+
+    public static void ResizeBoxColliderToSprite(GameObject obj)
+    {
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        BoxCollider2D bc = obj.GetComponent<BoxCollider2D>();
+
+        if (sr == null || bc == null)
+        {
+            Debug.LogWarning("SpriteRenderer 또는 BoxCollider2D가 없습니다.");
+            return;
+        }
+
+        Sprite sprite = sr.sprite;
+        if (sprite == null)
+        {
+            Debug.LogWarning("Sprite가 비어 있습니다.");
+            return;
+        }
+
+        // 스프라이트의 픽셀 단위 크기 -> 유닛 단위로 변환
+        Vector2 size = sprite.bounds.size;
+
+        bc.size = size;
+        bc.offset = Vector2.zero;
     }
 
 }

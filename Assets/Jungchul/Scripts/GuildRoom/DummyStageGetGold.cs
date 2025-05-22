@@ -15,7 +15,7 @@ public class DummyStageGetGold : MonoBehaviour
 
         clickable.SetClickAction(() =>
         {
-            GoldManager.Instance.rewardGold += 100;
+            GoldManager.Instance.SetReward(3, 0, 0);
 
             if (panel != null)
             {
