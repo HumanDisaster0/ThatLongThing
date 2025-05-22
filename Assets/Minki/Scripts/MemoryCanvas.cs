@@ -19,21 +19,18 @@ public class MemoryCanvas : MonoBehaviour
     //클리어한 이상현상 추억 해금 -> StageManager 의존성 있음
     public void UnlockMemories()
     {
-        for(int i = 0; i < layout.childCount; i++)
+        BgmPlayer.instance?.ChangeBgm("Guild_Album");
+
+        for (int i = 0; i < layout.childCount; i++)
         {
             if (StageManager.instance.IsClearedAnomaly(i + 1))
                 layout.GetChild(i).GetComponent<Memory>().enabled = true;
         }
     }
 
-    private void OnEnable()
-    {
-        BgmPlayer.instance.ChangeBgm("Guild_Album");
-    }
-
     private void OnDisable()
     {
-        BgmPlayer.instance.ChangeBgm("Guild_BGM");
+        BgmPlayer.instance?.ChangeBgm("Guild_BGM");
         GuildRoomManager.Instance.curVstate = GuildRoomManager.viewState.IDLE;
     }
 }
