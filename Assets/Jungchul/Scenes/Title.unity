@@ -184,7 +184,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6ac1a95b1a45ac44fbde3e7cd33d8c51, type: 3}
   - {fileID: 21300000, guid: d3afc267f396da24cb074c80d6d6003a, type: 3}
   - {fileID: 21300000, guid: 7213da038a875a04baf82dd58f35047c, type: 3}
-  emptyMissionSprite: {fileID: 21300000, guid: ac3c3e8f53611b04fbadf4f8a0c20642, type: 3}
+  emptyMissionSprite: {fileID: 21300000, guid: 388a31be3219a8748aeb023c95448c7d, type: 3}
   missionDetailSprites:
   - {fileID: 21300000, guid: 48d668b0730d839418c7ab1eb5ea6106, type: 3}
   - {fileID: 21300000, guid: 0f1d4547c1157a54f992b3f25d043480, type: 3}
