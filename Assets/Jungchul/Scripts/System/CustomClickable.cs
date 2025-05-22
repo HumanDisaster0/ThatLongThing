@@ -51,7 +51,7 @@ public class CustomClickable : MonoBehaviour
         isMouseOver = true;
         //print("마우스 롤오버!");
 
-        if(soundTag != null)
+        if(soundTag != null && isInteractable)
         {
             UiSoundManager.instance?.PlaySound(soundTag, UISFX.Hover);
         }
@@ -75,7 +75,7 @@ public class CustomClickable : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (soundTag != null)
+        if (soundTag != null && isInteractable)
         {
             UiSoundManager.instance?.PlaySound(soundTag, UISFX.Exit);
         }
@@ -101,7 +101,7 @@ public class CustomClickable : MonoBehaviour
 
         //Debug.Log("[CustomClickable] 클릭됨");
 
-        if (soundTag != null)
+        if (soundTag != null && isInteractable)
         {
             UiSoundManager.instance?.PlaySound(soundTag, UISFX.Click);
         }
@@ -171,6 +171,7 @@ public class CustomClickable : MonoBehaviour
         {
             if (!isInteractable && normalSprite)
             {
+                GetComponent<SpriteRenderer>().sprite = normalSprite;
                 GetComponent<SpriteRenderer>().color = Color.gray;
             }
             else if (normalSprite)
@@ -183,6 +184,7 @@ public class CustomClickable : MonoBehaviour
         {
             if (!isInteractable && normalSprite)
             {
+                GetComponent<Image>().sprite = normalSprite;
                 GetComponent<Image>().color = Color.gray;
             }
             else if (normalSprite)
