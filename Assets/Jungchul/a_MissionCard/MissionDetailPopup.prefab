@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: 87c515ce44a128042ae3e700e45b2ab9, type: 3}
   hoverSprite: {fileID: 21300000, guid: 6d32d1c9e01c32643a7d1f5ff6438d5f, type: 3}
+  soundTag: QuestRef
   isInteractable: 1
 --- !u!61 &1268691316261811732
 BoxCollider2D:
@@ -347,6 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: e706f84a525ed544992be22f2160f425, type: 3}
   hoverSprite: {fileID: 21300000, guid: df7e6a1087468e94bb6bf1512e776226, type: 3}
+  soundTag: QuestRec
   isInteractable: 1
 --- !u!61 &7804066178718579069
 BoxCollider2D:

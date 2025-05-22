@@ -44,6 +44,8 @@ public class CustomClickable : MonoBehaviour
             imageRenderer.sprite = normalSprite;
 
         soundTag.NullIfEmpty();
+        if(soundTag == null)
+            soundTag = "Default";
     }
 
     private void OnMouseEnter()
@@ -56,7 +58,7 @@ public class CustomClickable : MonoBehaviour
             UiSoundManager.instance?.PlaySound(soundTag, UISFX.Hover);
         }
 
-        if(spriteRenderer)
+        if (spriteRenderer)
         {
             if (hoverSprite != null && isInteractable)
             {

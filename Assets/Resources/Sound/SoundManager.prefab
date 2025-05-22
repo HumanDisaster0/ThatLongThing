@@ -1750,8 +1750,80 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: soundDatas.Array.data[1].uiSfx
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[2].uiSfx
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[4].uiSfx
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[5].uiSfx
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[6].uiSfx
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[7].uiSfx
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[2].soundTag
+      value: Quest
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[3].soundTag
+      value: Quest
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[4].soundTag
+      value: QuestRec
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[5].soundTag
+      value: QuestRec
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[6].soundTag
+      value: QuestRef
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[7].soundTag
+      value: QuestRef
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[2].soundName
+      value: Quest_Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[3].soundName
+      value: Quest_Onmouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[4].soundName
+      value: Quest_Received
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[5].soundName
+      value: Text_Write
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[6].soundName
+      value: Quest_Refuse
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[7].soundName
+      value: Text_Write
       objectReference: {fileID: 0}
     - target: {fileID: 6304129158537276990, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: m_Name
