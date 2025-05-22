@@ -517,7 +517,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -140, y: 388}
+  m_AnchoredPosition: {x: -140, y: 374}
   m_SizeDelta: {x: 395, y: 411}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &488750254
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9964086, b: 0.7311321, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -737,17 +737,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n- \uAE30\uD68D
-    -\r\n\r\n\r\n\uBA54\uC778 \uAE30\uD68D\uC790\r\n\uBB38\uC0C1\uC9C4\r\n\r\n\uC11C\uBE0C
-    \uAE30\uD68D\uC790\r\n\uAD6C \uD604\r\n\r\n\r\n- \uD504\uB85C\uADF8\uB798\uBC0D
-    - \r\n\r\n\r\n\uD504\uB85C\uADF8\uB798\uBC0D \uD300\uC7A5\r\n\uD55C\uC2B9\uADDC\r\n\r\n\uBC30\uACBD,
-    \uC0AC\uC6B4\uB4DC \uBC0F \uC2A4\uD14C\uC774\uC9C0 \uB2F4\uB2F9\r\n\uAC15\uC131\uADFC\r\n\r\n\uD50C\uB808\uC774\uC5B4, 
-    \uC2A4\uD14C\uC774\uC9C0 \uBC0F \uC2DC\uC2A4\uD15C \uB2F4\uB2F9\r\n\uC815\uBBFC\uAE30\r\n\r\nUI
-    \uBC0F \uC2DC\uC2A4\uD15C \uB2F4\uB2F9\r\n\uC815 \uCCA0\r\n\r\n\r\n-\uC544\uD2B8-\r\n\r\n\r\n\uCE90\uB9AD\uD130
-    \uC544\uD2B8 \uBC0F \uC774\uC0C1\uD604\uC0C1 \uC544\uD2B8 \uB2F4\uB2F9\r\n\uC591\uD61C\uC120\r\n\r\nUI
-    \uBC0F \uBC30\uACBD \uB2F4\uB2F9\r\n\uC11C\uC8FC\uC601\r\n\r\n\r\n- \uAC8C\uC784\uC778\uC7AC\uC6D0
-    7\uAE30 1\uBD84\uAE30 \uBBF8\uB2C8\uD504\uB85C\uC81D\uD2B8 -\r\n\n\n\r\n- \uC624\uB9AC\uB450\uB354\uC9C0
-    \uD300 -\r\n\r\n\n\n- END -"
+  m_text: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<color=#4EDE8A>\r-
+    \uAE30\uD68D -\r\n\r\n\uBA54\uC778 \uAE30\uD68D\uC790\r\n<color=white>\r\uBB38\uC0C1\uC9C4\r<color=#4EDE8A>\n\r\n\uC11C\uBE0C
+    \uAE30\uD68D\uC790\r\n<color=white>\r\uAD6C \uD604\r\n\r\n\r\n<color=#5AC8FA>-
+    \uD504\uB85C\uADF8\uB798\uBC0D -\n\r\n\uD504\uB85C\uADF8\uB798\uBC0D \uD300\uC7A5\r\n<color=white>\r\uD55C\uC2B9\uADDC\r<color=#5AC8FA>\n\r\n\uBC30\uACBD,
+    \uC0AC\uC6B4\uB4DC \uBC0F \uC2A4\uD14C\uC774\uC9C0 \uB2F4\uB2F9\r\n<color=white>\r\uAC15\uC131\uADFC\r<color=#5AC8FA>\n\r\n\uD50C\uB808\uC774\uC5B4, 
+    \uC2A4\uD14C\uC774\uC9C0 \uBC0F \uC2DC\uC2A4\uD15C \uB2F4\uB2F9\r\n<color=white>\r\uC815\uBBFC\uAE30\r<color=#5AC8FA>\n\r\nUI
+    \uBC0F \uC2DC\uC2A4\uD15C \uB2F4\uB2F9\r\n<color=white>\r\uC815 \uCCA0\n\r\n\r\n<color=#FFA940>\r-\uC544\uD2B8-\n\r\n\r\n\uCE90\uB9AD\uD130
+    \uC544\uD2B8 \uBC0F \uC774\uC0C1\uD604\uC0C1 \uC544\uD2B8 \uB2F4\uB2F9\r\n<color=white>\r\uC591\uD61C\uC120\r<color=#FFA940>\n\r\nUI
+    \uBC0F \uBC30\uACBD \uB2F4\uB2F9\r\n<color=white>\r\uC11C\uC8FC\uC601\r\n\r\n\r\n<color=#FF6F61>\r-
+    \uAC8C\uC784\uC778\uC7AC\uC6D0 7\uAE30 1\uBD84\uAE30 \uBBF8\uB2C8\uD504\uB85C\uC81D\uD2B8
+    -\r<color=white>\r\n\n\n\r\n- \uC624\uB9AC\uB450\uB354\uC9C0 \uD300 -\r\n\r\n\n\n<color=#FF6F61>\r-
+    END -"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 77cd8751dcf3b074a8377c26e8da730a, type: 2}
   m_sharedMaterial: {fileID: -6293330514521473503, guid: 77cd8751dcf3b074a8377c26e8da730a, type: 2}
