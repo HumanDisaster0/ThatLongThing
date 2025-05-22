@@ -141,7 +141,7 @@ public class MonsterManager : MonoBehaviour
                 monsterDatas[i].monster.transform.GetChild(0).GetComponent<MMove>().Respawn();
             }
                 
-            monsterDatas[i].monster.transform.GetChild(0).position = monsterDatas[i].startPos;
+            monsterDatas[i].monster.transform.GetChild(0).localPosition = monsterDatas[i].startPos;
         }
     }
 
