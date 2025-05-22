@@ -89,24 +89,44 @@ public class MonsterManager : MonoBehaviour
 
     public void InitMonster()
     {
+        //for (int i = 0; i < monsterDatas.Count; i++)
+        //{
+        //    var data = monsterDatas[i];
+
+        //    if(!data.monster.transform.GetComponentInChildren<MMove>())
+        //    {
+        //        data.startActive = false;
+        //        continue;
+        //    }
+        //    data.monster.transform.GetComponentInChildren<MMove>().SetType(data.startType);
+        //    if (data.startType != MonsterType.None)
+        //        data.startActive = true;
+        //    else
+        //        data.startActive = false;
+        //    data.startPos = data.monster.transform.GetChild(0).localPosition;
+
+        //    monsterDatas[i] = data; // Update the list with the modified struct
+        //}
         for (int i = 0; i < monsterDatas.Count; i++)
         {
             var data = monsterDatas[i];
 
-            if(!data.monster.transform.GetComponentInChildren<MMove>())
+            if (!data.monster.transform.GetComponentInChildren<MMove>())
             {
                 data.startActive = false;
                 continue;
             }
+
             data.monster.transform.GetComponentInChildren<MMove>().SetType(data.startType);
-            if (data.startType != MonsterType.None)
-                data.startActive = true;
-            else
-                data.startActive = false;
+
+            // 몬스터가 활성화 상태인지 확인하여 startActive 값 설정
+            data.startActive = data.monster.activeSelf;
+
             data.startPos = data.monster.transform.GetChild(0).localPosition;
 
             monsterDatas[i] = data; // Update the list with the modified struct
         }
+
     }
 
     public void ResetMonster()
@@ -131,11 +151,11 @@ public class MonsterManager : MonoBehaviour
         {
             var data = monsterDatas[i];
             
-            Vector3 prevScale = data.monster.transform.localScale;
+            Vector3 prevScale = data.monster.transform.GetChild(0).localScale;
             float scaleChange = targetScale - prevScale.y;
 
-            data.startPos += new Vector3(0, scaleChange / 2, 0);
-            data.monster.transform.localScale = new Vector2(targetScale, targetScale);
+            data.startPos += new Vector3(0, scaleChange * 0.5f, 0);
+            data.monster.transform.GetChild(0).localScale = new Vector2(targetScale, targetScale);
             data.monster.transform.GetChild(0).localPosition = data.startPos; 
 
             monsterDatas[i] = data; // Update the list with the modified struct
