@@ -52,7 +52,7 @@ public class StageManager : MonoBehaviour
 
     void SetStage(Scene scene, LoadSceneMode mode)
     {
-        if(!scene.name.Contains("Title"))
+        if(scene.name.Contains("Title"))
         {
             if(m_clearedAnomaly != null)
                 m_clearedAnomaly.Clear();
@@ -477,7 +477,10 @@ public class StageManager : MonoBehaviour
     public void EndStage()
     {
         if(anomalyIdx > 0 && anomalyIdx < 16)
-        m_clearedAnomaly.Add(anomalyIdx);
+        {
+            m_clearedAnomaly.Add(anomalyIdx);
+        }
+          
 
         if(m_clearedAnomaly.Count >= 15)
         {

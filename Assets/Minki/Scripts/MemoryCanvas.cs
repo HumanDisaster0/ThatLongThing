@@ -24,7 +24,9 @@ public class MemoryCanvas : MonoBehaviour
         for (int i = 0; i < layout.childCount; i++)
         {
             if (StageManager.instance.IsClearedAnomaly(i + 1))
+            {
                 layout.GetChild(i).GetComponent<Memory>().enabled = true;
+            }
         }
     }
 
