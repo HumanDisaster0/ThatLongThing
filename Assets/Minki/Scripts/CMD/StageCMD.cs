@@ -54,6 +54,18 @@ public static class StageCMD
 
             }, "씬을 변경합니다. \n- cmd_changestage <스테이지 번호 (1~3)>, <이상현상 번호 (1~15)>", ExecFlag.CHEAT);
 
+    public static ConsoleCommand cmd_go_endingscene = new ConsoleCommand("cmd_go_endingscene",
+          () =>
+          {
+              SceneManager.LoadScene("EndingScene");
+          }, "/엔딩 씬을 호출합니다.", ExecFlag.CHEAT);
+
+    public static ConsoleCommand guildroom_day_increase = new ConsoleCommand("guildroom_day_increase",
+        () =>
+        {
+            GuildRoomManager.Instance.day++;
+        }, "길드룸 매니저의 날짜를 하루 올립니다.", ExecFlag.CHEAT);
+
     public static void ChangeStage(int stage, int anomaly = 0)
     {
         StageManager.instance.anomalyIdx = anomaly;
