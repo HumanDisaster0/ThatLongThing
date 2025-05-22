@@ -81,26 +81,33 @@ public class GuildRoomObject : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                string objName = gameObject.name;
+                if (GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.IDLE)
+                {
+                    string objName = gameObject.name;
 
-                // 이름을 기반으로 상태 결정
-                if (objName.Contains("Settlement"))
-                {
-                    GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.SETTLEMENT);
+                    // 이름을 기반으로 상태 결정
+                    if (objName.Contains("Settlement"))
+                    {
+                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.SETTLEMENT);
+                    }
+                    else if (objName.Contains("Mission"))
+                    {
+                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.MISSIONBOARD);
+                    }
+                    else if (objName.Contains("Pokedex"))
+                    {
+                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.POKEDEX);
+                    }
+                    else if (objName.Contains("DoorOut"))
+                    {
+                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.DOOROUT);
+                    }
                 }
-                else if (objName.Contains("Mission"))
-                {
-                    GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.MISSIONBOARD);
-                }
-                else if (objName.Contains("Pokedex"))
-                {
-                    GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.POKEDEX);
-                }
-                else if (objName.Contains("DoorOut"))
-                {
-                    GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.DOOROUT);
-                }
+                var gro = gameObject.GetComponent<GuildRoomObject>();
+                gro.HLforceOff();
+
             }
+            
         }
 
        
