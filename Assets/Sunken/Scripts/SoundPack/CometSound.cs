@@ -47,7 +47,7 @@ public class CometSound : MonoBehaviour
 
         timer += Time.deltaTime;
 
-        volume = volumeCurve.Evaluate(timer);
+        volume = volumeCurve.Evaluate(timer) * SoundManager.instance.seVol;
 
         if(audsrc != null)
             audsrc.volume = volume;
@@ -56,7 +56,8 @@ public class CometSound : MonoBehaviour
         {
             m_isPlaying = true;
             SoundManager.instance.StopSound(audsrc);
-            SoundManager.instance.PlayBackSound("Meteor_Explosion");
+            AudioSource exp = SoundManager.instance.PlayBackSound("Meteor_Explosion");
+            exp.volume = SoundManager.instance.seVol;
         }
     }
 
