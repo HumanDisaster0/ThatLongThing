@@ -1542,7 +1542,7 @@ PrefabInstance:
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 806407820}
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[4].m_Target
       value: 
@@ -1554,7 +1554,7 @@ PrefabInstance:
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 806407820}
     - target: {fileID: 7466483632650764602, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -7416,6 +7416,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &806407820 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7308788201797275412, guid: c9cce370e6cfc1c44ad74f7338d9899c, type: 3}
+  m_PrefabInstance: {fileID: 229843841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5218754f76fa8594e8668d72cb3a73f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &885771662
 GameObject:
   m_ObjectHideFlags: 0
@@ -12966,7 +12977,7 @@ PrefabInstance:
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnResetTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 806407820}
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -12974,7 +12985,7 @@ PrefabInstance:
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 806407820}
     - target: {fileID: 7279293862067800119, guid: cc377213978482a4e93d415c1703d321, type: 3}
       propertyPath: OnStartTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: ChangeBgmDanger
