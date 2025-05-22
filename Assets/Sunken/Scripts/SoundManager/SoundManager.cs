@@ -505,9 +505,9 @@ public class SoundManager : MonoBehaviour
                                 source.volume = (1 - result) * seVol; break;
                         }
                     }
-                    else if (!data.isVisible)
+                    else if (!data.isVisible && data.isVolCon)
                     {
-                        // 화면안에 없으면 무시
+                        // 화면안에 없으며 백사운드 아니면 무시
                         source.volume = 0f;
                         continue;
                     }
