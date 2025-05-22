@@ -28,6 +28,39 @@ public class MagicAbility : MonoBehaviour
     public int FXPoolCount = 10;
     public LayerMask FXLayer = (1 << 5);
 
+   
+    public bool ForceStop 
+    { 
+        get => m_forceStop; 
+        set 
+        { 
+            m_forceStop = value;
+
+            if (m_forceStop)
+            {
+                BGSpriteRender.color = new Color(0, 0, 0, 0);
+                magicSpriteRender.enabled = false;
+                m_t1Color = BGSpriteColor;
+                m_t2Color = new Color(0, 0, 0, 0);
+                if (m_foundTrap.Count > 0)
+                {
+                    foreach (var fx in m_allocatedFX.Values)
+                    {
+                        fx.enabled = false;
+                        fx.SPR1.enabled = false;
+                        fx.SPR2.enabled = false;
+                        fx.transform.parent = null;
+                        m_magicFXPool.Add(fx);
+                    }
+                    m_foundTrap.Clear();
+                    m_allocatedFX.Clear();
+
+                }
+
+                m_useAbility = false;
+            }
+        } 
+    }
 
     public Color BGSpriteColor = new Color(1.0f, 1.0f, 1.0f, 0.4f);
 
@@ -45,6 +78,8 @@ public class MagicAbility : MonoBehaviour
     float m_bgTimer;
     List<MagicFX> m_magicFXPool = new List<MagicFX>();
     float m_lastScale = 1.0f;
+
+    bool m_forceStop;
 
     private void Awake()
     {
@@ -65,19 +100,25 @@ public class MagicAbility : MonoBehaviour
     public void UseMagic()
     {
         //실행 가능한지 확인
-        if (!m_useAbility)
+        if (!m_useAbility && !ForceStop)
         {
             SoundManager.instance.PlayNewSound("Magic_Execute", gameObject);
             m_useAbility = true;
             m_t1Color = new Color(0, 0, 0, 0);
             m_t2Color = BGSpriteColor;
             m_bgTimer = 0.0f;
+            m_useTimer = 0.0f;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(m_forceStop)
+        {
+            return;
+        }
+
         if (m_lastScale != scale)
         {
             m_lastScale = scale;

@@ -16,9 +16,9 @@ public class GuildCounter : MonoBehaviour
 
 
     public CustomClickable closeButton;
-    public CustomClickable cMissionBoard;
-    public CustomClickable cAlbum;
-    public CustomClickable cTalk;
+    //public CustomClickable cMissionBoard;
+    //public CustomClickable cAlbum;
+    //public CustomClickable cTalk;
 
     [Header("중간 결과 발표용")]
     public GameObject trollPanel;            // 중간 결과 발표용 패널 (비활성 상태로 시작)
@@ -51,26 +51,26 @@ public class GuildCounter : MonoBehaviour
             closeButton.SetClickAction(OnCloseButtonClicked);
         }
 
-        Transform mbBtnTransform = transform.Find("a_mboard");
-        if (mbBtnTransform != null)
-        {
-            cMissionBoard = mbBtnTransform.GetComponent<CustomClickable>();
-            cMissionBoard.SetClickAction(OnCloseButtonClicked);
-        }
+        //Transform mbBtnTransform = transform.Find("a_mboard");
+        //if (mbBtnTransform != null)
+        //{
+        //    cMissionBoard = mbBtnTransform.GetComponent<CustomClickable>();
+        //    cMissionBoard.SetClickAction(OnCloseButtonClicked);
+        //}
 
-        Transform abBtnTransform = transform.Find("b_album");
-        if (abBtnTransform != null)
-        {
-            cAlbum = abBtnTransform.GetComponent<CustomClickable>();
-            cAlbum.SetClickAction(OnCloseButtonClicked);
-        }
+        //Transform abBtnTransform = transform.Find("b_album");
+        //if (abBtnTransform != null)
+        //{
+        //    cAlbum = abBtnTransform.GetComponent<CustomClickable>();
+        //    cAlbum.SetClickAction(OnCloseButtonClicked);
+        //}
 
-        Transform tkBtnTransform = transform.Find("c_talk");
-        if (tkBtnTransform != null)
-        {
-            cTalk = tkBtnTransform.GetComponent<CustomClickable>();
-            cTalk.SetClickAction(OnCloseButtonClicked);
-        }
+        //Transform tkBtnTransform = transform.Find("c_talk");
+        //if (tkBtnTransform != null)
+        //{
+        //    cTalk = tkBtnTransform.GetComponent<CustomClickable>();
+        //    cTalk.SetClickAction(OnCloseButtonClicked);
+        //}
 
 
     }
@@ -205,23 +205,23 @@ public class GuildCounter : MonoBehaviour
         GuildRoomManager.Instance.preCState = GuildRoomManager.counterState.NONE;
     }
 
-    public void btnOnOff(bool onoff)
-    {
-        if (onoff)
-        {
-            Debug.Log("버튼 켜기");
-            closeButton.isInteractable = true;
-            cMissionBoard.isInteractable = true;
-            cAlbum.isInteractable = true;
-            cTalk.isInteractable = true;
-        }
-        else
-        {
-            Debug.Log("버튼 끄기");
-            closeButton.isInteractable = false;
-            cMissionBoard.isInteractable = false;
-            cAlbum.isInteractable = false;
-            cTalk.isInteractable = false;
-        }
-    }
+    //public void btnOnOff(bool onoff)
+    //{
+    //    if (onoff)
+    //    {
+    //        Debug.Log("버튼 켜기");
+    //        closeButton.isInteractable = true;
+    //        cMissionBoard.isInteractable = true;
+    //        cAlbum.isInteractable = true;
+    //        cTalk.isInteractable = true;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("버튼 끄기");
+    //        closeButton.isInteractable = false;
+    //        cMissionBoard.isInteractable = false;
+    //        cAlbum.isInteractable = false;
+    //        cTalk.isInteractable = false;
+    //    }
+    //}
 }

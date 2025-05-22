@@ -34,5 +34,6 @@ public class MemoryCanvas : MonoBehaviour
     private void OnDisable()
     {
         BgmPlayer.instance.ChangeBgm("Guild_BGM");
+        GuildRoomManager.Instance.curVstate = GuildRoomManager.viewState.IDLE;
     }
 }

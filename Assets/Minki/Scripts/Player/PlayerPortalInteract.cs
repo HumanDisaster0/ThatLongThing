@@ -53,6 +53,8 @@ public class PlayerPortalInteract : MonoBehaviour
             shadowMask.parent = null;
         }
 
+        m_pc.magic.ForceStop = true;
+
         m_col.enabled = false;
         m_pc.SetVelocity(Vector2.zero);
         m_pc.AnyState(PlayerState.Jump, true);

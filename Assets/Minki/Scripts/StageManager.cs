@@ -71,7 +71,7 @@ public class StageManager : MonoBehaviour
 
             for (int i = 1; i< lines.Length; i += 3)
             {
-                string[] cols = lines[i].Split('/');
+                string[] cols = lines[i].Replace("\"", "").Split('/');
                 m_colsLinq.Add(cols[0]);
             }
 
