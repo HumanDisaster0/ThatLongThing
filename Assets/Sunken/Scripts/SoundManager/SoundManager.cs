@@ -69,6 +69,9 @@ public class SoundManager : MonoBehaviour
     {
         bgVol = PlayerPrefs.GetFloat("bgVol", 1.0f);
         seVol = PlayerPrefs.GetFloat("seVol", 1.0f);
+        isLowResource = PlayerPrefs.GetInt("isLowRes", 1) == 0 ? false : true;
+
+        BgmPlayer.instance?.UpdateVolume();
 
         cam = Camera.main;
     }
@@ -576,5 +579,10 @@ public class SoundManager : MonoBehaviour
     {
         if (instance)
             seVol = slider.value;
+    }
+
+    public void SetLowRes(bool val)
+    {
+        isLowResource = val;
     }
 }
