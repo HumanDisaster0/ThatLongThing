@@ -5832,6 +5832,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TextDrawer
       objectReference: {fileID: 0}
+    - target: {fileID: 7026343544302472438, guid: 5fb407f78dbdc6e409bfce5ea64d564c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10.43
+      objectReference: {fileID: 0}
     - target: {fileID: 8090592015999371927, guid: 5fb407f78dbdc6e409bfce5ea64d564c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.8588696
