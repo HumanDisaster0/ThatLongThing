@@ -8420,6 +8420,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2222193442897620249, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: scrollRect
+      value: 
+      objectReference: {fileID: 861251023}
     - target: {fileID: 2663830927474098239, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -9444,6 +9448,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c3afc9544fd15d046af7823e65a36d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &861251023 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 271766103941914889, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+  m_PrefabInstance: {fileID: 605529852}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9352cb2d61b280340965fb8c08a78025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &862041413
@@ -13121,7 +13136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549668909183498578, guid: 450da296b7fff954e9c87e5ad0c787fd, type: 3}
       propertyPath: anomalyIdx
-      value: 13
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

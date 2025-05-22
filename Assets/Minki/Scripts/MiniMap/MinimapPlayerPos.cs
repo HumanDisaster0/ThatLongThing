@@ -9,6 +9,8 @@ using UnityEditor.Rendering;
 public class MinimapPlayerPos : MonoBehaviour
 {
     public RectTransform parentRect;
+    public RectTransform contentRect;
+    public ScrollRect scrollRect;
     public Tilemap tilemap;
     public int xOffset = 0;
     public int yOffset = 0;
@@ -46,6 +48,12 @@ public class MinimapPlayerPos : MonoBehaviour
             m_pivotY * -1f - (m_maxY * MinimapTileInfo.tileSize) + (Player.position.y + yOffset) * MinimapTileInfo.tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
 
         m_image = GetComponent<Image>();
+
+        var t = (m_rect.anchoredPosition.x + (m_rect.sizeDelta.x * 0.5f)) / contentRect.sizeDelta.x;
+        var clampedT = Mathf.Clamp(t, 0.25f, 0.75f);
+        var normalizedT = (clampedT - 0.25f) / (0.5f);
+
+        scrollRect.horizontalNormalizedPosition = normalizedT;
     }
 
     // Update is called once per frame
@@ -71,6 +79,21 @@ public class MinimapPlayerPos : MonoBehaviour
 
         m_image.color = new Color(1.0f, 1.0f, 1.0f, m_AlphaColIsZero ? 0.0f : 1.0f);
 
+    }
+
+    private void OnEnable()
+    {
+        if (Player == null)
+            return;
+
+        m_rect.anchoredPosition = new Vector2(m_pivotX + (Mathf.Abs(Player.position.x + xOffset)) * MinimapTileInfo.tileSize - (m_rect.sizeDelta.x * 0.5f),
+            m_pivotY * -1f - (m_maxY * MinimapTileInfo.tileSize) + (Player.position.y + yOffset) * MinimapTileInfo.tileSize + (m_rect.sizeDelta.y * 0.5f) + playerHeightOffset);
+
+        var t = (m_rect.anchoredPosition.x + (m_rect.sizeDelta.x * 0.5f)) / contentRect.sizeDelta.x;
+        var clampedT = Mathf.Clamp(t, 0.25f, 0.75f);
+        var normalizedT = (clampedT - 0.25f) / (0.5f);
+
+        scrollRect.horizontalNormalizedPosition = normalizedT;
     }
 
     private void OnDestroy()
