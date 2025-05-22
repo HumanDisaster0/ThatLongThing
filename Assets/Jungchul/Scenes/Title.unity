@@ -2349,7 +2349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0c1f723dd2c9241abece3e02783a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseCanvasPrefab: {fileID: 4721839381036027693, guid: 2557b0cffac4e774c9bc23b2c9ce8750, type: 3}
+  pauseCanvasPrefab: {fileID: 4721839381036027693, guid: 48a6d907ce6e73241aeb08da81365335, type: 3}
   pState: 1
   prePState: 1
 --- !u!4 &1930586215

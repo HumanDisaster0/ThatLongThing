@@ -13112,8 +13112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentRect: {fileID: 6712833925727224478}
-  contentRect: {fileID: 0}
-  scrollRect: {fileID: 0}
+  contentRect: {fileID: 3871622643059699966}
+  scrollRect: {fileID: 271766103033526015}
   tilemap: {fileID: 1237157869726871168}
   xOffset: 0
   yOffset: 0

@@ -1,5 +1,6 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
@@ -8,9 +9,9 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseCanvasPrefab;
     private GameObject pauseCanvasInstance;
 
-    private CustomClickable resumBtn;
-    private CustomClickable returnToTitleBtn;
-    private CustomClickable exitBtn;
+    private Button resumBtn;
+    private Button returnToTitleBtn;
+    private Button exitBtn;
 
     public enum isPause
     {
@@ -87,23 +88,23 @@ public class PauseManager : MonoBehaviour
         pauseCanvasInstance = Instantiate(pauseCanvasPrefab);
         DontDestroyOnLoad(pauseCanvasInstance);
 
-        var btns = pauseCanvasInstance.GetComponentsInChildren<CustomClickable>(true);
+        var btns = pauseCanvasInstance.GetComponentsInChildren<Button>(true);
         foreach (var btn in btns)
         {
             if (btn.name.Contains("Resume"))
             {
                 resumBtn = btn;
-                resumBtn.SetClickAction(() => Resume());
+                resumBtn.onClick.AddListener(Resume);
             }
             else if (btn.name.Contains("Title"))
             {
                 returnToTitleBtn = btn;
-                returnToTitleBtn.SetClickAction(() => ReturnToTitle());
+                returnToTitleBtn.onClick.AddListener(ReturnToTitle);
             }
             else if (btn.name.Contains("Exit"))
             {
                 exitBtn = btn;
-                exitBtn.SetClickAction(() => ExitGame());
+                exitBtn.onClick.AddListener(ExitGame);
             }
         }
     }
