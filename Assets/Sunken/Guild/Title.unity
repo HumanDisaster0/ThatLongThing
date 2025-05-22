@@ -1762,37 +1762,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 752734924231238749, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 752734924231238749, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 752734924231238749, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 752734924231238749, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 752734924231238749, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 752734924231238749, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3195326851151866248, guid: 3477308afd694494394e30ab9d454e15, type: 3}
       propertyPath: m_Name
       value: FadeInOut
-      objectReference: {fileID: 0}
-    - target: {fileID: 3195326851151866248, guid: 3477308afd694494394e30ab9d454e15, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6129328268016706870, guid: 3477308afd694494394e30ab9d454e15, type: 3}
       propertyPath: m_Pivot.x

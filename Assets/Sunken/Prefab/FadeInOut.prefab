@@ -116,8 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exeFadeOut: 1
-  fadeTime: 1
-  delay: 1
+  fadeTime: 0.3
+  delay: 0.5
   sceneName: 
   fadeObjTrans: {fileID: 752734924231238749}
 --- !u!1 &5532225721821754327

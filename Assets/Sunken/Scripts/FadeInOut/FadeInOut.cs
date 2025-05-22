@@ -18,6 +18,8 @@ public class FadeInOut : MonoBehaviour
             fadeObjTrans.sizeDelta = new Vector2(1920, fadeObjTrans.sizeDelta.y);
             StartCoroutine(FadeOut());
         }
+        else
+            fadeObjTrans.sizeDelta = Vector2.zero;
     }
 
     public void ExeFadeIn()
