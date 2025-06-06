@@ -145,7 +145,7 @@ public class MarketManager : MonoBehaviour
 
     void PlaySound()
     {
-        SoundManager.instance?.PlayNewBackSound("Gold_Register");
+        //SoundManager.instance?.PlayNewBackSound("c");
     }
 
     bool UseShield()

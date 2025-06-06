@@ -19,6 +19,8 @@ public class GuildCounter : MonoBehaviour
     public CustomClickable itemB;
     public CustomClickable itemC;
 
+    [SerializeField] List<CustomClickable> counterMenu;
+
 
     public CustomClickable closeButton;
     //public CustomClickable cMissionBoard;
@@ -244,16 +246,30 @@ public class GuildCounter : MonoBehaviour
     {
         if (onoff)
         {
+            MenuBtnOnOff(true);
             MarketManager.Instance.UpdateItemStatus();
 
             closeButton.isInteractable = true;
         }
         else
-        {            
+        {
+            MenuBtnOnOff(false);
             itemA.isInteractable = false;
             itemB.isInteractable = false;
             itemC.isInteractable = false;
+
             closeButton.isInteractable = false;
+        }
+    }
+
+    void MenuBtnOnOff(bool onoff)
+    {
+        if (counterMenu.Count != 0)
+        {
+            foreach (var item in counterMenu)
+            {
+                item.isInteractable = onoff;
+            }
         }
     }
 }

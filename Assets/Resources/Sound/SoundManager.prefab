@@ -1751,7 +1751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: soundDatas.Array.size
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: soundDatas.Array.data[1].uiSfx
@@ -1778,6 +1778,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[8].uiSfx
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: soundDatas.Array.data[2].soundTag
       value: Quest
       objectReference: {fileID: 0}
@@ -1802,6 +1806,14 @@ PrefabInstance:
       value: QuestRef
       objectReference: {fileID: 0}
     - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[8].soundTag
+      value: Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[9].soundTag
+      value: Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: soundDatas.Array.data[2].soundName
       value: Quest_Click
       objectReference: {fileID: 0}
@@ -1823,6 +1835,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
       propertyPath: soundDatas.Array.data[7].soundName
+      value: Text_Write
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[8].soundName
+      value: Gold_Register
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332406467053387545, guid: d60136285507bd34c91e57585bb9c181, type: 3}
+      propertyPath: soundDatas.Array.data[9].soundName
       value: Text_Write
       objectReference: {fileID: 0}
     - target: {fileID: 6304129158537276990, guid: d60136285507bd34c91e57585bb9c181, type: 3}
