@@ -637,8 +637,8 @@ public class GuildRoomManager : MonoBehaviour
     {
         selectedMission = missionNum;
 
-        guildObjects[0].HLforceOff();
-        guildObjects[0].isInteractable = false;
+        //guildObjects[0].HLforceOff();
+        //guildObjects[0].isInteractable = false;
         //isMissionSelected = true;
     }
 

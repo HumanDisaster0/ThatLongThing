@@ -1235,7 +1235,7 @@ MonoBehaviour:
   EnterPopup: {fileID: 3662300731972707932, guid: 08d8a76e92ae4554783981840c1821ff, type: 3}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 3e65350e5d2180343b87fd326ce8b083, type: 2}
-  detectionDistance: 0.5
+  detectionDistance: 1
   isHighlighted: 0
   isInteractable: 1
   avatarController: {fileID: 856785980}
@@ -2795,6 +2795,7 @@ Transform:
   - {fileID: 161289387}
   - {fileID: 2076788296}
   - {fileID: 1374287216}
+  - {fileID: 1319628205}
   m_Father: {fileID: 599764292}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089824791
@@ -4563,6 +4564,53 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &1319628204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1319628205}
+  - component: {fileID: 1319628206}
+  m_Layer: 0
+  m_Name: GCM_Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1319628205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319628204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1045456110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1319628206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319628204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646f867938379f148845d05aca6695d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gcm_MissionBoard: {fileID: 161289388}
+  gcm_Pokedex: {fileID: 2076788297}
+  gcm_Talk: {fileID: 1374287217}
 --- !u!1 &1320040526
 GameObject:
   m_ObjectHideFlags: 0
