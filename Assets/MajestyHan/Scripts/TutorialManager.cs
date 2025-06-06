@@ -272,13 +272,13 @@ public class TutorialManager : MonoBehaviour
         DialogueManager.Instance.SetBubbleStyle(0);
         yield return DialogueManager.Instance.ShowSequence(new List<string>
     {
-        "<color=#3f3f3f>우선 지도를 열어볼래? <color=red>[M]키<color=#3f3f3f>를 누르면 돼."
+        "<color=#3f3f3f>우선 지도를 열어볼래? <color=red>[M] <color=#3f3f3f>또는<color=red> [Tab]키<color=#3f3f3f>를 누르면 돼."
     });
 
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
-        ShowGuidance("<color=red>[M]키<color=white>를 눌러, 미니맵 열기");
+        ShowGuidance("<color=red>[M] <color=white>또는<color=red> [Tab]키<color=white>를 눌러, 미니맵 열기");
         needPressedMapKey = true; // 맵 눌러야 풀림
     }
 
@@ -361,7 +361,7 @@ public class TutorialManager : MonoBehaviour
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
 
-        ShowGuidance("미니맵<color=red>[M]<color=white>을 열고, 좌클릭 한번으로 함정 <color=#3da807>정상작동<color=white> 표시");
+        ShowGuidance("미니맵<color=red>[M, Tab]<color=white>을 열고, 좌클릭 한번으로 함정 <color=#3da807>정상작동<color=white> 표시");
         needPressedCheckMapOkay = true;
         needPressedMapKey = true;
     }
@@ -408,7 +408,7 @@ public class TutorialManager : MonoBehaviour
         // 줌아웃
         cameraController.ResetZoom();
         yield return new WaitUntil(() => !cameraController.IsZoomFullyReady);
-        ShowGuidance("미니맵<color=red>[M]<color=white>을 열고, 좌클릭 두번으로 함정 <color=red>오작동<color=white> 표시");
+        ShowGuidance("미니맵<color=red>[M, Tab]<color=white>을 열고, 좌클릭 두번으로 함정 <color=red>오작동<color=white> 표시");
         needPressedCheckMapNope = true;
         needPressedMapKey = true;
     }
@@ -468,7 +468,7 @@ public class TutorialManager : MonoBehaviour
         "<color=#3f3f3f>응?"
     });
         DialogueManager.Instance.AllowTextSkipping = true;
- 
+
         //씬 전환         
     }
 
