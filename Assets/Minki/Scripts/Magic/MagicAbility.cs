@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MagicAbility : MonoBehaviour
@@ -28,16 +28,19 @@ public class MagicAbility : MonoBehaviour
     public int FXPoolCount = 10;
     public LayerMask FXLayer = (1 << 5);
 
+    public Action OnStartMagic;
+    public Action OnEndMagic;
+
    
     public bool ForceStop 
     { 
         get => m_forceStop; 
         set 
         { 
-            m_forceStop = value;
-
-            if (m_forceStop)
+            if(!m_forceStop && value)
             {
+                OnEndMagic?.Invoke();
+
                 BGSpriteRender.color = new Color(0, 0, 0, 0);
                 magicSpriteRender.enabled = false;
                 m_t1Color = BGSpriteColor;
@@ -59,6 +62,7 @@ public class MagicAbility : MonoBehaviour
 
                 m_useAbility = false;
             }
+            m_forceStop = value;
         } 
     }
 
@@ -108,6 +112,7 @@ public class MagicAbility : MonoBehaviour
             m_t2Color = BGSpriteColor;
             m_bgTimer = 0.0f;
             m_useTimer = 0.0f;
+            OnStartMagic?.Invoke();
         }
     }
 
@@ -244,6 +249,7 @@ public class MagicAbility : MonoBehaviour
                 m_t1Color = BGSpriteColor;
                 m_t2Color = new Color(0, 0, 0, 0);
                 m_bgTimer = 0.0f;
+                OnEndMagic?.Invoke();
             }    
         }
         else

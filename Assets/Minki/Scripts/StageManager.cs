@@ -91,12 +91,16 @@ public class StageManager : MonoBehaviour
         }
 
         //플레이어 설정
-        var pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-        var magicAblity = pc.transform.GetComponentInChildren<MagicAbility>();
-        if (MarketManager.Instance != null)
+        var pc = GameObject.FindWithTag("Player")?.GetComponent<PlayerController>();
+        var magicAblity = pc?.transform?.GetComponentInChildren<MagicAbility>();
+        if (MarketManager.Instance != null
+            && pc != null
+            && magicAblity != null)
         {
             pc.maxJumpCount = MarketManager.Instance.GetDoubleJumpLevel() + 1;
             magicAblity.magicLevel = MarketManager.Instance.GetMagicSizeLevel() + 1;
+            //자동체크 설정
+            //pc.autoCheckAbility.enabled = true;
         }
 
         var result = FindObjectsByType<TrapSetter>(FindObjectsSortMode.None);

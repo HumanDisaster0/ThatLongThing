@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 using Unity.VisualScripting;
+using System.Linq;
 
 public struct MapMatchData
 {
@@ -18,13 +19,15 @@ public class MapPinMatchChecker : MonoBehaviour
     public string checkTag = "TrapInfo";
     public float pinCheckRadius = 0.5f;
 
+    public RectTransform autoMapPinRect;
+
     int m_pivotX;
     int m_pivotY;
 
     int m_maxY;
 
     Collider2D[] m_cols = new Collider2D[8];
-    HashSet<int> m_duplicatePrevent = new HashSet<int>();
+    Dictionary<int,bool> m_checkedTraps = new Dictionary<int,bool>();
 
     private void Update()
     {
@@ -39,6 +42,9 @@ public class MapPinMatchChecker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        autoMapPinRect = GameObject.FindWithTag("Minimap").GetComponentsInChildren<Transform>(true) // 비활성화된 자식 포함
+                                        .FirstOrDefault(t => t.name == "AutoCheck").GetComponent<RectTransform>();
+
         ApplyTileInfo();
 
         MinimapTileInfo.OnChangedTileSize += ApplyTileInfo;
@@ -52,8 +58,13 @@ public class MapPinMatchChecker : MonoBehaviour
     public MapMatchData CreateMatchData()
     {
         var data = new MapMatchData();
-        m_duplicatePrevent.Clear();
 
+        m_checkedTraps.Clear();
+
+        // 오토 핀 체크
+
+
+        // 유저 핀 체크
         foreach (var pin in setter.pins)
         {
             var rect = pin.GetComponent<RectTransform>();
@@ -68,8 +79,8 @@ public class MapPinMatchChecker : MonoBehaviour
 
             if(trapInfo != null)
             {
-                if (!m_duplicatePrevent.Contains(trapInfo.GetHashCode()))
-                    m_duplicatePrevent.Add(trapInfo.GetHashCode());
+                if (!m_checkedTraps.ContainsKey(trapInfo.GetHashCode()))
+                    m_checkedTraps.Add(trapInfo.GetHashCode(),false);
                 else
                     continue;
 
@@ -78,26 +89,30 @@ public class MapPinMatchChecker : MonoBehaviour
                     && pinInfo.GetMapPinState == MapPinState.Fine)
                 {
                     data.correct++;
+                    m_checkedTraps[trapInfo.GetHashCode()] = true;
                 }
                 else if (trapInfo.type == TrapType.Danger
                     && pinInfo.GetMapPinState == MapPinState.Danger)
                 {
                     data.correct++;
+                    m_checkedTraps[trapInfo.GetHashCode()] = true;
                 }
                 else if (trapInfo.type == TrapType.Strange
                     && pinInfo.GetMapPinState == MapPinState.Strange)
                 {
                     data.correct++;
+                    m_checkedTraps[trapInfo.GetHashCode()] = true;
                 }
                 else
                 {
                     data.wrong++;
+                    m_checkedTraps[trapInfo.GetHashCode()] = false;
                 }
             }
 
             //var trapInfos = FindObjectsByType<TrapInfo>(FindObjectsSortMode.None);
         }
-        data.wrong += setter.maxPinCount - (data.wrong + data.correct);
+        data.wrong += setter.maxPinCount - m_checkedTraps.Count;
 
         return data;
     }

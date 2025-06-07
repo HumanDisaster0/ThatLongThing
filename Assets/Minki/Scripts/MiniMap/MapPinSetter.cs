@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class MapPinSetter : MonoBehaviour, IPointerDownHandler
 {
+    public const string COLOR_ERROR = "#FF0000";
+    public const string COLOR_INFO = "#FFFFFF";
+
     public RectTransform mapContent; // 실제 지도
     public MapZoom zoom;
     public GameObject pinPrefab;
@@ -18,9 +21,16 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     public IEnumerable<Transform> pins => m_pins.Values;
     public int maxPinCount = 5;
 
-    RectTransform m_rect;
+    Transform m_autoPinsParent;
+   
     Dictionary<int, Transform> m_pins = new Dictionary<int, Transform>();
     List<int> m_deletePendingPins = new List<int>();
+
+    private void Start()
+    {
+        m_autoPinsParent = GameObject.FindWithTag("Minimap").GetComponentsInChildren<Transform>(true) // 비활성화된 자식 포함
+                            .FirstOrDefault(t => t.name == "AutoCheck");
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -48,12 +58,6 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_rect = GetComponent<RectTransform>();
-    }
-
     private void Update()
     {
         if (m_deletePendingPins.Count > 0)
@@ -76,7 +80,7 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
             pair.Value.localScale = new Vector3(trueScale, trueScale, 1);
         }
 
-        pinCountText.text = $"{m_pins.Count} / {maxPinCount}";
+        pinCountText.text = $"<color={(m_pins.Count + m_autoPinsParent.childCount > maxPinCount ? COLOR_ERROR : COLOR_INFO)}>{m_pins.Count + m_autoPinsParent.childCount} / {maxPinCount}</color>";
     }
 
     public void DeletePin(int hash)

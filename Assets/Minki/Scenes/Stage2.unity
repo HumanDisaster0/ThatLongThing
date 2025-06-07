@@ -1109,6 +1109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 219693631}
   - component: {fileID: 219693632}
+  - component: {fileID: 219693633}
   m_Layer: 5
   m_Name: MagicFX
   m_TagString: MagicFX
@@ -1176,6 +1177,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &219693633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219693630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 795368691}
 --- !u!1001 &229843841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2416,6 +2430,7 @@ GameObject:
   - component: {fileID: 615472144}
   - component: {fileID: 615472143}
   - component: {fileID: 615472142}
+  - component: {fileID: 615472145}
   m_Layer: 5
   m_Name: FallInfo (3)
   m_TagString: TrapInfo
@@ -2541,6 +2556,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &615472145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615472140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 615472143}
 --- !u!1001 &620276782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7229,6 +7257,7 @@ GameObject:
   - component: {fileID: 726092967}
   - component: {fileID: 726092966}
   - component: {fileID: 726092965}
+  - component: {fileID: 726092968}
   m_Layer: 5
   m_Name: FallInfo (5)
   m_TagString: TrapInfo
@@ -7354,6 +7383,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &726092968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726092963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 726092966}
 --- !u!4 &746378926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7980920491471730594, guid: 3f796e87543c43f46aae048527f4f1ed, type: 3}
@@ -7664,6 +7706,7 @@ GameObject:
   - component: {fileID: 885771666}
   - component: {fileID: 885771665}
   - component: {fileID: 885771664}
+  - component: {fileID: 885771667}
   m_Layer: 5
   m_Name: FallInfo (6)
   m_TagString: TrapInfo
@@ -7789,6 +7832,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &885771667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885771662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 885771665}
 --- !u!1 &945029556
 GameObject:
   m_ObjectHideFlags: 0
@@ -12091,6 +12147,7 @@ GameObject:
   - component: {fileID: 1315066542}
   - component: {fileID: 1315066541}
   - component: {fileID: 1315066540}
+  - component: {fileID: 1315066543}
   m_Layer: 5
   m_Name: FallInfo (2)
   m_TagString: TrapInfo
@@ -12216,6 +12273,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1315066543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315066538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 1315066541}
 --- !u!1001 &1339780995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12524,6 +12594,7 @@ GameObject:
   - component: {fileID: 1546444278}
   - component: {fileID: 1546444277}
   - component: {fileID: 1546444276}
+  - component: {fileID: 1546444279}
   m_Layer: 5
   m_Name: FallInfo (4)
   m_TagString: TrapInfo
@@ -12649,6 +12720,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1546444279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546444274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 1546444277}
 --- !u!1839735485 &1588169073 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 1823116752755905768, guid: 27a01a040888e0a45951237325721c22, type: 3}
@@ -12666,6 +12750,7 @@ GameObject:
   - component: {fileID: 1607548309}
   - component: {fileID: 1607548308}
   - component: {fileID: 1607548307}
+  - component: {fileID: 1607548310}
   m_Layer: 5
   m_Name: FallInfo (1)
   m_TagString: TrapInfo
@@ -12791,6 +12876,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1607548310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607548305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 1607548308}
 --- !u!1 &1622554335 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1828455315510239540, guid: d93c1bd0a74f5f343979a36cf065b93d, type: 3}
@@ -13449,7 +13547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549668909183498578, guid: 450da296b7fff954e9c87e5ad0c787fd, type: 3}
       propertyPath: anomalyIdx
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8549668909183498578, guid: 450da296b7fff954e9c87e5ad0c787fd, type: 3}
       propertyPath: deathCount
@@ -13472,6 +13570,7 @@ GameObject:
   - component: {fileID: 1705556184}
   - component: {fileID: 1705556183}
   - component: {fileID: 1705556182}
+  - component: {fileID: 1705556185}
   m_Layer: 5
   m_Name: FallInfo
   m_TagString: TrapInfo
@@ -13597,6 +13696,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1705556185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705556180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14362bcc7d3d8014e9dea87d9bb34a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RefTrapInfo: {fileID: 1705556183}
 --- !u!4 &1724554452 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2038554188030326625, guid: de7776104a449b94c97349bd2191251d, type: 3}

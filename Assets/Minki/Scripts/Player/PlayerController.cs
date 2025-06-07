@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnimator;
     public Transform spriteRoot;
     public MagicAbility magic;
+    public AutoCheckAbility autoCheckAbility;
     public PreLifeCountIndicator preLifeIndicator;
     //public BoxCollider2D hitBoxCol;
     //public AudioSource audioSource;
