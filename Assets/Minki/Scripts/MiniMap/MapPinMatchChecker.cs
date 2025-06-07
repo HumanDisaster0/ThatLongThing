@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 
 public enum MatchState
@@ -75,11 +76,11 @@ public class MapPinMatchChecker : MonoBehaviour
         //트랩 정보 초기화
         foreach (var item in FindObjectsByType<TrapSetter>(FindObjectsSortMode.None))
         {
-            m_currentTraps.Add(item.gameObject.GetInstanceID(),new MapMatchData(MatchState.None, item.transform.position));
+            m_currentTraps.Add(item.trapInfo.GetHashCode(),new MapMatchData(MatchState.None, item.transform.position));
         }
 
         // 오토 핀 체크
-        foreach (var pinInfo in FindObjectsByType<StaticMapPin>(FindObjectsSortMode.None))
+        foreach (var pinInfo in FindObjectsByType<StaticMapPin>(FindObjectsInactive.Include,FindObjectsSortMode.None))
         {
             var rect = pinInfo.GetComponent<RectTransform>();
             var anchoredPos = rect.anchoredPosition;
@@ -90,9 +91,9 @@ public class MapPinMatchChecker : MonoBehaviour
 
             var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
 
-            if(trapInfo != null)
+            if (trapInfo != null)
             {
-                var checkTrap = m_currentTraps[trapInfo.gameObject.GetInstanceID()];
+                var checkTrap = m_currentTraps[trapInfo.GetHashCode()];
                 switch (checkTrap.state)
                 {
                     case MatchState.None:
@@ -123,6 +124,8 @@ public class MapPinMatchChecker : MonoBehaviour
                         }
                         break;
                 }
+
+                m_currentTraps[trapInfo.GetHashCode()] = checkTrap;
             }
         }
 
@@ -140,7 +143,7 @@ public class MapPinMatchChecker : MonoBehaviour
             var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
             if (trapInfo != null)
             {
-                var checkTrap = m_currentTraps[trapInfo.gameObject.GetInstanceID()];
+                var checkTrap = m_currentTraps[trapInfo.GetHashCode()];
                 switch (checkTrap.state)
                 {
                     case MatchState.None:
@@ -171,6 +174,8 @@ public class MapPinMatchChecker : MonoBehaviour
                         }
                         break;
                 }
+
+                m_currentTraps[trapInfo.GetHashCode()] = checkTrap;
             }
         }
 
