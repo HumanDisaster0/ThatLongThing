@@ -220,6 +220,11 @@ public class SettlementPanelScript : MonoBehaviour
         }
     }
 
+    public void OnDisable()
+    {
+        GoldManager.Instance.ClearReward();
+    }
+
     // 
     public void MoveSettlementBg(Vector3 newPosition)
     {

@@ -77,11 +77,11 @@ public class PostedMissionPanel : MonoBehaviour
         {
             Destroy(currentPopup);
         }
-        if(SceneManager.GetActiveScene().name == "GuildMain" && GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.MISSIONBOARD)
+        if (SceneManager.GetActiveScene().name == "GuildMain" && GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.MISSIONBOARD)
         {
             DisableOnPause();
         }
-        
+
     }
 
     private void OnDestroy()
@@ -170,7 +170,7 @@ public class PostedMissionPanel : MonoBehaviour
     public void DisableOnPause()
     {
         if (PauseManager.Instance.pState == isPause.PAUSE)
-        {           
+        {
             for (int i = 0; i < 3; i++)
             {
                 if (missionInstances[i] != null)
@@ -258,7 +258,12 @@ public class PostedMissionPanel : MonoBehaviour
         //PauseManager.Instance.pauseButtonInstance.SetActive(true);
         GuildRoomManager.Instance.missionBoardPanel.SetActive(false);
         GuildRoomManager.Instance.DoorOutOn();
-        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
+        
+        if (GuildRoomManager.Instance.preMissionBoardVstate == GuildRoomManager.viewState.COUNTER)
+            GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
+
+        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.Instance.preMissionBoardVstate);
+        
         GuildRoomManager.Instance.SelectMission(mIdx);
         for (int i = 0; i < 3; i++)
         {

@@ -20,6 +20,8 @@ public class GuildRoomManager : MonoBehaviour
     public bool isReportYet = true;
     //private bool isMissionSelected = false;
 
+    public bool isPauseAble = true;
+
 
     public int selectedMission = 0;
 
@@ -45,8 +47,12 @@ public class GuildRoomManager : MonoBehaviour
         MISSIONBOARD,
         POKEDEX,
         DOOROUT,
+        NONE,
     }
     public viewState curVstate;
+    public viewState preCurVstate;
+    public viewState preMissionBoardVstate;
+    public viewState prePokedexVstate;
 
 
     public enum counterState
@@ -123,9 +129,14 @@ public class GuildRoomManager : MonoBehaviour
         isPasan = false;
 
         curVstate = viewState.IDLE;
+        preCurVstate = viewState.NONE;
+        preMissionBoardVstate = viewState.IDLE;
+        prePokedexVstate = viewState.IDLE;
 
         cState = counterState.C_IDLE;
         preCState = counterState.NONE;
+
+        isPauseAble = true;
 
 
 
@@ -143,7 +154,7 @@ public class GuildRoomManager : MonoBehaviour
         //SceneManager.sceneLoaded += OnSceneLoaded;
 
         DontDestroyOnLoad(this.gameObject);
-        
+
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -219,14 +230,14 @@ public class GuildRoomManager : MonoBehaviour
             {
                 if (isFirstTime && avatar)
                 {
-                   
+
                     //avatar.transform.position = new Vector3(7.5f, -1.65f, 0);
                 }
                 else if (!isFirstTime && isReturned)
                 {
                     tempChecker = true;
                     //avatar.transform.position = new Vector3(8.5f, -1.65f, 0);
-                  
+
                 }
                 worldLeftLimit = -8.6f;
                 worldRightLimit = 8.6f;
@@ -259,7 +270,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 PostedMissionPanel.Instance.CardShowSet(false);
 
-                
+
             }
 
             DoorOutOff();
@@ -277,8 +288,13 @@ public class GuildRoomManager : MonoBehaviour
             selectedMission = 0;
             trollCheck = false;
             isPasan = false;
+            isPauseAble = true;
 
             curVstate = viewState.IDLE;
+            preCurVstate = viewState.NONE;
+            preMissionBoardVstate = viewState.IDLE;
+            prePokedexVstate = viewState.IDLE;
+
             cState = counterState.C_IDLE;
             preCState = counterState.NONE;
 
@@ -294,7 +310,7 @@ public class GuildRoomManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-       
+
     }
 
     void Update()
@@ -327,248 +343,272 @@ public class GuildRoomManager : MonoBehaviour
             curObj = null;
         }
 
-
-        switch (curVstate)
+        if (preCurVstate != curVstate)
         {
-            case viewState.IDLE:
+            switch (curVstate)
+            {
+                case viewState.IDLE:
 
-              
+                    if (!avatar.isMovable)
+                    {   
+                        avatar.isMovable = true;
+                    }                    
 
-                if (!avatar.isMovable)
-                {
-                    //
-                    Debug.Log($"{name}:" + selectedMission + "선택됨");
-                    PostedMissionPanel.Instance.CardShowSet(false);
-                    //PauseManager.Instance.pauseButtonInstance.SetActive(true);
-                    GoldManager.Instance.ClearReward();
-                }
-                avatar.isMovable = true;
-
-                break;
-
-            case viewState.COUNTER:
-                if (cState != preCState || cState == counterState.TROLL_P || cState == counterState.QUIZ_P)
-                {
-                    var gcp = guildCounterPanel.GetComponent<GuildCounter>();
-
-
-                    //preCState = cState;
-
-
-                    switch (cState)
+                    if (!isPauseAble)
                     {
-                        case counterState.SETTlE:
-                            preCState = cState;
+                        isPauseAble = true;
+                    }
+                    preCurVstate = curVstate;
 
-                            avatar.isMovable = false;
+                    break;
 
-                            gcp.btnOnOff(false);
-
-                            day++;
-                            
-
-                            //gcp.btnOnOff(false);
-                            guildCounterPanel.gameObject.SetActive(true);
-                            //sp.RefreshTexts();
+                case viewState.COUNTER:
+                    if (cState != preCState || cState == counterState.TROLL_P || cState == counterState.QUIZ_P)
+                    {
+                        var gcp = guildCounterPanel.GetComponent<GuildCounter>();
 
 
-                            GoldManager.Instance.calRewardGold();
-                            GoldManager.Instance.getRewardGold();
+                        //preCState = cState;
 
-                            settlementPanel.gameObject.SetActive(true);
-                            gcp.trollPanel.SetActive(false);
 
-                            if (day == 4)
-                            {
+                        switch (cState)
+                        {
+                            case counterState.SETTlE:
+                                preCState = cState;
 
-                                int last3Start = Mathf.Max(quizResults.Count - 3, 0);
+                                avatar.isMovable = false;
 
-                                for (int i = last3Start; i < quizResults.Count; i++)
+                                gcp.btnOnOff(false);
+
+                                day++;
+
+
+                                //gcp.btnOnOff(false);
+                                guildCounterPanel.gameObject.SetActive(true);
+                                //sp.RefreshTexts();
+
+                                Debug.Log($"ftc = {GoldManager.Instance.findTrapCount}, dc = {GoldManager.Instance.deadCount}");
+                                GoldManager.Instance.calRewardGold();
+                                GoldManager.Instance.getRewardGold();
+
+                                settlementPanel.gameObject.SetActive(true);
+                                gcp.trollPanel.SetActive(false);
+
+                                if (day == 4)
                                 {
-                                    if (!quizResults[i].isCorrect)
+
+                                    int last3Start = Mathf.Max(quizResults.Count - 3, 0);
+
+                                    for (int i = last3Start; i < quizResults.Count; i++)
                                     {
-                                        wrongCnt++;
+                                        if (!quizResults[i].isCorrect)
+                                        {
+                                            wrongCnt++;
+                                        }
                                     }
+
+                                    if (wrongCnt > 0)
+                                    {
+                                        trollCheck = true;
+                                    }
+                                    else
+                                    {
+                                        cState = counterState.SETTlE;
+                                    }
+                                    GoldManager.Instance.MinusGold(60);
+                                    day = 1;
+                                    week++;
                                 }
 
-                                if (wrongCnt > 0)
-                                {
-                                    trollCheck = true;
-                                }
-                                else
-                                {
-                                    cState = counterState.SETTlE;
-                                }
-                                GoldManager.Instance.MinusGold(60);
-                                day = 1;
-                                week++;
-                            }
+                                break;
 
-                            break;
+                            case counterState.TROLL:
 
-                        case counterState.TROLL:
-
-                            gcp.ShowMidResult(wrongCnt);
-                            preCState = cState;
-                            gcp.btnOnOff(false);
-
-                            cState = counterState.TROLL_P;
-
-                            break;
-
-
-                        case counterState.TROLL_P:
-                            if (Input.GetMouseButtonDown(0))
-                            {
+                                gcp.ShowMidResult(wrongCnt);
                                 preCState = cState;
+                                gcp.btnOnOff(false);
+
+                                cState = counterState.TROLL_P;
+
+                                break;
+
+
+                            case counterState.TROLL_P:
+                                if (Input.GetMouseButtonDown(0))
+                                {
+                                    preCState = cState;
+
+                                    gcp.btnOnOff(false);
+
+                                    GoldManager.Instance.MinusGold(wrongCnt * 40);
+                                    wrongCnt = 0;
+                                    cState = counterState.QUIZ;
+                                }
+
+
+                                break;
+
+                            case counterState.QUIZ:
+                                checkResult.gameObject.SetActive(true);
+                                gcp.StartQuiz(selectedMission / 1000);
 
                                 gcp.btnOnOff(false);
 
-                                GoldManager.Instance.MinusGold(wrongCnt * 40);
-                                wrongCnt = 0;
-                                cState = counterState.QUIZ;
-                            }
+                                cState = counterState.QUIZ_P;
+                                break;
 
+                            case counterState.QUIZ_P:
 
-                            break;
-
-                        case counterState.QUIZ:
-                            checkResult.gameObject.SetActive(true);
-                            gcp.StartQuiz(selectedMission / 1000);
-
-                            gcp.btnOnOff(false);
-
-                            cState = counterState.QUIZ_P;
-                            break;
-
-                        case counterState.QUIZ_P:
-
-                            gcp.btnOnOff(false);
-
-                            if (gcp.isEnd)
-                            {
-                                //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
-                                preCState = cState;
                                 gcp.btnOnOff(false);
-                                cState = counterState.QUIZ_PP;
-                            }
-                            break;
+
+                                if (gcp.isEnd)
+                                {
+                                    //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
+                                    preCState = cState;
+                                    gcp.btnOnOff(false);
+                                    cState = counterState.QUIZ_PP;
+                                }
+                                break;
 
 
-                        case counterState.QUIZ_PP:
+                            case counterState.QUIZ_PP:
 
-                            if (Input.GetMouseButtonDown(0))
-                            {
-                                //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
+                                if (Input.GetMouseButtonDown(0))
+                                {
+                                    //SoundManager.instance.PlayNewBackSound("Map_Check2", SoundType.Se);
 
-                                checkResult.gameObject.SetActive(false);
+                                    checkResult.gameObject.SetActive(false);
+
+                                    textDrawer.TextRefresh();
+
+                                    selectedMission = 0;
+
+                                    cState = counterState.C_IDLE;
+                                }
+                                break;
+
+                            case counterState.C_IDLE:
+
+                                preCurVstate = curVstate;
+
+                                // 효과음 재생
+                                SoundManager.instance?.PlayNewBackSound("Map_Check2");
+
+                                preCState = cState;
+                                avatar.isMovable = false;
+
+                                gcp.btnOnOff(true);
 
                                 textDrawer.TextRefresh();
-
-                                selectedMission = 0;
-
-                                cState = counterState.C_IDLE;
-                            }
-                            break;
-
-                        case counterState.C_IDLE:
-                            // 효과음 재생
-                            SoundManager.instance?.PlayNewBackSound("Map_Check2");
-
-                            preCState = cState;
-                            avatar.isMovable = false;
-
-                            gcp.btnOnOff(true);
-
-                            textDrawer.TextRefresh();
-                            guildCounterPanel.gameObject.SetActive(true);
-                            gcp.trollPanel.SetActive(false);
+                                guildCounterPanel.gameObject.SetActive(true);
+                                gcp.trollPanel.SetActive(false);
 
 
-                            //gcp.btnOnOff(true);
-                            break;
-                        default:
-                            gcp.btnOnOff(true);
-                            break;
+                                //gcp.btnOnOff(true);
+                                break;
+                            default:
+                                gcp.btnOnOff(true);
+                                break;
+                        }
                     }
-                }
 
-                break;
+                    break;
 
 
-            case viewState.SETTLEMENT:
+                case viewState.SETTLEMENT:
 
-                curVstate = viewState.COUNTER;
-              
-                cState = counterState.C_IDLE;
-              
-                break;
+                    preCurVstate = curVstate;
 
-            case viewState.MISSIONBOARD:
-                //PauseManager.Instance.pauseButtonInstance.SetActive(false);
-                avatar.isMovable = false;
-                if (!missionBoardPanel.gameObject.activeSelf)
-                {
-                    // 효과음 재생
-                    SoundManager.instance?.PlayNewBackSound("Map_Check2");
+                    curVstate = viewState.COUNTER;
 
-                    missionBoardPanel.gameObject.SetActive(true);
-                    PostedMissionPanel.Instance.CardShowSet(true);
-                }
+                    cState = counterState.C_IDLE;
 
-                break;
+                    break;
 
-            case viewState.POKEDEX:
-                avatar.isMovable = false;
-                if (!albumPanel.gameObject.activeSelf)
-                {
-                    // 효과음 재생
-                    SoundManager.instance?.PlayNewBackSound("Album_Click");
+                case viewState.MISSIONBOARD:
 
-                    albumPanel.gameObject.SetActive(true);
-                    var ap = albumPanel.GetComponent<MemoryCanvas>();
-                    ap.UnlockMemories();
+                    preMissionBoardVstate = preCurVstate;
+                    preCState = counterState.NONE;
+                    
+                    Debug.Log($"preMissionBoardVstate = {preMissionBoardVstate}  /  preCurVstate = {preCurVstate}");
 
-                }
+                    preCurVstate = curVstate;
 
-                break;
+                    avatar.isMovable = false;
+                    if (!missionBoardPanel.gameObject.activeSelf)
+                    {
+                        // 효과음 재생
+                        SoundManager.instance?.PlayNewBackSound("Map_Check2");
 
-            case viewState.DOOROUT:
-                // 문 열리는 소리 재생
-                SoundManager.instance?.PlayNewBackSound("Door_Open");
+                        missionBoardPanel.gameObject.SetActive(true);
+                        PostedMissionPanel.Instance.CardShowSet(true);
+                    }
 
-                avatar.isMovable = false;
+                    break;
 
-                NotFirstNow();
+                case viewState.POKEDEX:
 
-                this.enabled = false;
+                    prePokedexVstate = preCurVstate;                    
+                    preCState = counterState.NONE;
 
-                int reCode = selectedMission % 1000;
+                    Debug.Log($"prePokedexVstate = {prePokedexVstate}  /  preCurVstate = {preCurVstate}");
+                    preCurVstate = curVstate;
 
-                if (FadeInOut.instance)
-                {
-                    StageManager.instance.LoadStage(reCode);
-                    FadeInOut.instance.ExeFadeIn();
-                }
-                else
-                    StageManager.instance.LoadStage(reCode);
-                //SceneManager.LoadScene("DummyMission");
+                    avatar.isMovable = false;
+                    if (!albumPanel.gameObject.activeSelf)
+                    {
+                        // 효과음 재생
+                        SoundManager.instance?.PlayNewBackSound("Album_Click");
 
-                break;
+                        albumPanel.gameObject.SetActive(true);
+                        var ap = albumPanel.GetComponent<MemoryCanvas>();
+                        ap.UnlockMemories();
 
+                    }
+
+
+                    break;
+
+                case viewState.DOOROUT:
+
+                    preCurVstate = curVstate;
+
+                    // 문 열리는 소리 재생
+                    SoundManager.instance?.PlayNewBackSound("Door_Open");
+
+                    avatar.isMovable = false;
+
+                    NotFirstNow();
+
+                    this.enabled = false;
+
+                    int reCode = selectedMission % 1000;
+
+                    if (FadeInOut.instance)
+                    {
+                        StageManager.instance.LoadStage(reCode);
+                        FadeInOut.instance.ExeFadeIn();
+                    }
+                    else
+                        StageManager.instance.LoadStage(reCode);
+                    //SceneManager.LoadScene("DummyMission");
+
+                    break;
+            }
         }
+
     }
     public void SetRoomState(viewState vState)
     {
         curVstate = vState;
-       
+
     }
 
     public void ForceMoveOnRetrun()
     {
         if (tempChecker)
         {
-           
+
             avatar.isMovable = false;
 
             foreach (var obj in guildObjects)
@@ -648,6 +688,11 @@ public class GuildRoomManager : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    public void CloseWithESC()
+    {
+
     }
 
 

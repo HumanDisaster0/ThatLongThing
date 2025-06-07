@@ -29,7 +29,7 @@ public class CustomClickable : MonoBehaviour
 
     public bool isInteractable = true;
     bool prevInteractable = true;
-    bool inputAllowed = true;
+    public bool inputAllowed = true;
 
 
 

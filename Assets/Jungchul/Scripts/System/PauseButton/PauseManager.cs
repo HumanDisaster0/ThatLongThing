@@ -44,7 +44,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != "Title")
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name != "Title" && GuildRoomManager.Instance.isPauseAble)
         {
             pState = (pState == isPause.NOTPAUSE) ? isPause.PAUSE : isPause.NOTPAUSE;
         }

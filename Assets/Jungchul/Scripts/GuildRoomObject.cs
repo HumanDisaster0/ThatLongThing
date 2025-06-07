@@ -67,7 +67,7 @@ public class GuildRoomObject : MonoBehaviour
                 //spriteRenderer.material = normalMaterial;
                 spriteRenderer.sprite = stdSpr;
                 spriteRenderer.sortingOrder = 3;
-                print(gameObject.name + " ²¨Áü");
+               
                 isHighlighted = false;
 
                 if (activeButton != null)
@@ -85,20 +85,22 @@ public class GuildRoomObject : MonoBehaviour
             {
                 if (GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.IDLE)
                 {
+                    GuildRoomManager.Instance.isPauseAble = false;
                     string objName = gameObject.name;
 
                     // ÀÌ¸§À» ±â¹ÝÀ¸·Î »óÅÂ °áÁ¤
                     if (objName.Contains("Settlement"))
                     {
-                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.SETTLEMENT);
+                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.SETTLEMENT);                       
                     }
                     else if (objName.Contains("Mission"))
                     {
-                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.MISSIONBOARD);
+                        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.MISSIONBOARD);                       
                     }
                     else if (objName.Contains("Pokedex"))
                     {
                         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.POKEDEX);
+                        
                     }
                     else if (objName.Contains("DoorOut"))
                     {
@@ -109,11 +111,7 @@ public class GuildRoomObject : MonoBehaviour
                 gro.HLforceOff();
 
             }
-            
         }
-
-       
-
     }
 
     public void HLforceOff()
@@ -121,7 +119,7 @@ public class GuildRoomObject : MonoBehaviour
         //spriteRenderer.material = normalMaterial;
         spriteRenderer.sprite = stdSpr;
         spriteRenderer.sortingOrder = 3;
-        print(gameObject.name + " ²¨Áü");
+       
         isHighlighted = false;
 
         if (activeButton != null)

@@ -33,6 +33,9 @@ public class MemoryCanvas : MonoBehaviour
     private void OnDisable()
     {
         BgmPlayer.instance?.ChangeBgm("Guild_BGM");
-        GuildRoomManager.Instance.curVstate = GuildRoomManager.viewState.IDLE;
+
+        if (GuildRoomManager.Instance.prePokedexVstate == GuildRoomManager.viewState.COUNTER)
+            GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
+        GuildRoomManager.Instance.curVstate = GuildRoomManager.Instance.prePokedexVstate;
     }
 }
