@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static PauseManager;
 
 public class PostedMissionPanel : MonoBehaviour
 {
@@ -46,10 +49,26 @@ public class PostedMissionPanel : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        CreateMissions();
+
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         enabled = false;
-        
+
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "GuildMain")
+        {
+            DestroyMissionsCards();
+            Destroy(currentPopup);
+        }
+        else
+        {
+            CreateMissions();
+        }
+
     }
 
     private void Update()
@@ -58,6 +77,13 @@ public class PostedMissionPanel : MonoBehaviour
         {
             Destroy(currentPopup);
         }
+
+        DisableOnPause();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
 
@@ -73,7 +99,7 @@ public class PostedMissionPanel : MonoBehaviour
             Debug.Log($"i , code: {i}  {code}");
             ApplyCodeToMission(i, code);
 
-            int capturedIndex = code/1000;
+            int capturedIndex = code / 1000;
             int ci = i;
 
             var clickable = instance.GetComponent<CustomClickable>();
@@ -111,21 +137,52 @@ public class PostedMissionPanel : MonoBehaviour
 
         if (code == 0)
         {
-            
+
             ResizeBoxColliderToSprite(gameObject);
             clickable.SetSprites(emptyMissionSprite, emptyMissionSprite);
             clickable.isInteractable = false;
             return;
         }
         else
-        {            
-            sprite = missionSprites[code/1000];
+        {
+            sprite = missionSprites[code / 1000];
             hSprite = missionSpritesHover[code / 1000];
         }
 
         clickable.SetSprites(sprite, hSprite);
         clickable.AdjustColliderToSprite();
 
+    }
+
+    public void DestroyMissionsCards()
+    {
+        foreach (var instance in missionInstances)
+        {
+            if (instance != null)
+                Destroy(instance);
+        }
+        missionInstances.Clear();
+    }
+
+    public void DisableOnPause()
+    {
+        if (PauseManager.Instance.pState == isPause.PAUSE)
+        {
+            //Debug.Log("Pause 상태: " + PauseManager.Instance.pState);
+            for (int i = 0; i < 3; i++)
+            {
+                if (missionInstances[i] != null)
+                    missionInstances[i].GetComponent<CustomClickable>().isInteractable = false;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (missionInstances[i] != null)
+                    missionInstances[i].GetComponent<CustomClickable>().isInteractable = true;
+            }
+        }
     }
 
 
@@ -176,7 +233,7 @@ public class PostedMissionPanel : MonoBehaviour
         var popupComp = currentPopup.GetComponent<MissionDetailPopup>();
         if (popupComp != null)
         {
-            Debug.Log("팝업 컴포넌트 찾음");
+            //Debug.Log("팝업 컴포넌트 찾음");
 
             if (popupComp.acceptButton == null) Debug.LogError("acceptButton 연결 안 됨!");
             if (popupComp.rejectButton == null) Debug.LogError("rejectButton 연결 안 됨!");
@@ -195,7 +252,7 @@ public class PostedMissionPanel : MonoBehaviour
 
     public void PopupBtnAccept()
     {
-        print("슈락");
+        //print("슈락");
         //PauseManager.Instance.pauseButtonInstance.SetActive(true);
         GuildRoomManager.Instance.missionBoardPanel.SetActive(false);
         GuildRoomManager.Instance.DoorOutOn();
@@ -212,7 +269,7 @@ public class PostedMissionPanel : MonoBehaviour
 
     public void PopupBtnReject()
     {
-        print("허나 거절한다");
+        //print("허나 거절한다");
         mIdx = 0;
         for (int i = 0; i < 3; i++)
         {
