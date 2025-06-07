@@ -29,6 +29,7 @@ public class CustomClickable : MonoBehaviour
 
     public bool isInteractable = true;
     bool prevInteractable = true;
+    bool inputAllowed = true;
 
 
 
@@ -107,7 +108,7 @@ public class CustomClickable : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (!isMouseOver || !isInteractable) return;
+        if (!isMouseOver || !isInteractable || !inputAllowed) return;
 
 
         //Debug.Log("[CustomClickable] Å¬¸¯µÊ");
@@ -125,7 +126,6 @@ public class CustomClickable : MonoBehaviour
         
         onClick?.Invoke();
     }
-
 
     public void SetClickAction(Action action)
     {
@@ -173,7 +173,15 @@ public class CustomClickable : MonoBehaviour
         {
             prevInteractable = isInteractable;
             UpdateSprite();
+
+            if (isInteractable)
+            {
+                inputAllowed = false;
+            }
         }
+
+        if (Input.GetMouseButtonUp(0))
+            inputAllowed = true;
     }
 
     private void UpdateSprite()
