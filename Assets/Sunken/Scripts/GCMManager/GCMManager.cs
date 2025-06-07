@@ -24,6 +24,7 @@ public class GCMManager : MonoBehaviour
         gcm_Talk.onClick = () =>
         {
             // 접수원과의 대화
+            TalkManager.instance.SendMessage("DisplayTalk");
         };
     }
 }
