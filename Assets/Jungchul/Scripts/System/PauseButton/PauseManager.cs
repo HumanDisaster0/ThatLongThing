@@ -124,6 +124,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         if (pauseCanvasInstance != null)
             pauseCanvasInstance.SetActive(false);
+        pState = isPause.NOTPAUSE;
     }
 
     public void ReturnToTitle()

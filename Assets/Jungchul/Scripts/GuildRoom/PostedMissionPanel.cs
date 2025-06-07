@@ -77,8 +77,11 @@ public class PostedMissionPanel : MonoBehaviour
         {
             Destroy(currentPopup);
         }
-
-        DisableOnPause();
+        if(SceneManager.GetActiveScene().name == "GuildMain" && GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.MISSIONBOARD)
+        {
+            DisableOnPause();
+        }
+        
     }
 
     private void OnDestroy()
@@ -167,8 +170,7 @@ public class PostedMissionPanel : MonoBehaviour
     public void DisableOnPause()
     {
         if (PauseManager.Instance.pState == isPause.PAUSE)
-        {
-            //Debug.Log("Pause ป๓ลย: " + PauseManager.Instance.pState);
+        {           
             for (int i = 0; i < 3; i++)
             {
                 if (missionInstances[i] != null)
