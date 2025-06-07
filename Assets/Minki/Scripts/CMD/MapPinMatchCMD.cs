@@ -31,7 +31,10 @@ namespace Assets.Minki.Scripts.CMD
             () =>
             {
                 var data = (matcher?.CreateMatchData()) ?? null;
-                Debug.Log($"{data?.correct} : {data?.wrong}");
+                foreach (var trapMatch in data)
+                {
+                    Debug.Log($"TrapPos: {trapMatch.position}, State: {trapMatch.state}");
+                }
             },
             "/지도 핀의 판정을 확인합니다.", ExecFlag.CHEAT);
     }
