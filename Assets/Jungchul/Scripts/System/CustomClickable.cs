@@ -196,6 +196,10 @@ public class CustomClickable : MonoBehaviour
             else if (normalSprite)
             {
                 GetComponent<SpriteRenderer>().color = Color.white;
+                if (isMouseOver)
+                    spriteRenderer.sprite = hoverSprite;
+                else
+                    spriteRenderer.sprite = normalSprite;
             }
         }
         
@@ -209,6 +213,10 @@ public class CustomClickable : MonoBehaviour
             else if (normalSprite)
             {
                 GetComponent<Image>().color = Color.white;
+                if (isMouseOver)
+                    imageRenderer.sprite = hoverSprite;
+                else
+                    imageRenderer.sprite = normalSprite;
             }
         }
     }
