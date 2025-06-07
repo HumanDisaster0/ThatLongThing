@@ -4,11 +4,27 @@ using UnityEngine.Tilemaps;
 using System;
 using Unity.VisualScripting;
 using System.Linq;
+using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+
+
+public enum MatchState
+{
+    None = 0,
+    Correct,
+    Wrong,
+    Ambiguity
+}
 
 public struct MapMatchData
 {
-    public int correct;
-    public int wrong;
+    public MatchState state;
+    public Vector3 position;
+    public MapMatchData(MatchState state = MatchState.None, Vector3 position = default)
+    {
+        this.state = state;
+        this.position = position;
+    }
 }
 
 public class MapPinMatchChecker : MonoBehaviour
@@ -19,15 +35,13 @@ public class MapPinMatchChecker : MonoBehaviour
     public string checkTag = "TrapInfo";
     public float pinCheckRadius = 0.5f;
 
-    public RectTransform autoMapPinRect;
-
     int m_pivotX;
     int m_pivotY;
 
     int m_maxY;
 
     Collider2D[] m_cols = new Collider2D[8];
-    Dictionary<int,bool> m_checkedTraps = new Dictionary<int,bool>();
+    Dictionary<int,MapMatchData> m_currentTraps = new Dictionary<int, MapMatchData>();
 
     private void Update()
     {
@@ -42,9 +56,6 @@ public class MapPinMatchChecker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        autoMapPinRect = GameObject.FindWithTag("Minimap").GetComponentsInChildren<Transform>(true) // 비활성화된 자식 포함
-                                        .FirstOrDefault(t => t.name == "AutoCheck").GetComponent<RectTransform>();
-
         ApplyTileInfo();
 
         MinimapTileInfo.OnChangedTileSize += ApplyTileInfo;
@@ -55,14 +66,65 @@ public class MapPinMatchChecker : MonoBehaviour
         MinimapTileInfo.OnChangedTileSize -= ApplyTileInfo;
     }
 
-    public MapMatchData CreateMatchData()
+    public List<MapMatchData> CreateMatchData()
     {
-        var data = new MapMatchData();
+        var data = new List<MapMatchData>();
 
-        m_checkedTraps.Clear();
+        m_currentTraps.Clear();
+
+        //트랩 정보 초기화
+        foreach (var item in FindObjectsByType<TrapSetter>(FindObjectsSortMode.None))
+        {
+            m_currentTraps.Add(item.gameObject.GetInstanceID(),new MapMatchData(MatchState.None, item.transform.position));
+        }
 
         // 오토 핀 체크
+        foreach (var pinInfo in FindObjectsByType<StaticMapPin>(FindObjectsSortMode.None))
+        {
+            var rect = pinInfo.GetComponent<RectTransform>();
+            var anchoredPos = rect.anchoredPosition;
 
+            //월드 좌표 계산
+            var posX = (anchoredPos.x - m_pivotX + (rect.sizeDelta.x * 0.5f)) / MinimapTileInfo.tileSize;
+            var posY = (anchoredPos.y + (m_maxY * MinimapTileInfo.tileSize) + m_pivotY - (rect.sizeDelta.y * 0.5f)) / MinimapTileInfo.tileSize;
+
+            var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
+
+            if(trapInfo != null)
+            {
+                var checkTrap = m_currentTraps[trapInfo.gameObject.GetInstanceID()];
+                switch (checkTrap.state)
+                {
+                    case MatchState.None:
+                        if (ConvertTrapTypeToMapPinState(trapInfo.type) == pinInfo.MapPinState)
+                        {
+                            //트랩이 핀과 일치하는 경우
+                            //맞음
+                            checkTrap.state = MatchState.Correct;
+                        }
+                        else
+                        {
+                            //트랩이 핀과 일치하지 않는 경우
+                            //틀림
+                            checkTrap.state = MatchState.Wrong;
+                        }
+                        break;
+                    case MatchState.Correct:
+                        if (ConvertTrapTypeToMapPinState(trapInfo.type) != pinInfo.MapPinState)
+                        {
+                            //이미 맞은 트랩이 핀과 일치하지 않는 경우
+                            checkTrap.state = MatchState.Ambiguity; //애매모호 상태로 변경
+                        }
+                        break;
+                    case MatchState.Wrong:
+                        if (ConvertTrapTypeToMapPinState(trapInfo.type) == pinInfo.MapPinState)
+                        {
+                            checkTrap.state = MatchState.Ambiguity; //애매모호 상태로 변경
+                        }
+                        break;
+                }
+            }
+        }
 
         // 유저 핀 체크
         foreach (var pin in setter.pins)
@@ -76,43 +138,58 @@ public class MapPinMatchChecker : MonoBehaviour
             var posY = (anchoredPos.y + (m_maxY * MinimapTileInfo.tileSize) + m_pivotY - (rect.sizeDelta.y * 0.5f)) / MinimapTileInfo.tileSize;
 
             var trapInfo = TrapInfoOverlap(new Vector2(posX, posY), pinCheckRadius, -1);
-
-            if(trapInfo != null)
+            if (trapInfo != null)
             {
-                if (!m_checkedTraps.ContainsKey(trapInfo.GetHashCode()))
-                    m_checkedTraps.Add(trapInfo.GetHashCode(),false);
-                else
-                    continue;
-
-                //정산 데이터 만들기
-                if (trapInfo.type == TrapType.Fine
-                    && pinInfo.GetMapPinState == MapPinState.Fine)
+                var checkTrap = m_currentTraps[trapInfo.gameObject.GetInstanceID()];
+                switch (checkTrap.state)
                 {
-                    data.correct++;
-                    m_checkedTraps[trapInfo.GetHashCode()] = true;
-                }
-                else if (trapInfo.type == TrapType.Danger
-                    && pinInfo.GetMapPinState == MapPinState.Danger)
-                {
-                    data.correct++;
-                    m_checkedTraps[trapInfo.GetHashCode()] = true;
-                }
-                else if (trapInfo.type == TrapType.Strange
-                    && pinInfo.GetMapPinState == MapPinState.Strange)
-                {
-                    data.correct++;
-                    m_checkedTraps[trapInfo.GetHashCode()] = true;
-                }
-                else
-                {
-                    data.wrong++;
-                    m_checkedTraps[trapInfo.GetHashCode()] = false;
+                    case MatchState.None:
+                        if (ConvertTrapTypeToMapPinState(trapInfo.type) == pinInfo.GetMapPinState)
+                        {
+                            //트랩이 핀과 일치하는 경우
+                            //맞음
+                            checkTrap.state = MatchState.Correct;
+                        }
+                        else
+                        {
+                            //트랩이 핀과 일치하지 않는 경우
+                            //틀림
+                            checkTrap.state = MatchState.Wrong;
+                        }
+                        break;
+                    case MatchState.Correct:
+                        if (ConvertTrapTypeToMapPinState(trapInfo.type) != pinInfo.GetMapPinState)
+                        {
+                            //이미 맞은 트랩이 핀과 일치하지 않는 경우
+                            checkTrap.state = MatchState.Ambiguity; //애매모호 상태로 변경
+                        }
+                        break;
+                    case MatchState.Wrong:
+                        if (ConvertTrapTypeToMapPinState(trapInfo.type) == pinInfo.GetMapPinState)
+                        {
+                            checkTrap.state = MatchState.Ambiguity; //애매모호 상태로 변경
+                        }
+                        break;
                 }
             }
-
-            //var trapInfos = FindObjectsByType<TrapInfo>(FindObjectsSortMode.None);
         }
-        data.wrong += setter.maxPinCount - m_checkedTraps.Count;
+
+        //최종 정보 반환
+        data = m_currentTraps.Values.ToList();
+
+        data.Sort((a, b) =>
+        {
+            // 1. x축 값으로 먼저 비교 (작은 것이 앞으로)
+            if (a.position.x != b.position.x)
+            {
+                return a.position.x.CompareTo(b.position.x); // a.x가 b.x보다 작으면 -1, 같으면 0, 크면 1 반환
+            }
+            else
+            {
+                // 2. x축 값이 같으면 y축 값으로 비교 (큰 것이 앞으로)
+                return b.position.y.CompareTo(a.position.y); // b.y가 a.y보다 작으면 -1 (즉, a.y가 더 크면), 같으면 0, 크면 1 반환
+            }
+        });
 
         return data;
     }
@@ -132,6 +209,21 @@ public class MapPinMatchChecker : MonoBehaviour
         m_pivotY = Math.Max(0, (canvasHeight - texHeight) / 2);
 
         m_maxY = tilemap.cellBounds.max.y;
+    }
+
+    MapPinState ConvertTrapTypeToMapPinState(TrapType trapType)
+    {
+        switch (trapType)
+        {
+            case TrapType.Fine:
+                return MapPinState.Fine;
+            case TrapType.Danger:
+                return MapPinState.Danger;
+            case TrapType.Strange:
+                return MapPinState.Strange;
+            default:
+                return MapPinState.Danger; //기본값
+        }
     }
 
 

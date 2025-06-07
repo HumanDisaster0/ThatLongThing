@@ -21,6 +21,8 @@ public class StageManager : MonoBehaviour
 
     public bool IsClearedAnomaly(int idx) => m_clearedAnomaly.Contains(idx);
 
+    const int MAX_ANOMALY = 6;
+
     private void Awake()
     {
         if(instance == null)
@@ -501,7 +503,8 @@ public class StageManager : MonoBehaviour
         }
           
 
-        if(m_clearedAnomaly.Count >= 15)
+        //이상현상 클리어수가 특정 횟수를 넘어가면 엔딩
+        if(m_clearedAnomaly.Count >= MAX_ANOMALY)
         {
             //엔딩
             if (FadeInOut.instance)
@@ -514,8 +517,17 @@ public class StageManager : MonoBehaviour
             return;
         }
 
-        var mapPinMatchData = GameObject.FindWithTag("MapPinChecker").GetComponent<MapPinMatchChecker>().CreateMatchData();
-        GoldManager.Instance.findTrapCount = mapPinMatchData.correct;
+        var data = GameObject.FindWithTag("MapPinChecker").GetComponent<MapPinMatchChecker>().CreateMatchData();
+        var findTrapCount = 0;
+
+        foreach(var trapMatch in data)
+        {
+            if (trapMatch.state == MatchState.Correct)
+                findTrapCount++;
+        }
+
+
+        GoldManager.Instance.findTrapCount = findTrapCount;
         GoldManager.Instance.deadCount = deathCount;
 
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
