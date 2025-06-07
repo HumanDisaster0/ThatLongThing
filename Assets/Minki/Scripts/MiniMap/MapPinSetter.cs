@@ -62,25 +62,32 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     {
         if (m_deletePendingPins.Count > 0)
         {
-            foreach(var hash in m_deletePendingPins)
+            foreach (var hash in m_deletePendingPins)
             {
                 if (m_pins.ContainsKey(hash))
                 {
                     Destroy(m_pins[hash].gameObject);
                     m_pins.Remove(hash);
-                }    
+                }
             }
             m_deletePendingPins.Clear();
         }
 
         var trueScale = 1.0f / zoom.GetScale;
 
-        foreach(var pair in m_pins)
+        foreach (var pair in m_pins)
         {
             pair.Value.localScale = new Vector3(trueScale, trueScale, 1);
         }
 
-        pinCountText.text = $"<color={(m_pins.Count + m_autoPinsParent.childCount > maxPinCount ? COLOR_ERROR : COLOR_INFO)}>{m_pins.Count + m_autoPinsParent.childCount} / {maxPinCount}</color>";
+        if (m_autoPinsParent != null)
+        {
+            pinCountText.text = $"<color={(m_pins.Count + m_autoPinsParent.childCount > maxPinCount ? COLOR_ERROR : COLOR_INFO)}>{m_pins.Count + m_autoPinsParent.childCount} / {maxPinCount}</color>";
+        }
+        else
+        {
+            pinCountText.text = $"<color={COLOR_INFO}>{m_pins.Count} / {maxPinCount}</color>";
+        }
     }
 
     public void DeletePin(int hash)
