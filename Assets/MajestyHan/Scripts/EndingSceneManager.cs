@@ -48,8 +48,8 @@ public class EndingSceneManager : MonoBehaviour
     // ===== 엔딩 크레딧 =====
     public GameObject creditsPanel;               // 크레딧 전체 패널
     public ScrollRect creditsScroll;              // 크레딧 스크롤뷰
-    public float creditsNormalSpeed = 30f;        // 기본 스크롤 속도
-    public float creditsFastSpeed = 100f;         // 버튼 누르면 빨라지는 속도
+    public float creditsNormalSpeed = 50f;        // 기본 스크롤 속도
+    public float creditsFastSpeed = 150f;         // 버튼 누르면 빨라지는 속도
 
     public string mainMenuSceneName = "MainMenu"; // 엔딩 후 메인메뉴 씬 이름
 
@@ -71,7 +71,7 @@ public class EndingSceneManager : MonoBehaviour
     private void Start()
     {
         autoPlayMode = true;
-        autoPlayDelay = 2.0f;
+        autoPlayDelay = 1.0f;
 
         // 모든 UI/연출 기본 비활성화
         choicePanel.SetActive(false);
@@ -98,7 +98,7 @@ public class EndingSceneManager : MonoBehaviour
         for (int i = 0; i < cutSceneImages.Count && i < cutSceneTexts.Count; i++)
         {
             cutSceneImage.sprite = cutSceneImages[i];
-            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, cutSceneTexts[i], 0.04f, accelerateInsteadOfSkip: true));
+            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, cutSceneTexts[i], 0.04f));
 
             if (i == choiceCutIndex)
             {
@@ -140,7 +140,7 @@ public class EndingSceneManager : MonoBehaviour
         for (int i = 0; i < branchImages.Count && i < branchTexts.Count; i++)
         {
             cutSceneImage.sprite = branchImages[i];
-            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, branchTexts[i], 0.04f, accelerateInsteadOfSkip: true));
+            yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, branchTexts[i], 0.04f));
         }
 
         // 4. 엔딩 크레딧
@@ -153,19 +153,28 @@ public class EndingSceneManager : MonoBehaviour
     /// <summary>
     /// 타이핑 + 입력시 즉시완료(입력 대기)
     /// </summary>
-    private IEnumerator WaitForTextInputTyper(TextMeshProUGUI textUI, string text, float baseSpeed, bool accelerateInsteadOfSkip = false)
+    private IEnumerator WaitForTextInputTyper(TextMeshProUGUI textUI, string text, float baseSpeed)
     {
-        yield return StartCoroutine(TextTyper.TypeText(textUI, text, baseSpeed, accelerateInsteadOfSkip));
+        bool skipRequested = false;
+
+        // skip 감지용 코루틴 따로
+        IEnumerator SkipChecker()
+        {
+            while (!skipRequested)
+            {
+                if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
+                    skipRequested = true;
+                yield return null;
+            }
+        }
+        StartCoroutine(SkipChecker());
+
+        yield return StartCoroutine(TextTyper.TypeText(textUI, text, baseSpeed, () => skipRequested));
 
         if (autoPlayMode)
-        {
-            yield return new WaitForSeconds(autoPlayDelay);  // 자동 대기
-        }
+            yield return new WaitForSeconds(autoPlayDelay);
         else
-        {
-            // 수동 입력 대기
             yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0));
-        }
     }
 
 
@@ -291,7 +300,7 @@ public class EndingSceneManager : MonoBehaviour
         creditsPanel.SetActive(true);
 
         // 3. 위로 이동 트윈
-        float duration = 3.0f;
+        float duration = 1.5f;
         float t = 0f;
         while (t < duration)
         {
