@@ -52,7 +52,7 @@ public class MarketManager : MonoBehaviour
         {
             doubleJumpLevel = 0;
             shieldLevel = 0;
-            magicSizeLevel = 0;
+            magicSizeLevel = 1;
 
             doubleJumpPrice = 60;
             shieldPrice = 20;

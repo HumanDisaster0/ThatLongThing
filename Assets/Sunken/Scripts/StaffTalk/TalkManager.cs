@@ -23,7 +23,6 @@ public class TalkManager : MonoBehaviour
     [SerializeField] GameObject emote1;
     [SerializeField] GameObject emote2;
     [SerializeField] GameObject emote3;
-    [SerializeField] GameObject angryBG;
 
     [SerializeField] TextMeshPro talkText;
 
@@ -100,7 +99,6 @@ public class TalkManager : MonoBehaviour
                 break;
             case StaffEmotes.Angry:
                 OffEmote();
-                angryBG.SetActive(true);
                 emote3.SetActive(true);
                 break;
             default:
@@ -110,7 +108,6 @@ public class TalkManager : MonoBehaviour
 
     void OffEmote()
     {
-        angryBG.SetActive(false);
         emote1.SetActive(false);
         emote2.SetActive(false);
         emote3.SetActive(false);
