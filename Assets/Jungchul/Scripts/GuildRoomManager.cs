@@ -745,6 +745,8 @@ public class GuildRoomManager : MonoBehaviour
                             var gcp = guildCounterPanel.GetComponent<GuildCounter>();
 
                             gcp.OnCloseButtonClicked();
+                            // 접수원 말걸기 해제
+                            TalkManager.instance.CloseTalk();
                             break;
                     }
 

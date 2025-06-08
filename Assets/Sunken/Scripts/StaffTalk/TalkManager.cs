@@ -75,7 +75,7 @@ public class TalkManager : MonoBehaviour
     }
 
     // 대화패널 비활성화
-    void CloseTalk()
+    public void CloseTalk()
     {
         isActive = false;
         gc.btnOnOff(true);
