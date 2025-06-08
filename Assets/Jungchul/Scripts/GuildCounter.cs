@@ -233,7 +233,7 @@ public class GuildCounter : MonoBehaviour
         // 퀴즈 시작은 외부에서 resultPanel 종료 이후 StartQuiz() 수동 호출
     }
 
-    private void OnCloseButtonClicked()
+    public void OnCloseButtonClicked()
     {
         gameObject.SetActive(false);
         GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);

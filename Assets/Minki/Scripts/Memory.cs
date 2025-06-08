@@ -35,6 +35,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     private void Start()
     {
+        Debug.Log($"메모리의 Start() 실행");
         m_image = GetComponent<Image>();
         m_rectTransform = GetComponent<RectTransform>();
         //m_layoutGroup = GetComponentInParent<GridLayoutGroup>(); 
@@ -49,9 +50,9 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     {
         if (!m_animated
             && m_isSelected
-            && Input.GetMouseButton(0))
-        {
-            StartCoroutine(AnimateToOrigin());
+            && (Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.Escape)))
+        {            
+            StartCoroutine(AnimateToOrigin());            
         }
 
         float dt = Time.deltaTime;
@@ -75,7 +76,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     }
 
     private void OnDisable()
-    {
+    {       
         selected = null;
         if(m_isSelected)
         {
@@ -85,7 +86,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
             m_rectTransform.localPosition = m_savedPos;
             m_rectTransform.sizeDelta = m_savedSize;
             m_rectTransform.SetSiblingIndex(m_savedIdx);
-        }
+        }        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -101,13 +102,15 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     }
 
     public void OnPointerClick(PointerEventData eventData)
-    {
+    {        
         SoundManager.instance.PlayNewBackSound("Album_Click");
 
         if (selected == null 
             && eventData.pointerCurrentRaycast.gameObject == gameObject
             && eventData.button == PointerEventData.InputButton.Left)
         {
+
+            GuildRoomManager.Instance.isAlbumMemoryActive = true;
             ApplyTorque(-50f);
             selected = this;
             m_isSelected = true;
@@ -182,5 +185,7 @@ public class Memory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         m_isSelected = false;
         m_animated = false;
         TouchPreventRect.gameObject.SetActive(false);
+
+        GuildRoomManager.Instance.isAlbumMemoryActive = false;
     }
 }
