@@ -36,9 +36,7 @@ public class PlayerGreenZone : MonoBehaviour
             }
 
             if (movingWall != null)
-            {
                 movingWall.WallActiveFalse();
-            }
 
             if (TT != null)
                 TT.ResetTrigger();
