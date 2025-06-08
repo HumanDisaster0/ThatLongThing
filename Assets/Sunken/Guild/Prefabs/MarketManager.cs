@@ -7,9 +7,9 @@ public class MarketManager : MonoBehaviour
     public static MarketManager Instance { get; private set; }
 
     [Header("아이템 가격")]
-    public int doubleJumpPrice = 60;
-    public int shieldPrice = 20;
-    public int magicSizePrice = 40;
+    public int[] doubleJumpPrice = { 60 };
+    public int[] shieldPrice = { 20 };
+    public int[] magicSizePrice = { 40 , 80 };
 
     [SerializeField] private CustomClickable doubleJumpItem;
     [SerializeField] private CustomClickable shieldItem;
@@ -53,10 +53,6 @@ public class MarketManager : MonoBehaviour
             doubleJumpLevel = 0;
             shieldLevel = 0;
             magicSizeLevel = 1;
-
-            doubleJumpPrice = 60;
-            shieldPrice = 20;
-            magicSizePrice = 40;
         }
         // 레벨이 로드될 때마다 아이템을 초기화합니다.
         //doubleJumpItem = GameObject.Find("Item_a")?.GetComponent<CustomClickable>();
@@ -74,29 +70,30 @@ public class MarketManager : MonoBehaviour
             {
                 //Debug.Log("더블 점프 아이템 구매");
                 PlaySound();
-                GoldManager.Instance.totalGold -= doubleJumpPrice;
+                GoldManager.Instance.totalGold -= doubleJumpPrice[doubleJumpLevel];
                 doubleJumpLevel++;
                 UpdateItemStatus();
-                doubleJumpItem.isInteractable = doubleJumpLevel < 1;
+                doubleJumpItem.isInteractable = doubleJumpLevel < doubleJumpPrice.Length;
                 GoldManager.Instance.isChanged = true;
             };
             shieldItem.onClick = () =>
             {
                 //Debug.Log("방패 아이템 구매");
                 PlaySound();
-                GoldManager.Instance.totalGold -= shieldPrice;
+                GoldManager.Instance.totalGold -= shieldPrice[shieldLevel];
                 shieldLevel++;
                 UpdateItemStatus();
+                shieldItem.isInteractable = shieldLevel < shieldPrice.Length;
                 GoldManager.Instance.isChanged = true;
             };
             magicSizeItem.onClick = () =>
             {
                 //Debug.Log("마법 크기 아이템 구매");
                 PlaySound();
-                GoldManager.Instance.totalGold -= magicSizePrice;
+                GoldManager.Instance.totalGold -= magicSizePrice[magicSizeLevel];
                 magicSizeLevel++;
                 UpdateItemStatus();
-                magicSizeItem.isInteractable = magicSizeLevel < 2;
+                magicSizeItem.isInteractable = magicSizeLevel < magicSizePrice.Length;
                 GoldManager.Instance.isChanged = true;
             };
         }
@@ -108,15 +105,11 @@ public class MarketManager : MonoBehaviour
 
         if (doubleJumpItem != null && shieldItem != null && magicSizeItem != null)
         {
-            // 아이템 가격컨트롤
-            if (magicSizeLevel == 1)
-                magicSizePrice = 80;
-
             // 버튼 활성화 컨트롤
-            doubleJumpItem.isInteractable = doubleJumpLevel < 1 && GoldManager.Instance.totalGold >= doubleJumpPrice;
-            shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
+            doubleJumpItem.isInteractable = doubleJumpLevel < doubleJumpPrice.Length && GoldManager.Instance.totalGold >= doubleJumpPrice[doubleJumpLevel];
+            shieldItem.isInteractable = shieldLevel < shieldPrice.Length && GoldManager.Instance.totalGold >= shieldPrice[shieldLevel];
             //shieldItem.isInteractable = false;
-            magicSizeItem.isInteractable = magicSizeLevel < 2 && GoldManager.Instance.totalGold >= magicSizePrice;
+            magicSizeItem.isInteractable = magicSizeLevel < magicSizePrice.Length && GoldManager.Instance.totalGold >= magicSizePrice[magicSizeLevel];
 
             // 레벨표시 컨트롤
             doubleJumpItem.transform.GetChild(0).GetComponent<TextMeshPro>().text = ("LV " + doubleJumpLevel);
@@ -129,18 +122,29 @@ public class MarketManager : MonoBehaviour
             ColorUtility.TryParseHtmlString("#FFBF00", out activeColor);
             ColorUtility.TryParseHtmlString("#806000", out deactiveColor);
 
-            doubleJumpItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (doubleJumpPrice + "G");
+            //doubleJumpItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (doubleJumpPrice[doubleJumpLevel] + "G");
+            SetPriceText(doubleJumpItem.transform.GetChild(1).GetComponent<TextMeshPro>(), doubleJumpPrice, doubleJumpLevel);
             doubleJumpItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = doubleJumpItem.isInteractable ? activeColor : deactiveColor;
-            shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (shieldPrice + "G");
+            //shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (shieldPrice[shieldLevel] + "G");
+            SetPriceText(shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>(), shieldPrice, shieldLevel);
             shieldItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = shieldItem.isInteractable ? activeColor : deactiveColor;
-            magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (magicSizePrice + "G");
+            //magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().text = (magicSizePrice[magicSizeLevel] + "G");
+            SetPriceText(magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>(), magicSizePrice, magicSizeLevel);
             magicSizeItem.transform.GetChild(1).GetComponent<TextMeshPro>().color = magicSizeItem.isInteractable ? activeColor : deactiveColor;
 
             // 솔드아웃 컨트롤
-            doubleJumpItem.transform.GetChild(2).gameObject.SetActive(doubleJumpLevel >= 1 ? true : false);
-            shieldItem.transform.GetChild(2).gameObject.SetActive(shieldLevel >= 1 ? true : false);
-            magicSizeItem.transform.GetChild(2).gameObject.SetActive(magicSizeLevel >= 2 ? true : false);
+            doubleJumpItem.transform.GetChild(2).gameObject.SetActive(doubleJumpLevel >= doubleJumpPrice.Length ? true : false);
+            shieldItem.transform.GetChild(2).gameObject.SetActive(shieldLevel >= shieldPrice.Length ? true : false);
+            magicSizeItem.transform.GetChild(2).gameObject.SetActive(magicSizeLevel >= magicSizePrice.Length ? true : false);
         }
+    }
+
+    void SetPriceText(TextMeshPro tmp, int[] price, int level)
+    {
+        if(price.Length <= level)
+            tmp.text = (price[level - 1] + "G");
+        else
+            tmp.text = (price[level] + "G");
     }
 
     void PlaySound()

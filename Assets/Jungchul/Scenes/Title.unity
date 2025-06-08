@@ -516,6 +516,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: e9979792dc8707f459ecf7ff38bb290f, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!114 &353861522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,6 +919,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: c7a85eb31fdf5424cb192a6ad17e3cac, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!61 &580759784
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1151,6 +1153,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: f58c1792abf666343b7c372c3acc5c1f, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!114 &581686070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,6 +1675,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: c7a85eb31fdf5424cb192a6ad17e3cac, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!114 &821509024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2109,47 +2113,47 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 271.32233
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 652.60626
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.7049446
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1049329307064314119, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 899154091456761809, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3479401753668959743, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
+    - target: {fileID: 4697693972671400815, guid: 92b1d2be6b97b004b85c7b912faefe5a, type: 3}
       propertyPath: m_Name
       value: MarketManager
       objectReference: {fileID: 0}
@@ -2277,6 +2281,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: e9979792dc8707f459ecf7ff38bb290f, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!61 &1674370453
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2539,6 +2544,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: f58c1792abf666343b7c372c3acc5c1f, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!61 &2133898453
 BoxCollider2D:
   m_ObjectHideFlags: 0
