@@ -180,6 +180,8 @@ public class SettlementPanelScript : MonoBehaviour
 
     public void OnCloseButtonClicked()
     {
+        GuildRoomManager.Instance.textDrawer.TextRefresh();
+        GoldManager.Instance.ClearReward();
 
         gameObject.SetActive(false);
 
@@ -218,12 +220,9 @@ public class SettlementPanelScript : MonoBehaviour
         {
             RefreshTexts();
         }
-    }
 
-    public void OnDisable()
-    {
-        GoldManager.Instance.ClearReward();
-    }
+        GuildRoomManager.Instance.isPauseAble = false;
+    }    
 
     // 
     public void MoveSettlementBg(Vector3 newPosition)

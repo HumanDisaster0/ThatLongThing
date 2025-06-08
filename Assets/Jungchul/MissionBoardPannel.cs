@@ -13,18 +13,10 @@ public class MissionBoardPannel : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
+
         CloseBtn.SetClickAction(() =>
         {
-            //PostedMissionPanel.Instance.CardShowSet(false);
-            //PauseManager.Instance.pauseButtonInstance.SetActive(true);
-            GuildRoomManager.Instance.missionBoardPanel.SetActive(false);
-            PostedMissionPanel.Instance.CardShowSet(false);
-            
-            if(GuildRoomManager.Instance.preMissionBoardVstate == GuildRoomManager.viewState.COUNTER)
-                GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
-            
-            GuildRoomManager.Instance.SetRoomState(GuildRoomManager.Instance.preMissionBoardVstate);
-
+            MissionBoardClose();
         });
     }
 
@@ -46,11 +38,22 @@ public class MissionBoardPannel : MonoBehaviour
             CloseBtn.isInteractable = false;
         }
         else
-        { 
+        {
             CloseBtn.isInteractable = true;
             CloseBtn.inputAllowed = true;
         }
 
+    }
+
+    public void MissionBoardClose()
+    {
+        GuildRoomManager.Instance.missionBoardPanel.SetActive(false);
+        PostedMissionPanel.Instance.CardShowSet(false);
+
+        if (GuildRoomManager.Instance.preMissionBoardVstate == GuildRoomManager.viewState.COUNTER)
+            GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
+
+        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.Instance.preMissionBoardVstate);
     }
 
 

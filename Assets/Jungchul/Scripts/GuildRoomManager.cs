@@ -20,8 +20,10 @@ public class GuildRoomManager : MonoBehaviour
     public bool isReportYet = true;
     //private bool isMissionSelected = false;
 
-    public bool isPauseAble = true;
+    private bool isEscHandling = false;
 
+    public bool isPauseAble = true;
+    public bool isAlbumMemoryActive = false;
 
     public int selectedMission = 0;
 
@@ -289,6 +291,7 @@ public class GuildRoomManager : MonoBehaviour
             trollCheck = false;
             isPasan = false;
             isPauseAble = true;
+            isEscHandling = false;
 
             curVstate = viewState.IDLE;
             preCurVstate = viewState.NONE;
@@ -343,26 +346,29 @@ public class GuildRoomManager : MonoBehaviour
             curObj = null;
         }
 
+        CloseWithESC();
+
         if (preCurVstate != curVstate)
         {
             switch (curVstate)
             {
                 case viewState.IDLE:
 
-                    if (!avatar.isMovable)
-                    {   
-                        avatar.isMovable = true;
-                    }                    
+                    isPauseAble = true;
 
-                    if (!isPauseAble)
+                    if (!avatar.isMovable)
                     {
-                        isPauseAble = true;
-                    }
+                        avatar.isMovable = true;
+                    }  
+                   
                     preCurVstate = curVstate;
 
                     break;
 
                 case viewState.COUNTER:
+
+                    isPauseAble = false;
+
                     if (cState != preCState || cState == counterState.TROLL_P || cState == counterState.QUIZ_P)
                     {
                         var gcp = guildCounterPanel.GetComponent<GuildCounter>();
@@ -387,7 +393,7 @@ public class GuildRoomManager : MonoBehaviour
                                 guildCounterPanel.gameObject.SetActive(true);
                                 //sp.RefreshTexts();
 
-                                Debug.Log($"ftc = {GoldManager.Instance.findTrapCount}, dc = {GoldManager.Instance.deadCount}");
+                            
                                 GoldManager.Instance.calRewardGold();
                                 GoldManager.Instance.getRewardGold();
 
@@ -529,8 +535,6 @@ public class GuildRoomManager : MonoBehaviour
 
                     preMissionBoardVstate = preCurVstate;
                     preCState = counterState.NONE;
-                    
-                    Debug.Log($"preMissionBoardVstate = {preMissionBoardVstate}  /  preCurVstate = {preCurVstate}");
 
                     preCurVstate = curVstate;
 
@@ -548,10 +552,9 @@ public class GuildRoomManager : MonoBehaviour
 
                 case viewState.POKEDEX:
 
-                    prePokedexVstate = preCurVstate;                    
+                    prePokedexVstate = preCurVstate;
                     preCState = counterState.NONE;
 
-                    Debug.Log($"prePokedexVstate = {prePokedexVstate}  /  preCurVstate = {preCurVstate}");
                     preCurVstate = curVstate;
 
                     avatar.isMovable = false;
@@ -572,6 +575,8 @@ public class GuildRoomManager : MonoBehaviour
                 case viewState.DOOROUT:
 
                     preCurVstate = curVstate;
+
+                    isPauseAble = true;
 
                     // 巩 凯府绰 家府 犁积
                     SoundManager.instance?.PlayNewBackSound("Door_Open");
@@ -692,7 +697,70 @@ public class GuildRoomManager : MonoBehaviour
 
     public void CloseWithESC()
     {
+        if (isEscHandling) 
+            return;
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            switch (curVstate)
+            {
+                case viewState.POKEDEX:
+
+                    if (!isAlbumMemoryActive)
+                    {
+                        albumPanel.gameObject.SetActive(false);
+                    }
+
+                    break;
+
+
+                case viewState.MISSIONBOARD:
+                    
+                    if(PostedMissionPanel.Instance.currentPopup)
+                    {
+                        PostedMissionPanel.Instance.PopupBtnReject();
+                        break;
+                    }
+
+                    var mbp = missionBoardPanel.GetComponent<MissionBoardPannel>();
+                    mbp.MissionBoardClose();
+
+                    break;
+
+
+                case viewState.COUNTER:
+                    
+                    switch(cState)
+                    {
+                        case counterState.SETTlE:
+                            if(settlementPanel.activeSelf)
+                            {
+                                var sp = settlementPanel.GetComponent<SettlementPanelScript>();
+                                sp.OnCloseButtonClicked();
+                            }
+
+                            break;
+
+                        case counterState.C_IDLE:
+                            var gcp = guildCounterPanel.GetComponent<GuildCounter>();
+
+                            gcp.OnCloseButtonClicked();
+                            break;
+                    }
+
+                    break;
+
+            }
+
+            StartCoroutine(ResetEscFlag());
+
+        }
+    }
+
+    IEnumerator ResetEscFlag()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isEscHandling = false;
     }
 
 
