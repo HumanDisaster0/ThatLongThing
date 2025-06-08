@@ -71,6 +71,7 @@ public class MagicAbility : MonoBehaviour
     public bool IsUsedAbility => m_useAbility;
 
     Dictionary<int, MagicFX> m_allocatedFX = new Dictionary<int, MagicFX>();
+    Dictionary<int, MagicPrognosis> m_savedPrognosis = new Dictionary<int, MagicPrognosis>();
     HashSet<int> m_foundTrap = new HashSet<int>();
     HashSet<int> m_currentTrap = new HashSet<int>();
     List<int> m_keysToRemove = new List<int>();
@@ -202,11 +203,20 @@ public class MagicAbility : MonoBehaviour
                         fx.RestartAnimation();
                         fx.SetLevel(magicLevel);
                         m_allocatedFX.Add(m_colliders[i].GetHashCode(), fx);
+
+                        //만약 예지가 있는 경우
+                        var magicPrognosis = m_colliders[i].GetComponent<MagicPrognosis>();
+                        if (magicPrognosis != null)
+                        {
+                            magicPrognosis.Active = true;
+                            m_savedPrognosis.Add(m_colliders[i].GetHashCode(), magicPrognosis);
+                        }
                     }
                 }
 
                 foreach (var hash in m_foundTrap)
                 {
+                    //fx비활성화 - 트랩에 붙여둔 FX를 제거
                     if (!m_currentTrap.Contains(hash))
                     {
                         var value = m_allocatedFX[hash];
@@ -216,29 +226,42 @@ public class MagicAbility : MonoBehaviour
                         value.SPR2.enabled = false;
                         value.transform.parent = null;
                         m_magicFXPool.Add(value);
+                        m_allocatedFX.Remove(hash);
                         m_keysToRemove.Add(hash);
+                        //예지가 있는 경우
+                        if (m_savedPrognosis.ContainsKey(hash))
+                        {
+                            var prognosis = m_savedPrognosis[hash];
+                            prognosis.Active = false;
+                            m_savedPrognosis.Remove(hash);
+                        }
                     }
                 }
 
-                // 딕셔너리에서 제거
+                // 해쉬에서 제거
                 foreach (var key in m_keysToRemove)
                 {
                     m_foundTrap.Remove(key);
-                    m_allocatedFX.Remove(key);
                 }
             }
             else
             {
                 foreach(var fx in m_allocatedFX.Values)
                 {
+                    //fx비활성화 - 트랩에 붙여둔 FX를 제거
                     fx.enabled = false;
                     fx.SPR1.enabled = false;
                     fx.SPR2.enabled = false;
                     fx.transform.parent = null;
                     m_magicFXPool.Add(fx);
                 }
+                foreach(var prognosis in m_savedPrognosis.Values)
+                {
+                    prognosis.Active = false;
+                }
                 m_foundTrap.Clear();
                 m_allocatedFX.Clear();
+                m_savedPrognosis.Clear();
             }
 
             if (m_useTimer > useTime)
@@ -258,14 +281,20 @@ public class MagicAbility : MonoBehaviour
             {
                 foreach (var fx in m_allocatedFX.Values)
                 {
+                    //fx비활성화 - 트랩에 붙여둔 FX를 제거
                     fx.enabled = false;
                     fx.SPR1.enabled = false;
                     fx.SPR2.enabled = false;
                     fx.transform.parent = null;
                     m_magicFXPool.Add(fx);
                 }
+                foreach (var prognosis in m_savedPrognosis.Values)
+                {
+                    prognosis.Active = false;
+                }
                 m_foundTrap.Clear();
                 m_allocatedFX.Clear();
+                m_savedPrognosis.Clear();
             }
 
         }
