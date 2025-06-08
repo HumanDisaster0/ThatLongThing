@@ -102,7 +102,8 @@ public class StageManager : MonoBehaviour
             pc.maxJumpCount = MarketManager.Instance.GetDoubleJumpLevel() + 1;
             magicAblity.magicLevel = MarketManager.Instance.GetMagicSizeLevel() + 1;
             //자동체크 설정
-            //pc.autoCheckAbility.enabled = true;
+            if(MarketManager.Instance.GetShieldLevel() > 0)
+                pc.autoCheckAbility.enabled = true;
         }
 
         var result = FindObjectsByType<TrapSetter>(FindObjectsSortMode.None);
@@ -524,6 +525,7 @@ public class StageManager : MonoBehaviour
         {
             if (trapMatch.state == MatchState.Correct)
                 findTrapCount++;
+            Debug.Log(trapMatch.state);
         }
 
 

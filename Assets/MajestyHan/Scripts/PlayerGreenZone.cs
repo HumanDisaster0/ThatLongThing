@@ -5,8 +5,11 @@ using UnityEngine.UIElements;
 
 public class PlayerGreenZone : MonoBehaviour
 {
+    public TrapTrigger TT; // T_T
+
     public string spawnPointName = "PlayerSpawnPoint";
     private MovingWall movingWall;
+
     private void Start()
     {
         movingWall = FindObjectOfType<MovingWall>();
@@ -15,7 +18,6 @@ public class PlayerGreenZone : MonoBehaviour
             Debug.Log("PlayerGreenZone : 투명벽을 찾을 수 없습니다.");
         }
     }
-
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -34,9 +36,10 @@ public class PlayerGreenZone : MonoBehaviour
             }
 
             if (movingWall != null)
-            {
                 movingWall.WallActiveFalse();
-            }
+
+            if (TT != null)
+                TT.ResetTrigger();
 
         }
     }

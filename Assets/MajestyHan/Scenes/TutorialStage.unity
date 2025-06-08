@@ -9569,6 +9569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de00bdef42e0c904e89cc94c860e10a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TT: {fileID: 1240507850}
   spawnPointName: PlayerSpawnPoint
 --- !u!1 &1724035266
 GameObject:
