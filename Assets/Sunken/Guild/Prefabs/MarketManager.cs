@@ -114,8 +114,8 @@ public class MarketManager : MonoBehaviour
 
             // 버튼 활성화 컨트롤
             doubleJumpItem.isInteractable = doubleJumpLevel < 1 && GoldManager.Instance.totalGold >= doubleJumpPrice;
-            //shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
-            shieldItem.isInteractable = false;
+            shieldItem.isInteractable = GoldManager.Instance.totalGold >= shieldPrice;
+            //shieldItem.isInteractable = false;
             magicSizeItem.isInteractable = magicSizeLevel < 2 && GoldManager.Instance.totalGold >= magicSizePrice;
 
             // 레벨표시 컨트롤
@@ -138,7 +138,7 @@ public class MarketManager : MonoBehaviour
 
             // 솔드아웃 컨트롤
             doubleJumpItem.transform.GetChild(2).gameObject.SetActive(doubleJumpLevel >= 1 ? true : false);
-            shieldItem.transform.GetChild(2).gameObject.SetActive(shieldLevel >= 0 ? true : false);
+            shieldItem.transform.GetChild(2).gameObject.SetActive(shieldLevel >= 1 ? true : false);
             magicSizeItem.transform.GetChild(2).gameObject.SetActive(magicSizeLevel >= 2 ? true : false);
         }
     }
@@ -148,17 +148,17 @@ public class MarketManager : MonoBehaviour
         //SoundManager.instance?.PlayNewBackSound("c");
     }
 
-    bool UseShield()
-    {
-        if (shieldLevel > 0)
-        {
-            shieldLevel--;
-            return true;
-        }
-        return false;
-    }
+    //public bool UseShield()
+    //{
+    //    if (shieldLevel > 0)
+    //    {
+    //        shieldLevel--;
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
-    int GetShieldLevel() { return shieldLevel; }
+    public int GetShieldLevel() { return shieldLevel; }
 
     public int GetDoubleJumpLevel()
     {
