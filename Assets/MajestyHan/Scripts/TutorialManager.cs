@@ -16,6 +16,7 @@ public class TutorialManager : MonoBehaviour
     public Transform focusEventSpace;
 
     private MoveSenpaiMove moveSenpai;
+    private MovingWall movingWall;
 
     public MapPinMatchChecker mapPin;
 
@@ -35,6 +36,7 @@ public class TutorialManager : MonoBehaviour
         focusPlayer = player.transform;
         focusNpc = npc.transform;
         moveSenpai = GetComponent<MoveSenpaiMove>();
+        movingWall = GetComponent<MovingWall>();
     }
 
     private void Start()
@@ -126,7 +128,9 @@ public class TutorialManager : MonoBehaviour
 
     void HideGuidance()
     {
+        movingWall.WallActiveTrue();
         guidanceText.gameObject.SetActive(false);
+
     }
 
     public void clearFlag()
@@ -140,9 +144,10 @@ public class TutorialManager : MonoBehaviour
     public void TriggerPointA()
     {
         clearFlag();
+        moveSenpai.ChangeSenpaiState(MoveSenpaiMove.SenpaiState.MoveRight);
         player.SkipInput = true;
         player.SetVelocity(Vector2.zero);
-        cameraController.ZoomToTarget(focusNpc);
+        cameraController.ZoomToTarget(focusPlayer);
 
         StartCoroutine(Cutscene_A());
     }

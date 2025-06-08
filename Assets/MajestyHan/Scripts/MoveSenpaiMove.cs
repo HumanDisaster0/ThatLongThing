@@ -31,6 +31,8 @@ public class MoveSenpaiMove : MonoBehaviour
     private Transform senpaiPos;
     private Transform playerPos;
 
+    private MovingWall MovingWall;
+
     SenpaiState state;
 
     private void Awake()
@@ -44,6 +46,8 @@ public class MoveSenpaiMove : MonoBehaviour
         col = npc.GetComponent<BoxCollider2D>();
         senpaiPos = npc.GetComponent<Transform>();
         playerPos = player.GetComponent<Transform>();
+        MovingWall = GetComponent<MovingWall>();
+
         senpaiIsNowJumping = false;
     }
 
@@ -58,10 +62,12 @@ public class MoveSenpaiMove : MonoBehaviour
     }
     public void senpaiMoveRight()
     {
+        MovingWall.WallActiveFalse();
         npc.SetHorizontalInput(1); // 오른쪽으로
     }
     public void senpaiMoveLeft()
     {
+        MovingWall.WallActiveFalse();
         npc.SetHorizontalInput(-1); // 왼쪽으로
     }
 
@@ -158,7 +164,10 @@ public class MoveSenpaiMove : MonoBehaviour
         if (isGrounded)
             senpaiIsNowJumping = false; //센빠이는 점프를 한번만 뛰신다
 
-        if (Vector2.Distance(senpaiPos.position, playerPos.position) < 1f && !senpaiIsNowJumping)
+
+        float xDistance = Mathf.Abs(senpaiPos.position.x - playerPos.position.x);
+
+        if (xDistance < 1f && !senpaiIsNowJumping)
         {
             state = SenpaiState.SenpaiIsNowIdle; // 일정 거리 이하로 들어왔는데, 점프중이 아니라면 대기상태로 전환                        
         }

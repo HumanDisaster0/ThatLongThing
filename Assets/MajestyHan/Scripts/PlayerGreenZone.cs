@@ -1,10 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerGreenZone : MonoBehaviour
 {
     public string spawnPointName = "PlayerSpawnPoint";
+    private MovingWall movingWall;
+    private void Start()
+    {
+        movingWall = FindObjectOfType<MovingWall>();
+        if (movingWall == null)
+        {
+            Debug.Log("PlayerGreenZone : 투명벽을 찾을 수 없습니다.");
+        }
+    }
+
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -21,6 +32,12 @@ public class PlayerGreenZone : MonoBehaviour
                 collision.transform.position = point.transform.position;
 
             }
+
+            if (movingWall != null)
+            {
+                movingWall.WallActiveFalse();
+            }
+
         }
     }
 }
