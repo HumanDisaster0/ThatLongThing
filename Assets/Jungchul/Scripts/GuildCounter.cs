@@ -123,7 +123,6 @@ public class GuildCounter : MonoBehaviour
         currentQuestionIndex = 0;
         isAnswerRevealed = false;
 
-
         qIdx = 0;
         isEnd = false;
 

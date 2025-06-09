@@ -83,7 +83,8 @@ public class GuildRoomObject : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.IDLE)
+                if (GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.IDLE 
+                    && PauseManager.Instance.pState != PauseManager.isPause.PAUSE)
                 {
                     GuildRoomManager.Instance.isPauseAble = false;
                     string objName = gameObject.name;

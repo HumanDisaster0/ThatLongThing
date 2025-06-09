@@ -254,29 +254,32 @@ public class PostedMissionPanel : MonoBehaviour
 
     public void PopupBtnAccept()
     {
-        //print("½´¶ô");
-        //PauseManager.Instance.pauseButtonInstance.SetActive(true);
+        //ÀÇ·Ú ¼ö¶ô
+
         GuildRoomManager.Instance.missionBoardPanel.SetActive(false);
         GuildRoomManager.Instance.DoorOutOn();
-        
-        if (GuildRoomManager.Instance.preMissionBoardVstate == GuildRoomManager.viewState.COUNTER)
-            GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
 
-        GuildRoomManager.Instance.SetRoomState(GuildRoomManager.Instance.preMissionBoardVstate);
-        
         GuildRoomManager.Instance.SelectMission(mIdx);
         for (int i = 0; i < 3; i++)
         {
             missionInstances[i].GetComponent<CustomClickable>().isInteractable = true;
         }
         CardShowSet(false);
+
         Destroy(currentPopup);
 
+
+        if (GuildRoomManager.Instance.preMissionBoardVstate == GuildRoomManager.viewState.COUNTER)
+        {
+            var gc = GuildRoomManager.Instance.guildCounterPanel.GetComponent<GuildCounter>();
+            gc.OnCloseButtonClicked();
+        }  
     }
 
     public void PopupBtnReject()
     {
-        //print("Çã³ª °ÅÀýÇÑ´Ù");
+        //ÀÇ·Ú °ÅÀý
+
         mIdx = 0;
         for (int i = 0; i < 3; i++)
         {
@@ -289,8 +292,7 @@ public class PostedMissionPanel : MonoBehaviour
     public void CardShowSet(bool onoff)
     {
         foreach (var card in missionInstances)
-        {
-            //print("Ä«µå»Ð  " + onoff);
+        {           
             card.SetActive(onoff);
         }
     }

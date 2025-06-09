@@ -44,8 +44,7 @@ public class GuildRoomManager : MonoBehaviour
     {
         IDLE,
         COUNTER,
-        SETTLEMENT,
-        MARKET,
+        SETTLEMENT,        
         MISSIONBOARD,
         POKEDEX,
         DOOROUT,
@@ -109,9 +108,6 @@ public class GuildRoomManager : MonoBehaviour
 
     private void Awake()
     {
-
-        Debug.Log("Awake called on GuildRoomManager: " + GetInstanceID());
-
         if (Instance != null && Instance != this)
         {
             Debug.LogWarning("Duplicate GuildRoomManager detected. Destroying new one.");
@@ -172,7 +168,7 @@ public class GuildRoomManager : MonoBehaviour
                     && go.scene == scene)
                 {
                     go.SetActive(true);
-                    Debug.Log($"[{go.name}] 강제로 활성화됨");
+                    //Debug.Log($"[{go.name}] 강제로 활성화됨");
                 }
             }
 
