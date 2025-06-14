@@ -273,7 +273,12 @@ public class PostedMissionPanel : MonoBehaviour
         {
             var gc = GuildRoomManager.Instance.guildCounterPanel.GetComponent<GuildCounter>();
             gc.OnCloseButtonClicked();
-        }  
+        }
+        else
+        {
+            GuildRoomManager.Instance.SetRoomState(GuildRoomManager.viewState.IDLE);
+        }
+
     }
 
     public void PopupBtnReject()
