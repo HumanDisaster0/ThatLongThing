@@ -4,34 +4,75 @@ using UnityEngine;
 
 public class RedPortalInteraction : MonoBehaviour
 {
-    public Transform popup;
+    GameObject m_playerPin;
+    MapMatchCheckPinCreator m_pinCreator;
+    MapOnOffControl m_mapOnOffControl;
+    MapPinMatchChecker m_pinMatchChecker;
 
-    BoxCollider2D m_col;
-
-    private void Start()
+    public void Start()
     {
-        m_col = GetComponent<BoxCollider2D>();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Player"))
-        {
-            popup.gameObject.SetActive(true);
-        }    
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            popup.gameObject.SetActive(false);
-        }
+        m_playerPin = GameObject.FindFirstObjectByType<MinimapPlayerPos>(FindObjectsInactive.Include).gameObject;
+        m_pinCreator = GameObject.FindFirstObjectByType<MapMatchCheckPinCreator>(FindObjectsInactive.Include);
+        m_mapOnOffControl = GameObject.FindFirstObjectByType<MapOnOffControl>(FindObjectsInactive.Include);
+        m_pinMatchChecker = GameObject.FindFirstObjectByType<MapPinMatchChecker>(FindObjectsInactive.Include);
     }
 
     public void EnterPortal()
     {
+        //골드 차감
         GoldManager.Instance.ejectionCount++;
+
+        //미니맵 켜기
+        m_mapOnOffControl.ShowMinimap();
+        m_pinCreator.UpdateSibling();
+
+        //재시작 버튼 끄기
+        GameObject.Find("재시작").SetActive(false);
+
+        //플레이어 핀 가리기
+        m_playerPin.gameObject.SetActive(false);
+
+        //매치체크 핀 생성
+        m_pinCreator.CreatePins(m_pinMatchChecker.CreateMatchData());
+
+        //미니맵 핀 상호작용 중지(핀클릭 금지!)
+        MapPinSetter.IsPinSetterActive = false;
+
+        //미니맵 끌 씨 다음 코루틴 실행 등록
+        m_mapOnOffControl.OnMiniMapHide += StartNextEvent;
+    }
+
+    private void OnDestroy()
+    {
+        if (m_mapOnOffControl != null)
+        {
+            m_mapOnOffControl.OnMiniMapHide -= StartNextEvent;
+        }
+    }
+
+    public void StartNextEvent()
+    {
+        StartCoroutine(GoGuildRoom());
+    }
+
+    IEnumerator GoGuildRoom()
+    {
+        //미니맵 클릭 금지
+        m_mapOnOffControl.activeControl = false;
+
+        //미니맵 핀 상호작용 풀기
+        MapPinSetter.IsPinSetterActive = false;
+
+        yield return null;
+
+        var timer = 0.0f;
+
+        while (timer < 1.25f)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
         StageManager.instance.EndStage();
     }
 }

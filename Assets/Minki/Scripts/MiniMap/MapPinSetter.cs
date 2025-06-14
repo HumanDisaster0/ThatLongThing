@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class MapPinSetter : MonoBehaviour, IPointerDownHandler
 {
+    public static bool IsPinSetterActive { get; set; } = true;
+
     public const string COLOR_ERROR = "#FF0000";
     public const string COLOR_INFO = "#FFFFFF";
 
@@ -34,7 +36,10 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.pointerCurrentRaycast.gameObject == gameObject
+        if(!IsPinSetterActive)
+            return;
+
+        if (eventData.pointerCurrentRaycast.gameObject == gameObject
            && eventData.button == PointerEventData.InputButton.Left)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(mapContent, Input.mousePosition, null, out var localPoint);

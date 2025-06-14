@@ -141,9 +141,6 @@ namespace SPTr.UI
         {
             if(!TextField.isFocused)
                 BindCMD.InvokeBinding();
-
-            if(Input.GetKey(KeyCode.K))
-            Debug.Log("けけしけいし胡戚幻し耕涯袴た艦嬢ちぇぉ鮭焼胡鞘艦畳閑けい君寄袴艦た鐘閣耕たし 劃袴照講 ちし っい枯び ちし っ劃講 ち還醤鮭し");
         }
 
         public void AddToSuggestionTree(ConsoleCommand cmd)

@@ -28,7 +28,7 @@ public class PreLifeCountIndicator : MonoBehaviour
 
     GraphicRaycaster m_graphicRaycaster;
     CameraController m_camCon;
-    MapKeyboardControl m_minimapControl;
+    MapOnOffControl m_minimapControl;
     PlayerController m_playerController;
 
     // Start is called before the first frame update
@@ -36,7 +36,7 @@ public class PreLifeCountIndicator : MonoBehaviour
     {
         m_camCon = Camera.main.GetComponent<CameraController>();
         m_graphicRaycaster = GetComponent<GraphicRaycaster>();
-        m_minimapControl = GameObject.FindGameObjectWithTag("Minimap").GetComponent<MapKeyboardControl>();
+        m_minimapControl = GameObject.FindGameObjectWithTag("Minimap").GetComponent<MapOnOffControl>();
         m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         title.text = StageManager.instance.GetAnomalyName(StageManager.instance.anomalyIdx);
         StartCoroutine(StartAnim());

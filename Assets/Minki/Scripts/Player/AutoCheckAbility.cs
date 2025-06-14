@@ -73,7 +73,10 @@ public class AutoCheckAbility : MonoBehaviour
                     && m_colliders[i].tag != m_magicAbility.magicFXTag)
                     continue;
 
-                var trapinfo = m_colliders[i].GetComponent<AutoCheckTrapInfo>().RefTrapInfo;
+                if (!m_colliders[i].TryGetComponent(out AutoCheckTrapInfo autoCheckInfo))
+                    continue;
+
+                var trapinfo = autoCheckInfo.RefTrapInfo;
 
                 if(m_checkedTrapInfo.Contains(trapinfo.GetHashCode()))
                 {

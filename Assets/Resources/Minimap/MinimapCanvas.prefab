@@ -126,6 +126,58 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &161970787690025097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5625744984132514228}
+  - component: {fileID: 5304637680520286015}
+  m_Layer: 5
+  m_Name: MapMatchCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5625744984132514228
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161970787690025097}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3871622641615087368}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1800, y: 863}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &5304637680520286015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161970787690025097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142359915f54c4a42a644a0bacbb579d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatchCheckPinPrefab: {fileID: 8563238460234460240, guid: adfb0b8c61e31c74e967635ab5d8701f, type: 3}
+  MatchCheckPinParent: {fileID: 5625744984132514228}
+  MinimapTilemap: {fileID: 1237157870497905014}
+  RefRect: {fileID: 6712833927101584744}
 --- !u!1 &466139682510835852
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1444,7 @@ RectTransform:
   m_Children:
   - {fileID: 7492462209366037813}
   - {fileID: 3563145828634244098}
+  - {fileID: 5625744984132514228}
   m_Father: {fileID: 8145367176912007799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -1720,6 +1773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb71cfe82c0276c4680149697dcc0700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeControl: 1
   miniMapUIRect: {fileID: 593655975097396226}
   miniMapOpenRect: {fileID: 883467194520692234}
 --- !u!1 &7256049207457385560

@@ -40,6 +40,9 @@ public class MapPin : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(!MapPinSetter.IsPinSetterActive)
+            return;
+
         if (eventData.pointerCurrentRaycast.gameObject == gameObject
             && eventData.button == PointerEventData.InputButton.Left)
         {
