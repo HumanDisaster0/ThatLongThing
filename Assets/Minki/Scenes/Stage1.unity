@@ -3641,6 +3641,17 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &560227295 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7275307716430639608, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+  m_PrefabInstance: {fileID: 945027411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ddca57e20884e49877f6213c316974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &565335017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,9 +4289,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.055555556
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -8518,6 +8529,14 @@ PrefabInstance:
     - target: {fileID: 2663830927474098239, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
       propertyPath: m_SizeDelta.x
       value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779385768117412544, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 560227295}
+    - target: {fileID: 3779385768117412544, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseMinimap
       objectReference: {fileID: 0}
     - target: {fileID: 3871622641615087368, guid: 0dfb75e8537492640b795e8cab5e9ce3, type: 3}
       propertyPath: m_AnchoredPosition.x
