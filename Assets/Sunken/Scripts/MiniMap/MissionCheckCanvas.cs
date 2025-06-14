@@ -50,8 +50,8 @@ public class MissionCheckCanvas : MonoBehaviour
             GuildRoomManager.Instance.isPauseAble = false;
         }
 
-        // 게임 사운드 멈추기
-        //SoundManager.instance?.SetMute(true);
+        // 맵 컨트롤 비활성화
+        SetMapContorl(false);
 
         // 게임 일시정지
         Time.timeScale = 0f;
@@ -69,10 +69,28 @@ public class MissionCheckCanvas : MonoBehaviour
             GuildRoomManager.Instance.isPauseAble = true;
         }
 
-        // 게임 사운드 재개
-        //SoundManager.instance?.SetMute(false);
+        // 게임 사운드 재생
+        SoundManager.instance?.PlayNewBackSound("Album_Click");
+
+        // 미니맵 컨트롤 활성화
+        SetMapContorl(true);
 
         // 게임 일시정지 해제
         Time.timeScale = 1f;
+    }
+
+    void SetMapContorl(bool _val)
+    {
+        MapOnOffControl mapOnOffControl = FindObjectOfType<MapOnOffControl>();
+        mapOnOffControl.HideMinimap();
+
+        if (mapOnOffControl != null)
+        {
+            mapOnOffControl.activeControl = _val;
+        }
+        else
+        {
+            Debug.LogError("MapOnOffControl instance is null");
+        }
     }
 }
