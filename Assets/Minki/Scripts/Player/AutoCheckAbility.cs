@@ -9,6 +9,7 @@ public class AutoCheckAbility : MonoBehaviour
 {
     public GameObject AutoMappinPrefab;
     public RectTransform AutoMappinsParent;
+    public string AutoTrapInfoTag = "AutoTrapInfo";
 
     MagicAbility m_magicAbility;
     bool m_activated;
@@ -69,8 +70,9 @@ public class AutoCheckAbility : MonoBehaviour
         {
             for (int i = 0; i < overlapCount; i++)
             {
-                if (m_colliders[i].tag != m_magicAbility.trapInfoTag
-                    && m_colliders[i].tag != m_magicAbility.magicFXTag)
+                if (!m_colliders[i].CompareTag(m_magicAbility.trapInfoTag)
+                    && !m_colliders[i].CompareTag(m_magicAbility.magicFXTag)
+                    && !m_colliders[i].CompareTag(AutoTrapInfoTag))
                     continue;
 
                 if (!m_colliders[i].TryGetComponent(out AutoCheckTrapInfo autoCheckInfo))

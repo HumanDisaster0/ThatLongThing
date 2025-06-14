@@ -142,6 +142,10 @@ public class StageManager : MonoBehaviour
         foreach (var com in mappinSetter)
             com.maxPinCount = result.Length;
 
+        //minimapPreRenderer 설정
+        var preRenderer = FindFirstObjectByType<MinimapPreRenderer>(FindObjectsInactive.Include);
+        preRenderer?.InitializeRenderer();
+
         //이상현상
         switch (anomalyIdx)
         {

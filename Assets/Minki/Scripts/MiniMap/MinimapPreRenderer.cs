@@ -38,8 +38,15 @@ public class MinimapPreRenderer : MonoBehaviour
     public Tilemap tilemap;
     public RawImage rawImage;
 
-    void Awake()
+    private bool m_hasInit = false;
+
+    public void InitializeRenderer()
     {
+        if (m_hasInit)
+            return;
+
+        m_hasInit = true;
+
         if (m_resizedTexture == null)
             m_resizedTexture = new Dictionary<int, Texture2D>();
 
@@ -52,11 +59,11 @@ public class MinimapPreRenderer : MonoBehaviour
 
         if (texHeight > 812)
         {
-            MinimapTileInfo.tileSize = 26; 
+            MinimapTileInfo.tileSize = 26;
             texWidth = bounds.size.x * MinimapTileInfo.tileSize;
             texHeight = bounds.size.y * MinimapTileInfo.tileSize;
         }
-           
+
 
         int canvasWidth = (int)parentRect.sizeDelta.x;
         int canvasHeight = (int)parentRect.sizeDelta.y;
@@ -78,7 +85,7 @@ public class MinimapPreRenderer : MonoBehaviour
             for (int x = 0; x < bounds.size.x; x++)
             {
                 Vector3Int tilePos = new Vector3Int(bounds.x + x, bounds.y + y, 0);
-                
+
                 Tile tile = tilemap.GetTile<Tile>(tilePos);
                 Sprite sprite = tile?.sprite;
 
@@ -91,7 +98,7 @@ public class MinimapPreRenderer : MonoBehaviour
                 {
                     Texture2D sourceTex = sprite.texture;
                     Rect rect = sprite.rect;
-                    
+
                     int fullSize = Mathf.Max((int)rect.width, (int)rect.height);
                     int hash = HashCode.Combine(MinimapTileInfo.tileSize, sourceTex.name);
 
@@ -136,6 +143,11 @@ public class MinimapPreRenderer : MonoBehaviour
         rawImage.rectTransform.sizeDelta = new Vector2(pivotX + texWidth, texHeight + pivotY);
 
         scrollRect.horizontalScrollbar.value = 0;
+    }
+
+    void Awake()
+    {
+        InitializeRenderer();
     }
 
     Texture2D Resize(Texture2D src, int newSize, FilterMode filter)
