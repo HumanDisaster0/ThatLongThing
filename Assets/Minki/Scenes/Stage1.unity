@@ -885,6 +885,7 @@ GameObject:
   - component: {fileID: 205172951}
   - component: {fileID: 205172950}
   - component: {fileID: 205172952}
+  - component: {fileID: 205172953}
   m_Layer: 5
   m_Name: RockTrapInfo M
   m_TagString: TrapInfo
@@ -904,7 +905,8 @@ Transform:
   m_LocalPosition: {x: -22.5, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 272869880}
   m_Father: {fileID: 1427070741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &205172950
@@ -980,6 +982,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RefTrapInfo: {fileID: 879858458}
+--- !u!114 &205172953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205172948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74433c1fb0c445c42a22510830faf3e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnShowPrognosis:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 272869881}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: StartMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnResetPrognosis:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 272869881}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: ResetRock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PrognosisSpriteRender: {fileID: 272869879}
+  PrognosisTilemap: {fileID: 0}
+  showTime: 5
+  hideColorTime: 0.4
 --- !u!1 &208331357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,6 +1362,108 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1001 &272869878
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 205172949}
+    m_Modifications:
+    - target: {fileID: 416147117143175082, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Name
+      value: FallingRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.040000916
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614727845019756467, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998851495583966120, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998851495583966120, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a4fc0f50e49591a428c508a571aca730, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+--- !u!212 &272869879 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7998851495583966120, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 272869878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &272869880 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 272869878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &272869881 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7614727845019756467, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 272869878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877033fcc4c1bc3478f2ffc99e7db06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &290428301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,6 +1853,11 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &290443869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 2057991322}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &291946460
 GameObject:
   m_ObjectHideFlags: 0
@@ -4123,9 +4278,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1
-    height: 1
+    y: 0.055555556
+    width: 0.33333334
+    height: 0.3333333
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -4653,6 +4808,30 @@ MonoBehaviour:
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 290443869}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1039832170}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 2057991323}
         m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
         m_MethodName: StartMove
@@ -4696,6 +4875,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
         m_MethodName: ResetRock
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 290443869}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1039832170}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5557,7 +5760,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7614727845019756467, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
   m_PrefabInstance: {fileID: 845130723}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1039832170}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 877033fcc4c1bc3478f2ffc99e7db06e, type: 3}
@@ -5576,6 +5779,7 @@ GameObject:
   - component: {fileID: 879858458}
   - component: {fileID: 879858460}
   - component: {fileID: 879858457}
+  - component: {fileID: 879858461}
   m_Layer: 5
   m_Name: RockTrapInfo
   m_TagString: TrapInfo
@@ -5595,7 +5799,8 @@ Transform:
   m_LocalPosition: {x: 22.5, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 930313661}
   m_Father: {fileID: 821739340}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &879858457
@@ -5762,6 +5967,154 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RefTrapInfo: {fileID: 879858458}
+--- !u!114 &879858461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879858455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74433c1fb0c445c42a22510830faf3e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnShowPrognosis:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 930313662}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: StartMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnResetPrognosis:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 930313662}
+        m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
+        m_MethodName: ResetRock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  PrognosisSpriteRender: {fileID: 930313663}
+  PrognosisTilemap: {fileID: 0}
+  showTime: 5
+  hideColorTime: 0.4
+--- !u!1001 &930313660
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 879858456}
+    m_Modifications:
+    - target: {fileID: 416147117143175082, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Name
+      value: FallingRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.059999943
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7614727845019756467, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998851495583966120, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998851495583966120, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a4fc0f50e49591a428c508a571aca730, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+--- !u!4 &930313661 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2647841293500471152, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 930313660}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &930313662 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7614727845019756467, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 930313660}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877033fcc4c1bc3478f2ffc99e7db06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &930313663 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7998851495583966120, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 930313660}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &945027411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8404,6 +8757,11 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &1039832170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 700830331712599728, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
+  m_PrefabInstance: {fileID: 845130723}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1057474543
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8652,6 +9010,30 @@ MonoBehaviour:
   OnStartTrigger:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1039832170}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 290443869}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 845130725}
         m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
         m_MethodName: StartMove
@@ -8695,6 +9077,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: FallingRock, Assembly-CSharp
         m_MethodName: ResetRock
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1039832170}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 290443869}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -13954,7 +14360,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7614727845019756467, guid: b08ba3f2eadae044e83b5b6b50c25067, type: 3}
   m_PrefabInstance: {fileID: 2057991322}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 290443869}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 877033fcc4c1bc3478f2ffc99e7db06e, type: 3}
