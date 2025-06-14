@@ -61,7 +61,7 @@ public class RedPortalInteraction : MonoBehaviour
         m_mapOnOffControl.activeControl = false;
 
         //미니맵 핀 상호작용 풀기
-        MapPinSetter.IsPinSetterActive = false;
+        MapPinSetter.IsPinSetterActive = true;
 
         yield return null;
 
