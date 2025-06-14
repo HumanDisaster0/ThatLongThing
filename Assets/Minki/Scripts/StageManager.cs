@@ -525,7 +525,7 @@ public class StageManager : MonoBehaviour
         {
             if (trapMatch.state == MatchState.Correct)
                 findTrapCount++;
-            Debug.Log(trapMatch.state);
+            //Debug.Log(trapMatch.state);
         }
 
 

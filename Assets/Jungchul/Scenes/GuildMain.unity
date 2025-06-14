@@ -548,6 +548,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 5887166f602e01641b9fbd883de0b62c, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!212 &161289389
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -780,6 +781,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: d8f4100db79fbaf48a64d3ef75e7f19d, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!61 &278767619
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2250,6 +2252,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7029066961958917782, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8560393258800881193, guid: 09675dc58898ed24fabd9bd48eb420e9, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
@@ -3280,6 +3286,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: d8f4100db79fbaf48a64d3ef75e7f19d, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!61 &1140149159
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3807,6 +3814,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: d8f4100db79fbaf48a64d3ef75e7f19d, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!61 &1194666561
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4921,6 +4929,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 79f434e298a720c40a2f1f828361ce61, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!212 &1374287218
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6047,6 +6056,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 6811758a8bf332d45bc7bcd57c3c2c15, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!212 &1630099486
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7389,6 +7399,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 6811758a8bf332d45bc7bcd57c3c2c15, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!212 &1942324349
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8052,6 +8063,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 0fb24935846235c44ad0e6002309028e, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!212 &2057374794
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8199,6 +8211,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 86dd48487b4cdd44fa987e4a5f21d35a, type: 3}
   soundTag: Default
   isInteractable: 1
+  inputAllowed: 1
 --- !u!212 &2076788298
 SpriteRenderer:
   m_ObjectHideFlags: 0

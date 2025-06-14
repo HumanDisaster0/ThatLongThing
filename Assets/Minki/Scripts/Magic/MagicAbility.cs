@@ -55,9 +55,13 @@ public class MagicAbility : MonoBehaviour
                         fx.transform.parent = null;
                         m_magicFXPool.Add(fx);
                     }
+                    foreach (var prognosis in m_savedPrognosis.Values)
+                    {
+                        prognosis.Active = false;
+                    }
                     m_foundTrap.Clear();
                     m_allocatedFX.Clear();
-
+                    m_savedPrognosis.Clear();
                 }
 
                 m_useAbility = false;
