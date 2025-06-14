@@ -40,6 +40,11 @@ public class MapMatchCheckPinCreator : MonoBehaviour
         m_maxY = MinimapTilemap.cellBounds.max.y;
     }
 
+    private void OnDestroy()
+    {
+        MinimapTileInfo.OnChangedTileSize -= ApplyTileInfo;
+    }
+
     public void UpdateSibling()
     {
         transform.SetAsLastSibling();
