@@ -43,6 +43,7 @@ public class EndingSceneManager : MonoBehaviour
     [Header("후처리 효과")]
     public Volume postProcessVolume;
     private ChromaticAberration chromaticAberration;
+    private EndingSceneCamera cam;
 
     [Header("크레딧")]
     public GameObject creditsPanel;
@@ -79,8 +80,8 @@ public class EndingSceneManager : MonoBehaviour
         choicePanel.SetActive(false);
         if (realChoiceHighlight != null) realChoiceHighlight.SetActive(false);
         creditsPanel.SetActive(false);
-
-        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending2_BGM");
+        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending4_BGM");
+        cam = Camera.main.GetComponent<EndingSceneCamera>();
         var data = bgmSrc.GetComponent<DefaultSourceData>();
         data.soundType = SoundType.Bg;
         data.volOverride = 0.5f;
@@ -103,7 +104,13 @@ public class EndingSceneManager : MonoBehaviour
         for (int i = 0; i < cutSceneImages.Count && i < cutSceneTexts.Count; i++)
         {
             cutSceneImage.sprite = cutSceneImages[i];
+            if (i == 0) //첫 컷신에 한해서 1초 기다려주기
+            {
+                yield return new WaitForSeconds(1.0f);
+            }
+
             yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, cutSceneTexts[i], 0.04f));
+
 
             if (i == choiceCutIndex)
             {
@@ -152,6 +159,8 @@ public class EndingSceneManager : MonoBehaviour
                 bgmSrc.GetComponent<DefaultSourceData>().soundType = SoundType.Bg;
             }
             */
+
+
         }
 
 
@@ -172,12 +181,88 @@ public class EndingSceneManager : MonoBehaviour
         for (int i = 0; i < images.Count && i < texts.Count; i++)
         {
             cutSceneImage.sprite = images[i];
+
+            if (i == 0 && currentPhase == CutScenePhase.NoRoute)
+            {
+                SoundManager.instance.StopSound(bgmSrc);
+            }
+
             yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, texts[i], 0.04f));
 
-            // 연출을 상태 + 인덱스로 분기하면 됨
-            if (currentPhase == CutScenePhase.NoRoute && i == 0)
+            /////////////////////////////////////////////////////////////////////////
+            //선택지[예]
+
+            if (currentPhase == CutScenePhase.YesRoute)
             {
-                // 부정 루트 첫 컷 연출
+                switch (i)
+                {
+                    case 0: yield return new WaitForSeconds(0.8f); break; //쨍그랑
+                    case 1:
+                        yield return new WaitForSeconds(0.5f); //무너지는 연출                        
+                        if (cam != null)
+                        {
+                            SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            StartCoroutine(cam.LerpShake(1.5f, 0.5f, 0.0f));
+                        }
+                        break;
+
+                    case 2: //브금 off                        
+                        yield return new WaitForSeconds(0.5f);
+                        SoundManager.instance.StopSound(bgmSrc);
+                        break;
+
+                    case 3: //브금 변경
+                        yield return new WaitForSeconds(0.5f);
+                        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending_BGM");
+                        bgmSrc.GetComponent<DefaultSourceData>().soundType = SoundType.Bg;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            /////////////////////////////////////////////////////////////////////////
+            //선택지[아니요]
+            if (currentPhase == CutScenePhase.NoRoute)
+            {
+                switch (i)
+                {
+                    case 0: //브금 변경                  
+                        bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending3_BGM");
+                        bgmSrc.GetComponent<DefaultSourceData>().soundType = SoundType.Bg;
+                        break;
+                    case 1: yield return new WaitForSeconds(0.8f); Debug.Log("1초 대기"); break;
+                    case 3:
+                        yield return new WaitForSeconds(0.5f);
+                        if (cam != null)
+                        {
+                            SoundManager.instance?.PlayNewBackSound("Glass_Crack", SoundType.Se);
+                            StartCoroutine(cam.LerpShake(0.7f, 0.5f, 0.0f));
+                        }
+                        break;
+
+                    case 4:
+                        yield return new WaitForSeconds(0.5f);
+                        if (cam != null)
+                        {
+                            SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            StartCoroutine(cam.LerpShake(1.5f, 0.5f, 0.0f));
+                        }
+                        break;
+                    case 5:
+                        yield return new WaitForSeconds(0.5f);
+                        if (cam != null)
+                        {
+                            //SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            StartCoroutine(cam.LerpShake(0.6f, 1.0f, 0.0f));
+                        }
+                        break;
+                    case 6:
+                        yield return new WaitForSeconds(0.5f);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
