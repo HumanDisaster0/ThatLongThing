@@ -15,11 +15,13 @@ public class EndingSceneManager : MonoBehaviour
     public float autoPlayDelay = 1.0f;
 
     [Header("컷씬 데이터")]
-    public List<Sprite> cutSceneImages;
+    public List<Sprite> cutSceneImages; //공통 4개 1112
     [TextArea] public List<string> cutSceneTexts;
-    public List<Sprite> branchImages;
+
+    public List<Sprite> branchImages; // 예 선택지 12개 34_567788999
     [TextArea] public List<string> branchTexts;
-    public List<Sprite> fakeBranchImages;
+
+    public List<Sprite> fakeBranchImages; // 아니요 선택지 8개 _2_34567
     [TextArea] public List<string> fakeBranchTexts;
 
     [Header("선택지 설정")]
@@ -47,17 +49,28 @@ public class EndingSceneManager : MonoBehaviour
     public ScrollRect creditsScroll;
     public float creditsNormalSpeed = 50f;
     public float creditsFastSpeed = 150f;
+    public enum CutScenePhase
+    {
+        Intro,      // 선택지 이전
+        YesRoute,   // 긍정 루트
+        NoRoute     // 부정 루트
+    }
+
+    private CutScenePhase currentPhase = CutScenePhase.Intro;
 
     public string mainMenuSceneName = "MainMenu";
 
     private AudioSource bgmSrc;
     private bool isRealFinal = true;
+    //=================================================================================================
 
     private void Awake()
     {
         postProcessVolume.profile.TryGet(out chromaticAberration);
         postProcessVolume.gameObject.SetActive(false);
     }
+
+    //=================================================================================================
 
     private void Start()
     {
@@ -75,8 +88,18 @@ public class EndingSceneManager : MonoBehaviour
         StartCoroutine(PlayCutScenes());
     }
 
+    //=================================================================================================
+    //분기관리
+    //=================================================================================================
     private IEnumerator PlayCutScenes()
     {
+        List<Sprite> images = new();
+        List<string> texts = new();
+
+        currentPhase = CutScenePhase.Intro;
+
+        /////////////////////////////////////////////////////////////////////////
+        // 1. 선택지 이전 컷씬
         for (int i = 0; i < cutSceneImages.Count && i < cutSceneTexts.Count; i++)
         {
             cutSceneImage.sprite = cutSceneImages[i];
@@ -87,6 +110,7 @@ public class EndingSceneManager : MonoBehaviour
                 bool? firstChoice = null;
                 yield return StartCoroutine(ShowChoice(result => firstChoice = result));
 
+                /* 
                 if (firstChoice == false)
                 {
                     yield return StartCoroutine(FakeChoiceBrokenCutScenes());
@@ -100,8 +124,12 @@ public class EndingSceneManager : MonoBehaviour
                 {
                     isRealFinal = true;
                 }
-            }
+                */
 
+                isRealFinal = firstChoice == true;
+                currentPhase = isRealFinal ? CutScenePhase.YesRoute : CutScenePhase.NoRoute; //분기 예 / 아니요
+            }
+            /*
             if (i == shakeCutIndex)
             {
                 var camShake = Camera.main.GetComponent<EndingSceneCamera>();
@@ -117,33 +145,57 @@ public class EndingSceneManager : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
                 SoundManager.instance.StopSound(bgmSrc);
             }
+
             if (i == shakeCutIndex + 2)
             {
                 bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending_BGM");
                 bgmSrc.GetComponent<DefaultSourceData>().soundType = SoundType.Bg;
             }
+            */
         }
 
-        var images = isRealFinal ? branchImages : fakeBranchImages;
-        var texts = isRealFinal ? branchTexts : fakeBranchTexts;
 
+        /////////////////////////////////////////////////////////////////////////
+        // 2. 분기 컷씬 준비
+        if (currentPhase == CutScenePhase.YesRoute)
+        {
+            images = branchImages;
+            texts = branchTexts;
+        }
+        else if (currentPhase == CutScenePhase.NoRoute)
+        {
+            images = fakeBranchImages;
+            texts = fakeBranchTexts;
+        }
+
+        // 3. 공통 컷씬 루프
         for (int i = 0; i < images.Count && i < texts.Count; i++)
         {
             cutSceneImage.sprite = images[i];
             yield return StartCoroutine(WaitForTextInputTyper(cutSceneText, texts[i], 0.04f));
+
+            // 연출을 상태 + 인덱스로 분기하면 됨
+            if (currentPhase == CutScenePhase.NoRoute && i == 0)
+            {
+                // 부정 루트 첫 컷 연출
+            }
         }
 
+        // 4. 크레딧
         yield return ShowCredits();
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
+
+    //=================================================================================================
     private IEnumerator ShowChoice(System.Action<bool> onResult)
     {
         choicePanel.SetActive(true);
         realChoiceBtn.interactable = true;
         fakeChoiceBtn.interactable = true;
         fakeChoiceBtn.gameObject.SetActive(true);
-        if (realChoiceHighlight != null) realChoiceHighlight.SetActive(false);
+        if (realChoiceHighlight != null && !realChoiceHighlight.activeSelf)
+            realChoiceHighlight.SetActive(false);
 
         bool chosen = false;
         bool tempResult = true;
@@ -151,12 +203,14 @@ public class EndingSceneManager : MonoBehaviour
         realChoiceBtn.onClick.RemoveAllListeners();
         fakeChoiceBtn.onClick.RemoveAllListeners();
 
-        realChoiceBtn.onClick.AddListener(() => {
+        realChoiceBtn.onClick.AddListener(() =>
+        {
             SoundManager.instance.PlayNewBackSound("Glass_Break", SoundType.Se);
             tempResult = true;
             chosen = true;
         });
-        fakeChoiceBtn.onClick.AddListener(() => {
+        fakeChoiceBtn.onClick.AddListener(() =>
+        {
             tempResult = false;
             chosen = true;
         });
@@ -171,6 +225,7 @@ public class EndingSceneManager : MonoBehaviour
         choicePanel.SetActive(false);
     }
 
+    //=================================================================================================
     private IEnumerator FakeChoiceBrokenCutScenes()
     {
         bgmSrc.Pause();
@@ -204,6 +259,7 @@ public class EndingSceneManager : MonoBehaviour
         if (realChoiceHighlight != null) realChoiceHighlight.SetActive(true);
     }
 
+    //=================================================================================================
     private IEnumerator WaitForTextInputTyper(TextMeshProUGUI textUI, string text, float baseSpeed)
     {
         bool skipRequested = false;
@@ -227,6 +283,7 @@ public class EndingSceneManager : MonoBehaviour
             yield return new WaitUntil(() => Input.anyKeyDown || Input.GetMouseButtonDown(0));
     }
 
+    //=================================================================================================
     private IEnumerator ShowCredits()
     {
         RectTransform creditRect = creditsPanel.GetComponent<RectTransform>();
