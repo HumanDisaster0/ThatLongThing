@@ -8865,10 +8865,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.040625002
+    y: 0.11018518
+    width: 0.16666667
+    height: 0.16666666
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -13593,6 +13593,103 @@ MonoBehaviour:
   PrognosisTilemap: {fileID: 1166664492}
   showTime: 5
   hideColorTime: 0.4
+--- !u!1001 &1580348123
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459011055302959687, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9107872289924591949, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
+      propertyPath: m_Name
+      value: MissionCheckCanvas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4d9c09cf337baf64ea194c92d9239fb9, type: 3}
 --- !u!1839735485 &1588169073 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 1823116752755905768, guid: 27a01a040888e0a45951237325721c22, type: 3}
@@ -17745,3 +17842,4 @@ SceneRoots:
   - {fileID: 1339780995}
   - {fileID: 1939845634}
   - {fileID: 131216225}
+  - {fileID: 1580348123}
