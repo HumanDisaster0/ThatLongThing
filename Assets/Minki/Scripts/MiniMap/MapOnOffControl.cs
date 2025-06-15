@@ -14,6 +14,8 @@ public class MapOnOffControl : MonoBehaviour
     public UnityAction OnMiniMapShow;
     public UnityAction OnMiniMapHide;
 
+    public bool IsShowing => m_uiStack.Count > 0;
+
     private HashSet<GameObject> m_uiStack = new HashSet<GameObject>();
 
     // Update is called once per frame

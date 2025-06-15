@@ -8,6 +8,7 @@ public class RedPortalInteraction : MonoBehaviour
     MapMatchCheckPinCreator m_pinCreator;
     MapOnOffControl m_mapOnOffControl;
     MapPinMatchChecker m_pinMatchChecker;
+    MinimapDestroyer m_mapDestroyer;
 
     public void Start()
     {
@@ -15,10 +16,17 @@ public class RedPortalInteraction : MonoBehaviour
         m_pinCreator = GameObject.FindFirstObjectByType<MapMatchCheckPinCreator>(FindObjectsInactive.Include);
         m_mapOnOffControl = GameObject.FindFirstObjectByType<MapOnOffControl>(FindObjectsInactive.Include);
         m_pinMatchChecker = GameObject.FindFirstObjectByType<MapPinMatchChecker>(FindObjectsInactive.Include);
+        m_mapDestroyer = GameObject.FindFirstObjectByType<MinimapDestroyer>(FindObjectsInactive.Include);
     }
 
     public void EnterPortal()
     {
+        if (m_mapDestroyer.IsDestroied)
+        {
+            StageManager.instance.EndStage();
+            return;
+        }
+
         //°ñµå Â÷°¨
         GoldManager.Instance.ejectionCount++;
 

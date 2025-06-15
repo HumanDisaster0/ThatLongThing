@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ public class PreLifeCountIndicator : MonoBehaviour
     public float fadeTime = 0.8f;
 
     public AnimationCurve nextNumAnimation;
+
+    public UnityEvent OnFadeFXEnd;
 
 
     GraphicRaycaster m_graphicRaycaster;
@@ -86,6 +89,8 @@ public class PreLifeCountIndicator : MonoBehaviour
             SetAlphaColorForOwnRect(1.0f - (timer / fadeTime));
             yield return null;
         }
+
+        OnFadeFXEnd?.Invoke();
     }
 
     IEnumerator RespawnAnim(int nextCount)

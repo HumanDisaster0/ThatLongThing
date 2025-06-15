@@ -146,6 +146,9 @@ public class StageManager : MonoBehaviour
         var preRenderer = FindFirstObjectByType<MinimapPreRenderer>(FindObjectsInactive.Include);
         preRenderer?.InitializeRenderer();
 
+        //¸Ê Âõ±â ÄÄÆ÷³ÍÆ® ¹Ì¸® Ã£±â
+        var minimapDestroyer = FindFirstObjectByType<MinimapDestroyer>(FindObjectsInactive.Include);
+
         //ÀÌ»óÇö»ó
         switch (anomalyIdx)
         {
@@ -164,11 +167,14 @@ public class StageManager : MonoBehaviour
                 {
                     PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("Trex").gameObject.SetActive(true);
+                    GameObject.Find("Anomaly").transform.Find("Trex").Find("SpawnTrex").GetComponent<TrapTrigger>().OnStartTrigger.AddListener(minimapDestroyer.StartDestroyMap);
                     var fallPlatforms = GameObject.Find("TrapInfos").transform;
                     for(int i = 4; i <= 6; i++)
                     {
                         fallPlatforms.GetChild(i).GetComponent<TrapSetter>().SpecifiedSet(false);
                     }
+
+                    pc.autoCheckAbility.enabled = false;
                     break;
                 }
 
@@ -221,6 +227,9 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("Anomaly").transform.Find("Comet").gameObject.SetActive(true);
                     GameObject.Find("Zone").transform.Find("RedPortal").gameObject.SetActive(true);
 
+                    FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
+
+                    pc.autoCheckAbility.enabled = false;
                     break;
                 }
 
@@ -337,6 +346,9 @@ public class StageManager : MonoBehaviour
 
                     MonsterManager.instance.ChangeAllScale(1.01f);
 
+                    FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
+
+                    pc.autoCheckAbility.enabled = false;
                     break;
 
                 }
@@ -419,11 +431,14 @@ public class StageManager : MonoBehaviour
                 {
                     GameObject.Find("PlatformManager").GetComponent<PlatformManager>().SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("BigStone").gameObject.SetActive(true);
+                    GameObject.Find("Anomaly").transform.Find("BigStone").Find("SpawnRollingBigStone").GetComponent<TrapTrigger>().OnStartTrigger.AddListener(minimapDestroyer.StartDestroyMap);
                     var fallPlatforms = GameObject.Find("TrapInfos").transform;
                     for (int i = 4; i <= 6; i++)
                     {
                         fallPlatforms.GetChild(i).GetComponent<TrapSetter>().SpecifiedSet(false);
                     }
+
+                    pc.autoCheckAbility.enabled = false;
                     break;
                 }
 
