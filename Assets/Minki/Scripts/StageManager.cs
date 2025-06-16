@@ -460,19 +460,23 @@ public class StageManager : MonoBehaviour
                     break;
                 }
 
-            //no.15 - 타이무스토프
+            //no.15 - 타이무스토프 - 엔딩 진입 스테이지
             case 15:
                 {
+
+                    GameObject.Find("Zone").transform.Find("EndingEnterZone").gameObject.SetActive(true);
+
                     PlatformManager.instance.StopSelectedMoveTiles();
                     MonsterManager.instance.SetAllBehavior(MBehavior.Stop);
                     foreach (var setter in result)
                     {
                         setter.SpecifiedSet(false);
                     }
-
+                    /* 엔딩 엔터 트리거에서 구현
                     var volume = FindObjectOfType<Volume>();
                     volume.profile.TryGet(out ChromaticAberration chromatic);
                     chromatic.intensity.value = 0.35f;
+                    */
                     break;
                 }
             default:
