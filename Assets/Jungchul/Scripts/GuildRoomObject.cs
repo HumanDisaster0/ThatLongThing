@@ -81,7 +81,7 @@ public class GuildRoomObject : MonoBehaviour
         if (isHighlighted)
         {
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
                 if (GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.IDLE 
                     && PauseManager.Instance.pState != PauseManager.isPause.PAUSE)

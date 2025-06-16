@@ -30,7 +30,7 @@ public class MissionCheckCanvas : MonoBehaviour
     {
         if(isActive)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.Escape)) //|| Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.M))
             {
                 CloseMission();
             }
@@ -45,11 +45,11 @@ public class MissionCheckCanvas : MonoBehaviour
         if (_sprite != null && missionImage != null)
             missionImage.sprite = _sprite;
 
-        // 퍼즈 비활성화
-        if(GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
-        {
-            GuildRoomManager.Instance.isPauseAble = false;
-        }
+        //// 퍼즈 비활성화
+        //if(GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
+        //{
+        //    GuildRoomManager.Instance.isPauseAble = false;
+        //}
 
         // 맵 컨트롤 비활성화
         SetMapContorl(false);
@@ -65,12 +65,11 @@ public class MissionCheckCanvas : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         isActive = false;
 
-        // 퍼즈 활성화
-        // 퍼즈 비활성화
-        if (GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
-        {
-            GuildRoomManager.Instance.isPauseAble = true;
-        }
+        //// 퍼즈 활성화
+        //if (GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
+        //{
+        //    GuildRoomManager.Instance.isPauseAble = true;
+        //}
 
         // 게임 사운드 재생
         SoundManager.instance?.PlayNewBackSound("Album_Click");
@@ -85,28 +84,25 @@ public class MissionCheckCanvas : MonoBehaviour
     void SetMapContorl(bool _val)
     {
         MapOnOffControl mapOnOffControl = FindObjectOfType<MapOnOffControl>();
-        mapOnOffControl.HideMinimap();
 
         if (mapOnOffControl != null)
         {
-            mapOnOffControl.activeControl = _val;
-
             // 미니맵 스택쌓아
             if (_val)
-            {
-                if (mapOnOffControl.IsShowing)
-                {
-                    mapOnOffControl.AddUIStack(this.gameObject);
-                }
-            }
-            else
             {
                 if (mapOnOffControl.IsShowing)
                 {
                     mapOnOffControl.RemoveUIStack(this.gameObject);
                 }
             }
-
+            else
+            {
+                if (mapOnOffControl.IsShowing)
+                {
+                    mapOnOffControl.AddUIStack(this.gameObject);
+                }
+            }
+            mapOnOffControl.activeControl = _val;
         }
         else
         {

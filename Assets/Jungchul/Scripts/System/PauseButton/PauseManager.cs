@@ -111,13 +111,14 @@ public class PauseManager : MonoBehaviour
 
     public void Pause()
     {
-        //MapOnOffControl mc = GameObject.FindAnyObjectByType<MapOnOffControl>();
-        //if (mc != null)
-        //{
-        //    mc.activeControl = false;
-        //    mc.AddUIStack(this.gameObject);
-        //}
-            
+        // 미니맵 컨트롤
+        MapOnOffControl mc = GameObject.FindAnyObjectByType<MapOnOffControl>();
+        if (mc != null)
+        {
+            mc.activeControl = false;
+            mc.AddUIStack(this.gameObject);
+        }
+
 
         if (pauseCanvasInstance == null)
             CreatePauseUI();
@@ -128,12 +129,13 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
-        //MapOnOffControl mc = GameObject.FindAnyObjectByType<MapOnOffControl>();
-        //if (mc != null)
-        //{
-        //    mc.activeControl = true;
-        //    mc.AddUIStack(this.gameObject);
-        //}
+        // 미니맵 컨트롤
+        MapOnOffControl mc = GameObject.FindAnyObjectByType<MapOnOffControl>();
+        if (mc != null)
+        {
+            mc.activeControl = true;
+            mc.RemoveUIStack(this.gameObject);
+        }
 
         SoundManager.instance?.GetComponent<SettingCanvasController>().SetSettingCanvas(false);
         Time.timeScale = 1f;

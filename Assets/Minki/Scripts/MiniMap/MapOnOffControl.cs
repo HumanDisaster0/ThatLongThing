@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class MapOnOffControl : MonoBehaviour
 {
@@ -42,6 +43,12 @@ public class MapOnOffControl : MonoBehaviour
         SoundManager.instance.PlayNewBackSound("Map_Button");
         miniMapUIRect.gameObject.SetActive(false);
         miniMapOpenRect.gameObject.SetActive(true);
+
+        // 퍼즈 활성화
+        if (GuildRoomManager.Instance != null)
+        {
+            GuildRoomManager.Instance.isPauseAble = true;
+        }
     }
 
     public void ShowMinimap()
@@ -53,6 +60,12 @@ public class MapOnOffControl : MonoBehaviour
         SoundManager.instance.PlayNewBackSound("Map_Button");
         miniMapUIRect.gameObject.SetActive(true);
         miniMapOpenRect.gameObject.SetActive(false);
+
+        // 퍼즈 활성화
+        if (GuildRoomManager.Instance != null)
+        {
+            GuildRoomManager.Instance.isPauseAble = false;
+        }
     }
 
     public void AddUIStack(GameObject uiStack)
