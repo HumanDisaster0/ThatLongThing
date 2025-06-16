@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MissionCheckCanvas : MonoBehaviour
@@ -45,7 +46,7 @@ public class MissionCheckCanvas : MonoBehaviour
             missionImage.sprite = _sprite;
 
         // 퍼즈 비활성화
-        if(GuildRoomManager.Instance != null)
+        if(GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
         {
             GuildRoomManager.Instance.isPauseAble = false;
         }
@@ -64,7 +65,7 @@ public class MissionCheckCanvas : MonoBehaviour
 
         // 퍼즈 활성화
         // 퍼즈 비활성화
-        if (GuildRoomManager.Instance != null)
+        if (GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
         {
             GuildRoomManager.Instance.isPauseAble = true;
         }

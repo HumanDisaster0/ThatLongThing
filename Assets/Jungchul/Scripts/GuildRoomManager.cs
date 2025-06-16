@@ -39,6 +39,10 @@ public class GuildRoomManager : MonoBehaviour
 
     public int wrongCnt = 0;
 
+    public bool isTutorialChecked = false;
+
+    public int tutorialState = 1;
+
 
     public enum viewState
     {
@@ -49,6 +53,7 @@ public class GuildRoomManager : MonoBehaviour
         POKEDEX,
         DOOROUT,
         NONE,
+        TUTORIAL,
     }
     public viewState curVstate;
     public viewState preCurVstate;
@@ -97,6 +102,8 @@ public class GuildRoomManager : MonoBehaviour
 
     public TextDrawer textDrawer;
 
+    public GameObject GuildRoomTutorialPanel;
+
     public List<QuestionResult> quizResults = new List<QuestionResult>();
 
     //    104, 1111, 2202, 
@@ -136,6 +143,7 @@ public class GuildRoomManager : MonoBehaviour
 
         isPauseAble = true;
 
+        tutorialState = 1;
 
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -194,6 +202,8 @@ public class GuildRoomManager : MonoBehaviour
 
             checkResult = GameObject.Find("d_CheckResult");
 
+            GuildRoomTutorialPanel = GameObject.Find("GuildRoomTutorialPanel");
+
 
             settlementPanel = GameObject.Find("SettlementPanel");
             if (settlementPanel == null)
@@ -217,6 +227,7 @@ public class GuildRoomManager : MonoBehaviour
             if (albumPanel != null) albumPanel.SetActive(false);
             if (settlementPanel != null) settlementPanel.SetActive(false);
             if (checkResult != null) checkResult.SetActive(false);
+            if (GuildRoomTutorialPanel != null) GuildRoomTutorialPanel.SetActive(false);
 
             textDrawer = FindObjectOfType<TextDrawer>();
 
@@ -302,6 +313,7 @@ public class GuildRoomManager : MonoBehaviour
             tempChecker = true;
             wrongCnt = 0;
             quizResults.Clear();
+            tutorialState = 1;
         }
     }
 
@@ -348,7 +360,29 @@ public class GuildRoomManager : MonoBehaviour
         {
             switch (curVstate)
             {
+                case viewState.TUTORIAL:
+
+                    if (isTutorialChecked)
+                    {
+                        avatar.isMovable = true;
+                        isPauseAble = true;
+
+                        curVstate = viewState.IDLE;
+                        return;
+                    }
+
+                    //3번 클릭하면 넘어감, 각 클릭의 최소 입력 간격은 0.3초, 코루틴 종료되면 viewState.IDLE로 이행
+                    StartCoroutine(HandleDialog(3, 0.3f, viewState.IDLE)); 
+
+                    break;
+
                 case viewState.IDLE:
+
+                    if (!isTutorialChecked)
+                    {
+                        curVstate = viewState.TUTORIAL;
+                        return;
+                    }
 
                     isPauseAble = true;
 
@@ -535,6 +569,8 @@ public class GuildRoomManager : MonoBehaviour
                     preCurVstate = curVstate;
 
                     avatar.isMovable = false;
+                    isPauseAble = false;
+
                     if (!missionBoardPanel.gameObject.activeSelf)
                     {
                         // 효과음 재생
@@ -554,6 +590,7 @@ public class GuildRoomManager : MonoBehaviour
                     preCurVstate = curVstate;
 
                     avatar.isMovable = false;
+                    isPauseAble = false;
                     if (!albumPanel.gameObject.activeSelf)
                     {
                         // 효과음 재생
@@ -759,6 +796,28 @@ public class GuildRoomManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         isEscHandling = false;
+    }
+
+    IEnumerator HandleDialog(int requiredClicks, float clickDelay, viewState nextState)
+    {
+        int clickCount = 0;
+        float lastClickTime = -clickDelay; // 바로 클릭 가능하도록 초기화
+
+        while (clickCount < requiredClicks)
+        {
+            // 마우스 클릭 + 딜레이 확인
+            if (Input.GetMouseButtonDown(0) && Time.time - lastClickTime >= clickDelay)
+            {
+                clickCount++;
+                lastClickTime = Time.time;
+            }
+
+            tutorialState++;
+
+            yield return null; // 다음 프레임까지 대기
+        }
+        
+        curVstate = nextState;
     }
 
 

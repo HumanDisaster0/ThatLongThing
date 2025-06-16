@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MinimapDestroyer : MonoBehaviour
@@ -67,7 +68,7 @@ public class MinimapDestroyer : MonoBehaviour
 
         //ESC 메뉴 강제 종료 - 감히 시간을 거스르려고 해? 바로 컷!
         if (PauseManager.Instance != null 
-            && GuildRoomManager.Instance != null)
+            && GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
         {
             PauseManager.Instance.Resume();
             GuildRoomManager.Instance.isPauseAble = false;
@@ -170,7 +171,7 @@ public class MinimapDestroyer : MonoBehaviour
         //시간은 움직인다.
         Time.timeScale = 1.0f;
 
-        if (GuildRoomManager.Instance != null)
+        if (GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
         {
             GuildRoomManager.Instance.isPauseAble = true;
         }

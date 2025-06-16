@@ -76,12 +76,7 @@ public class PostedMissionPanel : MonoBehaviour
         if (GuildRoomManager.Instance.IsIdle())
         {
             Destroy(currentPopup);
-        }
-        if (SceneManager.GetActiveScene().name == "GuildMain" && GuildRoomManager.Instance.curVstate == GuildRoomManager.viewState.MISSIONBOARD)
-        {
-            DisableOnPause();
-        }
-
+        }     
     }
 
     private void OnDestroy()
@@ -167,26 +162,6 @@ public class PostedMissionPanel : MonoBehaviour
         missionInstances.Clear();
     }
 
-    public void DisableOnPause()
-    {
-        if (PauseManager.Instance.pState == isPause.PAUSE)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                if (missionInstances[i] != null)
-                    missionInstances[i].GetComponent<CustomClickable>().isInteractable = false;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                if (missionInstances[i] != null)
-                    missionInstances[i].GetComponent<CustomClickable>().isInteractable = true;
-            }
-        }
-    }
-
 
     private int ResolveCodeToIndex(int code)
     {
@@ -212,6 +187,8 @@ public class PostedMissionPanel : MonoBehaviour
 
     public void ShowPopupCard(int index, int pidx)
     {
+        Debug.Log($"ShowPopupCard 실행 / 현재 스테이트: {GuildRoomManager.Instance.curVstate} / isPauseAble: {GuildRoomManager.Instance.isPauseAble}  / pauseState: {PauseManager.Instance.pState}");
+
         for (int i = 0; i < 3; i++)
         {
             missionInstances[i].GetComponent<CustomClickable>().isInteractable = false;
@@ -233,9 +210,13 @@ public class PostedMissionPanel : MonoBehaviour
 
         // 버튼 처리
         var popupComp = currentPopup.GetComponent<MissionDetailPopup>();
+
+        Debug.Log($"ShowPopupCard 실행중 / 현재 스테이트: {GuildRoomManager.Instance.curVstate} / isPauseAble: {GuildRoomManager.Instance.isPauseAble}  / pauseState: {PauseManager.Instance.pState}");
+
+
         if (popupComp != null)
         {
-            //Debug.Log("팝업 컴포넌트 찾음");
+            Debug.Log("팝업 컴포넌트 찾음");
 
             if (popupComp.acceptButton == null) Debug.LogError("acceptButton 연결 안 됨!");
             if (popupComp.rejectButton == null) Debug.LogError("rejectButton 연결 안 됨!");
@@ -297,7 +278,7 @@ public class PostedMissionPanel : MonoBehaviour
     public void CardShowSet(bool onoff)
     {
         foreach (var card in missionInstances)
-        {           
+        {
             card.SetActive(onoff);
         }
     }
