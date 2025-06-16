@@ -504,7 +504,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 21
-  m_Sprite: {fileID: 21300000, guid: f094474d12e9f384d90bf3a94e94f8cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c2885dace7613954596e4d55558240e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -527,10 +527,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d9398d92cb8aab45873c4f5c9804261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalSprite: {fileID: 21300000, guid: f094474d12e9f384d90bf3a94e94f8cb, type: 3}
-  hoverSprite: {fileID: 21300000, guid: dbb6ae0d5a889a44aa3dd252d0faf19d, type: 3}
+  normalSprite: {fileID: 21300000, guid: c2885dace7613954596e4d55558240e6, type: 3}
+  hoverSprite: {fileID: 21300000, guid: 1ff5dbffbda7e0d45a8e9bdc34bc2fce, type: 3}
   soundTag: Item
   isInteractable: 0
+  inputAllowed: 1
 --- !u!61 &6258877811555628938
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1023,6 +1024,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: 74acf8223a64e844f9d6ff4c44bba1d8, type: 3}
   soundTag: Item
   isInteractable: 0
+  inputAllowed: 1
 --- !u!61 &601070197413109396
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1173,6 +1175,7 @@ MonoBehaviour:
   hoverSprite: {fileID: 21300000, guid: fcd0bb70286c7984db99f024a0c5c75e, type: 3}
   soundTag: Item
   isInteractable: 0
+  inputAllowed: 1
 --- !u!61 &3104522718980767773
 BoxCollider2D:
   m_ObjectHideFlags: 0
