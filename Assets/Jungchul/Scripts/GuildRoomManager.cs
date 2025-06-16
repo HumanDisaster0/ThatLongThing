@@ -23,6 +23,8 @@ public class GuildRoomManager : MonoBehaviour
     private bool isEscHandling = false;
 
     public bool isPauseAble = true;
+    public bool preIsPauseAble = false;
+
     public bool isAlbumMemoryActive = false;
 
     public int selectedMission = 0;
@@ -44,11 +46,13 @@ public class GuildRoomManager : MonoBehaviour
     public int tutorialState = 1;
 
 
+
+
     public enum viewState
     {
         IDLE,
         COUNTER,
-        SETTLEMENT,        
+        SETTLEMENT,
         MISSIONBOARD,
         POKEDEX,
         DOOROUT,
@@ -142,6 +146,7 @@ public class GuildRoomManager : MonoBehaviour
         preCState = counterState.NONE;
 
         isPauseAble = true;
+        isTutorialChecked = false;
 
         tutorialState = 1;
 
@@ -325,7 +330,8 @@ public class GuildRoomManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {      
+
         if (!avatar)
             return;
 
@@ -362,36 +368,37 @@ public class GuildRoomManager : MonoBehaviour
             {
                 case viewState.TUTORIAL:
 
-                    if (isTutorialChecked)
-                    {
-                        avatar.isMovable = true;
-                        isPauseAble = true;
-
-                        curVstate = viewState.IDLE;
+                    if (!isTutorialChecked)
+                    {                                           
                         return;
                     }
-
-                    //3번 클릭하면 넘어감, 각 클릭의 최소 입력 간격은 0.3초, 코루틴 종료되면 viewState.IDLE로 이행
-                    StartCoroutine(HandleDialog(3, 0.3f, viewState.IDLE)); 
+                    else
+                    {
+                        preCurVstate = viewState.TUTORIAL;
+                        curVstate = viewState.IDLE;
+                        isTutorialChecked = true;                        
+                    }                 
 
                     break;
 
                 case viewState.IDLE:
 
+                    preCurVstate = curVstate;
+
                     if (!isTutorialChecked)
                     {
+                        isPauseAble = false;
+                        avatar.isMovable = false;
+                        
                         curVstate = viewState.TUTORIAL;
+                        
                         return;
                     }
 
+
                     isPauseAble = true;
 
-                    if (!avatar.isMovable)
-                    {
-                        avatar.isMovable = true;
-                    }  
-                   
-                    preCurVstate = curVstate;
+                    avatar.isMovable = true;
 
                     break;
 
@@ -423,7 +430,7 @@ public class GuildRoomManager : MonoBehaviour
                                 guildCounterPanel.gameObject.SetActive(true);
                                 //sp.RefreshTexts();
 
-                            
+
                                 GoldManager.Instance.calRewardGold();
                                 GoldManager.Instance.getRewardGold();
 
@@ -563,7 +570,7 @@ public class GuildRoomManager : MonoBehaviour
 
                 case viewState.MISSIONBOARD:
 
-                    preMissionBoardVstate = preCurVstate;
+                    preMissionBoardVstate = preCurVstate;                   
                     preCState = counterState.NONE;
 
                     preCurVstate = curVstate;
@@ -586,7 +593,7 @@ public class GuildRoomManager : MonoBehaviour
 
                     prePokedexVstate = preCurVstate;
                     preCState = counterState.NONE;
-
+                  
                     preCurVstate = curVstate;
 
                     avatar.isMovable = false;
@@ -730,7 +737,7 @@ public class GuildRoomManager : MonoBehaviour
 
     public void CloseWithESC()
     {
-        if (isEscHandling) 
+        if (isEscHandling)
             return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -748,8 +755,8 @@ public class GuildRoomManager : MonoBehaviour
 
 
                 case viewState.MISSIONBOARD:
-                    
-                    if(PostedMissionPanel.Instance.currentPopup)
+
+                    if (PostedMissionPanel.Instance.currentPopup)
                     {
                         PostedMissionPanel.Instance.PopupBtnReject();
                         break;
@@ -762,11 +769,11 @@ public class GuildRoomManager : MonoBehaviour
 
 
                 case viewState.COUNTER:
-                    
-                    switch(cState)
+
+                    switch (cState)
                     {
                         case counterState.SETTlE:
-                            if(settlementPanel.activeSelf)
+                            if (settlementPanel.activeSelf)
                             {
                                 var sp = settlementPanel.GetComponent<SettlementPanelScript>();
                                 sp.OnCloseButtonClicked();
@@ -798,7 +805,7 @@ public class GuildRoomManager : MonoBehaviour
         isEscHandling = false;
     }
 
-    IEnumerator HandleDialog(int requiredClicks, float clickDelay, viewState nextState)
+    IEnumerator HandleDialog(int requiredClicks, float clickDelay)
     {
         int clickCount = 0;
         float lastClickTime = -clickDelay; // 바로 클릭 가능하도록 초기화
@@ -816,8 +823,12 @@ public class GuildRoomManager : MonoBehaviour
 
             yield return null; // 다음 프레임까지 대기
         }
-        
-        curVstate = nextState;
+
+        preCurVstate = viewState.TUTORIAL;
+        curVstate = viewState.IDLE;
+        isTutorialChecked = true;
+
+        //curVstate = nextState;
     }
 
 

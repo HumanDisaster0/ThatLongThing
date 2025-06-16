@@ -187,8 +187,8 @@ public class PostedMissionPanel : MonoBehaviour
 
     public void ShowPopupCard(int index, int pidx)
     {
-        Debug.Log($"ShowPopupCard 실행 / 현재 스테이트: {GuildRoomManager.Instance.curVstate} / isPauseAble: {GuildRoomManager.Instance.isPauseAble}  / pauseState: {PauseManager.Instance.pState}");
-
+        GuildRoomManager.Instance.isPauseAble = false;
+       
         for (int i = 0; i < 3; i++)
         {
             missionInstances[i].GetComponent<CustomClickable>().isInteractable = false;
@@ -211,9 +211,7 @@ public class PostedMissionPanel : MonoBehaviour
         // 버튼 처리
         var popupComp = currentPopup.GetComponent<MissionDetailPopup>();
 
-        Debug.Log($"ShowPopupCard 실행중 / 현재 스테이트: {GuildRoomManager.Instance.curVstate} / isPauseAble: {GuildRoomManager.Instance.isPauseAble}  / pauseState: {PauseManager.Instance.pState}");
-
-
+       
         if (popupComp != null)
         {
             Debug.Log("팝업 컴포넌트 찾음");

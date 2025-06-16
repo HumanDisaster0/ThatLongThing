@@ -26,7 +26,7 @@ public class GuildRoomTutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GuildRoomTutorialPanel.activeSelf && Input.GetMouseButtonDown(0))
+        if (!GuildRoomManager.Instance.isTutorialChecked && GuildRoomTutorialPanel.activeSelf && Input.GetMouseButtonDown(0))
         {
             currentIndex++;
             ShowCurrentImage();

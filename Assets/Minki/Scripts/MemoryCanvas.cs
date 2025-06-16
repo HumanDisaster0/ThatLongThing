@@ -34,8 +34,18 @@ public class MemoryCanvas : MonoBehaviour
     {
         BgmPlayer.instance?.ChangeBgm("Guild_BGM");
 
+        
         if (GuildRoomManager.Instance.prePokedexVstate == GuildRoomManager.viewState.COUNTER)
+        {
             GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
+        }
+        else
+        {   
+            GuildRoomManager.Instance.cState = GuildRoomManager.counterState.NONE;
+            GuildRoomManager.Instance.preCState = GuildRoomManager.counterState.NONE;
+           
+        }
+       
         GuildRoomManager.Instance.curVstate = GuildRoomManager.Instance.prePokedexVstate;
     }
 }
