@@ -1955,6 +1955,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 36714539990755475, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2328094548436981417, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927255343608024265, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 789
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927255343608024265, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 426
+      objectReference: {fileID: 0}
     - target: {fileID: 8058701753974978503, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
       propertyPath: m_Name
       value: MemoryCanvas
@@ -1993,6 +2009,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8104362449363329708, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104362449363329708, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104362449363329708, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8104362449363329708, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}
+      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8104362449363329708, guid: 1bd5110ff2212d84ab4227576f1c1d02, type: 3}

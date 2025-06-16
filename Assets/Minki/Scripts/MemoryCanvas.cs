@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class MemoryCanvas : MonoBehaviour
 {
+   
+
     public RectTransform layout;
+
+    
 
     //특정 추억 해금
     public void EnableMemory(int anomalyIdx)
@@ -30,22 +34,30 @@ public class MemoryCanvas : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    //private void OnDisable()
+    //{
+       
+    //}
+
+    public void OnCloseButtonClicked()
     {
         BgmPlayer.instance?.ChangeBgm("Guild_BGM");
 
         
+
         if (GuildRoomManager.Instance.prePokedexVstate == GuildRoomManager.viewState.COUNTER)
         {
             GuildRoomManager.Instance.cState = GuildRoomManager.counterState.C_IDLE;
         }
         else
-        {   
+        {
             GuildRoomManager.Instance.cState = GuildRoomManager.counterState.NONE;
             GuildRoomManager.Instance.preCState = GuildRoomManager.counterState.NONE;
-           
+
         }
-       
+
         GuildRoomManager.Instance.curVstate = GuildRoomManager.Instance.prePokedexVstate;
-    }
+
+        gameObject.SetActive(false);
+    }    
 }

@@ -748,7 +748,8 @@ public class GuildRoomManager : MonoBehaviour
 
                     if (!isAlbumMemoryActive)
                     {
-                        albumPanel.gameObject.SetActive(false);
+                        var ap = albumPanel.GetComponent<MemoryCanvas>();
+                        ap.OnCloseButtonClicked();                        
                     }
 
                     break;
