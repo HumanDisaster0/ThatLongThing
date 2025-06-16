@@ -13857,6 +13857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPointName: PlayerSpawnPoint
+  cam: {fileID: 738869085}
 --- !u!1001 &1944625016
 PrefabInstance:
   m_ObjectHideFlags: 0
