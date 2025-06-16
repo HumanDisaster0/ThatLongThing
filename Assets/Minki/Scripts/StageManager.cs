@@ -21,7 +21,7 @@ public class StageManager : MonoBehaviour
 
     public bool IsClearedAnomaly(int idx) => m_clearedAnomaly.Contains(idx);
 
-    const int MAX_ANOMALY = 6;
+    const int MAX_ANOMALY = 7;
 
     private void Awake()
     {
