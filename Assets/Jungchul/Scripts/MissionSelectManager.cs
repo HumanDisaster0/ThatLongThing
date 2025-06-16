@@ -8,13 +8,19 @@ public class MissionSelectManager : MonoBehaviour
 
     public List<int> allMissionCodes = new List<int>()
     {
-        104, 1111, 2202, 
-        3203, 4209, 5212, 
-        6207, 7301, 8305, 
-        9314, 10306, 11308, 
-        12310, 13313, 14315,        
-    };
+
+        1111, 4209, 5212, 2202, 8305, 7301, 14315,
+        //거울, 거인, 돌,  티라노, 혜성, 거대몬, 시간정지 
         
+        
+
+        //104, 1111, 2202, 
+        //3203, 4209, 5212, 
+        //6207, 7301, 8305, 
+        //9314, 10306, 11308, 
+        //12310, 13313, 14315,        
+    };
+
 
     public Dictionary<int, bool> missionClearDict = new Dictionary<int, bool>();
 
@@ -53,7 +59,7 @@ public class MissionSelectManager : MonoBehaviour
         }
     }
 
-   
+
 
     /// <summary>
     /// 미션 클리어 처리
@@ -63,7 +69,7 @@ public class MissionSelectManager : MonoBehaviour
         if (missionClearDict.ContainsKey(code))
         {
             missionClearDict[code] = true;
-            Debug.Log($"missionClearDict[code]: { missionClearDict[code]}");
+            Debug.Log($"missionClearDict[code]: {missionClearDict[code]}");
         }
 
     }
@@ -89,12 +95,17 @@ public class MissionSelectManager : MonoBehaviour
 
         foreach (int code in allMissionCodes)
         {
-            if (!missionClearDict[code])
+            if (!missionClearDict[code] && code != 14315)   //시간정지 빼고 미션 넣기
             {
                 result.Add(code);
                 count++;
                 if (count >= 3) break;
             }
+        }
+
+        if (count == 0)
+        {
+            result.Add(14315);  //마지막에 시간정지 미션
         }
 
         // 부족한 수만큼 0으로 채움
