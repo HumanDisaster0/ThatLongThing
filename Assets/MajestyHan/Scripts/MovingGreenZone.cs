@@ -26,6 +26,9 @@ public class MovingGreenZone : MonoBehaviour
     {
         if (collision.CompareTag("Player") || collision.CompareTag("NPC"))
         {
+            // 사운드 재생
+            SoundManager.instance.PlayNewBackSound("dimension_tide", SoundType.Se);
+
             if (cam != null)
                 cam.ShakeCamera(16f, 0.5f, 2f); //사운드(효과음도 넣어주면 좋을듯) 용수철 튕기는 요상한 마법소리 - 벽에 막히는 소리
 
