@@ -16,9 +16,7 @@ public class EndingEnterTrigger : MonoBehaviour
             var pl = collision.GetComponent<PlayerController>();
             pl.SkipInput = true; // 움직임 잠금 + 맵 잠금 필요함!@#$!@#$
 
-            DirectingEnterToEnding(); //연출
-
-            SceneManager.LoadScene("EndingScene");
+            StartCoroutine(EnterToEndingSequence());
         }
     }
 
@@ -40,6 +38,12 @@ public class EndingEnterTrigger : MonoBehaviour
     }
 
     //==============================================================================
+    IEnumerator EnterToEndingSequence()
+    {
+        yield return StartCoroutine(DirectingEnterToEnding());
+        SceneManager.LoadScene("EndingScene");
+    }
+
     void SetMaskColor(SpriteRenderer sr, Color color)
     {
         var mpb = new MaterialPropertyBlock();
@@ -50,7 +54,7 @@ public class EndingEnterTrigger : MonoBehaviour
 
     //==============================================================================
 
-    void DirectingEnterToEnding() //연출
+    IEnumerator DirectingEnterToEnding() //연출
     {
         if (cam != null)
             cam.ShakeCamera(16f, 0.5f, 2f); //사운드(효과음도 넣어주면 좋을듯) 용수철 튕기는 요상한 마법소리 - 벽에 막히는 소리
@@ -64,6 +68,8 @@ public class EndingEnterTrigger : MonoBehaviour
 
         SetMaskColor(sr, Color.magenta); // 마스크 기본색 변경
         StartCoroutine(ExpandMask(sr, 0.3f, 1.5f)); // 마스크 크기 변경
-                                                    //maskObj.gameObject.SetActive(false); // 이건 확장 끝난 후에 하고 싶으면 코루틴 마지막에 옮겨도 됨
+        //maskObj.gameObject.SetActive(false); // 이건 확장 끝난 후에 하고 싶으면 코루틴 마지막에 옮겨도 됨
+
+        yield return new WaitForSeconds(1.5f); //연출시간
     }
 }
