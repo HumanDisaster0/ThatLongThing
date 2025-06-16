@@ -4604,9 +4604,33 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2815442352424741441}
+    - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: AddUIStack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MapOnOffControl, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 6958741994107791111}
+    - target: {fileID: 3079063347679359699, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9104728554259035924, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
       propertyPath: m_Name
       value: MissionCheckBtn
@@ -4619,5 +4643,10 @@ PrefabInstance:
 --- !u!224 &4389812797819670459 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2459998813626376104, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
+  m_PrefabInstance: {fileID: 2218045459926372371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6958741994107791111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9104728554259035924, guid: e6c75bbd3a14fc54299820387fb37c4a, type: 3}
   m_PrefabInstance: {fileID: 2218045459926372371}
   m_PrefabAsset: {fileID: 0}

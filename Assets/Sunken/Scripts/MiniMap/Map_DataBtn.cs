@@ -42,6 +42,8 @@ public class Map_DataBtn : MonoBehaviour
     public void CloseMinimap()
     {
         MapOnOffControl mapOnOffControl = FindObjectOfType<MapOnOffControl>();
+
+
         if (mapOnOffControl != null)
         {
             mapOnOffControl.HideMinimap();

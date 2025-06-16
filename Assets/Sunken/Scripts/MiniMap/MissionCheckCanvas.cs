@@ -56,6 +56,8 @@ public class MissionCheckCanvas : MonoBehaviour
 
         // 게임 일시정지
         Time.timeScale = 0f;
+
+        
     }
 
     public void CloseMission()
@@ -88,6 +90,23 @@ public class MissionCheckCanvas : MonoBehaviour
         if (mapOnOffControl != null)
         {
             mapOnOffControl.activeControl = _val;
+
+            // 미니맵 스택쌓아
+            if (_val)
+            {
+                if (mapOnOffControl.IsShowing)
+                {
+                    mapOnOffControl.AddUIStack(this.gameObject);
+                }
+            }
+            else
+            {
+                if (mapOnOffControl.IsShowing)
+                {
+                    mapOnOffControl.RemoveUIStack(this.gameObject);
+                }
+            }
+
         }
         else
         {
