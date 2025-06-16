@@ -60,18 +60,26 @@ public static class PlayerCMD
         "플레이어를 무적상태로 만듭니다.\n cmd_player_invicible <bool>", ExecFlag.CHEAT).SetTrackingValue(() => (pc?.Invincibility ?? false).ToString());
 
     public static ConsoleCommand cmd_player_maxjumpcount = new ConsoleCommand(
-       "cmd_player_maxjumpcount",
-       (int count) =>
-       {
-           pc.maxJumpCount = count;
-       },
-       "플레이어의 최대 점프 횟수를 설정합니다. \n cmd_player_maxjumpcount <int>", ExecFlag.CHEAT);
+        "cmd_player_maxjumpcount",
+        (int count) =>
+        {
+            pc.maxJumpCount = count;
+        },
+        "플레이어의 최대 점프 횟수를 설정합니다. \n cmd_player_maxjumpcount <int>", ExecFlag.CHEAT);
 
     public static ConsoleCommand cmd_player_magiclevel = new ConsoleCommand(
-       "cmd_player_magiclevel",
-       (int level) =>
-       {
-           pc.GetComponentInChildren<MagicAbility>().magicLevel = level;
-       },
-       "플레이어의 마법레벨을 설정합니다. \n cmd_player_magiclevel <1~3>", ExecFlag.CHEAT);
+        "cmd_player_magiclevel",
+        (int level) =>
+        {
+            pc.GetComponentInChildren<MagicAbility>().magicLevel = level;
+        },
+        "플레이어의 마법레벨을 설정합니다. \n cmd_player_magiclevel <1~3>", ExecFlag.CHEAT);
+
+    public static ConsoleCommand cmd_player_autocheck = new ConsoleCommand(
+        "cmd_player_autocheck",
+        (bool value) =>
+        {
+            pc.autoCheckAbility.enabled = value;
+        },
+        "플레이어의 오토체킹 능력을 설정합니다. \n cmd_player_autocheck <true / false>", ExecFlag.CHEAT).SetTrackingValue(() => (pc?.autoCheckAbility.enabled ?? false).ToString());
 }

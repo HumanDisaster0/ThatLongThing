@@ -10,6 +10,10 @@ public class RedPortalInteraction : MonoBehaviour
     MapPinMatchChecker m_pinMatchChecker;
     MinimapDestroyer m_mapDestroyer;
 
+    BoxCollider2D m_col;
+    public Transform popup;
+
+
     public void Start()
     {
         m_playerPin = GameObject.FindFirstObjectByType<MinimapPlayerPos>(FindObjectsInactive.Include).gameObject;
@@ -17,6 +21,24 @@ public class RedPortalInteraction : MonoBehaviour
         m_mapOnOffControl = GameObject.FindFirstObjectByType<MapOnOffControl>(FindObjectsInactive.Include);
         m_pinMatchChecker = GameObject.FindFirstObjectByType<MapPinMatchChecker>(FindObjectsInactive.Include);
         m_mapDestroyer = GameObject.FindFirstObjectByType<MinimapDestroyer>(FindObjectsInactive.Include);
+        m_col = GetComponent<BoxCollider2D>();
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            popup.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            popup.gameObject.SetActive(false);
+        }
     }
 
     public void EnterPortal()

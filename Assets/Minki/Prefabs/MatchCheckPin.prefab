@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3665658332441222339}
   - component: {fileID: 3956861760906308655}
   - component: {fileID: 7995729749166615246}
+  - component: {fileID: 5767245948944982669}
   m_Layer: 5
   m_Name: MatchCheckPin
   m_TagString: Untagged
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5767245948944982669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8563238460234460240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0afb974f1c04e4e8622a49c985fd0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickeringRate: 0.8
