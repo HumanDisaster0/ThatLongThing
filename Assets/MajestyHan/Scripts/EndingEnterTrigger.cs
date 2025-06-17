@@ -16,6 +16,9 @@ public class EndingEnterTrigger : MonoBehaviour
             var pl = collision.GetComponent<PlayerController>();
             pl.SkipInput = true; // 움직임 잠금 + 맵 잠금 필요함!@#$!@#$
 
+            var map = FindFirstObjectByType<MapOnOffControl>();
+            map.activeControl = false; // 맵 끄기
+
             StartCoroutine(EnterToEndingSequence());
         }
     }
