@@ -30,14 +30,12 @@ public class PreLifeCountIndicator : MonoBehaviour
 
 
     GraphicRaycaster m_graphicRaycaster;
-    CameraController m_camCon;
     MapOnOffControl m_minimapControl;
     PlayerController m_playerController;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_camCon = Camera.main.GetComponent<CameraController>();
         m_graphicRaycaster = GetComponent<GraphicRaycaster>();
         m_minimapControl = GameObject.FindGameObjectWithTag("Minimap").GetComponent<MapOnOffControl>();
         m_playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
