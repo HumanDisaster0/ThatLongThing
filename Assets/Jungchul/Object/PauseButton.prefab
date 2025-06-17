@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &6043828429720267275
@@ -116,7 +116,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -146,6 +146,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalSprite: {fileID: 21300000, guid: e01e72ad99c4c82448191b38780324e2, type: 3}
   hoverSprite: {fileID: 21300000, guid: e01e72ad99c4c82448191b38780324e2, type: 3}
+  soundTag: Default
+  isInteractable: 1
+  inputAllowed: 1
 --- !u!114 &6887647632836357598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,3 +161,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311098b2bf4802146bf9bf4d861987f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  acceptButton: {fileID: 0}
+  rejectButton: {fileID: 0}
