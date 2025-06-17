@@ -36,6 +36,11 @@ public class EndingSceneManager : MonoBehaviour
     public Button realChoiceBtn;
     public GameObject realChoiceHighlight;
 
+    [Header("마지막 선택지")]
+    public GameObject finalChoicePanel;
+    public Button retryButton;
+    public Button toMenuButton;
+
     [Header("깨짐 컷씬")]
     public Sprite brokenGlass1;
     public Sprite brokenGlass2;
@@ -79,6 +84,8 @@ public class EndingSceneManager : MonoBehaviour
         autoPlayDelay = 1.0f;
         choicePanel.SetActive(false);
         if (realChoiceHighlight != null) realChoiceHighlight.SetActive(false);
+        if (choicePanel != null) choicePanel.SetActive(false);
+        if (finalChoicePanel != null) finalChoicePanel.SetActive(false);
         creditsPanel.SetActive(false);
         bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending4_BGM");
         cam = Camera.main.GetComponent<EndingSceneCamera>();
@@ -201,7 +208,8 @@ public class EndingSceneManager : MonoBehaviour
                         yield return new WaitForSeconds(0.5f); //무너지는 연출                        
                         if (cam != null)
                         {
-                            SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se); //이거 두개 조합 좋다
+                            SoundManager.instance.PlayNewBackSound("building_collapse(3sec)", SoundType.Se);            
                             StartCoroutine(cam.LerpShake(1.5f, 0.5f, 0.0f));
                         }
                         break;
@@ -246,6 +254,7 @@ public class EndingSceneManager : MonoBehaviour
                         if (cam != null)
                         {
                             SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            SoundManager.instance.PlayNewBackSound("building_collapse(3sec)", SoundType.Se);
                             StartCoroutine(cam.LerpShake(1.5f, 0.5f, 0.0f));
                         }
                         break;
@@ -268,7 +277,16 @@ public class EndingSceneManager : MonoBehaviour
 
         // 4. 크레딧
         yield return ShowCredits();
-        SceneManager.LoadScene(mainMenuSceneName);
+
+        if (currentPhase == CutScenePhase.NoRoute)
+        {
+            // 아니요 루트면 최종 선택지 패널 보여줌
+            yield return ShowFinalChoice();
+        }
+        else
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
 
 
@@ -290,7 +308,9 @@ public class EndingSceneManager : MonoBehaviour
 
         realChoiceBtn.onClick.AddListener(() =>
         {
-            SoundManager.instance.PlayNewBackSound("Glass_Break", SoundType.Se);
+            //SoundManager.instance.PlayNewBackSound("Glass_Break", SoundType.Se);
+            SoundManager.instance.PlayNewBackSound("broken_the_glass3", SoundType.Se);
+            SoundManager.instance.PlayNewBackSound("broken_the_glass4", SoundType.Se);
             tempResult = true;
             chosen = true;
         });
@@ -309,6 +329,33 @@ public class EndingSceneManager : MonoBehaviour
         if (postProcessVolume != null) postProcessVolume.gameObject.SetActive(false);
         choicePanel.SetActive(false);
     }
+
+
+
+    private IEnumerator ShowFinalChoice()
+    {
+        bool chosen = false;
+
+        finalChoicePanel.SetActive(true);
+
+        retryButton.onClick.RemoveAllListeners();
+        toMenuButton.onClick.RemoveAllListeners();
+
+        retryButton.onClick.AddListener(() =>
+        {
+            chosen = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        });
+
+        toMenuButton.onClick.AddListener(() =>
+        {
+            chosen = true;
+            SceneManager.LoadScene(mainMenuSceneName);
+        });
+
+        yield return new WaitUntil(() => chosen);
+    }
+
 
     //=================================================================================================
     private IEnumerator FakeChoiceBrokenCutScenes()

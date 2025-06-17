@@ -16,6 +16,9 @@ public class EndingEnterTrigger : MonoBehaviour
             var pl = collision.GetComponent<PlayerController>();
             pl.SkipInput = true; // 움직임 잠금 + 맵 잠금 필요함!@#$!@#$
 
+            var map = FindFirstObjectByType<MapOnOffControl>();
+            map.activeControl = false; // 맵 끄기
+
             StartCoroutine(EnterToEndingSequence());
         }
     }
@@ -54,37 +57,60 @@ public class EndingEnterTrigger : MonoBehaviour
 
     //==============================================================================
 
-    IEnumerator DirectingEnterToEnding() //연출
+    IEnumerator DirectingEnterToEnding()
     {
+        //====================[ 초기 설정 ]====================
         var maskObj = GameObject.Find("Player").transform.Find("ShadowMask");
         var sr = maskObj.GetComponent<SpriteRenderer>();
         var volume = FindObjectOfType<Volume>();
+
         volume.profile.TryGet(out ChromaticAberration chromatic);
+        volume.profile.TryGet(out Bloom bloom);
+        volume.profile.TryGet(out FilmGrain grain);
 
-        ///////////////////////////////////////////////////////////           
-        chromatic.intensity.value = 0.5f; // 색수차
-        StartCoroutine(ExpandMask(sr, 0.012f, 0.05f)); // 마스크 크기 변경
-        yield return new WaitForSeconds(0.05f); //연출시간 보장
+        // PostProcessing 기본 세팅
+        chromatic.intensity.value = 0.0f;
 
-        ///////////////////////////////////////////////////////////   
-        //SetMaskColor(sr, Color.magenta); // 마스크 기본색 변경                
-        chromatic.intensity.value = 0.0f; // 색수차
-        cam.ShakeCamera(16f, 0.5f, 2f);
-        StartCoroutine(ExpandMask(sr, 0.0055f, 0.6f)); // 마스크 크기 변경
-        yield return new WaitForSeconds(0.9f); //연출시간 보장
+        bloom.threshold.value = 0.5f;
+        bloom.scatter.value = 0.5f;
+        bloom.intensity.value = 0.0f;
 
-        ///////////////////////////////////////////////////////////   
-        chromatic.intensity.value = 1.0f; // 색수차
-        cam.ShakeCamera(52f, 1.0f, 2f);
-        StartCoroutine(ExpandMask(sr, 0.2f, 1.0f)); // 마스크 크기 변경        
-        yield return new WaitForSeconds(1.0f); //연출시간 보장
+        grain.intensity.value = 0.0f;
+        grain.response.value = 0.7f;
+        grain.type.value = FilmGrainLookup.Thin1;
 
-        ///////////////////////////////////////////////////////////   
-        cam.ShakeCamera(100f, 2.0f, 1f);        
-        yield return new WaitForSeconds(1.0f); //마지막
+        //====================[ Step 0: 전조 (1.0초) ]====================
+        SoundManager.instance?.PlayNewBackSound("dimension_tide", SoundType.Bg);
+        
+        grain.intensity.value = 0.7f;
+        chromatic.intensity.value = 0.6f;
+        bloom.intensity.value = 0.5f;
 
-        ///////////////////////////////////////////////////////////   
-        //StartCoroutine(ExpandMask(sr, 0.0f, 0.05f)); // 마스크 크기 변경              
-        yield return new WaitForSeconds(0.2f); //마지막
+        cam.ShakeCamera(60f, 1.0f, 4.605f); // 순간적인 흔들림
+        yield return new WaitForSeconds(1.0f);
+
+        //====================[ Step 1: 긴장감 고조 (0.5초) ]====================
+        SoundManager.instance?.PlayNewBackSound("time_stop", SoundType.Bg);
+        SoundManager.instance?.PlayNewBackSound("building_collapse", SoundType.Bg);
+
+        cam.ShakeCamera(30f, 2.0f, 4.605f);
+        chromatic.intensity.value = 0.0f;
+        bloom.intensity.value = 0.0f;
+        grain.intensity.value = 0.0f;
+        yield return StartCoroutine(ExpandMask(sr, 0.0076f, 0.5f));
+
+        //====================[ Step 2: 응축 (1.0초) ]====================
+        SoundManager.instance?.PlayNewBackSound("Portal_Exe", SoundType.Bg);
+        cam.ShakeCamera(8f, 0.15f, 2.3f);
+        yield return StartCoroutine(ExpandMask(sr, 0.0f, 1.0f));
+        Transform holySphere = GameObject.Find("Player").transform.Find("HolySphere");
+        holySphere.gameObject.SetActive(true);
+
+        //====================[ Step 3: 폭발 (1.5초) ]====================
+        
+        chromatic.intensity.value = 1.0f;
+        bloom.intensity.value = 3.5f;
+        cam.ShakeCamera(250f, 2.5f, 0.5f);
+        yield return StartCoroutine(ExpandMask(sr, 1.0f, 4.0f));
     }
 }
