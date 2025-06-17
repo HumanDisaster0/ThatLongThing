@@ -1921,8 +1921,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2043066987}
-  stdSpr: {fileID: 21300000, guid: 99ea6912f5e1ed440b0c8bf8c124cde1, type: 3}
-  selSpr: {fileID: 21300000, guid: dd20fb56a038fe34a849d74e518b8bef, type: 3}
+  stdSpr: {fileID: 21300000, guid: 35038d5057aedd54f87038a7f77ef327, type: 3}
+  selSpr: {fileID: 21300000, guid: 7415d9b59ae770a4eabc9b7ff806d542, type: 3}
   EnterPopup: {fileID: 3662300731972707932, guid: bb5af93e8fad5be419fd3c180d9ae8dd, type: 3}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   outlineMaterial: {fileID: 2100000, guid: 3e65350e5d2180343b87fd326ce8b083, type: 2}
@@ -2829,7 +2829,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: e52001889adb0cd40a32ed94e75243b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0fa52d7d406c98141bf9cc36ae7fb6fd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8318,7 +8318,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 99ea6912f5e1ed440b0c8bf8c124cde1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 35038d5057aedd54f87038a7f77ef327, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9063,6 +9063,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6802242989055139333, guid: 333de328518fef6449bc345eb9803c8a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0fa52d7d406c98141bf9cc36ae7fb6fd, type: 3}
     - target: {fileID: 8083709891101339613, guid: 333de328518fef6449bc345eb9803c8a, type: 3}
       propertyPath: gc
       value: 
@@ -9075,6 +9079,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TalkStaff
       objectReference: {fileID: 0}
+    - target: {fileID: 8622800737927285140, guid: 333de328518fef6449bc345eb9803c8a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 97ba9984721fc534092d556ff4b31637, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1761055897867731329, guid: 333de328518fef6449bc345eb9803c8a, type: 3}
