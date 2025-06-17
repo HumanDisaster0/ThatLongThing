@@ -43,14 +43,15 @@ public class RedPortalInteraction : MonoBehaviour
 
     public void EnterPortal()
     {
+        //°ñµå Â÷°¨
+        GoldManager.Instance.ejectionCount++;
+
         if (m_mapDestroyer.IsDestroied)
         {
             StageManager.instance.EndStage();
             return;
         }
 
-        //°ñµå Â÷°¨
-        GoldManager.Instance.ejectionCount++;
 
         //¹Ì´Ï¸Ê ÄÑ±â
         m_mapOnOffControl.ShowMinimap();

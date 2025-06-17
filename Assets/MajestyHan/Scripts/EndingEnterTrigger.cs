@@ -125,6 +125,6 @@ public class EndingEnterTrigger : MonoBehaviour
         bloom.intensity.value = 3.5f;
         cam.ShakeCamera(250f, 2.5f, 0.5f);
         yield return StartCoroutine(ExpandMask(sr, 1.0f, 1.0f));
-        yield return StartCoroutine(BlackOut(3.0f));
+        yield return StartCoroutine(BlackOut(3.5f));
     }
 }
