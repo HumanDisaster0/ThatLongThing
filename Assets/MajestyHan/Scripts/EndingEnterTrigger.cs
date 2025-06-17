@@ -40,6 +40,13 @@ public class EndingEnterTrigger : MonoBehaviour
         }
     }
 
+    IEnumerator BlackOut(float duration)
+    {
+        GameObject blackoutCanvas = Resources.Load<GameObject>("EndingScene/EndingBlackOut");
+        Instantiate(blackoutCanvas, Vector3.zero, Quaternion.identity);
+        yield return new WaitForSeconds(duration);
+    }
+
     //==============================================================================
     IEnumerator EnterToEndingSequence()
     {
@@ -80,8 +87,9 @@ public class EndingEnterTrigger : MonoBehaviour
         grain.type.value = FilmGrainLookup.Thin1;
 
         //====================[ Step 0: 전조 (1.0초) ]====================
-        SoundManager.instance?.PlayNewBackSound("dimension_tide", SoundType.Bg);
-        
+        //SoundManager.instance?.PlayNewBackSound("dimension_tide", SoundType.Bg);
+        SoundManager.instance?.PlayNewBackSound("time_stop", SoundType.Bg);
+        BgmPlayer.instance?.ChangeBgm("");
         grain.intensity.value = 0.7f;
         chromatic.intensity.value = 0.6f;
         bloom.intensity.value = 0.5f;
@@ -90,8 +98,9 @@ public class EndingEnterTrigger : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         //====================[ Step 1: 긴장감 고조 (0.5초) ]====================
-        SoundManager.instance?.PlayNewBackSound("time_stop", SoundType.Bg);
-        SoundManager.instance?.PlayNewBackSound("building_collapse", SoundType.Bg);
+        AudioSource bcs = SoundManager.instance?.PlayNewBackSound("building_collapse", SoundType.Bg);
+        AudioSource arc = SoundManager.instance?.PlayNewBackSound("broken_glass1", SoundType.Bg);
+        arc.gameObject.GetComponent<DefaultSourceData>().volOverride = 0.5f;
 
         cam.ShakeCamera(30f, 2.0f, 4.605f);
         chromatic.intensity.value = 0.0f;
@@ -100,17 +109,20 @@ public class EndingEnterTrigger : MonoBehaviour
         yield return StartCoroutine(ExpandMask(sr, 0.0076f, 0.5f));
 
         //====================[ Step 2: 응축 (1.0초) ]====================
-        SoundManager.instance?.PlayNewBackSound("Portal_Exe", SoundType.Bg);
+        
         cam.ShakeCamera(8f, 0.15f, 2.3f);
-        yield return StartCoroutine(ExpandMask(sr, 0.0f, 1.0f));
+        yield return StartCoroutine(ExpandMask(sr, 0.0f, 1.5f));
         Transform holySphere = GameObject.Find("Player").transform.Find("HolySphere");
         holySphere.gameObject.SetActive(true);
 
         //====================[ Step 3: 폭발 (1.5초) ]====================
-        
+        //SoundManager.instance?.PlayNewBackSound("Portal_Exe", SoundType.Bg);
+        SoundManager.instance?.PlayNewBackSound("broken_glass3", SoundType.Bg);
+        //SoundManager.instance?.PlayNewBackSound("broken_glass2", SoundType.Bg);
         chromatic.intensity.value = 1.0f;
         bloom.intensity.value = 3.5f;
         cam.ShakeCamera(250f, 2.5f, 0.5f);
-        yield return StartCoroutine(ExpandMask(sr, 1.0f, 4.0f));
+        yield return StartCoroutine(ExpandMask(sr, 1.0f, 1.0f));
+        yield return StartCoroutine(BlackOut(3.0f));
     }
 }
