@@ -36,6 +36,11 @@ public class EndingSceneManager : MonoBehaviour
     public Button realChoiceBtn;
     public GameObject realChoiceHighlight;
 
+    [Header("¸¶Áö¸· ¼±ÅÃÁö")]
+    public GameObject finalChoicePanel;
+    public Button retryButton;
+    public Button toMenuButton;
+
     [Header("±úÁü ÄÆ¾À")]
     public Sprite brokenGlass1;
     public Sprite brokenGlass2;
@@ -79,6 +84,8 @@ public class EndingSceneManager : MonoBehaviour
         autoPlayDelay = 1.0f;
         choicePanel.SetActive(false);
         if (realChoiceHighlight != null) realChoiceHighlight.SetActive(false);
+        if (choicePanel != null) choicePanel.SetActive(false);
+        if (finalChoicePanel != null) finalChoicePanel.SetActive(false);
         creditsPanel.SetActive(false);
         bgmSrc = SoundManager.instance?.PlayLoopBackSound("Ending4_BGM");
         cam = Camera.main.GetComponent<EndingSceneCamera>();
@@ -268,7 +275,16 @@ public class EndingSceneManager : MonoBehaviour
 
         // 4. Å©·¹µ÷
         yield return ShowCredits();
-        SceneManager.LoadScene(mainMenuSceneName);
+
+        if (currentPhase == CutScenePhase.NoRoute)
+        {
+            // ¾Æ´Ï¿ä ·çÆ®¸é ÃÖÁ¾ ¼±ÅÃÁö ÆÐ³Î º¸¿©ÁÜ
+            yield return ShowFinalChoice();
+        }
+        else
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
 
 
@@ -309,6 +325,33 @@ public class EndingSceneManager : MonoBehaviour
         if (postProcessVolume != null) postProcessVolume.gameObject.SetActive(false);
         choicePanel.SetActive(false);
     }
+
+
+
+    private IEnumerator ShowFinalChoice()
+    {
+        bool chosen = false;
+
+        finalChoicePanel.SetActive(true);
+
+        retryButton.onClick.RemoveAllListeners();
+        toMenuButton.onClick.RemoveAllListeners();
+
+        retryButton.onClick.AddListener(() =>
+        {
+            chosen = true;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        });
+
+        toMenuButton.onClick.AddListener(() =>
+        {
+            chosen = true;
+            SceneManager.LoadScene(mainMenuSceneName);
+        });
+
+        yield return new WaitUntil(() => chosen);
+    }
+
 
     //=================================================================================================
     private IEnumerator FakeChoiceBrokenCutScenes()
