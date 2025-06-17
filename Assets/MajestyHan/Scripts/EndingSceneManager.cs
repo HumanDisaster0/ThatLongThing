@@ -208,7 +208,8 @@ public class EndingSceneManager : MonoBehaviour
                         yield return new WaitForSeconds(0.5f); //무너지는 연출                        
                         if (cam != null)
                         {
-                            SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se); //이거 두개 조합 좋다
+                            SoundManager.instance.PlayNewBackSound("building_collapse(3sec)", SoundType.Se);            
                             StartCoroutine(cam.LerpShake(1.5f, 0.5f, 0.0f));
                         }
                         break;
@@ -253,6 +254,7 @@ public class EndingSceneManager : MonoBehaviour
                         if (cam != null)
                         {
                             SoundManager.instance?.PlayNewBackSound("Trex_Land", SoundType.Se);
+                            SoundManager.instance.PlayNewBackSound("building_collapse(3sec)", SoundType.Se);
                             StartCoroutine(cam.LerpShake(1.5f, 0.5f, 0.0f));
                         }
                         break;
@@ -306,7 +308,9 @@ public class EndingSceneManager : MonoBehaviour
 
         realChoiceBtn.onClick.AddListener(() =>
         {
-            SoundManager.instance.PlayNewBackSound("Glass_Break", SoundType.Se);
+            //SoundManager.instance.PlayNewBackSound("Glass_Break", SoundType.Se);
+            SoundManager.instance.PlayNewBackSound("broken_the_glass3", SoundType.Se);
+            SoundManager.instance.PlayNewBackSound("broken_the_glass4", SoundType.Se);
             tempResult = true;
             chosen = true;
         });
