@@ -368,7 +368,7 @@ public class MMove : MonoBehaviour
                 break;
         }
 
-        if (!Mathf.Approximately(transform.parent.localScale.y, 1f))
+        if (!Mathf.Approximately(transform.localScale.y, 1f))
         {
             //Debug.Log(transform.Find("StepCollider").gameObject);
             transform.Find("StepCollider").gameObject.SetActive(false);

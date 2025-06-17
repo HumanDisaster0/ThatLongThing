@@ -294,7 +294,6 @@ public class StageManager : MonoBehaviour
 
 
             //no.9 - 거인국 네티
-            //todo - 플레이어 무적
             case 9:
                 {
                     pc.Invincibility = true;

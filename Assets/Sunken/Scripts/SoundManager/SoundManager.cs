@@ -504,7 +504,7 @@ public class SoundManager : MonoBehaviour
                             case SoundType.Bg:
                                 source.volume = bgVol * data.volOverride; break;
                             default:
-                                source.volume = (1 - result) * seVol * data.volOverride; break;
+                                source.volume = (1 - result) * seVol* data.volOverride; break;
                         }
                         //Debug.Log($"[Sound] name: {source.clip?.name}, pos: {pos}, cam: {cam.transform.position}, dist: {distanceFromCenter}, maxDist: {data.maxDistance}, seVol: {seVol}, volume: {source.volume}, isAllStop: {isAllStop}");
                     }
