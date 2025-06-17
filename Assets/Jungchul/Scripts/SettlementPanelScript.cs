@@ -11,6 +11,9 @@ public class SettlementPanelScript : MonoBehaviour
     private TextMeshPro text2;
     private TextMeshPro text3;
     private TextMeshPro text4;
+
+    private TextMeshPro text5;
+
     private TextMeshPro textTax;
     private TextMeshPro textWeek;
 
@@ -58,6 +61,8 @@ public class SettlementPanelScript : MonoBehaviour
             text2 = settlementBg.transform.Find("text2").GetComponent<TextMeshPro>();
             text3 = settlementBg.transform.Find("text3").GetComponent<TextMeshPro>();
             text4 = settlementBg.transform.Find("text4").GetComponent<TextMeshPro>();
+
+            text5 = settlementBg.transform.Find("text5").GetComponent<TextMeshPro>();
         }
         else
         {
@@ -105,6 +110,15 @@ public class SettlementPanelScript : MonoBehaviour
             text1.text = $"{GoldManager.Instance.findTrapCount} (+{GoldManager.Instance.findTrapCount * 5})";
             text2.text = $"{GoldManager.Instance.deadCount} (-{GoldManager.Instance.rdc * 2})";
             text3.text = $"{GoldManager.Instance.ejectionCount} (-{GoldManager.Instance.ejectionCount * 10})";
+
+            if(GoldManager.Instance.isHazardousPay)
+            {
+                text5.text = $"{GoldManager.Instance.hPay}";
+            }
+            else
+            {
+                text5.text = $"0";
+            }
 
             if (rg >= 10)
             {

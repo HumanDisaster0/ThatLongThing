@@ -24,6 +24,8 @@ public class GoldManager : MonoBehaviour
 
     public GameObject GoldText;
 
+    public bool isHazardousPay = false;
+    public int hPay = 20;
 
     private void Awake()
     {
@@ -77,6 +79,11 @@ public class GoldManager : MonoBehaviour
     {
         rdc = deadCount > 5 ? 5 : deadCount;
         rewardGold =  findTrapCount * 5 - rdc * 2 - ejectionCount * 10;
+        
+        if(isHazardousPay)
+        {
+            rewardGold += hPay;
+        }
     }
 
     public void getRewardGold()
@@ -114,6 +121,8 @@ public class GoldManager : MonoBehaviour
         GoldManager.Instance.ejectionCount = 0;
         GoldManager.Instance.rdc = 0;
         GoldManager.Instance.rewardGold = 0;
+        isHazardousPay = false;
+        hPay = 20;
     }
 
     private void ResetAllExceptTax()
@@ -124,6 +133,8 @@ public class GoldManager : MonoBehaviour
         deadCount = 0;
         rdc = 0;
         ejectionCount = 0;
+        isHazardousPay = false;
+        hPay = 20;
         // Tax´Â À¯Áö
     }
 
