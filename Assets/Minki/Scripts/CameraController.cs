@@ -212,11 +212,23 @@ public class CameraController : MonoBehaviour
         m_nonTrauma = !trauma;
     }
 
+    public void ForceStopCameraShake()
+    {
+        m_shakeTrauma = 0f;
+        m_shakePos = Vector3.zero;
+        m_shakeAmount = 0f;
+    }
+
     public void TrackPositionImediate()
     {
         m_targetPos = Player.position;
 
         OnViewportSizeChanged();
+
+        if (isMirrored)
+        {
+            worldRect.x = Player.position.x > mirrorAxisX ? mirrorAxisX : mirrorAxisX - worldRect.width;
+        }
 
         m_targetPos.x = Mathf.Clamp(
             m_targetPos.x,

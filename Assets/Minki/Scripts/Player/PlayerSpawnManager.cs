@@ -9,6 +9,7 @@ public class PlayerSpawnManager : MonoBehaviour
 
     Transform m_spawnPoint = null;
     Transform m_player;
+    CameraController m_camCon;
     public Transform spawnPoint => m_spawnPoint;
 
     private void Awake()
@@ -17,6 +18,9 @@ public class PlayerSpawnManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
+
+        m_camCon = Camera.main.GetComponent<CameraController>();
 
         m_spawnPoint = GameObject.Find(spawnPointName).transform;
         m_player = GameObject.Find("Player").transform;
@@ -32,5 +36,7 @@ public class PlayerSpawnManager : MonoBehaviour
             m_player.position = m_spawnPoint.position;
         }
         TrapTriggerCMD.ResetAllTrigger();
+        m_camCon.TrackPositionImediate();
+        m_camCon.ForceStopCameraShake();
     }
 }

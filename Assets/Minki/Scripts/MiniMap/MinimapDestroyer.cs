@@ -66,10 +66,13 @@ public class MinimapDestroyer : MonoBehaviour
             yield return null;
         }
 
+        var savedIsPauseAbleVal = false;
+
         //ESC 메뉴 강제 종료 - 감히 시간을 거스르려고 해? 바로 컷!
         if (PauseManager.Instance != null 
-            && GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
+            && GuildRoomManager.Instance != null)
         {
+            savedIsPauseAbleVal = GuildRoomManager.Instance.isPauseAble;
             PauseManager.Instance.Resume();
             GuildRoomManager.Instance.isPauseAble = false;
         }
@@ -77,6 +80,9 @@ public class MinimapDestroyer : MonoBehaviour
         //미니맵 켜!
         m_mapOnOffControl.activeControl = true;
         m_mapOnOffControl.ShowMinimap();
+
+        var pinsetter = FindFirstObjectByType<MapPinSetter>();
+        pinsetter.ForceClearPin();
 
         //터치방지 켜기
         ffanggoRect.gameObject.SetActive(true);
@@ -173,7 +179,7 @@ public class MinimapDestroyer : MonoBehaviour
 
         if (GuildRoomManager.Instance != null && SceneManager.GetActiveScene().name != "GuildMain")
         {
-            GuildRoomManager.Instance.isPauseAble = true;
+            GuildRoomManager.Instance.isPauseAble = savedIsPauseAbleVal;
         }
 
         minimapRect.anchoredPosition = Vector2.zero;

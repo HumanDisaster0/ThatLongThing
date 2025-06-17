@@ -99,4 +99,13 @@ public class MapPinSetter : MonoBehaviour, IPointerDownHandler
     {
         m_deletePendingPins.Add(hash);
     }
+
+    public void ForceClearPin()
+    {
+        foreach (var pin in m_pins.Values)
+        {
+            Destroy(pin.gameObject);
+        }
+        m_pins.Clear();
+    }
 }

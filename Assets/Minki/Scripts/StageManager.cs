@@ -19,6 +19,8 @@ public class StageManager : MonoBehaviour
     public int anomalyIdx = 0;
     public int deathCount = 0;
 
+    private bool m_isMiniMapDestroied = false;
+
     public bool IsClearedAnomaly(int idx) => m_clearedAnomaly.Contains(idx);
 
     const int MAX_ANOMALY = 7;
@@ -148,6 +150,7 @@ public class StageManager : MonoBehaviour
 
         //맵 찢기 컴포넌트 미리 찾기
         var minimapDestroyer = FindFirstObjectByType<MinimapDestroyer>(FindObjectsInactive.Include);
+        m_isMiniMapDestroied = false;
 
         //이상현상
         switch (anomalyIdx)
@@ -165,6 +168,7 @@ public class StageManager : MonoBehaviour
             //no.2 - 쥬라식 던전
             case 2:
                 {
+                    m_isMiniMapDestroied = true;
                     PlatformManager.instance?.SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("Trex").gameObject.SetActive(true);
                     GameObject.Find("Anomaly").transform.Find("Trex").Find("SpawnTrex").GetComponent<TrapTrigger>().OnStartTrigger.AddListener(minimapDestroyer.StartDestroyMap);
@@ -228,7 +232,7 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("Zone").transform.Find("RedPortal").gameObject.SetActive(true);
 
                     FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
-
+                    m_isMiniMapDestroied = true;
                     pc.autoCheckAbility.enabled = false;
                     break;
                 }
@@ -347,6 +351,7 @@ public class StageManager : MonoBehaviour
                     MonsterManager.instance.ChangeAllScale(1.01f);
 
                     FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
+                    m_isMiniMapDestroied = true;
 
                     pc.autoCheckAbility.enabled = false;
                     break;
@@ -432,6 +437,7 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("PlatformManager").GetComponent<PlatformManager>().SetPlatformType(PlatformType.Alter);
                     GameObject.Find("Anomaly").transform.Find("BigStone").gameObject.SetActive(true);
                     GameObject.Find("Anomaly").transform.Find("BigStone").Find("SpawnRollingBigStone").GetComponent<TrapTrigger>().OnStartTrigger.AddListener(minimapDestroyer.StartDestroyMap);
+                    m_isMiniMapDestroied = true;
                     var fallPlatforms = GameObject.Find("TrapInfos").transform;
                     for (int i = 4; i <= 6; i++)
                     {
@@ -525,6 +531,8 @@ public class StageManager : MonoBehaviour
         {
             m_clearedAnomaly.Add(anomalyIdx);
         }
+
+        
           
 
         //이상현상 클리어수가 특정 횟수를 넘어가면 엔딩
@@ -554,6 +562,7 @@ public class StageManager : MonoBehaviour
 
         GoldManager.Instance.findTrapCount = findTrapCount;
         GoldManager.Instance.deadCount = deathCount;
+        GoldManager.Instance.isHazardousPay = m_isMiniMapDestroied;
 
         NonePlaySceneManager.Instance.SetSceneState(NonePlaySceneManager.npSceneState.GUILDMAIN);
         GuildRoomManager.Instance.SetReturned();
