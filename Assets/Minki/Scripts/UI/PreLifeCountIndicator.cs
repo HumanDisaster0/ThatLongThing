@@ -68,11 +68,20 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_graphicRaycaster.enabled = true;
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);
+
+        while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+            yield return null;
+
         yield return null;
         float timer = 0.0f;
         while (timer < firstShowTime)
         {
             timer += Time.unscaledDeltaTime;
+
+
+            while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+                yield return null;
+
             yield return null;
         }
 
@@ -85,6 +94,11 @@ public class PreLifeCountIndicator : MonoBehaviour
         {
             timer += Time.unscaledDeltaTime;
             SetAlphaColorForOwnRect(1.0f - (timer / fadeTime));
+
+
+            while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+                yield return null;
+
             yield return null;
         }
 
@@ -105,6 +119,11 @@ public class PreLifeCountIndicator : MonoBehaviour
         {
             timer += Time.deltaTime;
             SetAlphaColorForOwnRect(timer / fadeTime);
+
+
+            while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+                yield return null;
+
             yield return null;
         }
 
@@ -112,6 +131,11 @@ public class PreLifeCountIndicator : MonoBehaviour
         m_playerController.SetVelocity(Vector2.zero);
         Time.timeScale = 0.0f;
         SetAlphaColorForOwnRect(1.0f);
+
+
+        while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+            yield return null;
+
         yield return null;
 
         timer = 0.0f;
@@ -128,6 +152,10 @@ public class PreLifeCountIndicator : MonoBehaviour
             nextRect.anchoredPosition = new Vector2(nextRect.anchoredPosition.x, nextY - y);
             prevRect.anchoredPosition = new Vector2(prevRect.anchoredPosition.x, prevY - y);
 
+
+            while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+                yield return null;
+
             yield return null;
         }
 
@@ -136,6 +164,11 @@ public class PreLifeCountIndicator : MonoBehaviour
         while (timer < showTime)
         {
             timer += Time.unscaledDeltaTime;
+
+
+            while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+                yield return null;
+
             yield return null;
         }
 
@@ -153,6 +186,11 @@ public class PreLifeCountIndicator : MonoBehaviour
         {
             timer += Time.unscaledDeltaTime;
             SetAlphaColorForOwnRect(1.0f - (timer / fadeTime));
+
+
+            while (PauseManager.Instance.pState == PauseManager.isPause.PAUSE)
+                yield return null;
+
             yield return null;
         }
 
