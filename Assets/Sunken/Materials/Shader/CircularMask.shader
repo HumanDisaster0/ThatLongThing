@@ -4,7 +4,7 @@ Shader "Custom/SpriteCircularMaskBlackBase"
     {
         _MainTex ("Sprite Texture", 2D) = "white" {} // 기본 스프라이트 텍스처
         _MaskCenter ("Mask Center", Vector) = (0.5, 0.5, 0, 0) // 마스크 중심 위치 (UV 기준)
-        _MaskRadius ("Mask Radius", Float) = 0.3 // 마스크 반지름
+        _MaskRadius ("Mask Radius", Float) = 0.0075 // 마스크 반지름
         _MaskSoftness ("Mask Softness", Float) = 0.1 // 마스크 경계 부드러움 정도
         _AlphaFactor ("Alpha Multiply Factor", Float) = 1.0 // 알파 값 추가 조절용
         _MaskColor ("Mask Color", Color) = (0, 0, 0, 1) // 마스크 색상 (RGB)
