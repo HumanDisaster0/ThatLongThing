@@ -233,10 +233,10 @@ public class StageManager : MonoBehaviour
 
                     //FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
 
-                    minimapDestroyer.DestroyMapImmediate();
+                    //minimapDestroyer.DestroyMapImmediate();
 
-                    m_isMiniMapDestroied = true;
-                    pc.autoCheckAbility.enabled = false;
+                    //m_isMiniMapDestroied = true;
+                    //pc.autoCheckAbility.enabled = false;
                     break;
                 }
 
