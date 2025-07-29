@@ -9,7 +9,7 @@ public class MissionSelectManager : MonoBehaviour
     public List<int> allMissionCodes = new List<int>()
     {
 
-        1111, 4209, 5212, 2202, 6207, 8305, 7301, 14315,
+        1111, 4209, 5212, 2202, 3203, 8305, 7301, 14315,
         //거울, 거인, 돌, 티라노, 토끼만, 혜성, 거대몬, 시간정지 
         
         
