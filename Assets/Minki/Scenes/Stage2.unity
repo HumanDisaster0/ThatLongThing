@@ -264,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3195326851151866248, guid: 3477308afd694494394e30ab9d454e15, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6129328268016706870, guid: 3477308afd694494394e30ab9d454e15, type: 3}
       propertyPath: m_Pivot.x
@@ -8869,10 +8869,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.63125
-    y: 0.050925925
-    width: 0.16666667
-    height: 0.16666666
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -17208,7 +17208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5012796797161817747, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7455420784331823892, guid: 8bdf51d9355ea6f438c77fe72e395c33, type: 3}
       propertyPath: m_fontAsset

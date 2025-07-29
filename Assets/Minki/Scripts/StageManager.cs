@@ -23,7 +23,7 @@ public class StageManager : MonoBehaviour
 
     public bool IsClearedAnomaly(int idx) => m_clearedAnomaly.Contains(idx);
 
-    const int MAX_ANOMALY = 7;
+    const int MAX_ANOMALY = 8;
 
     private void Awake()
     {
@@ -231,7 +231,10 @@ public class StageManager : MonoBehaviour
                     GameObject.Find("Anomaly").transform.Find("Comet").gameObject.SetActive(true);
                     GameObject.Find("Zone").transform.Find("RedPortal").gameObject.SetActive(true);
 
-                    FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
+                    //FindFirstObjectByType<PreLifeCountIndicator>()?.OnFadeFXEnd.AddListener(minimapDestroyer.StartDestroyMap);
+
+                    minimapDestroyer.DestroyMapImmediate();
+
                     m_isMiniMapDestroied = true;
                     pc.autoCheckAbility.enabled = false;
                     break;

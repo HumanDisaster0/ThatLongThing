@@ -51,6 +51,51 @@ public class MinimapDestroyer : MonoBehaviour
         ShakeCanvas();
     }
 
+    public void DestroyMapImmediate()
+    {
+        m_isDestroied = true;
+
+        //터치방지 켜기
+        ffanggoRect.gameObject.SetActive(true);
+
+        //빵꾸 갯수
+        var ffanggooCount = FXImgs.Length;
+
+        //빵꾸 이미지 배열 섞기
+        int n = FXImgs.Length;
+
+        for (int i = n - 1; i > 0; i--)
+        {
+            int j = m_rand.Next(i + 1); // 0부터 i까지의 무작위 인덱스
+            (FXImgs[i], FXImgs[j]) = (FXImgs[j], FXImgs[i]); // 요소 스왑
+        }
+
+        //연출이 끝나기 전까지 다른 곳에서 시간을 못 건드리게 할거임 - 토키요 토마레!! 
+        Time.timeScale = 0.0f;
+
+        while (ffanggooCount > 0)
+        {
+            //찢을 꺼임 - 헉!
+            var ffanggooGO = new GameObject($"FFANGGOO[{FXImgs.Length - ffanggooCount}]");
+            var ffanggooRect = ffanggooGO.AddComponent<RectTransform>();
+            var ffanggooImg = ffanggooGO.AddComponent<Image>();
+
+            ffanggooRect.SetParent(ffanggoRect);
+
+            //이미지 돌려쓰기
+            ffanggooRect.anchorMin = Vector2.zero;
+            ffanggooRect.anchorMax = Vector2.zero;
+            ffanggooImg.sprite = FXImgs[FXImgs.Length - ffanggooCount];
+            ffanggooImg.SetNativeSize();
+
+            ffanggooRect.anchoredPosition = new Vector2(UnityEngine.Random.Range(0, ffanggoRect.sizeDelta.x), UnityEngine.Random.Range(0, ffanggoRect.sizeDelta.y));
+
+            ShakeForceApply(24, 16.0f, 12.0f);
+
+            ffanggooCount--;
+        }
+    }
+
     IEnumerator DestroyMinimap(float delayTime)
     {
         //중복 방지
